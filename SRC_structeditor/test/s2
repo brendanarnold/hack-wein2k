@@ -1,0 +1,358 @@
+# Created by Octave 2.1.64, Mon Dec 19 12:03:06 2005 CET <rolask@ne>
+# name: __nargin__
+# type: scalar
+0
+# name: a
+# type: matrix
+# rows: 3
+# columns: 3
+ 2 0 0
+ 0 2 0
+ 0 0 1
+# name: n
+# type: matrix
+# rows: 1
+# columns: 3
+ 1 1 1
+# name: s
+# type: struct
+# length: 13
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+ 7.284569 7.284569 7.284569
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+ 90 90 90
+# name: aname
+# type: string
+# elements: 1
+# length: 10
+Ag  0     
+# name: brlat
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6422845 3.6422845
+ 3.6422845 0 3.6422845
+ 3.6422845 3.6422845 0
+# name: jrj
+# type: matrix
+# rows: 1
+# columns: 1
+ 781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+ 7.284569 0 0
+ 0 7.284569 0
+ 0 0 7.284569
+# name: lattic
+# type: string
+# elements: 1
+# length: 1
+F
+# name: nat
+# type: scalar
+1
+# name: pos
+# type: matrix
+# rows: 1
+# columns: 3
+ 0 0 0
+# name: r0
+# type: matrix
+# rows: 1
+# columns: 1
+ 1e-05
+# name: rmt
+# type: matrix
+# rows: 1
+# columns: 1
+ 2.2
+# name: title
+# type: string
+# elements: 1
+# length: 9
+blebleble
+# name: zz
+# type: matrix
+# rows: 1
+# columns: 1
+ 47
+# name: s1
+# type: struct
+# length: 13
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+ 5.15096813792131 5.15096813792131 5.15096813792131
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+ 60 60 60
+# name: aname
+# type: string
+# elements: 1
+# length: 10
+Ag  0     
+# name: brlat
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6422845 3.6422845
+ 3.6422845 0 3.6422845
+ 3.6422845 3.6422845 0
+# name: jrj
+# type: matrix
+# rows: 1
+# columns: 1
+ 781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6422845 3.6422845
+ 3.6422845 0 3.6422845
+ 3.6422845 3.6422845 0
+# name: lattic
+# type: string
+# elements: 1
+# length: 1
+P
+# name: nat
+# type: scalar
+1
+# name: pos
+# type: matrix
+# rows: 1
+# columns: 3
+ 0 0 0
+# name: r0
+# type: matrix
+# rows: 1
+# columns: 1
+ 1e-05
+# name: rmt
+# type: matrix
+# rows: 1
+# columns: 1
+ 2.2
+# name: title
+# type: string
+# elements: 1
+# length: 9
+blebleble
+# name: zz
+# type: matrix
+# rows: 1
+# columns: 1
+ 47
+# name: s2
+# type: struct
+# length: 13
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+ 5.15096813792131 8.92173852304816 27.6172436192412
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+ 90 90 90
+# name: aname
+# type: string
+# elements: 1
+# length: 10
+Ag  0     
+# name: brlat
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6422845 -3.6422845
+ 7.284569 -3.6422845 -3.6422845
+ 15.9448230378444 15.9448230378444 15.9448230378444
+# name: jrj
+# type: scalar
+781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6422845 -3.6422845
+ 7.284569 -3.6422845 -3.6422845
+ 15.9448230378444 15.9448230378444 15.9448230378444
+# name: lattic
+# type: string
+# elements: 1
+# length: 1
+P
+# name: nat
+# type: scalar
+1
+# name: pos
+# type: matrix
+# rows: 1
+# columns: 3
+ 0 0 0
+# name: r0
+# type: scalar
+1e-05
+# name: rmt
+# type: scalar
+2.2
+# name: title
+# type: string
+# elements: 1
+# length: 9
+blebleble
+# name: zz
+# type: scalar
+47
+# name: s3
+# type: struct
+# length: 13
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+ 5.11238 5.11238 45.04544
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+ 90 90 120
+# name: aname
+# type: string
+# elements: 11
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+Rh        
+# length: 10
+N         
+# length: 10
+N         
+# length: 10
+B         
+# length: 10
+B         
+# name: brlat
+# type: matrix
+# rows: 3
+# columns: 3
+ 4.427450954 -2.55619 0
+ 0 5.11238 0
+ 0 0 45.04544
+# name: jrj
+# type: matrix
+# rows: 11
+# columns: 1
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+ 781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+ 4.427450954 -2.55619 0
+ 0 5.11238 0
+ 0 0 45.04544
+# name: lattic
+# type: string
+# elements: 1
+# length: 1
+H
+# name: nat
+# type: scalar
+11
+# name: pos
+# type: matrix
+# rows: 11
+# columns: 3
+ 0 0 0
+ 0.6666667 0.3333333 0.09286114
+ 0.3333333 0.6666666 0.90713886
+ 0.3333333 0.6666667 0.18531073
+ 0.6666667 0.3333334 0.81468927
+ 0 0 0.27839234
+ 0 0 0.72160766
+ 0 0 0.37112243
+ 0 0 0.62887757
+ 0.6666667 0.3333333 0.36545903
+ 0.3333333 0.6666666 0.63454097
+# name: r0
+# type: matrix
+# rows: 11
+# columns: 1
+ 1e-05
+ 1e-05
+ 1e-05
+ 1e-05
+ 1e-05
+ 1e-05
+ 1e-05
+ 0.0001
+ 0.0001
+ 0.0001
+ 0.0001
+# name: rmt
+# type: matrix
+# rows: 11
+# columns: 1
+ 2
+ 2
+ 2
+ 2
+ 2
+ 2
+ 2
+ 1.35
+ 1.35
+ 1.35
+ 1.35
+# name: title
+# type: string
+# elements: 1
+# length: 18
+Rh 111 (opt a0) BN
+# name: zz
+# type: matrix
+# rows: 11
+# columns: 1
+ 45
+ 45
+ 45
+ 45
+ 45
+ 45
+ 45
+ 7
+ 7
+ 5
+ 5

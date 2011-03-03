@@ -1,0 +1,299 @@
+#!/bin/csh -f
+unalias rm
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+if !(-d $bin) set bin = .
+set name  = $name:t 		#name of this script-file
+set logfile = :log
+set tmp   = (:$name)		#temporary files
+
+#---> functions & subroutines
+alias	testinput	'set errin="\!:1";if (! -e \!:1 || -z \!:1) goto \!:2'
+alias	teststatus	'if ($status) goto error'
+alias	testerror	'if ( -e \!:1.error && ! -z \!:1.error) goto error'
+alias   cleandayfile    'grep -v "\[" $dayfile >.tmp;'\
+                        'mv .tmp $dayfile'
+alias	output		'set date = `date +"(%T)"`;'\
+			'printf ">   %s\t%s " "\!:*" "$date" >> $dayfile'
+
+alias	exec		'($bin/x  \!:*) >> $dayfile;'\
+			'teststatus'
+
+alias	total_exec	'output \!:*;'\
+			'exec \!:*;'\
+                        'cleandayfile;'\
+			'testerror \!:1;'\
+			'testerror up\!:1;'\
+			'testerror dn\!:1;'
+
+#---> handling of input options
+echo ">   ($name) options: $argv"	>> $logfile
+alias sb 'shift; breaksw'	#definition used in switch
+set para
+set so
+unset help		#set -> help output
+set complex		#set -> complex calculation
+set cmplx		#set -> complex calculation
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+set dayfile = $file.dayfile	#main output-file
+
+while ($#argv)
+  switch ($1)
+  case -[H|h]:
+    set help; sb
+  case -so:
+    set so = -so; sb
+  case -p:
+    set para = -p; sb
+  default:
+    set command = $1
+    shift; breaksw
+  endsw
+end
+
+if($?help) goto help
+
+#set file=$1
+set infile=$file.ineece
+testinput	$infile error_input
+
+unalias grep
+#set mode=`grep HYBR $infile`
+#if ($#mode == 0 ) then
+#  set mode=`grep EECE $infile`
+#  if ($#mode == 0 ) then
+#    echo ERROR: HYBR or EECE keywords not found in $infile
+#    goto error_input
+#  endif
+#endif
+#if ($#mode >= 2 ) set mode =$mode[1]
+
+if ( -e $file.in1c && ! -z $file.in1c) set complex=c
+if( "$so" == "-so" ) set complex=c
+if( $complex == c ) set cmplx=-c
+testinput	$file.in2$complex error_input
+
+if (-e $file.scfeece) rm $file.scfeece
+
+set nattest=`head -1 $infile`
+#echo $#nattest $nattest
+set emin=$nattest[1]
+set nat=$nattest[2]
+
+
+#initialize arrays
+echo 0 > temp_mist
+set i=1
+while($i <= $nat )
+echo 0 >> temp_mist
+@ i ++
+end
+set atom_info=`cat temp_mist`
+set l_max=`cat temp_mist`
+set l_value1=`cat temp_mist`
+set l_value2=`cat temp_mist`
+set l_value3=`cat temp_mist`
+set l_value4=`cat temp_mist`
+rm temp_mist
+
+#parse input file
+set lmax=0
+set i=1
+while($i <= $nat )
+@ j = 1 + $i
+set test=`head -$j $infile | tail -1`
+set atom_info[$i]=$test[1]
+set l_max[$i]=$test[2]
+set l_value1[$i]=$test[3]
+if( $#test > 3 ) then
+  set l_value2[$i]=$test[4]
+endif
+if( $#test > 4 ) then
+  set l_value3[$i]=$test[5]
+endif
+if( $#test > 5 ) then
+  set l_value4[$i]=$test[6]
+endif
+if($lmax < $l_max[$i] ) set lmax=$l_max[$i]
+@ i ++
+end
+
+@ i ++
+set mode=`head -$i $infile | tail -1|cut -c1-4`
+#if ($#mode >= 2 ) set mode =$mode[1]
+set modecheck=`echo $mode|grep HYBR`
+if ($#modecheck == 0 ) then
+  set modecheck=`echo $mode|grep EECE`
+  if ($#modecheck == 0 ) then
+    echo ERROR: HYBR or EECE keywords not found in $infile
+    goto error_input
+  endif
+endif
+@ i ++
+set orbline=`head -$i $infile | tail -1`
+#
+#echo nat $nat
+#echo lmax $lmax
+
+#loop over l: prepare input files (indm, in2, inorb) and call jexex
+set l=1
+while ($l <= $lmax)
+#echo case $l
+#head -1 $file.indm$complex > $file.indm$complex
+echo $emin >         $file.indm$complex
+echo $nat >>         $file.indm$complex
+echo 'TOT  EECE (TOT,FOR,QTL,EFG,FERMI)' >$file.in2${complex}eece
+head -3 $file.in2${complex} |tail -2 >>$file.in2${complex}eece
+echo $nat >>         $file.in2${complex}eece
+#head -2 $file.inorb  > $file.inorb
+echo "1  $nat  5        nmod, natorb, ipr" > $file.inorb
+echo "PRATT 1.0 " >> $file.inorb
+  set i=1
+  while($i <= $nat )
+  if($l_max[$i] >= $l ) then
+   if($l == 1) then
+         echo  $atom_info[$i] 1 $l_value1[$i] >>       $file.indm${complex}
+         echo  $atom_info[$i] 1 $l_value1[$i] >>       $file.in2${complex}eece
+         echo  $atom_info[$i] 1 $l_value1[$i] >>       $file.inorb
+   endif
+   if($l == 2) then
+         echo  $atom_info[$i] 1 $l_value2[$i] >>       $file.indm${complex}
+         echo  $atom_info[$i] 1 $l_value2[$i] >>       $file.in2${complex}eece
+         echo  $atom_info[$i] 1 $l_value2[$i] >>       $file.inorb
+   endif
+   if($l == 3) then
+         echo  $atom_info[$i] 1 $l_value3[$i] >>       $file.indm${complex}
+         echo  $atom_info[$i] 1 $l_value3[$i] >>       $file.in2${complex}eece
+         echo  $atom_info[$i] 1 $l_value3[$i] >>       $file.inorb
+   endif
+   if($l == 4) then
+         echo  $atom_info[$i] 1 $l_value4[$i] >>       $file.indm${complex}
+         echo  $atom_info[$i] 1 $l_value4[$i] >>       $file.in2${complex}eece
+         echo  $atom_info[$i] 1 $l_value4[$i] >>       $file.inorb
+   endif
+  else
+   echo  $atom_info[$i] 0 0 >>         $file.indm${complex}
+   echo  $atom_info[$i] 0 0 >>         $file.in2${complex}eece
+   echo  $atom_info[$i] 0 0 >>         $file.inorb
+  endif
+  @ i ++
+  end
+set i=`wc $file.in2${complex}`
+set ii=$i[1]
+@ ii --
+@ ii --
+@ ii --
+tail -$ii $file.in2${complex}  >>$file.in2${complex}eece
+echo ' 4                        nsic'       >>$file.inorb
+echo $orbline                               >>$file.inorb
+head -1 $file.in0              > $file.in0eece
+echo "NR2V $mode IFFT"             >> $file.in0eece
+head -3 $file.in0 |tail -1     >> $file.in0eece
+#end of input files
+
+#jexex  $file
+
+lapwdm:
+if ( -e $file.scfdmup ) rm $file.scfdmup 
+if ( -e $file.scfdmdn ) rm $file.scfdmdn
+#testinput	$file.in2c error_input
+#if ( ! $?dm ) then 
+# if ( "$orb" != "-orb" ) goto lapw1cs
+# if ( $?orbc ) goto lapw1cs
+#endif
+#testinput	$file.indmc error_input
+total_exec	lapwdm -up $para $so $cmplx
+if ( "$so" != "-so" ) then
+total_exec	lapwdm -dn $para $cmplx
+endif
+  cat $file.scfdmup>>$file.scfeece
+  cat $file.scfdmdn>>$file.scfeece
+
+lapw2:
+#testinput	$file.in2c error_input
+total_exec	lapw2 $cmplx -up $so $para -eece
+total_exec	lapw2 $cmplx -dn $so $para -eece
+  cat $file.scf2up>>$file.scfeece
+  cat $file.scf2dn>>$file.scfeece
+
+lapw0:
+#testinput	$file.in0 error_input
+total_exec	lapw0 $para -eece
+  cat $file.scf0>>$file.scfeece
+
+orb:
+total_exec	orb -up $para
+total_exec	orb -dn $para
+  cat $file.scforbup>>$file.scfeece
+  cat $file.scforbdn>>$file.scfeece
+
+cp $file.vorbup $file.vorbup_$l
+cp $file.vorbdn $file.vorbdn_$l
+
+@ l ++
+end
+
+#create vorb files
+echo "  1  1  $nat  0.000000E+00 nmod, nsp, natorb " >$file.vorbup0
+echo "  1  1  $nat  0.000000E+00 nmod, nsp, natorb " >$file.vorbdn0
+
+set line1=(3 3 3 3)
+set line2=(3 3 3 3)
+# atom loop
+set i=1
+while( $i <= $nat )
+echo " $atom_info[$i] $lmax  atom type, number of L" >>$file.vorbup0
+echo " $atom_info[$i] $lmax  atom type, number of L" >>$file.vorbdn0
+# l loop
+  set l=1
+  while ($l <= $lmax)
+  set lvalue=`head -$line1[$l] $file.vorbup_$l | tail -1 `
+  echo  $lvalue[1]  EECE    L, modus >>         $file.vorbup0
+  echo  $lvalue[1]  EECE    L, modus >>         $file.vorbdn0
+  @ line2[$l] = (2 * $lvalue[1] + 1) *(2 * $lvalue[1] + 1)
+  @ line1[$l] = $line1[$l]  + $line2[$l] 
+  head -$line1[$l] $file.vorbup_$l | tail -$line2[$l] >>$file.vorbup0
+  head -$line1[$l] $file.vorbdn_$l | tail -$line2[$l] >>$file.vorbdn0
+  @ line1[$l] ++
+  @ line1[$l] ++
+  @ l ++
+  end
+@ i ++
+end
+
+cp $file.vorbup0 $file.vorbup
+cp $file.vorbdn0 $file.vorbdn
+
+cat $file.scfeece >> $file.scf
+
+exit 0
+
+
+error_input:					#error exit	
+printf "\n>   stop error: the required input file $errin for the next step could not be found\n"		>> $dayfile
+exit 9
+
+error:					#error exit	
+printf "\n>   stop error\n"		>> $dayfile
+exit 9
+
+help:					#help exit 
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	running (spinpolarized) exact-exchange/hybrid DFT part of 
+                scf-cycle in WIEN
+		to be called within the case-directory, needs case.ineece
+		has to be located in '$WIENROOT' directory
+
+USAGE:		$name [OPTIONS]
+
+OPTIONS:
+-so   ->	run SCF including spin-orbit coupling
+-p    ->        run k-points in parallel (needs .machine file [speed:name])
+theend
+
+exit 1
+

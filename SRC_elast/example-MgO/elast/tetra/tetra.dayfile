@@ -1,0 +1,211 @@
+
+
+Calculating tetra in /users/user3/charpin/workwien/MgO/elast/tetra
+on bilal.ipgp.jussieu.fr
+
+    start 	(mar jui 10 16:03:12 CEST 2001) with lapw0 (35/35 to go)
+>   lapw0	(16:03:12) 2.950u 0.100s 0:03.04 100.3%	0+0k 0+0io 256pf+0w
+>   lapw1  -p 	(16:03:15) starting parallel lapw1 at mar jui 10 16:03:15 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:03:15 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 41.610u 0.390s 0:42.32 99.2%	0+0k 0+0io 281pf+0w
+     tardi(135) 41.480u 0.160s 0:41.69 99.8%	0+0k 0+0io 213pf+0w
+     loisel(135) 42.070u 0.240s 0:44.00 96.1%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=41.61	 wallclock=42.32
+   tardi	 k=135	 user=41.48	 wallclock=41.69
+   loisel	 k=135	 user=42.07	 wallclock=44
+0.250u 0.140s 0:48.50 0.8%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:04:03) running LAPW2 in parallel mode
+      bilal 8.620u 0.260s 0:09.18 96.7% 0+0k 0+0io 227pf+0w
+      tardi 8.100u 0.150s 0:08.31 99.2% 0+0k 0+0io 181pf+0w
+      loisel 9.130u 0.160s 0:10.90 85.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.62	 wallclock=9.18
+   tardi	 user=8.1	 wallclock=8.31
+   loisel	 user=9.13	 wallclock=10.9
+0.930u 0.430s 0:15.49 8.7%	0+0k 0+0io 15986pf+0w
+>   lcore	(16:04:19) 0.100u 0.010s 0:00.11 100.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:04:19) 0.230u 0.080s 0:00.30 103.3%	0+0k 0+0io 279pf+0w
+:ENERGY convergence:  0 0.00001 0
+:CHARGE convergence:  0 0 0
+
+    cycle 2 	(mar jui 10 16:04:19 CEST 2001)
+
+    cycle 2 	(34/34 to go)
+>   lapw0	(16:04:19) 2.970u 0.060s 0:03.03 100.0%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:04:23) starting parallel lapw1 at mar jui 10 16:04:23 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:04:23 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 42.440u 0.280s 0:43.04 99.2%	0+0k 0+0io 281pf+0w
+     tardi(135) 41.950u 0.240s 0:42.27 99.8%	0+0k 0+0io 213pf+0w
+     loisel(135) 40.790u 0.210s 0:41.75 98.2%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=42.44	 wallclock=43.04
+   tardi	 k=135	 user=41.95	 wallclock=42.27
+   loisel	 k=135	 user=40.79	 wallclock=41.75
+0.230u 0.130s 0:46.80 0.7%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:05:09) running LAPW2 in parallel mode
+      bilal 7.990u 0.510s 0:08.60 98.8% 0+0k 0+0io 205pf+0w
+      tardi 8.350u 0.210s 0:08.61 99.4% 0+0k 0+0io 181pf+0w
+      loisel 8.810u 0.160s 0:09.36 95.8% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=7.99	 wallclock=8.6
+   tardi	 user=8.35	 wallclock=8.61
+   loisel	 user=8.81	 wallclock=9.36
+0.980u 0.340s 0:13.88 9.5%	0+0k 0+0io 15977pf+0w
+>   lcore	(16:05:23) 0.110u 0.000s 0:00.11 100.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:05:24) 0.240u 0.070s 0:00.28 110.7%	0+0k 0+0io 358pf+0w
+:ENERGY convergence:  0 0.00001 0
+:CHARGE convergence:  0 0 0
+
+    cycle 3 	(mar jui 10 16:05:24 CEST 2001)
+
+    cycle 3 	(33/33 to go)
+>   lapw0	(16:05:24) 2.900u 0.120s 0:03.01 100.3%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:05:27) starting parallel lapw1 at mar jui 10 16:05:27 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:05:27 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 41.620u 0.270s 0:42.16 99.3%	0+0k 0+0io 281pf+0w
+     tardi(135) 42.040u 0.160s 0:42.26 99.8%	0+0k 0+0io 213pf+0w
+     loisel(135) 44.180u 0.340s 0:49.09 90.6%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=41.62	 wallclock=42.16
+   tardi	 k=135	 user=42.04	 wallclock=42.26
+   loisel	 k=135	 user=44.18	 wallclock=49.09
+0.210u 0.160s 0:53.48 0.6%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:06:21) running LAPW2 in parallel mode
+      bilal 8.180u 0.230s 0:08.55 98.3% 0+0k 0+0io 205pf+0w
+      tardi 8.390u 0.070s 0:08.54 99.0% 0+0k 0+0io 181pf+0w
+      loisel 9.020u 0.160s 0:10.88 84.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.18	 wallclock=8.55
+   tardi	 user=8.39	 wallclock=8.54
+   loisel	 user=9.02	 wallclock=10.88
+0.970u 0.370s 0:15.48 8.6%	0+0k 0+0io 15972pf+0w
+>   lcore	(16:06:36) 0.110u 0.000s 0:00.10 110.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:06:36) 0.280u 0.040s 0:00.31 103.2%	0+0k 0+0io 356pf+0w
+:ENERGY convergence:  0 0.00001 .0620070000000000
+:CHARGE convergence:  0 0 .2518269500000000
+
+    cycle 4 	(mar jui 10 16:06:37 CEST 2001)
+
+    cycle 4 	(32/32 to go)
+>   lapw0	(16:06:37) 2.890u 0.120s 0:03.01 100.0%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:06:40) starting parallel lapw1 at mar jui 10 16:06:40 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:06:40 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 43.790u 0.360s 0:44.48 99.2%	0+0k 0+0io 281pf+0w
+     tardi(135) 41.400u 0.200s 0:41.68 99.8%	0+0k 0+0io 213pf+0w
+     loisel(135) 43.920u 0.230s 0:48.40 91.2%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=43.79	 wallclock=44.48
+   tardi	 k=135	 user=41.4	 wallclock=41.68
+   loisel	 k=135	 user=43.92	 wallclock=48.4
+0.240u 0.140s 0:52.80 0.7%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:07:33) running LAPW2 in parallel mode
+      bilal 8.270u 0.180s 0:08.58 98.4% 0+0k 0+0io 205pf+0w
+      tardi 8.120u 0.160s 0:08.35 99.1% 0+0k 0+0io 181pf+0w
+      loisel 9.830u 0.090s 0:10.86 91.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.27	 wallclock=8.58
+   tardi	 user=8.12	 wallclock=8.35
+   loisel	 user=9.83	 wallclock=10.86
+0.910u 0.450s 0:15.42 8.8%	0+0k 0+0io 15972pf+0w
+>   lcore	(16:07:48) 0.110u 0.000s 0:00.10 110.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:07:49) 0.260u 0.060s 0:00.32 100.0%	0+0k 0+0io 357pf+0w
+:ENERGY convergence:  0 0.00001 .0119150000000000
+:CHARGE convergence:  0 0 .1177286500000000
+
+    cycle 5 	(mar jui 10 16:07:49 CEST 2001)
+
+    cycle 5 	(31/31 to go)
+>   lapw0	(16:07:49) 2.860u 0.140s 0:02.99 100.3%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:07:52) starting parallel lapw1 at mar jui 10 16:07:52 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:07:52 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 41.650u 0.360s 0:42.25 99.4%	0+0k 0+0io 281pf+0w
+     tardi(135) 41.220u 0.280s 0:41.58 99.8%	0+0k 0+0io 213pf+0w
+     loisel(135) 42.300u 0.170s 0:43.15 98.4%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=41.65	 wallclock=42.25
+   tardi	 k=135	 user=41.22	 wallclock=41.58
+   loisel	 k=135	 user=42.3	 wallclock=43.15
+0.240u 0.150s 0:47.57 0.8%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:08:40) running LAPW2 in parallel mode
+      bilal 8.560u 0.200s 0:09.07 96.5% 0+0k 0+0io 205pf+0w
+      tardi 7.810u 0.170s 0:08.06 99.0% 0+0k 0+0io 181pf+0w
+      loisel 9.000u 0.170s 0:10.21 89.8% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.56	 wallclock=9.07
+   tardi	 user=7.81	 wallclock=8.06
+   loisel	 user=9	 wallclock=10.21
+0.900u 0.420s 0:14.74 8.9%	0+0k 0+0io 15971pf+0w
+>   lcore	(16:08:55) 0.120u 0.000s 0:00.11 109.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:08:55) 0.280u 0.040s 0:00.32 100.0%	0+0k 0+0io 357pf+0w
+:ENERGY convergence:  0 0.00001 .0007010000000000
+:CHARGE convergence:  0 0 .0740669000000000
+
+    cycle 6 	(mar jui 10 16:08:55 CEST 2001)
+
+    cycle 6 	(30/30 to go)
+>   lapw0	(16:08:55) 2.880u 0.120s 0:03.07 97.7%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:08:59) starting parallel lapw1 at mar jui 10 16:08:59 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:08:59 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 41.780u 0.430s 0:42.69 98.8%	0+0k 0+0io 281pf+0w
+     tardi(135) 42.800u 0.230s 0:43.12 99.7%	0+0k 0+0io 213pf+0w
+     loisel(135) 42.810u 0.290s 0:48.20 89.4%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=41.78	 wallclock=42.69
+   tardi	 k=135	 user=42.8	 wallclock=43.12
+   loisel	 k=135	 user=42.81	 wallclock=48.2
+0.220u 0.180s 0:52.66 0.7%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:09:51) running LAPW2 in parallel mode
+      bilal 8.610u 0.240s 0:09.05 97.7% 0+0k 0+0io 205pf+0w
+      tardi 8.560u 0.080s 0:08.71 99.1% 0+0k 0+0io 181pf+0w
+      loisel 9.030u 0.110s 0:09.22 99.1% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.61	 wallclock=9.05
+   tardi	 user=8.56	 wallclock=8.71
+   loisel	 user=9.03	 wallclock=9.22
+0.980u 0.340s 0:13.75 9.6%	0+0k 0+0io 15971pf+0w
+>   lcore	(16:10:05) 0.100u 0.010s 0:00.10 110.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:10:05) 0.260u 0.070s 0:00.33 100.0%	0+0k 0+0io 357pf+0w
+:ENERGY convergence:  0 0.00001 .0001550000000000
+:CHARGE convergence:  0 0 .0286655000000000
+
+    cycle 7 	(mar jui 10 16:10:06 CEST 2001)
+
+    cycle 7 	(29/29 to go)
+>   lapw0	(16:10:06) 2.890u 0.150s 0:03.03 100.3%	0+0k 0+0io 257pf+0w
+>   lapw1  -p 	(16:10:09) starting parallel lapw1 at mar jui 10 16:10:09 CEST 2001
+->  starting parallel LAPW1 jobs at mar jui 10 16:10:09 CEST 2001
+running LAPW1 in parallel mode (using .machines)
+     bilal(135) 42.210u 0.440s 0:43.02 99.1%	0+0k 0+0io 281pf+0w
+     tardi(135) 41.630u 0.220s 0:41.96 99.7%	0+0k 0+0io 213pf+0w
+     loisel(135) 42.780u 0.210s 0:43.39 99.0%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=135	 user=42.21	 wallclock=43.02
+   tardi	 k=135	 user=41.63	 wallclock=41.96
+   loisel	 k=135	 user=42.78	 wallclock=43.39
+0.180u 0.210s 0:47.76 0.8%	0+0k 0+0io 19739pf+0w
+>   lapw2 -p	(16:10:57) running LAPW2 in parallel mode
+      bilal 8.350u 0.270s 0:08.83 97.6% 0+0k 0+0io 205pf+0w
+      tardi 8.030u 0.150s 0:08.30 98.5% 0+0k 0+0io 181pf+0w
+      loisel 8.670u 0.170s 0:08.98 98.4% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=8.35	 wallclock=8.83
+   tardi	 user=8.03	 wallclock=8.3
+   loisel	 user=8.67	 wallclock=8.98
+1.030u 0.290s 0:13.52 9.7%	0+0k 0+0io 15972pf+0w
+>   lcore	(16:11:10) 0.110u 0.000s 0:00.10 110.0%	0+0k 0+0io 159pf+0w
+>   mixer	(16:11:11) 0.270u 0.070s 0:00.33 103.0%	0+0k 0+0io 356pf+0w
+:ENERGY convergence:  1 0.00001 .0000010000000000
+:CHARGE convergence:  0 0 .0026905500000000
+
+    cycle 8 	(mar jui 10 16:11:11 CEST 2001)
+
+    cycle 8 	(0/28 to go)
+
+>   stop

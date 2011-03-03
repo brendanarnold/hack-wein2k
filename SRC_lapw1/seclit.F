@@ -1,0 +1,747 @@
+      SUBROUTINE SECLIT(NE,NV,el,eu)
+!
+#ifdef Parallel
+      use matrices, only : H, S, HSROWS, Z, E => EIGVAL
+#else 
+      use matrices, only : HS, HSDIAG, HSROWS, Z, E => EIGVAL
+#endif
+      use lapw_timer, only : START_TIMER, STOP_TIMER, &
+                             READ_CPU_TIME, READ_WALL_TIME, &
+                             time_HxZ, time_SxZ, time_formF, &
+                             time_projectH, time_proj_gsep, &
+			     time_residual, time_backproject, &
+                             time_SxF, time_HxF
+      use parallel, only: DESCHS, DESCZ, MYID, BLOCKSIZE, &
+                          DESCLOCAL, ICTXTALL, ICTXT, LDHS
+      IMPLICIT NONE
+      INCLUDE 'param.inc'
+!
+      INTEGER            NE, NV
+      DOUBLE PRECISION :: EL, EU
+      Integer INDEXH,ix,iy,ilpm
+!     ******************************
+!
+      INTEGER            I, J, K, I1, I2, IND1, IND2, IND3, IND4
+      INTEGER            NSPC, NENEW, IER
+      INTEGER, ALLOCATABLE :: IND(:)
+!_REAL      DOUBLE PRECISION   ZTHZ, ZTSZ, DINV
+!_COMPLEX      complex*16         ZTHZ, ZTSZ, DINV
+      DOUBLE PRECISION   Q, ELOW, EHIGH
+!_REAL      DOUBLE PRECISION, allocatable ::    HPROJ(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    SPROJ(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    ZPROJ(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    HZ(:,:), SZ(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    HZLOCAL(:,:), SZLOCAL(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    SPH(:,:), SPS(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    F(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    FLOCAL(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    DIAGH(:), DIAGS(:)
+!_REAL      DOUBLE PRECISION, allocatable ::    DIAGHLOCAL(:), DIAGSLOCAL(:)
+!_REAL      DOUBLE PRECISION, allocatable ::    DIAGHPROJ(:), DIAGSPROJ(:)
+!_REAL      DOUBLE PRECISION, allocatable ::    S4(:,:), S5(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    H4(:,:), H5(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    RESIDHZ(:,:)
+!_REAL      DOUBLE PRECISION, allocatable ::    RESIDSZ(:,:)
+      DOUBLE PRECISION, allocatable ::    RESID(:,:)
+!_COMPLEX      complex*16, allocatable ::          HPROJ(:,:)
+!_COMPLEX      complex*16, allocatable ::          SPROJ(:,:)
+!_COMPLEX      complex*16, allocatable ::          ZPROJ(:,:)
+!_COMPLEX      complex*16, allocatable ::          HZ(:,:), SZ(:,:)
+!_COMPLEX      complex*16, allocatable ::          HZLOCAL(:,:), SZLOCAL(:,:)
+!_COMPLEX      complex*16, allocatable ::          SPH(:,:), SPS(:,:)
+!_COMPLEX      complex*16, allocatable ::          F(:,:)
+!_COMPLEX      complex*16, allocatable ::          FLOCAL(:,:)
+!_COMPLEX      complex*16, allocatable ::          DIAGH(:), DIAGS(:)
+!_COMPLEX      complex*16, allocatable ::          DIAGHLOCAL(:), DIAGSLOCAL(:)
+!_COMPLEX      complex*16, allocatable ::          DIAGHPROJ(:), DIAGSPROJ(:)
+!_COMPLEX      complex*16, allocatable ::          S4(:,:), S5(:,:)
+!_COMPLEX      complex*16, allocatable ::          H4(:,:), H5(:,:)
+!_COMPLEX      complex*16, allocatable ::          RESIDHZ(:,:)
+!_COMPLEX      complex*16, allocatable ::          RESIDSZ(:,:)
+
+      INTEGER ::             LWORK, LIWORK 
+      INTEGER, allocatable ::             IWORK(:)
+!_REAL      DOUBLE PRECISION, allocatable ::    WORK(:), GAP(:)
+      INTEGER, allocatable ::             IFAIL(:), ICLUSTR(:)
+!_COMPLEX      INTEGER ::             LRWORK
+!_COMPLEX      DOUBLE COMPLEX, allocatable ::    WORK(:), GAP(:)
+!_COMPLEX      DOUBLE PRECISION, allocatable ::    RWORK(:)
+      character*64       ERRMSG
+!
+!_REAL      DOUBLE PRECISION   ONE, HALF
+!_REAL      PARAMETER          (ONE=1.0D0, HALF=0.5D0)
+      DOUBLE PRECISION   ZERO
+      PARAMETER          (ZERO=0.0D0)
+!_COMPLEX      COMPLEX*16         CZERO, CONE, CHALF
+!_COMPLEX      PARAMETER          (CZERO=(0.0D0,0.0D0), CONE=(1.0D0,0.0D0), &
+!_COMPLEX     &				   CHALF=(0.5D0,0.0D0))
+!
+      DOUBLE PRECISION   ABSTOL, EI, SCALE, ORFAC
+      INTEGER            INFO, IL, IU
+      INTEGER            LDHSPROJ, LCOLHSPROJ, LCOLFPROJ, LDHSPROJ45
+      INTEGER            NN, NP0, MQ0, CLUSTERSIZE
+      INTEGER            IERR, NZ
+      INTEGER            DESCHZ(9), DESCPROJ(9), DESC45(9)
+      INTEGER            size_e,SIZEE1, SIZEE2
+      INTEGER            NPROWHS, NPCOLHS, MYROWHS, MYCOLHS
+!
+!        External Subroutines
+!
+      EXTERNAL           ZCOPY, ZHEMM, DCOPY, DSYMM
+      EXTERNAL           ZPPTRF, ZHPGST
+      EXTERNAL           ZHEMM2, DSYMM2
+#ifdef Parallel
+      INTEGER, EXTERNAL :: NUMROC
+      INTEGER ICEIL
+      EXTERNAL ICEIL
+#endif
+!
+      CALL START_TIMER(time_HxZ)
+!
+!   Note: DSYMM2 is just a wrapper for DSYMM to improve performance.
+!         In case of doubt just replace DSYMM2 by DSYMM without any
+!         change of parameters.
+!         (Same for ZHEMM and ZHEMM2.)
+!
+! to save space: size(e) is replaced by size_e = NE + 10% to allow for
+! increasing number of eigenvalues
+      size_e=NE*1.1
+
+#ifdef Parallel
+      sizee1=min(hsrows,size_e)
+      sizee2=min(hsrows,2*sizee1)
+
+      call BLACS_GRIDINFO(ICTXT, NPROWHS, NPCOLHS, MYROWHS, MYCOLHS)
+
+      LDHSPROJ = NUMROC(sizee2, BLOCKSIZE, MYROWHS, 0, NPROWHS)
+      LCOLHSPROJ = NUMROC(sizee2, BLOCKSIZE, MYCOLHS, 0, NPCOLHS)
+      LCOLFPROJ = NUMROC(sizee1, BLOCKSIZE, MYCOLHS, 0, NPCOLHS)
+      LDHSPROJ45 = NUMROC(sizee1, BLOCKSIZE, MYROWHS, 0, NPROWHS)
+
+      if(deschs(2).ge.0) then
+	CALL DESCINIT(DESCHZ, HSROWS, sizee2, BLOCKSIZE, &
+		      BLOCKSIZE, 0, 0, ICTXT, LDHS, IERR)
+	CALL DESCINIT(DESCPROJ, sizee2, sizee2, BLOCKSIZE, &
+		      BLOCKSIZE, 0, 0, ICTXT, LDHSPROJ, IERR)
+	write(6,*) 'LDHSPROJ, LLD: ', LDHSPROJ, DESCPROJ(9)
+	CALL DESCINIT(DESC45, sizee1, sizee1, BLOCKSIZE, &
+		      BLOCKSIZE, 0, 0, ICTXT, LDHSPROJ45, IERR)
+	write(6,*) 'LDHSPROJ45, LLD: ', LDHSPROJ45, DESC45(9)
+      end if
+
+      allocate( HPROJ(LDHSPROJ, LCOLHSPROJ) )
+      allocate( SPROJ(LDHSPROJ, LCOLHSPROJ) )
+      allocate( ZPROJ(LDHSPROJ, LCOLHSPROJ) )
+      allocate( HZ(LDHS, LCOLFPROJ) )
+      allocate( SZ(LDHS, LCOLFPROJ) )
+      allocate( SPH(LDHS, LCOLFPROJ) )
+      allocate( SPS(LDHS, LCOLFPROJ) )
+      allocate( F(LDHS, LCOLFPROJ) )
+      allocate( S4(LDHSPROJ45, LCOLFPROJ) )
+      allocate( S5(LDHSPROJ45, LCOLFPROJ) )
+      allocate( H4(LDHSPROJ45, LCOLFPROJ) )
+      allocate( H5(LDHSPROJ45, LCOLFPROJ) )
+      IF(MYID.EQ.0) THEN
+        allocate( HZLOCAL(HSROWS, size_e) )
+        allocate( SZLOCAL(HSROWS, size_e) )
+        allocate( FLOCAL(HSROWS, size_e) )
+      END IF
+      allocate( DIAGH(HSROWS) )
+      allocate( DIAGS(HSROWS) )
+      allocate( DIAGHPROJ(2*SIZE_E) )
+      allocate( DIAGSPROJ(2*SIZE_E) )
+
+      NN = MAX(2*size_e, BLOCKSIZE, 2)
+      NP0 = NUMROC(NN,BLOCKSIZE, 0, 0, NPROWHS)
+      MQ0 = NUMROC(MAX(size_e, BLOCKSIZE, 2), BLOCKSIZE, 0, 0, NPCOLHS)
+      CLUSTERSIZE = 200
+
+! LRWORK from Documentation
+!      LRWORK = 4*HSROWS + MAX( 5*NN, NP0*MQ0) + &
+!              ICEIL(NUME,NPROWHS*NPCOLHS)*NN + (CLUSTERSIZE-1) * HSROWS
+! LRWORK from PZHEEVX
+!_COMPLEX      LRWORK = 4*HSROWS + &
+!_COMPLEX              MAX( ICEIL( size_e, NPROWHS*NPCOLHS )*NN + MAX( 5*NN, NP0*MQ0 ), &
+!_COMPLEX                   MAX( ( BLOCKSIZE*( BLOCKSIZE-1 ) ) / 2, &
+!_COMPLEX                        ( MQ0+NP0 )*BLOCKSIZE ) + BLOCKSIZE*BLOCKSIZE) + &
+!_COMPLEX              (CLUSTERSIZE-1) * HSROWS
+!_COMPLEX      LWORK = HSROWS + MAX(BLOCKSIZE*(NP0+1),3) + CLUSTERSIZE * HSROWS
+!_COMPLEX      LWORK = 2*size_e + (NP0 + MQ0 + BLOCKSIZE) * BLOCKSIZE + CLUSTERSIZE * 2*size_e
+!_REAL      LWORK =         5*2*size_e 
+!_REAL      LWORK = LWORK + MAX(5*NN, NP0*MQ0 + 2*BLOCKSIZE*BLOCKSIZE) 
+!_REAL      LWORK = LWORK + ICEIL(size_e, NPROWHS*NPCOLHS)*NN 
+!_REAL      LWORK = LWORK + CLUSTERSIZE * 2*size_e
+      LIWORK = 6*MAX(2*size_e, NPROWHS*NPCOLHS+1,4)
+      allocate( ICLUSTR(2*NPROWHS*NPCOLHS),GAP(NPROWHS*NPCOLHS) )
+!_COMPLEX      allocate( RWORK(LRWORK) )
+      allocate( IFAIL(HSROWS), IWORK(LIWORK), WORK(LWORK), &
+                STAT=IERR )
+      if(IERR.ne.0) THEN
+        write(6,*) 'not enough memory: ', IERR
+        stop 'not enough memory' 
+      end if
+#else
+      allocate( HPROJ(2*size_e, 2*size_e) )
+      allocate( SPROJ(2*size_e, 2*size_e) )
+      allocate( ZPROJ(2*size_e, 2*size_e) )
+      allocate( HZ(HSROWS, size_e) )
+      allocate( SZ(HSROWS, size_e) )
+      allocate( SPH(HSROWS, size_e) )
+      allocate( SPS(HSROWS, size_e) )
+      allocate( F(HSROWS, size_e) )
+      allocate( DIAGH(HSROWS) )
+      allocate( DIAGS(HSROWS) )
+      allocate( IND(size_e) ) 
+      allocate( RESID(HSROWS,10) )
+      allocate( RESIDHZ(HSROWS, size_e) )
+      allocate( RESIDSZ(HSROWS, size_e) )
+
+      allocate( IWORK(5*2*size_e) )
+      LWORK=(64+3)*2*size_e
+      allocate( WORK(LWORK) )
+      allocate( IFAIL(2*size_e) )
+!_COMPLEX      allocate( RWORK(7*2*size_e) )
+      IFAIL( 1:2*size_e ) = 0
+#endif
+
+!
+!       HZ := H * Z
+!       
+#ifdef Parallel
+         if(deschs(2).ge.0) then
+!_REAL       Call PDSYMM('L','U',NV,NE,ONE,H,1,1,DESCHS,Z,1,1,DESCZ,ZERO,HZ,1,1,DESCHZ)
+!_COMPLEX      Call PZHEMM('L','U',NV,NE,CONE,H,1,1,DESCHS,Z,1,1,DESCZ,CZERO,HZ,1,1,DESCHZ)
+         end if
+#else
+!_REAL       Call DSYMM2('L','L',NV,NE,ONE,HS,HSROWS,z,HSROWS,ZERO,hz,HSROWS)
+!_COMPLEX      Call ZHEMM2('L','L',NV,NE,CONE,HS,HSROWS,z,HSROWS,CZERO,hz,HSROWS)
+#endif
+!
+!      Swap Diagonal (due to two matrix storage scheme)
+!
+#ifndef Parallel
+!_REAL      CALL DSWAP(HSROWS,HS,HSROWS+1,HSDIAG,1)
+!_COMPLEX      CALL ZSWAP(HSROWS,HS,HSROWS+1,HSDIAG,1)
+#endif
+!
+      CALL STOP_TIMER(time_HxZ)
+      CALL START_TIMER(time_SxZ)
+!
+!       SZ := S * Z
+!       
+#ifdef Parallel
+         if(deschs(2).ge.0) then
+!_REAL       Call PDSYMM('L','U',NV,NE,ONE,S,1,1,DESCHS,Z,1,1,DESCZ,ZERO,SZ,1,1,DESCHZ)
+!_COMPLEX      Call PZHEMM('L','U',NV,NE,CONE,S,1,1,DESCHS,Z,1,1,DESCZ,CZERO,SZ,1,1,DESCHZ)
+         end if
+#else
+!_REAL      Call DSYMM2('L','U',NV,NE,ONE,HS,HSROWS,z,HSROWS,ZERO,sz,HSROWS)
+!_COMPLEX      Call ZHEMM2('L','U',NV,NE,CONE,HS,HSROWS,z,HSROWS,CZERO,sz,HSROWS)
+#endif
+      CALL STOP_TIMER(time_SxZ)
+      CALL START_TIMER(time_formF)
+!
+!       S1 = Z^T SZ            H1 = Z^T HZ
+!   moved from below (computation of SPROJ and HPROJ)
+#ifdef Parallel
+         if(deschs(2).ge.0) then
+!_REAL      Call PDSYR2K('U','T',NE,NV,HALF,Z,1,1,DESCZ,SZ,1,1,DESCHZ, &
+!_REAL                 ZERO,SPROJ,1,1,DESCPROJ)
+!_REAL      Call PDSYR2K('U','T',NE,NV,HALF,Z,1,1,DESCZ,HZ,1,1,DESCHZ, &
+!_REAL                 ZERO,HPROJ,1,1,DESCPROJ)
+!_COMPLEX      Call PZHER2K('U','C',NE,NV,CHALF,Z,1,1,DESCZ,SZ,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,SPROJ,1,1,DESCPROJ)
+!_COMPLEX      Call PZHER2K('U','C',NE,NV,CHALF,Z,1,1,DESCZ,HZ,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,HPROJ,1,1,DESCPROJ)
+         end if
+#else
+!_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,Z,HSROWS,SZ,HSROWS, &
+!_REAL                 ZERO,SPROJ,2*size_e)
+!_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,Z,HSROWS,HZ,HSROWS, &
+!_REAL                 ZERO,HPROJ,2*size_e)
+!_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,Z,HSROWS,SZ,HSROWS, &
+!_COMPLEX                 CZERO,SPROJ,2*size_e)
+!_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,Z,HSROWS,HZ,HSROWS, &
+!_COMPLEX                 CZERO,HPROJ,2*size_e)
+#endif
+!
+!   Copy Diagonal elements of H and S to single vectors
+!
+#ifdef Parallel
+          DO I=1,HSROWS
+!_REAL      CALL PDGEMR2D( 1,1, S, I,I, DESCHS, DIAGS, I,1, DESCLOCAL, ICTXTALL)
+!_REAL      CALL PDGEMR2D( 1,1, H, I,I, DESCHS, DIAGH, I,1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( 1,1, S, I,I, DESCHS, DIAGS, I,1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( 1,1, H, I,I, DESCHS, DIAGH, I,1, DESCLOCAL, ICTXTALL)
+          END DO
+          DO I=1,NE
+!_REAL      CALL PDGEMR2D( 1,1, SPROJ, I,I, DESCPROJ, DIAGSPROJ, I,1, DESCLOCAL, ICTXTALL)
+!_REAL      CALL PDGEMR2D( 1,1, HPROJ, I,I, DESCPROJ, DIAGHPROJ, I,1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( 1,1, SPROJ, I,I, DESCPROJ, DIAGSPROJ, I,1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( 1,1, HPROJ, I,I, DESCPROJ, DIAGHPROJ, I,1, DESCLOCAL, ICTXTALL)
+          END DO
+!_REAL      CALL PDGEMR2D( NV, NE, HZ, 1, 1, DESCHZ, HZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+!_REAL      CALL PDGEMR2D( NV, NE, SZ, 1, 1, DESCHZ, SZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( NV, NE, HZ, 1, 1, DESCHZ, HZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( NV, NE, SZ, 1, 1, DESCHZ, SZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+#else
+!_REAL      CALL DCOPY( HSROWS, HS, HSROWS + 1, DIAGS, 1)
+!_REAL      CALL DCOPY( HSROWS, HSDIAG, 1, DIAGH, 1)
+!_COMPLEX      CALL ZCOPY( HSROWS, HS, HSROWS + 1, DIAGS, 1)
+!_COMPLEX      CALL ZCOPY( HSROWS, HSDIAG, 1, DIAGH, 1)
+#endif
+
+!
+!       F := ( H - E_i S ) * Z / DIAG( H - E_i S )
+!
+#ifdef Parallel
+      IF(MYID.EQ.0) THEN
+        iloop: DO I = 1, NE
+            E(I) = DIAGHPROJ(I) / DIAGSPROJ(I)
+            EI = E(I)
+           DO 60 J = 1, NV
+             FLOCAL(J,I) = (HZLOCAL(J,I) - EI*SZLOCAL(J,I))/(DIAGH(J) - EI*DIAGS(J))
+   60      CONTINUE
+        End Do iloop
+      END IF
+!_REAL      CALL PDGEMR2D( NV, NE, FLOCAL, 1, 1, DESCLOCAL, F, 1, 1, DESCHZ, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( NV, NE, FLOCAL, 1, 1, DESCLOCAL, F, 1, 1, DESCHZ, ICTXTALL)
+#else
+      iloop: DO I = 1, NE
+          E(I) = HPROJ(I,I) / SPROJ(I,I)
+	  EI = E(I)
+!
+!      numerically less stable Version
+!
+         DO 60 J = 1, NV
+           F(J,I) = (HZ(J,I) - EI*SZ(J,I))/(DIAGH(J) - EI*DIAGS(J))
+   60    CONTINUE
+!
+!      numerically more stable version (much slower)
+!
+!         Do J=1,NV
+!	   F(J,I) = ZERO
+!	   Do K=1,J-1
+!C                                      Hamilton       Overlap
+!C_REAL             F(J,I) = F(J,I) + ( HS(J,K) - EI * HS(K,J) ) * Z(K,I)
+!C_COMPLEX          F(J,I) = F(J,I) + ( HS(J,K) - EI * DCONJG(HS(K,J)) ) * Z(K,I)
+!	   End Do
+!           F(J,I) = F(J,I) + ( DIAGH(J) - EI * DIAGS(J) ) * Z(J,I)
+!	   Do K=J+1,NV
+!C                                      Hamilton       Overlap
+!C_REAL             F(J,I) = F(J,I) + ( HS(K,J) - EI * HS(J,K) ) * Z(K,I)
+!C_COMPLEX          F(J,I) = F(J,I) + ( DCONJG(HS(K,J)) - EI * HS(J,K) ) * Z(K,I)
+!	   End Do
+!	   F(J,I) = F(J,I) / (DIAGH(J) - EI * DIAGS(J))
+!	 End Do
+      End Do iloop
+!
+!     Orthogonalize F against Z --- F := F - Z F' Z
+!     (no difference in convergence behavior?)
+!     Timing: 1/3 of time_residual
+!
+!!_REAL      CALL DGEMM('T','N',NE,NE,NV,ONE,F,HSROWS,Z,HSROWS, &
+!!_REAL                 ZERO,SPROJ(1,NE+1),2*size_e)
+!!_REAL      CALL DGEMM('N','N',NV,NE,NE,-ONE,Z,HSROWS,SPROJ(1,NE+1),2*size_e, &
+!!_REAL                 ONE,F,HSROWS)
+!!_COMPLEX      CALL ZGEMM('C','N',NE,NE,NV,CONE,F,HSROWS,Z,HSROWS, &
+!!_COMPLEX                 CZERO,SPROJ(1,NE+1),2*size_e)
+!!_COMPLEX      CALL ZGEMM('N','N',NV,NE,NE,-CONE,Z,HSROWS,SPROJ(1,NE+1),2*size_e, &
+!!_COMPLEX                 CONE,F,HSROWS)
+#endif
+      CALL STOP_TIMER(time_formF)
+      CALL START_TIMER(time_SxF)
+!---
+      IF(MYID.EQ.0) THEN
+        WRITE (6,*) 'Intermediate Eigenvalues:'
+        WRITE (6,'(10F12.8)') (E(I),I=1,NE)
+        WRITE (6,*) '----------------'
+      END IF
+!---
+!
+!       SPS := S * F
+!
+!          execute matrix-matrix multiplication using S
+#ifdef Parallel
+         if(deschs(2).ge.0) then
+!_REAL      Call PDSYMM('L','U',NV,NE,ONE,S,1,1,DESCHS,F,1,1,DESCHZ,ZERO,sps,1,1,DESCHZ)
+!_COMPLEX      Call PZHEMM('L','U',NV,NE,CONE,S,1,1,DESCHS,F,1,1,DESCHZ,CZERO,sps,1,1,DESCHZ)
+         end if
+#else
+!_REAL      Call DSYMM2('L','U',NV,NE,ONE,HS,HSROWS,F,HSROWS,ZERO,sps,HSROWS)
+!_COMPLEX      Call ZHEMM2('L','U',NV,NE,CONE,HS,HSROWS,F,HSROWS,CZERO,sps,HSROWS)
+#endif
+!
+!      Swap Diagonal 
+#ifndef Parallel
+!_REAL      CALL DSWAP(HSROWS,HS,HSROWS+1,HSDIAG,1)
+!_COMPLEX      CALL ZSWAP(HSROWS,HS,HSROWS+1,HSDIAG,1)
+#endif
+      CALL STOP_TIMER(time_SxF)
+      CALL START_TIMER(time_HxF)
+!
+!       SPH := H * F
+!
+!          execute matrix-matrix multiplication using hp 
+#ifdef Parallel
+         if(deschs(2).ge.0) then
+!_REAL      Call PDSYMM('L','U',NV,NE,ONE,H,1,1,DESCHS,F,1,1,DESCHZ,ZERO,sph,1,1,DESCHZ)
+!_COMPLEX      Call PZHEMM('L','U',NV,NE,CONE,H,1,1,DESCHS,F,1,1,DESCHZ,CZERO,sph,1,1,DESCHZ)
+         end if
+#else
+!_REAL      Call DSYMM2('L','L',NV,NE,ONE,HS,HSROWS,F,HSROWS,ZERO,sph,HSROWS)
+!_COMPLEX      Call ZHEMM2('L','L',NV,NE,CONE,HS,HSROWS,F,HSROWS,CZERO,sph,HSROWS)
+#endif
+!
+      CALL STOP_TIMER(time_HxF)
+      CALL START_TIMER(time_projectH)
+!
+!      Sproj, Hproj:      S1 S1 S1 S5 S5 S5
+!                         0  S1 S1 S5 S5 S5
+!                         0  0  S1 S5 S5 S5
+!                         0  0  0  S4 S4 S4
+!                         0  0  0  0  S4 S4
+!                         0  0  0  0  0  S4
+!
+#ifdef Parallel
+!       S1 = Z^T SZ            H1 = Z^T HZ
+!  moved up 
+!
+!        S5 = Z^T * SPS       H5 = Z^T * SPH
+          if(deschs(2).ge.0) then
+!_REAL      CALL PDGEMM('T','N',NE,NE,NV,ONE,Z,1,1,DESCZ,SPS,1,1,DESCHZ, &
+!_REAL                 ZERO,S5,1,1,DESC45)
+!_REAL      CALL PDGEMR2D( NE, NE, S5, 1, 1, DESC45, SPROJ, 1, NE+1, DESCPROJ, ICTXT)
+!_REAL      CALL PDGEMM('T','N',NE,NE,NV,ONE,Z,1,1,DESCZ,SPH,1,1,DESCHZ, &
+!_REAL                 ZERO,H5,1,1,DESC45)
+!_REAL      CALL PDGEMR2D( NE, NE, H5, 1, 1, DESC45, HPROJ, 1, NE+1, DESCPROJ, ICTXT)
+!_COMPLEX      CALL PZGEMM('C','N',NE,NE,NV,CONE,Z,1,1,DESCZ,SPS,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,S5,1,1,DESC45)
+!_COMPLEX      CALL PZGEMR2D( NE, NE, S5, 1, 1, DESC45, SPROJ, 1, NE+1, DESCPROJ, ICTXT)
+!_COMPLEX      CALL PZGEMM('C','N',NE,NE,NV,CONE,Z,1,1,DESCZ,SPH,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,H5,1,1,DESC45)
+!_COMPLEX      CALL PZGEMR2D( NE, NE, H5, 1, 1, DESC45, HPROJ, 1, NE+1, DESCPROJ, ICTXT)
+!
+!       S4 = F^T SPS           H4 = F^T SPH
+!_REAL      Call PDSYR2K('U','T',NE,NV,HALF,F,1,1,DESCHZ,SPS,1,1,DESCHZ, &
+!_REAL                 ZERO,S4,1,1,DESC45)
+!_REAL      CALL PDTRMR2D( 'U', 'N', NE, NE, S4, 1, 1, DESC45, SPROJ, NE+1, NE+1, DESCPROJ, ICTXT)
+!_REAL      Call PDSYR2K('U','T',NE,NV,HALF,F,1,1,DESCHZ,SPH,1,1,DESCHZ, &
+!_REAL                 ZERO,H4,1,1,DESC45)
+!_REAL      CALL PDTRMR2D( 'U', 'N', NE, NE, H4, 1, 1, DESC45, HPROJ, NE+1, NE+1, DESCPROJ, ICTXT)
+!_COMPLEX      Call PZHER2K('U','C',NE,NV,CHALF,F,1,1,DESCHZ,SPS,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,S4,1,1,DESC45)
+!_COMPLEX      CALL PZTRMR2D( 'U', 'N', NE, NE, S4, 1, 1, DESC45, SPROJ, NE+1, NE+1, DESCPROJ, ICTXT)
+!_COMPLEX      Call PZHER2K('U','C',NE,NV,CHALF,F,1,1,DESCHZ,SPH,1,1,DESCHZ, &
+!_COMPLEX                 CZERO,H4,1,1,DESC45)
+!_COMPLEX      CALL PZTRMR2D( 'U', 'N', NE, NE, H4, 1, 1, DESC45, HPROJ, NE+1, NE+1, DESCPROJ, ICTXT)
+         end if
+#else
+!       S1 = Z^T SZ            H1 = Z^T HZ
+!  moved up 
+!C_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,Z,HSROWS,SZ,HSROWS,
+!C_REAL     +           ZERO,SPROJ,2*size_e)
+!C_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,Z,HSROWS,HZ,HSROWS,
+!C_REAL     +           ZERO,HPROJ,2*size_e)
+!C_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,Z,HSROWS,SZ,HSROWS,
+!C_COMPLEX     +           CZERO,SPROJ,2*size_e)
+!C_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,Z,HSROWS,HZ,HSROWS,
+!C_COMPLEX     +           CZERO,HPROJ,2*size_e)
+!
+!
+!        S5 = Z^T * SPS       H5 = Z^T * SPH
+!_REAL      CALL DGEMM('T','N',NE,NE,NV,ONE,Z,HSROWS,SPS,HSROWS, &
+!_REAL                 ZERO,SPROJ(1,NE+1),2*size_e)
+!_REAL      CALL DGEMM('T','N',NE,NE,NV,ONE,Z,HSROWS,SPH,HSROWS, &
+!_REAL                 ZERO,HPROJ(1,NE+1),2*size_e)
+!_COMPLEX      CALL ZGEMM('C','N',NE,NE,NV,CONE,Z,HSROWS,SPS,HSROWS, &
+!_COMPLEX                 CZERO,SPROJ(1,NE+1),2*size_e)
+!_COMPLEX      CALL ZGEMM('C','N',NE,NE,NV,CONE,Z,HSROWS,SPH,HSROWS, &
+!_COMPLEX                 CZERO,HPROJ(1,NE+1),2*size_e)
+!
+!       S4 = F^T SPS           H4 = F^T SPH
+!_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,F,HSROWS,SPS,HSROWS, &
+!_REAL                 ZERO,SPROJ(NE+1,NE+1),2*size_e)
+!_REAL      Call DSYR2M('U','T','N',NE,NV,ONE,F,HSROWS,SPH,HSROWS, &
+!_REAL                 ZERO,HPROJ(NE+1,NE+1),2*size_e)
+!_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,F,HSROWS,SPS,HSROWS, &
+!_COMPLEX                 CZERO,SPROJ(NE+1,NE+1),2*size_e)
+!_COMPLEX      Call ZHER2M('U','C','N',NE,NV,CONE,F,HSROWS,SPH,HSROWS, &
+!_COMPLEX                 CZERO,HPROJ(NE+1,NE+1),2*size_e)
+#endif
+      CALL STOP_TIMER(time_projectH)
+      CALL START_TIMER(time_proj_gsep)
+#ifdef Parallel
+          if(deschs(2).ge.0) then
+!_REAL      CALL PDPOTRF('U', 2*NE, SPROJ, 1,1,DESCPROJ, INFO )
+!_COMPLEX      CALL PZPOTRF('U', 2*NE, SPROJ, 1,1,DESCPROJ, INFO )
+          end if
+#else
+!_REAL      CALL DPOTRF('U', 2*NE, SPROJ, 2*size_e, INFO )
+!_COMPLEX      CALL ZPOTRF('U', 2*NE, SPROJ, 2*size_e, INFO )
+#endif
+      if(info.ne.0) THEN
+        write(6,*) 'INFO (Cholesky) = ', INFO
+        STOP 'SECLIT - Error in Cholesky'
+      End If
+#ifdef Parallel
+          if(deschs(2).ge.0) then
+!_REAL      CALL PDSYGST(1,'U', 2*NE, HPROJ, 1,1,DESCPROJ, SPROJ, 1,1,DESCPROJ, SCALE, INFO)
+!_COMPLEX      CALL PZHEGST(1,'U', 2*NE, HPROJ, 1,1,DESCPROJ, SPROJ, 1,1,DESCPROJ, SCALE, INFO)
+          end if
+#else
+!_REAL      CALL DSYGST(1,'U', 2*NE, HPROJ, 2*size_e, SPROJ, 2*size_e, INFO)
+!_COMPLEX      CALL ZHEGST(1,'U', 2*NE, HPROJ, 2*size_e, SPROJ, 2*size_e, INFO)
+#endif
+      if(info.ne.0) Then
+        write(6,*) 'INFO (Transformation to SEP) = ', INFO
+        STOP 'SECLIT - Error in Transformation'
+      End If
+      ELOW  =  el
+      EHIGH =  eu
+      IL = 0
+      IU = 0
+      ABSTOL = 0.0D0
+      ORFAC = -1.0D0
+#ifdef Parallel
+          if(deschs(2).ge.0) then
+!_REAL      CALL PDSYEVX('V','V','U',2*ne,HProj,1,1,DESCPROJ,ELow,Ehigh,IL,IU, &
+!_REAL                  ABSTOL,NEnew,NZ, E,ORFAC, Zproj,1,1,DESCPROJ, &
+!_REAL                  WORK,LWORK,IWORK,LIWORK,IFAIL,ICLUSTR, GAP, INFO)
+!_COMPLEX      CALL PZHEEVX('V','V','U',2*ne,HProj,1,1,DESCPROJ,ELow,Ehigh,IL,IU, &
+!_COMPLEX                  ABSTOL,NEnew,NZ,E,ORFAC, Zproj,1,1,DESCPROJ, &
+!_COMPLEX                  WORK,LWORK,RWORK,LRWORK,IWORK,LIWORK,IFAIL,ICLUSTR, GAP, INFO)
+          end if
+#else
+!_REAL      CALL DSYEVX('V','V','U',2*ne,HProj,2*size_e,ELow,Ehigh,IL,IU, &
+!_REAL                  ABSTOL,NEnew,E,Zproj,2*size_e, &
+!_REAL                  WORK,LWORK,IWORK,IFAIL,INFO)
+!_COMPLEX      CALL ZHEEVX('V','V','U',2*ne,HProj,2*size_e,ELow,Ehigh,IL,IU, &
+!_COMPLEX                  ABSTOL,NEnew,E,Zproj,2*size_e, &
+!_COMPLEX                  WORK,LWORK,RWORK,IWORK,IFAIL,INFO)
+#endif
+      if(info.ne.0) write(6,*) 'INFO, IFAIL = ', INFO, IFAIL
+      IF (NENEW .LT. NE) THEN
+         WRITE (6,*) ' had to reduce NE to ', NENEW
+         WRITE (7,*) ' had to reduce NE to ', NENEW
+      ENDIF
+      NENEW = MIN(NE,MIN(NENEW,size_e))
+      IF (INFO .NE. 0) THEN
+        CALL OUTERR('SECLIT','SEP failed.')
+         STOP 'SECLIT - Error in SEP'
+      ENDIF
+      IF (NE .GT. size_e) THEN
+         CALL OUTERR('SECLIT','More than NUME eigenvalues.')
+         WRITE (ERRMSG,9000) size_e,NE
+ 9000    FORMAT ('Increase NUME from',i4,' to',i4,'   OR')
+         CALL OUTERR('SECLIT',ERRMSG)
+         CALL OUTERR('SECLIT','reduce E2 in *.klist.(see *.output1)')
+         WRITE(6,9001) (e(j),j=1,ne)
+ 9001    FORMAT (5f15.6)
+         STOP 'SECLIT - Error'
+      ENDIF
+!
+!        backtransform eigenvectors to the original problem:
+!           for H*x=(lambda)*S*x;
+!           backtransform eigenvectors: x = inv(L)'*y or inv(U)*y
+!
+#ifdef Parallel
+          if(deschs(2).ge.0) then
+!_REAL       CALL PDTRSM('L','U','N','N',2*ne,nenew,one,SProj,1,1,DESCPROJ, &
+!_REAL                  ZProj,1,1,DESCPROJ)
+!_COMPLEX       CALL PZTRSM('L','U','N','N',2*ne,nenew,cone,SProj,1,1,DESCPROJ, &
+!_COMPLEX                  ZProj,1,1,DESCPROJ)
+          end if
+#else
+!_REAL       CALL DTRSM('L','U','N','N',2*ne,nenew,one,SProj,2*size_e, &
+!_REAL                  ZProj,2*size_e)
+!_COMPLEX       CALL ZTRSM('L','U','N','N',2*ne,nenew,cone,SProj,2*size_e, &
+!_COMPLEX                  ZProj,2*size_e)
+#endif
+      CALL STOP_TIMER(time_proj_gsep)
+      CALL START_TIMER(time_residual)
+#ifndef Parallel
+!
+!      Compute Residuals
+!
+! 1.     HZ_I-E(I)*SZ_I
+!
+      DO I=1,NENEW
+        RESID(I,1) = MAXVAL(DBLE(HZ(1:HSROWS,I)-E(I)*SZ(1:HSROWS,I)))
+      END DO
+!
+! 2.     (HZ*ZPROJ1)_I-E(I)*(SZ*ZPROJ1)_I, with ZPROJ = (ZPROJ1 ZPROJ2)
+!
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,HZ,HSROWS,ZPROJ,2*size_e, &
+!_REAL                 ZERO,RESIDHZ,HSROWS)
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,SZ,HSROWS,ZPROJ,2*size_e, &
+!_REAL                 ZERO,RESIDSZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,HZ,HSROWS,ZPROJ,2*size_e, &
+!_COMPLEX                 CZERO,RESIDHZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,SZ,HSROWS,ZPROJ,2*size_e, &
+!_COMPLEX                 CZERO,RESIDSZ,HSROWS)
+      DO I=1,NENEW
+        RESID(I,2) = MAXVAL(DBLE(RESIDHZ(1:HSROWS,I)-E(I)*RESIDSZ(1:HSROWS,I)))
+      END DO
+!
+! 3.     (SPH*ZPROJ2)_I-E(I)*(SPS*ZPROJ2)_I, with ZPROJ = (ZPROJ1 ZPROJ2)
+!
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,SPH,HSROWS,ZPROJ(NE+1,1),2*size_e, &
+!_REAL                 ZERO,RESIDHZ,HSROWS)
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,SPS,HSROWS,ZPROJ(NE+1,1),2*size_e, &
+!_REAL                 ZERO,RESIDSZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,SPH,HSROWS,ZPROJ(NE+1,1),2*size_e, &
+!_COMPLEX                 CZERO,RESIDHZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,SPS,HSROWS,ZPROJ(NE+1,1),2*size_e, &
+!_COMPLEX                 CZERO,RESIDSZ,HSROWS)
+      DO I=1,NENEW
+        RESID(I,3) = MAXVAL(DBLE(RESIDHZ(1:HSROWS,I)-E(I)*RESIDSZ(1:HSROWS,I)))
+      END DO
+!
+! 4.     (HZ*ZPROJ1+SPH*ZPROJ2)_I-E(I)*(SZ*ZPROJ1+SPS*ZPROJ2)_I
+!
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,HZ,HSROWS,ZPROJ,2*size_e, &
+!_REAL                 ONE,RESIDHZ,HSROWS)
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,SZ,HSROWS,ZPROJ,2*size_e, &
+!_REAL                 ONE,RESIDSZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,HZ,HSROWS,ZPROJ,2*size_e, &
+!_COMPLEX                 CONE,RESIDHZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,SZ,HSROWS,ZPROJ,2*size_e, &
+!_COMPLEX                 CONE,RESIDSZ,HSROWS)
+      DO I=1,NENEW
+        RESID(I,4) = MAXVAL(DBLE(RESIDHZ(1:HSROWS,I)-E(I)*RESIDSZ(1:HSROWS,I)))
+      END DO
+!
+      write(6,*) 'Eigenvalues and various Residuals of Eigenvectors'
+      DO I=1,NENEW
+        write(6,2000) I, E(I), (RESID(I,J),J=1,4)
+      END DO
+      write(6,2001) MAXVAL(RESID(1:NENEW,1)), &
+                    MAXVAL(RESID(1:NENEW,2)), &
+                    MAXVAL(RESID(1:NENEW,3)), &
+                    MAXVAL(RESID(1:NENEW,4))
+      write(21,2001) MAXVAL(RESID(1:NENEW,1)), &
+                    MAXVAL(RESID(1:NENEW,2)), &
+                    MAXVAL(RESID(1:NENEW,3)), &
+                    MAXVAL(RESID(1:NENEW,4))
+ 2000 FORMAT(I4,5G14.7)
+ 2001 FORMAT('Maximum: ',9X,4G14.7)
+#endif
+      CALL STOP_TIMER(time_residual)
+      CALL START_TIMER(time_backproject)
+!
+!       HZ := Z * ZPROJ1 + F * ZPROJ2 with ZPROJ = (ZPROJ1 ZPROJ2)
+!
+#ifdef Parallel
+          if(deschs(2).ge.0) then
+!_REAL      CALL PDGEMM('N','N',NV,NENEW,NE,ONE,Z,1,1,DESCZ,ZPROJ,1,1,DESCPROJ, &
+!_REAL                 ZERO,HZ,1,1,DESCHZ)
+!_REAL      CALL PDGEMR2D( NE, NENEW, ZPROJ, NE+1, 1, DESCPROJ, ZPROJ, 1, 1, DESCPROJ, ICTXTALL)
+!_REAL      CALL PDGEMM('N','N',NV,NENEW,NE,ONE,F,1,1,DESCZ,ZPROJ,1,1, DESCPROJ, &
+!_REAL                 ONE,HZ,1,1,DESCHZ)
+!_COMPLEX      CALL PZGEMM('N','N',NV,NENEW,NE,CONE,Z,1,1,DESCZ,ZPROJ,1,1,DESCPROJ, &
+!_COMPLEX                 CZERO,HZ,1,1,DESCHZ)
+!_COMPLEX      CALL PZGEMR2D( NE, NENEW, ZPROJ, NE+1, 1, DESCPROJ, ZPROJ, 1, 1, DESCPROJ, ICTXTALL)
+!_COMPLEX      CALL PZGEMM('N','N',NV,NENEW,NE,CONE,F,1,1,DESCZ,ZPROJ,1,1, DESCPROJ, &
+!_COMPLEX                 CONE,HZ,1,1,DESCHZ)
+          end if
+#else
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,Z,HSROWS,ZPROJ,2*size_e, &
+!_REAL                 ZERO,HZ,HSROWS)
+!_REAL      CALL DGEMM('N','N',NV,NENEW,NE,ONE,F,HSROWS,ZPROJ(NE+1,1), &
+!_REAL                 2*size_e,ONE,HZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,Z,HSROWS,ZPROJ,2*size_e, &
+!_COMPLEX                 CZERO,HZ,HSROWS)
+!_COMPLEX      CALL ZGEMM('N','N',NV,NENEW,NE,CONE,F,HSROWS,ZPROJ(NE+1,1), &
+!_COMPLEX                 2*size_e,CONE,HZ,HSROWS)
+#endif
+      NE = NENEW
+#ifdef Parallel
+!_REAL      CALL PDGEMR2D( NV, NE, HZ, 1, 1, DESCHZ, Z, 1, 1, DESCZ, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( NV, NE, HZ, 1, 1, DESCHZ, Z, 1, 1, DESCZ, ICTXTALL)
+#else
+      DO I = 1, NE
+!_REAL         CALL DCOPY(NV, HZ(1,I), 1, Z(1,I), 1)
+!_COMPLEX         CALL ZCOPY(NV, HZ(1,I), 1, Z(1,I), 1)
+      End Do
+#endif
+      CALL STOP_TIMER(time_backproject)
+      write(6,1919)  &
+      '   HxZ     SxZ   form F    SxF     HxF  project    SEP  backproj' &
+       , READ_CPU_TIME(time_HxZ),  &
+         READ_CPU_TIME(time_SxZ),  &
+         READ_CPU_TIME(time_formF), &
+         READ_CPU_TIME(time_SxF),  &
+         READ_CPU_TIME(time_HxF),  &
+         READ_CPU_TIME(time_projectH), &
+         READ_CPU_TIME(time_proj_gsep), &
+         READ_CPU_TIME(time_backproject), '  (CPU TIME)'
+#ifdef Parallel
+      write(6,1920)  &
+         READ_WALL_TIME(time_HxZ),  &
+         READ_WALL_TIME(time_SxZ),  &
+         READ_WALL_TIME(time_formF), &
+         READ_CPU_TIME(time_SxF),  &
+         READ_CPU_TIME(time_HxF),  &
+         READ_WALL_TIME(time_projectH), &
+         READ_WALL_TIME(time_proj_gsep), &
+         READ_WALL_TIME(time_backproject), '  (WALL CLOCK)'
+      write(6,1921) READ_CPU_TIME(time_residual), READ_WALL_TIME(time_residual)
+#endif
+ 1919 format((a),/,8(f7.1,1x),(a))
+ 1920 format(8(f7.1,1x),(a))
+ 1921 format('Time for Residual: ', 2(f7.1,1x))
+
+#ifdef Parallel
+
+      deallocate( HPROJ )
+      deallocate( SPROJ )
+      deallocate( ZPROJ )
+      deallocate( HZ )
+      deallocate( SZ )
+      deallocate( SPH )
+      deallocate( SPS )
+      deallocate( F )
+      deallocate( S4 )
+      deallocate( S5 )
+      deallocate( H4 )
+      deallocate( H5 )
+      IF(MYID.EQ.0) THEN
+        deallocate( HZLOCAL )
+        deallocate( SZLOCAL )
+        deallocate( FLOCAL )
+      END IF
+      deallocate( DIAGH )
+      deallocate( DIAGS )
+      deallocate( DIAGHPROJ )
+      deallocate( DIAGSPROJ )
+      deallocate( ICLUSTR,GAP )
+!_COMPLEX      deallocate( RWORK )
+      deallocate( IFAIL, IWORK, WORK )
+#else
+      deallocate( HPROJ )
+      deallocate( SPROJ )
+      deallocate( ZPROJ )
+      deallocate( HZ )
+      deallocate( SZ )
+      deallocate( SPH )
+      deallocate( SPS )
+      deallocate( F )
+      deallocate( DIAGH )
+      deallocate( DIAGS )
+      deallocate( IND )
+      deallocate( RESID )
+      deallocate( RESIDHZ )
+      deallocate( RESIDSZ )
+
+      deallocate( IWORK )
+      deallocate( WORK )
+      deallocate( IFAIL )
+!_COMPLEX      deallocate( RWORK )
+#endif
+
+      RETURN
+!
+!        End of 'SECLIT'
+!
+      END

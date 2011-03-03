@@ -1,0 +1,142 @@
+Only in ./: #Makefile#
+Only in ./: Makefile.orig
+Only in ./: Makefile.orig~
+Only in ./: Makefile~
+diff ./atpar.F /amor/gmadsen/tmp/SRC_lapw2/atpar.F
+239,244c239,244
+<             IF(l.EQ.1) THEN
+<                DO m=1,imax
+<                   r_m = r0(jatom)*EXP(dx(jatom)*(m-1))
+<                   WRITE(94,'(4e14.6)') r_m,a1lo(m,jlo,l),rrad1(m,l),rade1(m,l)
+<                ENDDO
+<             ENDIF
+---
+> !!$            IF(l.EQ.1) THEN
+> !!$               DO m=1,imax
+> !!$                  r_m = r0(jatom)*EXP(dx(jatom)*(m-1))
+> !!$                  WRITE(94,'(4e14.6)') r_m,a1lo(m,jlo,l),rrad1(m,l),rade1(m,l)
+> !!$               ENDDO
+> !!$            ENDIF
+Only in ./: atpar.F~
+Only in ./: compile.msg
+Only in ./: diracout.f~
+Only in /amor/gmadsen/tmp/SRC_lapw2/: dosplas.lapack.f
+diff ./errclr.f /amor/gmadsen/tmp/SRC_lapw2/errclr.f
+64,66c64,66
+<       OPEN (99,FILE=FNAME,STATUS='REPLACE')
+< !      ENDFILE (99)
+< !      CLOSE (99)
+---
+>       OPEN (99,FILE=FNAME)
+>       ENDFILE (99)
+>       CLOSE (99)
+Only in ./: fermi.f~
+Only in ./: fermi5.f~
+Only in ./: fourir.F~
+Only in ./: gtfnam.F~
+Only in /amor/gmadsen/tmp/SRC_lapw2/: hmsec.f
+Only in ./: l2main.F_orig
+Only in ./: l2main.F~
+Binary files ./lapw2 and /amor/gmadsen/tmp/SRC_lapw2/lapw2 differ
+diff ./lapw2.F /amor/gmadsen/tmp/SRC_lapw2/lapw2.F
+59c59
+<            do i=80,5,-1
+---
+>            do i=80,6,-1
+89a90
+> 
+Only in ./: lapw2.F~
+Only in ./: lapw2c
+diff ./lomain.f /amor/gmadsen/tmp/SRC_lapw2/lomain.f
+11,18c11,16
+<   INTEGER, INTENT(in)   :: nemin,nemax,lfirst,latom,n,jatom
+<   COMPLEX*16            :: YL((LMAX2+1)*(LMAX2+1))
+<   COMPLEX*16            :: alm((LMAX2+1)*(LMAX2+1),nume)  &
+<                            ,blm((LMAX2+1)*(LMAX2+1),nume) &
+<                            ,clm((LMAX2+1)*(LMAX2+1),nume,nloat)              
+<   COMPLEX*16            :: PHSHEL                     
+<   INTEGER               :: i,l,m,m1,jlo,jneq,num,index
+<   REAL*8                :: k(3),krot(3),twopi,arg,argt
+---
+>   INTEGER, INTENT(in) :: nemin,nemax,lfirst,latom,n,jatom
+>   COMPLEX*16       YL((LMAX2+1)*(LMAX2+1)), &
+>        ALM((LMAX2+1)*(LMAX2+1),nume),               &
+>        BLM((LMAX2+1)*(LMAX2+1),nume), &
+>        cLM((LMAX2+1)*(LMAX2+1),nume,nloat)              
+>   COMPLEX*16       PHSHEL                     
+21,25c19,26
+<   complex*16            :: ayp,byp,cyp 
+<   COMPLEX*16            :: aalm(3,nume,(LMAX2+1)*(LMAX2+1)) &
+<                            ,bblm(3,nume,(LMAX2+1)*(LMAX2+1)) &
+<                            ,cclm(3,nume,(LMAX2+1)*(LMAX2+1),nloat)
+<   logical               :: force,forcea
+---
+>   complex*16 &
+>        ayp,byp,cyp &
+>        ,aalm(3,nume,(LMAX2+1)*(LMAX2+1)) &
+>        ,bblm(3,nume,(LMAX2+1)*(LMAX2+1)) &
+>        ,cclm(3,nume,(LMAX2+1)*(LMAX2+1),nloat)
+>   logical     force,forcea
+>   INTEGER             :: i,l,m,m1,jlo,jneq,num,index
+>   real*8              :: k(3),krot(3),twopi,arg1,arg2,arg3,argt
+26a28,29
+>   !                                                                       
+>   !.initialise a,b,c of lo                                      
+29a33
+>      !        if (.not.loor(l)) goto 10
+38,44c42,47
+<               bk(1:3)=MATMUL(bkrot(1:3),br1(1:3,1:3))
+< !!$              BK(1)=BKROT(1)*BR1(1,1)+BKROT(2)*BR1(1,2) &
+< !!$                   +BKROT(3)*BR1(1,3)   
+< !!$              BK(2)=BKROT(1)*BR1(2,1)+BKROT(2)*BR1(2,2) &
+< !!$                   +BKROT(3)*BR1(2,3)   
+< !!$              BK(3)=BKROT(1)*BR1(3,1)+BKROT(2)*BR1(3,2) &
+< !!$                   +BKROT(3)*BR1(3,3)   
+---
+>               BK(1)=BKROT(1)*BR1(1,1)+BKROT(2)*BR1(1,2) &
+>                    +BKROT(3)*BR1(1,3)   
+>               BK(2)=BKROT(1)*BR1(2,1)+BKROT(2)*BR1(2,2) &
+>                    +BKROT(3)*BR1(2,3)   
+>               BK(3)=BKROT(1)*BR1(3,1)+BKROT(2)*BR1(3,2) &
+>                    +BKROT(3)*BR1(3,3)   
+61,67c64,71
+<               CALL ROTATE(BK,ROTLOC(1,1,JATOM),BKRLOC)
+<               CALL YLM(BKRLOC,LOMAX,YL)
+<               ARG=BKROT(1)*POS(1,LFIRST)+BKROT(2)*POS(2,LFIRST)+ & 
+<                    BKROT(3)*POS(3,LFIRST)
+<               ARGT=BKXlo(I)*TAUIJ(1,LATOM)+BKYlo(I)*TAUIJ(2,LATOM)+ &
+<                    BKZlo(I)*TAUIJ(3,LATOM)
+<               PHSHEL=EXP( IMAG*(ARG+ARGT)*twopi )
+---
+>               CALL ROTATE (BK,ROTLOC(1,1,JATOM),BKRLOC)
+>               CALL YLM (BKRLOC,LOMAX,YL)
+>               ARG1=BKROT(1)*POS(1,LFIRST)*TWOPI
+>               ARG2=BKROT(2)*POS(2,LFIRST)*TWOPI
+>               ARG3=BKROT(3)*POS(3,LFIRST)*TWOPI
+>               ARGT=(BKXlo(I)*TAUIJ(1,LATOM)+BKYlo(I)*TAUIJ(2,LATOM)+ &
+>                    BKZlo(I)*TAUIJ(3,LATOM))*TWOPI
+>               PHSHEL=EXP( IMAG*(ARG1+ARG2+ARG3+ARGT) )
+Only in ./: lomain.f_old
+Only in ./: lomain.f~
+Only in ./: modules.F~
+Only in ./: open_helpfile.f~
+diff ./outp.f /amor/gmadsen/tmp/SRC_lapw2/outp.f
+233,234c233,234
+<           STOP
+< !        GOTO 910
+---
+>          STOP
+> !         GOTO 910
+Only in ./: outp.f_pblaha
+Only in ./: pip
+diff ./psplit.f /amor/gmadsen/tmp/SRC_lapw2/psplit.f
+196c196
+<         IF(TCB100(L,NUM).GT.bTEST) TEST=TCB100(L,NUM)                   
+---
+>         IF(TCB100(L,NUM).GT.BTEST) TEST=TCB100(L,NUM)                   
+Only in ./: psplit.f_pblaha
+Only in ./: psplit.f~
+Only in ./: read_vec.F~
+Only in ./: recfil.f~
+Only in ./: rotdef.f~
+Only in ./: script

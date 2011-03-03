@@ -1,0 +1,297 @@
+#!/bin/csh -f
+#
+unalias rm
+
+set name     = $0
+set name     = $name:t 		#name of this script-file
+set ldir      = `pwd`
+set file     = `pwd`
+set file     = $file:t		#tail of file-names
+unset remove
+unset Remove
+unset silent
+unset save
+unset zip
+unset clean
+unset addr
+unset show
+set next=put
+set mode=
+
+set file_start=($file.struct  $file.clmsum $file.clmup $file.clmdn $file.klist $file.kgen $file.dmatup $file.dmatdn $file.vorbup $file.vorbdn $file.scf $file.broyd1 $file.broyd2 .machines '*.in*' )
+
+set file_end_append=($file.dayfile $file.scf )
+
+set file_end_optional=($file.'vector*' $file.'energy*' $file.'help*' )
+
+set file_end_default=($file.struct $file.'in1*' $file.'in2*' $file.clmsum $file.clmup $file.clmdn $file.'clmval*' $file.'clmcor*' $file.'dmat*' $file.vorb\*  $file.broyd\* $file.output0\* $file.output1\* $file.outputso\* $file.output2\* $file.outputdm\* $file.outputorb\* $file.outputc\* $file.outputm '*.error' )
+set file_end=("$file_end_append $file_end_default")
+#---> path- and file-names
+#
+if ($#argv == 0) goto help
+while ($#argv)
+  switch ($1)
+  case -[H|h]
+    goto help
+    breaksw
+  case -show
+    echo 'file_start:'
+    echo "$file_start"
+    echo 'file_end_append:'
+    echo "$file_end_append"
+    echo 'file_end_optional:'
+    echo "$file_end_optional"
+    echo 'file_end_default:'
+    echo "$file_end_default"
+    exit(0)
+    breaksw
+  case -z
+    set zip
+    shift
+    breaksw
+  case -s
+    set silent
+    shift
+    breaksw
+  case -r
+    set remove
+    shift
+    breaksw
+  case -R
+    set Remove
+    shift
+    breaksw
+  case -put
+    set next=put
+    shift
+    breaksw
+  case -get
+    set next=get
+    shift
+    breaksw
+  case -all
+    set mode=all
+    shift
+    breaksw
+  case -start
+    set mode=start
+    shift
+    breaksw
+  case -end
+    set mode=end
+    shift
+    breaksw
+  case -clean
+    set clean
+    shift
+    breaksw
+  case -save
+    set save
+    shift
+    set savedir=$1
+    shift
+    breaksw
+  default: 
+    set addr = $1
+    set addr1=`echo $addr|cut -d: -f1`
+    set addr2=$addr1\:
+    set rdir=`echo $addr|cut -d: -f2`   
+   shift
+    breaksw
+  endsw
+end
+
+if !($?addr) set next=help
+goto $next
+
+put:
+ssh $addr1 "if (-f $rdir) set status=9"
+if ($status == 9) then
+   echo "Remote directory is a file. Migration stopped"
+   exit 9
+endif
+if ($?save) then
+   if($?silent) then
+     save_lapw -s -f -d $savedir
+     tar -cf /tmp/$file.tar $savedir
+   else
+     save_lapw -f -d $savedir
+     tar -cvf /tmp/$file.tar $savedir
+   endif
+   goto put1
+endif
+if ($?clean) then
+   if($?silent) then
+     clean_lapw -s 
+   else
+     clean_lapw 
+   endif
+endif
+if ($mode == 'all' ) then
+   if($?silent) then
+       tar -cf  /tmp/$file.tar * >&/dev/null
+   else
+       echo 'Migration of the following files:'
+       tar -cvf /tmp/$file.tar *
+   endif
+else if ($mode == 'end' ) then
+     (/bin/ls  $file_end > _listing_ ) >&/dev/null 
+   if($?silent) then
+     tar -cf /tmp/$file.tar `cat _listing_` >&/dev/null
+     rm _listing_
+   else
+     echo 'Migration of the following files:'
+     tar -cvf /tmp/$file.tar `cat _listing_` 
+     rm _listing_
+   endif
+else   
+     (/bin/ls $file_start > _listing_ ) >&/dev/null
+   if($?silent) then
+     tar -cf /tmp/$file.tar `cat _listing_` >&/dev/null
+     rm _listing_
+   else
+     echo 'Migration of the following files:'
+     tar -cvf /tmp/$file.tar `cat _listing_` 
+     rm _listing_
+   endif
+endif
+
+put1:
+if($?zip) then
+   gzip -f /tmp/$file.tar
+else
+   mv /tmp/$file.tar /tmp/$file.tar.gz
+endif
+ssh $addr1 "if !(-d $rdir) mkdir $rdir"
+if ($status != 0) then
+   echo "Could not create directory on remote host: mkdir $rdir    failed"
+   exit 6
+endif
+   if($?silent) then
+     scp -q /tmp/$file.tar.gz $addr
+   else
+     scp  /tmp/$file.tar.gz $addr
+   endif
+if($?zip) then
+   ssh $addr1 "cd $rdir;gunzip $file.tar.gz;tar -xf $file.tar;rm $file.tar"    
+else
+   ssh $addr1 "cd $rdir;mv $file.tar.gz $file.tar;tar -xf $file.tar;rm $file.tar"    
+endif
+if ($status == 0) then
+   if ($?remove) then
+     rm -rf *
+   endif
+   if ($?Remove) then
+     cd ..;rm -rf $ldir
+   endif
+endif
+rm  /tmp/$file.tar.gz
+   if(! $?silent) echo "migration to    $addr    finished"
+
+exit 0
+
+
+get:
+ssh $addr1 "if !(-d $rdir) set status=9"
+if ($status == 9) then
+   echo "Remote directory does not exist. Migration stopped"
+   exit 9
+endif
+if ($?save) then
+   if($?silent) then
+     ssh $addr1 "cd $rdir;save_lapw -s -f -d $savedir;tar -cf  /tmp/$file.tar $savedir >&/dev/null "
+   else
+     ssh $addr1 "cd $rdir;save_lapw -f -d $savedir;tar -cf  /tmp/$file.tar $savedir"
+   endif
+   goto get1
+endif
+if ($?clean) then
+   if($?silent) then
+     ssh $addr1 "cd $rdir;clean_lapw -s "
+   else
+     ssh $addr1 "cd $rdir;clean_lapw "
+   endif
+endif
+if ($mode == 'all' ) then
+   if($?silent) then
+       ssh $addr1 "cd $rdir;tar -cf  /tmp/$file.tar * >&/dev/null "
+   else
+       ssh $addr1 "cd $rdir;tar -cvf /tmp/$file.tar * "
+   endif
+else if ($mode == 'start' ) then
+     ssh $addr1 "( cd $rdir;/bin/ls $file_start > _listing_ ) > & /dev/null"
+   if($?silent) then
+     ssh $addr1 "(cd $rdir;tar -cf /tmp/$file.tar `ssh $addr1 cat $rdir/_listing_` ;rm _listing_ )"
+   else
+     echo 'Migration of the following files:'
+     ssh $addr1 "(cd $rdir;tar -cvf /tmp/$file.tar `ssh $addr1 cat $rdir/_listing_`;rm _listing_ )"
+   endif
+else   
+     ssh $addr1 "( cd $rdir;/bin/ls $file_end > _listing_ ) >&/dev/null"
+   if($?silent) then
+     ssh $addr1 "(cd $rdir;tar -cf /tmp/$file.tar `ssh $addr1 cat $rdir/_listing_`;rm _listing_) "
+   else
+     echo 'Migration of the following files:'
+     ssh $addr1 "( cd $rdir;tar -cvf /tmp/$file.tar `ssh $addr1 cat $rdir/_listing_`;rm _listing_)"
+   endif
+endif
+get1:
+if($?zip) then
+   ssh $addr1 "gzip -f /tmp/$file.tar "
+else
+   ssh $addr1 "mv /tmp/$file.tar /tmp/$file.tar.gz  "
+endif
+if($?silent) then
+     scp -q $addr2/tmp/$file.tar.gz .
+else
+     scp  $addr2/tmp/$file.tar.gz .
+endif
+if($?zip) then
+   gunzip $file.tar.gz;tar -xf $file.tar;rm $file.tar     
+else
+   mv $file.tar.gz $file.tar;tar -xf $file.tar;rm $file.tar     
+endif
+if ($status == 0) then
+   if ($?remove) then
+     ssh $addr1 "cd $rdir;rm -rf * "
+   endif
+   if ($?Remove) then
+     ssh $addr1 "rm -rf $rdir "
+   endif
+endif
+ssh $addr1 "rm  /tmp/$file.tar.gz "
+
+exit 0
+
+
+
+
+help:
+cat << theend 
+
+PROGRAM:	$0 [FLAGS OPTIONS] [user@]host:path/case-dir
+
+PURPOSE:	Migration of a case to a remote computer (to be called within 
+                the case-dir).  Needs working  ssh/scp; local and remote 
+                case-dir must have the same name 
+OPTIONS:
+-put           -> transfer of files to a remote host (default)
+-get           -> transfer of files from a remote host
+
+-all           -> the complete directory is copied
+-start         -> only files to start an scf cycle are copied (default for put)
+-end           -> only new files resulting from an scf cycle are copied 
+                  (default for get)
+-save savedir  -> "save_lapw -d save_dir" is issued and only save_dir is copied
+
+FLAGS:
+-h             -> help
+-clean         -> a clean_lapw is issued before copying
+-r             -> files in source directory are removed after copying
+-R             -> source directory (and all files) are removed after copying
+-s             -> do it silent (in batch mode)
+-z             -> gzip files before scp (for slow network)
+theend
+
+exit(1)
+ 

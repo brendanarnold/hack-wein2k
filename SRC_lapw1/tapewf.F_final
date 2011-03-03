@@ -1,0 +1,68 @@
+      SUBROUTINE TAPEWF(KNAME,SX,SY,SZ,NV,NE,WEIGHT,IPGR)
+      use matrices, only: kzz, Z, E => EIGVAL
+      use char, only  : LATTIC, NAME
+      use orth, only  : ORTHO
+      use parallel, only: DESCZ, MYID, ICTXTALL, DESCLOCAL
+      IMPLICIT NONE
+!
+!        Scalar Arguments   
+!
+      INTEGER            NE, NV
+      DOUBLE PRECISION   SX, SY, SZ, WEIGHT
+      CHARACTER*3        IPGR
+      CHARACTER*10       KNAME
+!_REAL      DOUBLE PRECISION, allocatable ::    ZLOCAL(:,:)
+!_COMPLEX      complex*16, allocatable ::       ZLOCAL(:,:)
+!
+!     ..................................................................
+!
+!        write the wavefunction (unformatted) to a file (vector-file)
+!
+!     ..................................................................
+!       
+!        Local Scalars   
+!
+      INTEGER            I, J
+      DOUBLE PRECISION   SXHELP
+!       
+!  transformation into primitiv monoclinic basis
+      IF(.not.ORTHO.and.lattic(1:3).eq.'CXZ') then
+         sxhelp=sx
+         sx=sx+sz
+         sz=sxhelp-sz
+      endif 
+!                                                                       
+#ifdef Parallel
+!   Note: Parallel Implementation: Process 0 has to have enough memory
+!     to hold *all* eigenvectors
+!     Can be improved by blocking over NE and communicating 
+!       only Z(1:NV,i:min(i+BLOCKSIZE,NE)) with i=1,NE,BLOCKSIZE
+      IF(MYID.EQ.0) allocate( ZLOCAL(NV, NE) )
+!_REAL      CALL PDGEMR2D( NV, NE, Z, 1, 1, DESCZ, ZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+!_COMPLEX      CALL PZGEMR2D( NV, NE, Z, 1, 1, DESCZ, ZLOCAL, 1, 1, DESCLOCAL, ICTXTALL)
+#endif
+      IF(myid.eq.0) THEN
+	WRITE(10) SX, SY, SZ, KNAME, NV, NE, WEIGHT, IPGR
+	WRITE(11,'(3e19.12,a10,2i6,f5.1,a3)') SX, SY, SZ, KNAME, NV, NE, WEIGHT, IPGR      
+	WRITE(10) (KZZ(1,I),KZZ(2,I),KZZ(3,I),I=1,NV)
+	DO I = 1, NE
+         WRITE(10) I, E(I)
+         WRITE(11,*) I, E(I)
+#ifdef Parallel
+!_REAL        WRITE(10) (ZLOCAL(J,I),J=1,NV)
+!_COMPLEX         WRITE(10) (CONJG(ZLOCAL(J,I)),J=1,NV)
+#else
+!_REAL         WRITE(10) (Z(J,I),J=1,NV)
+!_COMPLEX         WRITE(10) (CONJG(Z(J,I)),J=1,NV)
+#endif
+        END DO
+      END IF
+#ifdef Parallel
+      IF(MYID.EQ.0) deallocate( ZLOCAL )
+#endif
+!
+      RETURN
+!
+!        End of 'TAPEWF'
+!
+      END

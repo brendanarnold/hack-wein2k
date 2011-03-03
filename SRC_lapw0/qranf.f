@@ -1,0 +1,10 @@
+      FUNCTION QRANF(X,J)
+      IMPLICIT REAL*8 (A-H,O-Z)
+!
+!     QUASI RANDOM GENERATOR IN THE INTERVAL (0.,1.)
+!
+      J=J+1
+      QRANF=J*X
+      QRANF=QRANF-AINT(QRANF)
+      RETURN
+      END

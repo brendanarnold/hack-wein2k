@@ -1,0 +1,50 @@
+exetype direct
+exeprog clean_lapw
+cmdline x lapw0
+spin up
+spinpol 0
+convtype default
+convval 0.0001
+convdim Ry
+defonly 0
+para 0
+iter 0
+iter0 0
+nohns 0
+nohns_it 6
+complex 0
+ene 1
+fer 0
+dis 0
+nec01 0
+nec02 0
+for 0
+qtl 0
+efg 0
+eta 0
+cha 0
+dto 0
+cto 0
+nto 0
+cup 0
+cdn 0
+hff 0
+other 0
+scfext 1
+scfother 
+grepstring 
+all 1
+lines 10
+separate 1
+atoms 1
+pos_main 534x226+0+517
+pos_single 
+pos_run 
+pos_config 
+pos_edit 
+pos_tasks 
+pos_analysis 
+pos_help 
+pos_mini 
+pos_struct 
+units atu

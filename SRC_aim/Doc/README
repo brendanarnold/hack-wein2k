@@ -1,0 +1,157 @@
+C
+C     AIM (1999-2000) by Javier D. Fuhr and Jorge O. Sofo
+C
+C     Instituto Balseiro and Centro Atomico Bariloche
+C     S. C. de Bariloche - Rio Negro
+C     Argentina
+C     e-mail: fuhr@cab.cnea.gov.ar
+C             sofo@cab.cnea.gov.ar
+C
+
+*Files:
+	For all cases, one needs
+	    case.struct
+	    case.clmsum
+	    case.inaim
+	for calculating the charge in an atom, one also needs
+	    case.surf
+
+*Structure of case.inaim:
+	The structure of this files is:
+
+	    SWITCH
+	    parameters
+	    SWITCH
+	    parameters
+	    ...
+	    END
+
+	the SWITCH tells the program what to calculate, and the
+	parameters depend on the SWITCH. After finishing with one
+	calculation the program continue reading the case.inaim file and
+	calculating the other SWITCHs until if finds an END.
+
+	At the moment the possible SWITCHs with their respective
+	parameters are:
+	
+**To obtain critical points:
+
+	CRIT
+	index			# index of the atom counting
+				  multiplicity 
+	TWO/THRE/FOUR/ALL	# if search the critical points from
+				  the middle between two atoms, three
+				  atoms, four atoms or both two and
+				  three.  
+	NSA NSB NSC		# same as lapw5
+
+	the output is the case.crit file with the following format: n
+	lines each one with a different critical point and with the
+	following information
+
+	:PCn iat ipos  a1 a2 a3 l1 l2 l3 c lap rho
+
+	where :PCn indicates from which point the CP was found (middle
+	of n atoms), iat and ipos are the indices of the
+	neighbourg; a1 a2 a3 are the coordinates of the CP in lattice
+	vectors; l1 l2 l3 are the eigenvalues of the Hessian in the
+	CP. c is the caracter of the CP (-3, -1, 1 or 3); lap is the
+	laplacian of the density in the CP (lap=l1+l2+l3) and rho is
+	the density in the CP.
+	More information, like the eigenvectors at the CP can be found
+	in the case.outputb file.
+
+** To obtain the bader surface in a grid
+
+	SURF
+	index			# index of the atom counting
+				  multiplicity 
+	nth themin themax	# number of theta's in the grid,
+				  minimum and maximum tetha
+	nph phimin phimax	# number of phi's in the grid,
+				  minimum and maximum phi
+	h0 frmin nstep		# parameters for the routine to follow
+	                          the gradient. 
+                                  h0 (~0.1): step in real space
+                                  frmin (~0.8-1): gives the radius when
+				  the routine consider the path has
+				  enter an atom (rmin = frmin * rmt).
+                                  nstep (~8): number of steps before we 
+				  check if we are in or out the surface
+	r0 dr0			# initial radius and step for the
+				  search of the surface radius
+	NSA NSB NSC
+	
+	The result is written to case.surf. This file has
+	three lines at the beginning with the following information
+
+	index x y z		# index of the atom and coordinates in
+				  orthogonal coordinates of it.
+	nth themin themax	# idem as in the input
+	nph phimin phimax	# idem as in the input
+
+	and then nth*nph lines with
+
+	theta phi r weight	# weight is used for the integration
+
+	Notes: the grid is not regular but is defined as the grid to
+	integrate with a Gaussian method.
+
+** To integrate the charge inside a bader surface:
+
+	IRHO
+	WEIT/NWEI		# this switch indicates if the
+				  case.surf file includes the weight
+				  factor for the integration (which is
+				  the case if the case.surf has been
+				  generated with SURF)
+	GAUS/NGAU		# this is ONLY necessary when the
+				  before switch is NWEI and specified if
+				  the weight used for the integration
+				  correspond to the Gauss integration
+				  or 1.0.
+	np			# number of points to use in the
+				  radial integration outside the MT
+				  np~30 should be enough.
+
+
+** To find the "radius" of the bader surface for given theta's
+   and phi's
+
+	RSUR
+	index n			# index of the atom and number of
+				  "radius" to calculate
+	h0 frmin		# idem above
+	r0 dr0			# initial radius and step for the
+				  search of the surface radius
+	NSA NSB NSC
+	theta1 phi1
+	...
+	thetan phin		# n lines giving the angular
+				  coordinates 
+	
+	the output is written to case.surf, where each line has the
+	format:
+
+	theta phi r
+
+** To follow the gradient until the path enters an atom, a
+   pseudoatom or it get up to a point where the density is lower
+   than 10^(-5):
+
+	FOLL
+	index			# index of the atom counting
+				  multiplicity 
+	h0  frmin		# parameters for the routine to follow
+	                          the gradient. h0 is the step in real
+				  space, and frmin gives the radius when
+				  the routine consider the path has
+				  enter an atom (rmin = frmin * rmt).
+	NSA NSB NSC	        # idem as alapw5
+	x y z			# components of the initial point in
+				  orthogonal coordinates 
+
+	the output is found in the case.outputb file and doing grep
+	:FPOS of this file one obtain the coordinates of the path ( in
+	orthogonal coordinates) in each step. Doing grep :FGRAD, one
+	can also obtain the gradient in each of this points.

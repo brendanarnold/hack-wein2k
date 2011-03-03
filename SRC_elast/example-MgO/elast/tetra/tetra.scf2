@@ -1,0 +1,41 @@
+
+
+:NOE  : NUMBER OF ELECTRONS          =  16.000
+
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.35442
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR. -1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 6                                                                
+       LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.098628
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+:QTL01: 2.061 5.988 0.044 0.005 1.991 3.996 0.000 0.014 0.005 0.018 0.008 0.000
+:VZZ01: EFG INSIDE SPHERE   1 =     1.019924      UP TO R =   1.70000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR. -2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 6                                                                
+       LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.539441
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+:QTL02: 1.629 3.905 0.005 0.000 1.291 2.614 0.000 0.000 0.000 0.000 0.003 0.000
+:VZZ02: EFG INSIDE SPHERE   2 =     0.785533      UP TO R =   1.70000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      15.999999
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.273518
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             

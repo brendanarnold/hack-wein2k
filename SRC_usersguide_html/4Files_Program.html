@@ -1,0 +1,2862 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4 Files and Program Flow</TITLE>
+<META NAME="description" CONTENT="4 Files and Program Flow">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="5Shell_scripts.html">
+<LINK REL="previous" HREF="2Detailed_description.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="5Shell_scripts.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1141"
+  HREF="5Shell_scripts.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1137"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1131"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1139"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1142"
+  HREF="5Shell_scripts.html">5 Shell scripts</A>
+<B> Up:</B> <A NAME="tex2html1138"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1132"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+ &nbsp; <B>  <A NAME="tex2html1140"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1143"
+  HREF="4Files_Program.html#SECTION05110000000000000000">1 Flow of input and output files</A>
+<LI><A NAME="tex2html1144"
+  HREF="4Files_Program.html#SECTION05120000000000000000">2 Input/Output files</A>
+<LI><A NAME="tex2html1145"
+  HREF="4Files_Program.html#SECTION05130000000000000000">3 The case.struct.file</A>
+<LI><A NAME="tex2html1146"
+  HREF="4Files_Program.html#SECTION05140000000000000000">4 The case.scf file</A>
+<LI><A NAME="tex2html1147"
+  HREF="4Files_Program.html#SECTION05150000000000000000">5 Flow of programs</A>
+<UL>
+<LI><A NAME="tex2html1148"
+  HREF="4Files_Program.html#SECTION05151000000000000000">1 Core, semi-core and valence states</A>
+<LI><A NAME="tex2html1149"
+  HREF="4Files_Program.html#SECTION05152000000000000000">2 Spin-polarized calculation</A>
+<LI><A NAME="tex2html1150"
+  HREF="4Files_Program.html#SECTION05153000000000000000">3 Fixed-spin-moment (FSM) calculations</A>
+<LI><A NAME="tex2html1151"
+  HREF="4Files_Program.html#SECTION05154000000000000000">4 Antiferromagnetic (AFM) calculations</A>
+<LI><A NAME="tex2html1152"
+  HREF="4Files_Program.html#SECTION05155000000000000000">5 Spin-orbit interaction</A>
+<LI><A NAME="tex2html1153"
+  HREF="4Files_Program.html#SECTION05156000000000000000">6 Orbital potentials</A>
+<LI><A NAME="tex2html1154"
+  HREF="4Files_Program.html#SECTION05157000000000000000">7 Exact-exchange and Hybrid functionals for correlated electrons</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05100000000000000000"></A>
+<A NAME="cha:file-structure"></A>
+<BR>
+4 File structure and program flow
+</H1>
+
+<P>
+
+<P>
+(for naming conventions see section <A HREF="3Quick_Start.html#sec:naming-conventions">3.1</A>)
+
+<P>
+
+<H1><A NAME="SECTION05110000000000000000"></A>
+<A NAME="sec:file-flow"></A>
+<BR>
+1 Flow of input and output files
+</H1>
+
+<P>
+Each program is started with  (at least) one command line argument, e.g.
+<BLOCKQUOTE>
+<TT><B>programX programX.def</B></TT>
+
+</BLOCKQUOTE>
+in which the arguments specifies a filename, in which FORTRAN I/O
+units are connected to unix filenames. (See examples at specific
+programs). These ``<TT><B>def</B></TT>``-files<A NAME="2411"></A> are generated
+automatically when the standard <EM>WIEN2k</EM> scripts <TT><B>x</B></TT>,
+<TT><B>init_lapw</B></TT> or <TT><B>run_lapw</B></TT> are used, but may be tailored by
+hand for special applications. Using the option
+<BLOCKQUOTE>
+<TT><B>x program -d</B></TT>
+
+</BLOCKQUOTE>
+a def-file can be created without running the program. In addition
+each program reads/writes the following files:
+
+<P>
+<DL>
+<DT><STRONG>case.struct</STRONG></DT>
+<DD>a ``master`` input file, which is described below 
+  (Section <A HREF="#sec:struct-file">4.3</A>)
+</DD>
+<DT><STRONG>case.inX</STRONG></DT>
+<DD>a specific input file, where X labels the program (see 
+  def-files for each program in chapter <A HREF="6Initialization.html#cha:programs">6</A>).
+</DD>
+<DT><STRONG>case.outputX</STRONG></DT>
+<DD>an output file
+</DD>
+</DL>
+
+<P>
+The programs of the SCF cycle (see figure <A HREF="#fig:scf_flow">4.1</A>) write the
+following files:
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:scf_flow"></A><A NAME="2428"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.1:</STRONG>
+Data flow during a SCF cycle (programX.def, case.struct, case.inX, case.outputX and optional files are omitted)</CAPTION>
+<TR><TD><IMG
+ WIDTH="322" HEIGHT="816" BORDER="0"
+ SRC="img103.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/scf_flow,height=18cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<DL>
+<DT><STRONG>case.scfX</STRONG></DT>
+<DD>a file containing only the most significant output
+  (see description below).
+</DD>
+<DT><STRONG>program.error</STRONG></DT>
+<DD>error report file, should be empty after successful 
+  completion of a program (see chapter <A HREF="6Initialization.html#cha:programs">6</A>)
+</DD>
+</DL>
+
+<P>
+The following tables describe input and output files for the
+initialization programs <TT><B>nn</B></TT>, <TT><B>sgroup</B></TT>, 
+<TT><B>symmetry</B></TT>, <TT><B>lstart</B></TT>, <TT><B>kgen</B></TT>, <TT><B>dstart</B></TT> (table
+<A HREF="#tab:IO-files-init">4.1</A>), the utility programs <TT><B>tetra</B></TT>, <TT><B>irrep</B></TT>, <TT><B>spaghetti</B></TT>, <TT><B>aim</B></TT>, <TT><B>lapw7</B></TT>,  <TT><B>elnes</B></TT>, 
+ <TT><B>lapw3</B></TT>, <TT><B>lapw5</B></TT>, <TT><B>xspec</B></TT>, <TT><B>optic</B></TT>,
+<TT><B>joint</B></TT>, <TT><B>kram</B></TT>, <TT><B>optimize</B></TT> and <TT><B>mini</B></TT> (table
+<A HREF="#tab:IO-files-utility">4.2</A>) as well as for a SCF cycle of a
+non-spin-polarized case (table <A HREF="#tab:IO-files-scf">4.2</A>).  Optional
+input and output files are used only if present in the respective case
+subdirectory or requested/generated by an input switch. The connection
+between FORTRAN units and filenames are defined in the respective
+<TT><B>programX.def</B></TT> files. The data flow is illustrated in Fig.
+<A HREF="#fig:scf_flow">4.1</A>.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="2471"></A>
+<TABLE>
+<CAPTION><STRONG>Table 4.1:</STRONG>
+Input and output files of init programs</CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+    <FONT SIZE="-2">    </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">
+      program </FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> needs</FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> generates</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      NN </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> nn.def</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputnn</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct_nn </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">  
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      SGROUP </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputsgroup </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct_sgroup</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">    </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      SYMMETRY </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> symmetry.def</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputs </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct_st</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  case.struct  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.in2_st</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.in2_st </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LSTART </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lstart.def</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputst</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.rspup</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">  
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.rsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.rspdn</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inst </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in0_st</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp_st</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in1_st </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vspdn_st</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in2_st</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.sigma</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inc_st</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inm_st</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inm_restart </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      KGEN </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> kgen.def</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputkgen </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.klist</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.kgen </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      DSTART </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> dstart.def</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputd </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmsum(up)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.rsp(up)</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">dstart.error</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in1</FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in2</FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+</TABLE>
+    
+    <A NAME="tab:IO-files-init"></A>  
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Input and output files of utility programs
+
+
+<DIV ALIGN="CENTER"><FONT SIZE="-2"><A NAME="tab:IO-files-scf"></A>  </FONT><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">
+      program </FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> needs</FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> generates</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      SPAGHETTI </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> spaghetti.def</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.qtl</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.spaghetti_ps</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.spaghetti_ene</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.insp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputso</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputsp </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.irrep</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.band.agr</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.output1 </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      TETRA </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> tetra.def</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputt </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.int </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.dos1(2,3)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.qtl </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.dos1ev(1,2,3)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.kgen </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW3 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapw3.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.output3</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.rho</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in2 </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmsum </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmsum</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW5 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapw5.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.sigma </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.output5</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.rho.oned</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.rho</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in5 </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmval </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      XSPEC </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">xspec.def </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputx </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.coredens  </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inc </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.dos1ev </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.int </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.xspec </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.txspec </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.m1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.qtl </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.m2 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      OPTIC  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">optic.def </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputop </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.symmat </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">    
+             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.mat_diag </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inop </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector</FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      JOINT </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">joint.def </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputjoint</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.sigma_intra</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.injoint </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.joint</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.intra</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.kgen </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.weight </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.symmat </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.mat_diag </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      KRAM  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">kram.def </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.epsilon</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.eloss</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inkram </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.sigmak</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.sumrules</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.joint </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      OPTIMIZE </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case_initial.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">optimize.job</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case_vol_xxxxx.struct</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case_c/a_xxxxx.struct</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      MINI </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">mini.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.scf_mini</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmsum_inter  </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.tmpM</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.tmpM1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.finM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.constraint</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.scf </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmhist</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scf_mini1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">.min_hess</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> .minrestart </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      IRREP </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputirrep </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.irrep</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      AIM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputaim </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.crit</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmsum</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.surf</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inaim </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW7 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.output7 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.abc</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.grid</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.in7 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.psink </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      QTL </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputq </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector</FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.qtl</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inq </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+</TABLE></DIV><FONT SIZE="-2">
+<A NAME="tab:IO-files-utility"></A></FONT>
+
+<P>
+<DIV ALIGN="CENTER">
+Input and output files of main programs in an SCF cycle
+
+    <FONT SIZE="-2">    </FONT><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">
+      program </FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> needs</FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> generates</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> necessary </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> optional</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW0 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapw0.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmup/dn </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.output0 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.r2v</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scf0 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vcoul</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.in0   </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vsp(up/dn) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vtotal</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmsum</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vns(up/dn) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      ORB   </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> orb.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.energy  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputorb </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.br1orb</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vorb_old</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scforb</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.br2orb</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.inorb</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vorb </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.dmat</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">orb.error</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapw1.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vns </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.output1(s)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.nsh(s)</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.klist </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scf1(s)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.in1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vector(s)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.energy </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPWSO </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">lapwso.def </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputso</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vectorso</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inso </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scfso</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vectordum</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vector </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.norm </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">lapwso.error </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.energy </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPW2 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapw2.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.kgen </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.output2(s) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.qtl(s)</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.nsh(s)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.scf2(s)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.weight</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.in2(s)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.weight</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clm[val<IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$\vert$">sc] </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.weigh</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector(s)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.weigh</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.help03*</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.energy </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LAPWDM</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lapwdm.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inso </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputdm </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.scfdm</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.indm</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.dmat </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vector</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">lapwdm.error</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.vsp </FONT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.weigh </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.energy </FONT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      SUMPARA </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.scf2p</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputsum</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmval </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmval </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">             </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scf2 </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      LCORE  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lcore.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vns </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.outputc </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.corewf</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2">       
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scfc </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inc </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmcor </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.vsp </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> lcore.error </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=5><FONT SIZE="-2"> 
+      
+      After LCORE the <TT><B>case.scfX</B></TT> 
+        files are appended to <TT><B>case.scf</B></TT> and the </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=5><FONT SIZE="-2"> 
+      <TT><B>case.clmsum</B></TT> file is 
+        renamed to <TT><B>case.clmsum_old</B></TT> (see <TT><B>run_lapw</B></TT>)</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+      
+      MIXER </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> mixer.def </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmsum_old</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.outputm</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.broyd1</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.struct</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmsc </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scfm</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.broyd2</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.inm </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmcor </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.clmsum</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">case.clmval </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.scf </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> mixer.error </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.broyd1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+            </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> case.broyd2 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=5><FONT SIZE="-2"> 
+       
+       After MIXER the file <TT><B>case.scfm</B></TT> is 
+         appended to <TT><B>case.scf</B></TT>, so that after an iteration is </FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=5><FONT SIZE="-2"> 
+       completed, the two essential files are 
+         <TT><B>case.clmsum</B></TT> and <TT><B>case.scf</B></TT>.</FONT></TD>
+</TR>
+</TABLE>
+  
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION05120000000000000000"></A>
+<A NAME="sec:IO-files"></A>
+<BR>
+2 Description of general input/output files
+</H1>
+
+<P>
+In the following section the content of the (non-trivial) output 
+files is described:
+
+<P>
+<DL>
+<DT><STRONG>case.broydX<A NAME="3051"></A></STRONG></DT>
+<DD>Contains the charge density of previous
+  iterations if you use Broyden's method for mixing. They are removed
+  when using <TT><B>save_lapw</B></TT>. They should be removed by hand when
+  calculational parameters (RKMAX, kmesh, ...) have been changed, or
+the calculation crashed due to a too large mixing and are restarted by
+using a new density generated by dstart.
+</DD>
+<DT><STRONG>case.clmcor<A NAME="3054"></A></STRONG></DT>
+<DD>Contains the core charge density (as
+  <!-- MATH
+ $\sigma(r) = 4\pi r^2 \rho(r)$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$\sigma(r) = 4 \pi r^2 \rho(r)$"> and has only a spherical part).  In
+  spin-polarized calculations two files case.clmcorup and
+  case.clmcordn are used instead.
+</DD>
+<DT><STRONG>case.clmsc<A NAME="3055"></A></STRONG></DT>
+<DD>Contains the semi-core charge density in a
+  2-window calculation, which is no longer recommended. In
+  spin-polarized calculations two files are used instead:
+  <TT><B>case.clmscup</B></TT> and <TT><B>case.clmscdn</B></TT>.
+</DD>
+<DT><STRONG>case.clmsum<A NAME="3060"></A></STRONG></DT>
+<DD>Contains the total charge density in the
+  lattice harmonics representation and as Fourier coefficients. (The
+  LM=0,0 term is given as <!-- MATH
+ $\sigma(r) = 4 \pi r^2 \rho(r)$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$\sigma(r) = 4 \pi r^2 \rho(r)$">, the others
+  as <!-- MATH
+ $r^2\rho_{LM}(r)$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img105.png"
+ ALT="$r^2\rho_{LM}(r)$">; suitable for generating electron density plots
+  using <TT><B>lapw5</B></TT> when the TOT-switch is set, (see section
+  <A HREF="8Analysis_Properties.html#sec:lapw5">8.6</A>). In spin-polarized calculations two additional
+  files <TT><B>case.clmup</B></TT> and <TT><B>case.clmdn</B></TT> contain the spin
+  densities. Generated by <TT><B>dstart</B></TT> or <TT><B>mixer</B></TT>.
+</DD>
+<DT><STRONG>case.clmval<A NAME="3071"></A></STRONG></DT>
+<DD>Contains the valence charge density  as
+  <!-- MATH
+ $r^2 \rho_{LM}(r)$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img105.png"
+ ALT="$r^2\rho_{LM}(r)$">; suitable for generating valence electron density
+  plots using <TT><B>lapw5</B></TT> when the VAL-switch is set, (see <A HREF="8Analysis_Properties.html#sec:lapw5">8.6</A>).
+  In spin-polarized calculations two files <TT><B>case.clmvalup</B></TT> and
+  <TT><B>case.clmvaldn</B></TT> are used instead.
+</DD>
+<DT><STRONG>case.dmatup/dn<A NAME="3078"></A></STRONG></DT>
+<DD>Contains the density matrix generated by <TT><B>lapwdm</B></TT>
+for LDA+U, OP or Hybrid-DFT calculations.
+</DD>
+<DT><STRONG>case.dosX<A NAME="3081"></A></STRONG></DT>
+<DD>Contains the density of states (states/Ry) and
+corresponding energy (in Ry at the internal energy scale) 
+generated by <TT><B>tetra</B></TT>. X can be 1-3. Additional files  <TT><B>case.dosXev</B></TT> 
+contain the DOS in (states/eV) and the energy in eV with respect to EF.
+</DD>
+<DT><STRONG>case.help03X<A NAME="3086"></A></STRONG></DT>
+<DD>Contains eigenvalues and partial charges for atom 
+number X.
+</DD>
+<DT><STRONG>case.kgen<A NAME="3087"></A></STRONG></DT>
+<DD>This file contains the indices of the tetrahedra in 
+terms of the list of k-points. It is used in <TT><B>lapw2</B></TT> (if EFMOD 
+switch in <TT><B>case.in2</B></TT> is set to TETRA, see <A HREF="7SCF_cycle.html#sec:lapw2-in">7.5.3</A>) 
+and in <TT><B>tetra</B></TT>.
+</DD>
+<DT><STRONG>case.klist<A NAME="3094"></A></STRONG></DT>
+<DD>This file contains a list of k-points in the first 
+BZ and represents a tetrahedral (special point) mesh. It is generated 
+in <TT><B>kgen</B></TT> and can either be inserted into the <TT><B>case.in1</B></TT> file or 
+used directly in <TT><B>kgen</B></TT>.
+</DD>
+<DT><STRONG>case.qtl<A NAME="3101"></A></STRONG></DT>
+<DD>Contains eigenvalues and corresponding partial
+  charges (bandwise) in a form suitable for <TT><B>tetra</B></TT> and band structure
+plots with ``band character''. The decomposition
+  of these charges is controlled by ISPLIT in case.struct.
+</DD>
+<DT><STRONG>case.rho<A NAME="3104"></A></STRONG></DT>
+<DD>Contains the electron densities on a grid in a 
+specified plane  generated by <TT><B>lapw5</B></TT>. This file can be used as input for
+your favorite contour or 3D plotting program.
+</DD>
+<DT><STRONG>case.rsp<A NAME="3107"></A></STRONG></DT>
+<DD>Contains the atomic densities generated by <TT><B>lstart</B></TT>. They
+are used by <TT><B>dstart</B></TT> to generate a first crystalline density (<TT><B>case.clmsum</B></TT>).
+</DD>
+<DT><STRONG>case.r2v<A NAME="3114"></A></STRONG></DT>
+<DD>Contains the exchange potential (in the
+  lattice harmonics representation as <IMG
+ WIDTH="86" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img106.png"
+ ALT="$r^2*V_{LM}(r)$"> and as Fourier
+  coefficients) in a form suitable for plotting with <TT><B>lapw5</B></TT>.
+</DD>
+<DT><STRONG>case.scf_mini<A NAME="3117"></A></STRONG></DT>
+<DD>Contains the last scf-iteration of each individual 
+time (geometry) step during a structural minimization using <TT><B>mini</B></TT>. Thus this 
+file contains a complete history of properties (energy, forces, positions)
+during a structural minimization.
+</DD>
+<DT><STRONG>case.sigma<A NAME="3120"></A></STRONG></DT>
+<DD>Contains the atomic densities for those states with 
+a ``P'' in <TT><B>case.inst</B></TT>. Generated in <TT><B>lstart</B></TT> and used for difference 
+densities in <TT><B>lapw5</B></TT>.
+</DD>
+<DT><STRONG>case.spaghetti_ps<A NAME="3127"></A></STRONG></DT>
+<DD>A ps file with the energy bandstructure plot
+generated by <TT><B>spaghetti</B></TT>.
+</DD>
+<DT><STRONG>case.band.agr<A NAME="3130"></A></STRONG></DT>
+<DD>A xmgrace file with the energy bandstructure plot
+generated by <TT><B>spaghetti</B></TT>.
+</DD>
+<DT><STRONG>case.vcoul<A NAME="3133"></A></STRONG></DT>
+<DD>Contains the Coulomb potential
+  (in the lattice harmonics representation as <IMG
+ WIDTH="86" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img106.png"
+ ALT="$r^2*V_{LM}(r)$"> and as
+  Fourier coefficients) in a form suitable for plotting with <TT><B>lapw5</B></TT>.
+</DD>
+<DT><STRONG>case.vtotal<A NAME="3136"></A></STRONG></DT>
+<DD>Contains the total potential
+  (in the lattice harmonics representation as <IMG
+ WIDTH="86" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img106.png"
+ ALT="$r^2*V_{LM}(r)$"> and as
+  Fourier coefficients) in a form suitable for plotting with <TT><B>lapw5</B></TT>.
+</DD>
+<DT><STRONG>case.vector<A NAME="3139"></A></STRONG></DT>
+<DD>Binary file, contains the eigenvalues and
+  eigenvectors of all k-points calculated in <TT><B>lapw1</B></TT>. In spin-polarized
+  calculations two files <TT><B>case.vectorup</B></TT> and <TT><B>case.vectordn</B></TT> are used
+  instead. <TT><B>lapwso</B></TT> generates <TT><B>case.vectorso</B></TT>.
+</DD>
+<DT><STRONG>case.energy<A NAME="3150"></A></STRONG></DT>
+<DD>Contains the eigenvalues 
+  of all k-points calculated in <TT><B>lapw1</B></TT>. In spin-polarized
+  calculations two files <TT><B>case.vectorup</B></TT> and <TT><B>case.vectordn</B></TT> are used
+  instead. <TT><B>lapwso</B></TT> generates <TT><B>case.energyso</B></TT>.
+</DD>
+<DT><STRONG>case.vns<A NAME="3161"></A></STRONG></DT>
+<DD>Contains the non-spherical part of the total
+    potential V. Inside the sphere the radial coefficients of the
+    lattice harmonics representation are listed (for L greater than
+    0), while for the interstitial region the reanalyzed Fourier coefficients are
+    given (see equ.  (<A HREF="2Basic_concepts.html#eq:potential">2.10</A>)).  In spin-polarized
+    calculations two files <TT><B>case.vnsup</B></TT> and <TT><B>case.vnsdn</B></TT> are
+    used instead.
+  
+</DD>
+<DT><STRONG>case.vorbup/dn<A NAME="3166"></A></STRONG></DT>
+<DD>Contains the orbital dependent part of the
+    potential in LDA+U, OP or Hybrid-DFT calculations. Generated in <TT><B>orb</B></TT>, used in <TT><B>lapw1</B></TT>.
+  
+</DD>
+<DT><STRONG>case.vsp<A NAME="3171"></A></STRONG></DT>
+<DD>Contains the spherical part of the total
+    potential V stored as <IMG
+ WIDTH="39" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img107.png"
+ ALT="$r*V$"> (thus the first values should be close
+    to <IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img108.png"
+ ALT="$-2*Z$">).  In spin-polarized calculations two files
+    <TT><B>case.vspup</B></TT> and <TT><B>case.vspdn</B></TT> are used instead.
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05130000000000000000"></A>
+<A NAME="sec:struct-file"></A><A NAME="2619"></A>
+<A NAME="2620"></A>
+<BR>
+3 The ``master input`` file  case.struct
+</H1>
+
+<P>
+The file <TT><B>case.struct</B></TT> defines the structure and is the main
+input file used in all programs. We provide several examples in the
+subdirectory
+<BLOCKQUOTE>
+<TT><B>example_struct_file</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+If you are using the ``<I>Struct Generator</I>'' from the
+graphical user interface <EM>w2web</EM>, you don't have to bother with this
+file directly! However, the description of the fields of the input
+mask can be found here.
+
+<P>
+<I>Note: If you are changing this file manually, please note that this
+is a formatted file and the proper column positions of the characters are
+important! Use REPLACE instead of DELETE and INSERT during edit!</I>
+
+<P>
+We start the description of this file with an abridged
+example for rutile TiO<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img109.png"
+ ALT="$_2$"> (adding line numbers):
+
+<P>
+<PRE>
+--------------------- top of file ---------------------line #
+Titaniumdioxide TiO2 (rutile):  u=0.305                     1
+P   LATTICE,NONEQUIV. ATOMS  2                              2
+MODE OF CALC=RELA                                           3
+ 8.6817500 8.6817500 5.5916100 90.       90.       90.      4
+ATOM  -1: X= 0.0000000 Y= 0.0000000 Z= 0.0000000            5
+          MULT= 2          ISPLIT= 8                        6
+ATOM  -1: X= 0.5000000 Y= 0.5000000 Z= 0.5000000                
+Titanium   NPT=  781  R0=.000022391 RMT=2.00000000   Z:22.0 7
+LOCAL ROT MATRIX:    -.7071068 0.7071068 0.0000000          8
+                     0.7071068 0.7071068 0.0000000          9
+                     0.0000000 0.0000000 1.0000000         10
+ATOM  -2: X= 0.3050000 Y= 0.3050000 Z= 0.0000000
+          MULT= 4          ISPLIT= 8
+ATOM  -2: X= 0.6950000 Y= 0.6950000 Z= 0.0000000
+ATOM  -2: X= 0.8050000 Y= 0.1950000 Z= 0.5000000
+ATOM  -2: X= 0.1950000 Y= 0.8050000 Z= 0.5000000
+Oxygen     NPT=  781  R0=.000017913 RMT=1.60000000   Z: 8.0
+LOCAL ROT MATRIX:    0.0000000 -.7071068 0.7071068
+                     0.0000000 0.7071068 0.7071068
+                     1.0000000 0.0000000 0.0000000
+  16 SYMMETRY OPERATIONS:                                  11
+ 1 0 0  0.00                                               12
+ 0 1 0  0.00                                               13
+ 0 0 1  0.00                                               14
+       1                                                   15
+ 1 0 0  0.00
+ 0 1 0  0.00
+ 0 0-1  0.00
+       2
+  ........
+      15
+ 0 1 0  0.50
+-1 0 0  0.50
+ 0 0 1  0.50
+      16
+------------------ bottom of file ---------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="2917"></A>
+<TABLE>
+<CAPTION><STRONG>Table:</STRONG>
+Lattice type, description and bravais matrix used in <EM>WIEN2k</EM></CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+    <FONT SIZE="-2">    </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2">
+      P </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> all primitive lattices except hexagonal (trigonal lattice is also supported) </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a sin(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">), a cos(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">), 0], [0, b, 0], [0, 0, c]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      F </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> face-centered </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a/2, b/2, 0], [a/2, 0, c/2], [0, b/2, c/2]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      B </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> body-centered </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a/2, -b/2, c/2],[a/2, b/2, -c/2], [-a/2, b/2, c/2]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      CXY </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> c-base-centered (orthorhombic only) </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a/2, -b/2, 0], [a/2, b/2, 0], [0, 0, c]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      CYZ </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> a-base-centered (orthorhombic only) </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a, 0, 0], [0, -b/2, c/2], [0, b/2, c/2]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      CXZ </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> b-base-centered (orthorh. and monoclinic [WARNING: monoclinic CXZ
+      has a bug and MAY give wrong results!!]) </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a sin(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">)/2, a cos(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">)/2, -c/2], [0, b, 0], [a sin(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">)/2, a cos(<IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img110.png"
+ ALT="$\gamma$">)/2, c/2]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      R </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> rhombohedral </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [a/<IMG
+ WIDTH="25" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$\sqrt3$">/2, -a/2, c/3],[a/<IMG
+ WIDTH="25" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$\sqrt3$">/2, a/2, c/3],[-a/<IMG
+ WIDTH="25" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$\sqrt3$">, 0, c/3]</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      H </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=113><FONT SIZE="-2"> hexagonal </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><FONT SIZE="-2"> [<IMG
+ WIDTH="25" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$\sqrt3$">a/2, -a/2, 0],[0, a, 0],[0, 0, c]</FONT></TD>
+</TR>
+</TABLE>
+    
+    <A NAME="tab:lattice-type"></A>  
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format (A80)
+<BR>
+title (compound)
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>format (A4,23X,I3)
+<BR>
+lattice type<A NAME="3182"></A>, NAT 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>lattice&nbsp;type</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>as defined in table
+  <A HREF="#tab:lattice-type">4.4</A>. For definitions of the triclinic lattice see <TT><B>SRC_nn/dirlat.f</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NAT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of inequivalent atoms<A NAME="3196"></A> in the unit cell</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>format (13X,A4)
+<BR>
+mode
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>RELA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>fully relativistic<A NAME="3207"></A> core and scalar relativistic valence</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NREL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>non-relativistic calculation<A NAME="3208"></A></TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>format (6F10.6)
+<BR>
+a, b, c, <!-- MATH
+ $\alpha, \beta, \gamma$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$\alpha,\beta,\gamma$">
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>a, b, c</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>unit cell parameters (in a.u., 1 a.u. = 0.529177  &#197;).
+            In face- or body-centered structures 
+            the non-primitive (cubic) lattice constant,
+            for rhombohedral (R) lattices the hexagonal
+            lattice constants must be specified. (The following may help 
+            you to convert between hexagonal and rhombohedral specifications:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $a_{hex} = 2 cos (\frac{\pi- \alpha_{rhomb}}{2} ) a_{rhomb}$
+ -->
+<IMG
+ WIDTH="207" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img112.png"
+ ALT="$a_{hex} = 2 cos (\frac{\pi- \alpha_{rhomb}}{2} ) a_{rhomb}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $c_{hex} = 3 \sqrt{a_{rhomb}^2 - \frac{1}{3} a_{hex}^2 }$
+ -->
+<IMG
+ WIDTH="183" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img113.png"
+ ALT="$c_{hex} = 3 \sqrt{a_{rhomb}^2 - \frac{1}{3} a_{hex}^2 } $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>and (for fcc-like lattices) <!-- MATH
+ $a_{rhomb}=a_{cubic}/\sqrt{2}$
+ -->
+<IMG
+ WIDTH="139" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img114.png"
+ ALT="$a_{rhomb}=a_{cubic}/\sqrt{2} $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34><!-- MATH
+ $\alpha, \beta,\gamma$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$\alpha,\beta,\gamma$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>angles between unit axis (if omitted, 
+           <IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img115.png"
+ ALT="$90^\circ$"> is set as default). Set it only for P and CXZ lattices</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>format (4X,I4,4X,F10.8,3X,F10.8,3X,F10.8)
+<BR>
+atom-index, x, y, z
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>atom-index</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>running index for inequivalent atoms</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>positive    in case of cubic symmetry</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>negative    for non-cubic symmetry</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>this is set automatically using <TT><B>symmetry</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>x,y,z</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>position of atom in internal units,
+               i.e. as <B>positive</B> fractions of unit cell
+               parameters. (<IMG
+ WIDTH="71" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img116.png"
+ ALT="$0\leq x\leq 1$">; the positions
+               in the unit cell are consistent with the
+               convention used in the International Tables
+               of Crystallography 64. In face- (body-)
+               centered structures only one of four (two)
+               atoms must be given, eg. in Fm3m position 8c
+               is specified with 0.25, 0.25, 0.25 and
+               .75, 0.75, 0.75). For R lattice use
+               rhombohedral coordinates. (To convert from hexagonal into 
+               rhombohedral coordinates use the auxiliary program 
+               <TT><B>hex2rhomb</B></TT>, which can be found in ``<I>Run Programs 
+               <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Other Goodies</I>'' from <EM>w2web</EM>):</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $\vec X_{ortho} = \vec X_{hex} \left ( \begin{array}{ccc}
+                                       0 & 1 & 0 \\
+                                       \frac{\sqrt{3}}{2} & \frac{-1}{2} & 0 \\
+                                       0 & 0 & 1 \end{array} \right )$
+ -->
+<IMG
+ WIDTH="232" HEIGHT="77" ALIGN="MIDDLE" BORDER="0"
+ SRC="img117.png"
+ ALT="$ \vec X_{ortho} = \vec X_{hex} \left ( \begin{array}{ccc}
+0 &amp; 1 &amp; 0 \\
+\frac{\sqrt{3}}{2} &amp; \frac{-1}{2} &amp; 0 \\
+0 &amp; 0 &amp; 1 \end{array} \right ) $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $\vec X_{rhomb} = \vec X_{ortho} \left ( \begin{array}{ccc}
+                \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{3}} & \frac{-2}{\sqrt{3}}\\
+                  -1 &1 & 0 \\
+                  1 & 1 & 1  \end{array} \right )$
+ -->
+<IMG
+ WIDTH="261" HEIGHT="77" ALIGN="MIDDLE" BORDER="0"
+ SRC="img118.png"
+ ALT="$ \vec X_{rhomb} = \vec X_{ortho} \left ( \begin{array}{ccc}
+\frac{1}{\sqrt{3}}...
+...rt{3}} &amp; \frac{-2}{\sqrt{3}}\\
+-1 &amp;1 &amp; 0 \\
+1 &amp; 1 &amp; 1 \end{array} \right ) $"></TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>format (15X,I2,17X,I2)
+<BR>
+multiplicity, isplit
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>multiplicity<A NAME="3287"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of equivalent atoms of this kind</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>isplit<A NAME="3288"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>this is just an output-option and is used
+                    to specify the decomposition of the lm-like 
+                    charges into irreducible representations,
+                    useful for interpretation in case.qtl). This
+                    parameter is automatically set by <TT><B>symmetry</B></TT>:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>no split of l-like charge</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>p-z,  (p-x, p-y)         e.g.:hcp</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>e-g, t-2g of d-electrons   e.g.:cubic</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>d-z2, (d-xy,d-x2y2), (d-xz,dyz)     e.g.:hcp</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>4</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>combining option 1 and 3        e.g.:hcp</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>5</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>all d symmetries separate</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>6</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>all p symmetries separate</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>8</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>combining option 5 and 6</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>-2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>d-z2, d-x2y2, d-xy, (d-xz,d-yz)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>88</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>split <IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img119.png"
+ ALT="$lm$"> like charges (for <TT><B>telnes</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>99</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>calculate cross-terms (for <TT><B>telnes</B></TT>)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: line 5</STRONG></DT>
+<DD>must now be repeated MULT-1 times for the other 
+  positions of each equivalent atom according to the Wyckoff position in the
+  ``International Tables of Crystallography''.
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>format (A10,5X,I5,5X,F10.8,5X,F10.5,5X,F5.2)
+<BR>
+name of atom, NPT,  R0,  RMT,  Z
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>name of atom<A NAME="3315"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Use the chemical symbol. Positions 3-10 for further 
+                      labeling of nonequivalent atoms (use a number in position 3)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NPT<A NAME="3316"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of radial mesh points (381 gives a good mesh
+          for LDA calculations, but for GGA twice as many points
+          are recommended; <I>always use an <B>odd</B> number of
+          mesh points!</I>) 
+           the radial mesh is given on a
+          logarithmic scale: <!-- MATH
+ $r(n)=R_0 * e^{[ (n-1)*DX ]}$
+ -->
+<IMG
+ WIDTH="167" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img121.png"
+ ALT="$r(n)=R_0 * e^{[ (n-1)*DX ]}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>R0<A NAME="3317"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>first radial mesh point (typically between 0.0005 
+                      and 0.00005)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>RMT<A NAME="3318"></A></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>atomic sphere radius (muffin-tin radius), can easily 
+          be estimated after running <TT><B>nn</B></TT> (see <A HREF="6Initialization.html#sec:nn">6.1</A>) and are set
+  automatically with <TT><B>setrmt_lapw</B></TT> see <A HREF="5Shell_scripts.html#sec:setrmt_lapw">5.2.6</A>). The following guidelines 
+will be given here: Choose spheres as large as possible as this will save MUCH computer 
+time. But: Use identical radii within a series of calculations (i.e. when you want 
+to compare total energies) -- therefore consider first how close the atoms may possibly come 
+later on (volume or geometry optimization); do NOT make the spheres too different 
+(even when the geometry would permit it), instead use the largest spheres for f-electron 
+atoms, 10-20 % smaller ones for d-elements and again 10-20 % smaller for sp-elements; 
+H is a special case, you may choose it much smaller (e.g. 0.6 and 1.2 for H and C) and systems containing H 
+need a much smaller RKMAX value (3-5) in <TT><B>case.in1</B></TT>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Z</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>atomic number</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 8-10:</STRONG></DT>
+<DD>format (20X,3F10.7)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ROTLOC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>local rotation matrix<A NAME="3337"></A> (always in an orthogonal
+             coordinate system). Transforms the global coordinate
+             system (of the unit cell) into the local at the given
+             atomic site as required by point group symmetry
+             (see in the INPUT-Section <A HREF="7SCF_cycle.html#sec:lapw2-in">7.5.3</A> of LAPW2).
+             SYMMETRY calculates the point group symmetry and 
+             determines ROTLOC automatically. Note, that a proper 
+             ROTLOC is required,
+             if the LM values generated by SYMMETRY are used.
+             A more detailed description with several examples
+             is given in the appendix <A HREF="A_Local_rotation.html#sec:loc-rot">A</A> and 
+             sec. <A HREF="10Examples.html#sec:tio2">10.3</A></TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: lines 5 thru 10</STRONG></DT>
+<DD>must be repeated for each inequivalent 
+  atom
+</DD>
+<DT><STRONG>line 11:</STRONG></DT>
+<DD>format (I4)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nsym</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of symmetry operations of space group (see International 
+             Tables of Crystallography 64)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>If nsym is set to zero, the symmetry operations will be generated 
+          automatically by SYMMETRY.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 12-14:</STRONG></DT>
+<DD>format (3I2,F10.7)
+<BR>
+matrix, tau (as listed in the
+  International Tables of Crystallography 64)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>matrix</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>matrix representation of (space group) symmetry operation</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>tau</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>non-primitive translation<A NAME="3355"></A> vector</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 15:</STRONG></DT>
+<DD>format (I8)
+<BR>
+index of symmetry operation specified above
+<BR></DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: lines 12 thru 15</STRONG></DT>
+<DD>must be repeated for all other symmetry 
+operations
+<BR>(the complete list is contained in sample inputs) 
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05140000000000000000"></A>
+<A NAME="sec:scf-file"></A><A NAME="2710"></A>
+<BR>
+4 The ``history`` file  case.scf
+</H1>
+
+<P>
+During the self-consistent field (SCF) cycle the essential data are
+appended to the file <TT><B>case.scf</B></TT> in order to generate a summary of
+previous iterations. For an easier retrieval of certain quantities the
+essential lines are labeled with <B>:LABEL:</B><A NAME="3361"></A>, which can
+be used to monitor these quantities during self-consistency as
+explained below. The most important <B>:LABELs</B> are
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1">
+  :ENE   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> total energy (Ry)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :DIS   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> charge distance between last 2 iterations (<!-- MATH
+ $\int | \rho_n - \rho_{n-1} | dr$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img122.png"
+ ALT="$\int \vert \rho_n - \rho_{n-1} \vert dr $">). Good convergence criteria.</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :FER   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Fermi energy</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :FORxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> force on atom xx in mRy/bohr (in the local (for each atom) carthesian coordinate system)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :FGLxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> force on atom xx in mRy/bohr (in the global coordinate system of the unit cell (in the same way as the atomic positions are specified))</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :DTOxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> total difference charge density for atom xx between last 
+  2 iterations</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :CTOxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> total charge in sphere xx (mixed after MIXER)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :NTOxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> total charge in sphere xx (new (not mixed) from LAPW2+LCORE)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :QTLxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> partial charges in sphere xx</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :EPLxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> l-like partial charges and ``mean energies'' in lower (semicore)
+       energy window for atom xx. Used as energy parameters in case.in1 for
+       next iteration</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :EPHxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> l-like partial charges and ``mean energies'' in higher (valence)
+       energy window for atom xx. Used as energy parameters in <TT><B>case.in1</B></TT>
+       for next iteration</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :EFGxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Electric field gradient (EFG) <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$V_{zz}$"> for atom xx</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :ETAxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Asymmetry parameter of EFG  for atom xx</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :RTOxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Density for atom xx at the nucleus (first radial mesh point)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :VZERO </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Gives the total, Coulomb and xc-potential at z=0 and z=0.5 (meaningfull only for slab calculations)</FONT></TD>
+</TR>
+</TABLE>
+
+<P>
+To check to which type of calculation a scf file corresponds use:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1">
+  :POT   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Exchange-correlation potential used in this calculation</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :LAT   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Lattice parameters in this calculation</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :VOL   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Volume of the unit cell</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :POSxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Atomic positions for atom xx (as in <TT><B>case.struct</B></TT>)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :RKM   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Actual matrix size and resulting RKmax</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :NEC   </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> normalization check of electronic charge densities. If 
+           a significant amount of electrons is missing, one might have 
+           core states, whose charge density is not completely confined within 
+           the respective atomic sphere. In such a case the corresponding 
+           states should be treated as band states (using LOs).</FONT></TD>
+</TR>
+</TABLE>
+
+<P>
+For spin-polarized calculations<A NAME="3385"></A>:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1">
+  :MMTOT </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Total spin magnetic moment/cell</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :MMIxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Spin magnetic moment of atom xx. Note, that this value depends on RMT.</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :CUPxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> spin-up charge (mixed) in sphere xx</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :CDNxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> spin-dn charge (mixed) in sphere xx </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :NUPxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> spin-up charge (new, from lapw2+lcore) in sphere xx</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :NDNxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> spin-dn charge (new, from lapw2+lcore) in sphere xx </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :ORBxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Orbital magnetic moment of atom xx (needs SO calculations and LAPWDM).</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57><FONT SIZE="-1"> 
+  :HFFxx </FONT></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354><FONT SIZE="-1"> Hyperfine field of atom xx (in kGauss).</FONT></TD>
+</TR>
+</TABLE>
+
+<P>
+One can monitor <A NAME="2720"></A> the energy eigenvalues (listed
+for the first k-point only), the Fermi-energy or the total energy.
+Often the electronic charges per atom reflect the convergence.  Charge
+transfer between the various atomic spheres is a typical process
+during the SCF cycles: large oscillations should be avoided by using a
+smaller mixing parameter; monotonic changes in one direction suggest a
+larger mixing parameter.
+
+<P>
+In spin-polarized calculations the magnetic moment per atomic site is
+an additional crucial quantity which could be used as convergence
+criterion.
+
+<P>
+If a system has electric field gradients and one is interested in that
+quantity, one should monitor the EFGs, because these are very sensitive
+quantities.
+
+<P>
+It is best to monitor several quantities, because often one quantity
+is converged, while another still changes from iteration to iteration.
+The script <TT><B>run_lapw</B></TT> has three different convergence criteria
+built in, namely the total energy, the atomic forces and the charge
+distance (see <A HREF="5Shell_scripts.html#sec:init_lapw">5.1.2</A>, <A HREF="5Shell_scripts.html#sec:run_lapw">5.1.3</A>).
+
+<P>
+We recommend the use of  UNIX commands like : 
+<BLOCKQUOTE>
+<TT><B>grep :ENE case.scf</B></TT>
+  or use ``Analysis'' from <EM>w2web</EM>
+
+</BLOCKQUOTE>
+
+<P>
+for monitoring such quantities. 
+
+<P>
+You may define an <B>alias</B> for this (see sec.
+<A HREF="11Installation_Dimensioning.html#sec:installation">11.2</A>), and a csh-script <TT><B>grepline_lapw<A NAME="3401"></A></B></TT> is
+also available to get a quantity from several scf-files simultaneously
+(sec. <A HREF="5Shell_scripts.html#sec:grepline_lapw">5.2.15</A> and <A HREF="5Shell_scripts.html#sec:structure_opt">5.3</A>).
+
+<P>
+
+<H1><A NAME="SECTION05150000000000000000"></A>
+<A NAME="sec:program-flow"></A>
+<BR>
+5 Flow of programs
+</H1>
+
+<P>
+The <EM>WIEN2k</EM> package consists of several independent programs which are
+linked via C-SHELL SCRIPTS described below. 
+
+<P>
+The flow and usage of the different programs is illustrated in the following
+diagram (Fig. <A HREF="#fig:program_flow">4.2</A>):
+<A NAME="2737"></A>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:program_flow"></A><A NAME="2937"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Program flow in <EM>WIEN2k</EM></CAPTION>
+<TR><TD><IMG
+ WIDTH="631" HEIGHT="950" BORDER="0"
+ SRC="img124.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/programflow_w2k, width=14cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The initialization consists of running a series of small auxiliary
+programs, which generates the inputs for the main programs. One starts
+in the respective <TT><B>case/</B></TT> subdirectory and defines the structure in <TT><B>case.struct</B></TT> (see <A HREF="#sec:struct-file">4.3</A>). The
+initialization can be invoked by the script <TT><B>init_lapw</B></TT> (see
+sec. <A HREF="3Quick_Start.html#sec:initialization">3.7</A> and <A HREF="5Shell_scripts.html#sec:init_lapw">5.1.2</A>), and consists
+of running:
+<BLOCKQUOTE>
+<FONT SIZE="-1">  </FONT></BLOCKQUOTE><DL>
+<DT><STRONG>NN</STRONG></DT>
+<DD>a program which lists the nearest neighbor distances up to a specified 
+    limit (defined by a distance factor f) and thus helps to determine the atomic sphere radii. In addition
+    it is a very usefull additional check of your <TT><B>case.struct</B></TT>
+    file (equivalency of atoms) 
+  
+</DD>
+<DT><STRONG>SGROUP</STRONG></DT>
+<DD>determines the spacegroup of the structure defined in your
+    <TT><B>case.struct</B></TT> file. 
+  
+</DD>
+<DT><STRONG>SYMMETRY</STRONG></DT>
+<DD>generates from a raw case.struct file the space
+    group symmetry operations, determines the point group of the
+    individual atomic sites, generates the LM expansion for the
+    lattice harmonics and determines the local rotation
+    matrices.
+  
+</DD>
+<DT><STRONG>LSTART</STRONG></DT>
+<DD>generates free atomic densities and determines how the
+    different orbitals are treated in the band structure calculations
+    (i.e. as core or band states, with or without local
+    orbitals,...).
+  
+</DD>
+<DT><STRONG>KGEN</STRONG></DT>
+<DD>generates a k-mesh in the irreducible part of the BZ.
+  
+</DD>
+<DT><STRONG>DSTART</STRONG></DT>
+<DD>generates a starting density for the scf cycle by a
+    superposition of atomic densities generated in LSTART.
+  
+</DD>
+</DL><BLOCKQUOTE>
+
+</BLOCKQUOTE>
+
+<P>
+Then a self-consistency cycle is initiated and repeated until
+convergence criteria are met (see <A HREF="3Quick_Start.html#sec:scf-calc">3.8</A> and
+<A HREF="5Shell_scripts.html#sec:run_lapw">5.1.3</A>). This cycle can be invoked with a script
+<TT><B>run_lapw</B></TT>, and consists of the following steps:
+<BLOCKQUOTE>
+<FONT SIZE="-1">  </FONT></BLOCKQUOTE><DL>
+<DT><STRONG>LAPW0</STRONG></DT>
+<DD>(POTENTIAL) generates potential from density
+  
+</DD>
+<DT><STRONG>LAPW1</STRONG></DT>
+<DD>(BANDS) calculates valence bands (eigenvalues and
+    eigenvectors)
+  
+</DD>
+<DT><STRONG>LAPW2</STRONG></DT>
+<DD>(RHO) computes valence densities from eigenvectors
+  
+</DD>
+<DT><STRONG>LCORE</STRONG></DT>
+<DD>computes core states and densities
+  
+</DD>
+<DT><STRONG>MIXER</STRONG></DT>
+<DD>mixes input and output densities
+  
+</DD>
+</DL><BLOCKQUOTE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05151000000000000000"></A>
+<A NAME="sec:flow_states"></A>
+<BR>
+1 Core, semi-core and valence states
+</H2>
+
+<P>
+In many cases it is desirable to distinguish three types of electronic
+states, namely core, semi-core and valence states. For example
+titanium has core (<IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img80.png"
+ ALT="$1s$">, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img81.png"
+ ALT="$2s$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$2p$">), semi-core (<IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$3s$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$">) and
+valence (<IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img84.png"
+ ALT="$3d$">, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$4s$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$4p$">) states.  In our
+definition <B>core states</B> are only those 
+whose charge is entirely confined inside the corresponding atomic
+sphere.  They are deep in energy, e.g., more than 7-10 Ry below the
+Fermi energy. <B>Semi-core states</B> lie high enough in energy
+(between about 1 and 7 Ry below the Fermi energy), so that their
+charge is no longer completely confined inside the atomic sphere, but has a few percent
+outside the sphere. <B>Valence states</B> are energetically the
+highest (occupied) states and always have a significant amount of
+charge outside the spheres.
+
+<P>
+The energy cut-off specified in <TT><B>lstart</B></TT> during <TT><B>init_lapw</B></TT> 
+(usually -6.0 Ry) defines the separation into core- and band-states 
+(the latter contain both, semicore and valence).
+ If a system has atoms with semi-core states, then the best way 
+to treat them is with ``local orbitals``, an extension of the 
+usual LAPW basis. An input for such a basis set will be generated 
+automatically. (Additional LOs can also be used for valence 
+states which have a strong variation of their radial wavefunctions with energy 
+(e.g. d states in TM compounds) to improve the quality of the basis set, 
+i.e. to go beyond the simple linearization).
+
+<P>
+
+<H2><A NAME="SECTION05152000000000000000"></A>
+<A NAME="sec:flow_spinpol"></A>
+<BR>
+2 Spin-polarized calculation
+</H2>
+
+<P>
+For magnetic systems spin-polarized calculations can be performed. 
+In such a case some steps are done for spin-up and spin-down electrons 
+separately and the script <TT><B>runsp_lapw</B></TT> consists of the following 
+steps:<DL>
+<DT><STRONG>LAPW0</STRONG></DT>
+<DD>(POTENTIAL)  generates potential from density
+  
+</DD>
+<DT><STRONG>LAPW1 -up</STRONG></DT>
+<DD>(BANDS) calculates valence bands for spin-up
+    electrons
+  
+</DD>
+<DT><STRONG>LAPW1 -dn</STRONG></DT>
+<DD>(BANDS) calculates valence bands for spin-down
+    electrons
+  
+</DD>
+<DT><STRONG>LAPW2 -up</STRONG></DT>
+<DD>(RHO) computes valence densities for spin-up
+    electrons
+  
+</DD>
+<DT><STRONG>LAPW2 -dn</STRONG></DT>
+<DD>(RHO) computes valence densities for spin-down
+    electrons
+  
+</DD>
+<DT><STRONG>LCORE -up</STRONG></DT>
+<DD>computes core states and densities for spin-up
+    electrons
+  
+</DD>
+<DT><STRONG>LCORE -dn</STRONG></DT>
+<DD>computes core states and densities for spin-down
+    electrons
+  
+</DD>
+<DT><STRONG>MIXER</STRONG></DT>
+<DD>mixes input and output densities
+  
+</DD>
+</DL>
+
+<P>
+The use of spin-polarized calculations is illustrated for fcc Ni
+(section <A HREF="10Examples.html#sec:fccni">10.2</A>), one of the test cases provided in the
+<EM>WIEN2k</EM> package.
+
+<P>
+
+<H2><A NAME="SECTION05153000000000000000"></A>
+<A NAME="sec:flow_fsm"></A>
+<BR>
+3 Fixed-spin-moment (FSM) calculations
+</H2>
+
+<P>
+Using the script <TT><B>runfsm_lapw -m XX</B></TT> it is possible to constrain the
+total spin magnetic moment per unit cell to a fixed value XX and thus force a particular
+ferromagnetic solution (which may not correspond to the equillibrium). This is particularly useful for systems with
+several metastable (non-) magnetic solutions, where conventional spin-polarized
+calculation would not converge or the solution may depend on the
+starting density. Additional SO-interaction is not supported at the moment.
+
+<P>
+
+<H2><A NAME="SECTION05154000000000000000"></A>
+<A NAME="sec:flow_afm"></A>
+<BR>
+4 Antiferromagnetic (AFM) calculations
+</H2>
+
+<P>
+Several considerations are necessary, when you want to perform an AFM 
+calculation. Please have also a look into $WIENROOT/SRC_afminput/afminput_test.
+
+<P>
+
+<UL>
+<LI>Create a struct file of the non-magnetic (or ferro-magnetic)
+  supergroup (run init_lapw up to lstart). Name it <TT><B>case.struct_supergroup</B></TT>.
+(For example for bcc Cr, this would be a struct file with the ordinary cubic
+lattice parameters, ``B'' type lattice and just one Cr at (0,0,0).)
+</LI>
+<LI>Next construct a unit cell which allows the desired AF
+ordering. For example for bcc Cr you must select a ``P'' lattice and specify
+both atoms, Cr1 at (0,0,0) and Cr2 at (.5,.5,.5), corresponding to a CsCl structure. Note, that it is important to
+label the two Cr atoms with ``Cr1'' and ``Cr2'', since only then the 
+symmetry programs can detect that those atoms should be different (although they have
+the same Z). <I>If sgroup has interchanged some axis, try to undo these
+changes, since afminput may not properly find the correct symmetry operations
+in such a case.</I>
+</LI>
+<LI>Edit <TT><B>case.inst</B></TT> and flip the spin of one of the AF atoms (i.e. invert 
+the spin up and dn occupation numbers). In addition you should set a zero moment 
+ (identical spin up and dn occupations) for all ``non-magnetic'' atoms.
+</LI>
+<LI>Run <TT><B>init_lapw</B></TT>. At the end AFMINPUT creates an input file 
+for the program CLMCOPY. Depending on the presence of
+<TT><B>case.struct_supergroup</B></TT> and the specific symmetry it may/may not ask
+you to supply a symmetry operation/nonprimitive translation (see Sect. <A HREF="9Utility_Programs.html#sec:afminput">9.3</A> .  
+</LI>
+<LI>Run <TT><B>runafm_lapw</B></TT>. This script calls LAPW1 and LAPW2 only for 
+spin-up but the corresponding spin-dn density is created by CLMCOPY
+according to the rules defined during initialization. This reduces the required
+cpu time by a factor of 2 (and in addition the scf cycle is much more stable).
+</LI>
+<LI>It is highly recommended that you save your work (<TT><B>save_lapw</B></TT>)
+and check the results by continuing with a regular <TT><B>runsp_lapw</B></TT>. 
+If nothing changes (E-tot and other properties), then you are ok, 
+otherwise make sure the scf calculation is well converged 
+(-cc 0.0001 or better). Eventually the system may not want to be
+antiferromagnetic (but for instance it is ferrimagnetic!). 
+
+<P>
+</LI>
+</UL>
+
+<P>
+<TT><B>runafm_lapw</B></TT> saves you more than a factor of 2 in 
+in computer time,
+since only spin-up is calculated and in addition  the scf-convergence may 
+be MUCH faster. It works also with LDA+U (<TT><B>case.dmatup/dn</B></TT> are also
+copied), but does NOT work with Hybrid-DFT nor spin-orbit coupling, since this requires the
+presence of both vector files in the LAPWSO step.
+
+<P>
+
+<H2><A NAME="SECTION05155000000000000000"></A>
+<A NAME="sec:flow_so"></A>
+<BR>
+5 Spin-orbit interaction
+</H2>
+
+<P>
+You can add spin-orbit interaction in LAPWSO (called directly after LAPW1) 
+ using a second-variational method with
+the scalar-relativistic orbitals (from LAPW1) as basis. The number of 
+eigenvalues will double since SO couples spin-up and dn states, so they are
+ no longer separable. In addition, LOs with a ``<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$">''
+radial basis can be added. (Kunes et al. 2001)
+
+<P>
+To assist with the generation of the necessary input files and possible
+changes in symmetry, a script <TT><B>initso_lapw</B></TT> exists. For non-spinpolarized
+cases nothing particular must be taken into account and SO can be easily
+applied by running   <TT><B>run_lapw -so</B></TT>. It will automatically use the complex version of
+LAPW2.
+
+<P>
+However, for spin-polarized cases, the SO interaction may change (lower) the 
+symmetry depending on how you choose the direction of magnetization 
+and care must be taken to get a proper setup. <TT><B>initso_lapw</B></TT> together
+with <TT><B>symmetso</B></TT> 
+generates the proper symmetry.
+
+<P>
+Just a few hints what can happen:
+
+<P>
+
+<UL>
+<LI>Suppose you have a cubic system and put the magnetization along [001].
+This will create a tetragonal symmetry (and you can temporarely tell this 
+to the initialization programs by changing the respective lattice parameter c 
+to a tetragonal system).
+
+<P>
+</LI>
+<LI>If you put the magnetization along [111], this creates most likely a
+rhombohedral (or hexagonal) symmetry. (Try to visualize this for a fcc lattice,
+XCRYSDEN is very usefull for this purpose).
+
+<P>
+</LI>
+<LI>Symmetry operations can be classified into operations which invert the 
+magnetization,others which leave it unchanged and some which do some arbitrary
+rotation. The program <TT><B>symmetso</B></TT> (part of   
+<TT><B>initso_lapw</B></TT>) sorts these operations in the proper way.
+
+<P>
+</LI>
+<LI>If you don't have inversion symmetry in the original structure, you
+must not ``add inversion'' in KGEN.
+  
+</LI>
+</UL>
+
+<P>
+The recommended way to include SO in the calculations is to run a regular
+scf calculation first, save the results, initialize SO and run another
+scf cycle including SO:
+  
+<UL>
+<LI>run[sp]_lapw
+</LI>
+<LI>save_lapw case_nrel
+</LI>
+<LI>initso_lapw
+</LI>
+<LI>run[sp]_lapw -so
+  
+</LI>
+</UL>
+
+<P>
+For spin-polarized systems you may want to add the ``-dm'' switch to calculate
+also the orbital magnetic moment.
+
+<P>
+
+<H2><A NAME="SECTION05156000000000000000"></A>
+<A NAME="sec:flow_orb"></A>
+<BR>
+6 Orbital potentials
+</H2>
+In <EM>WIEN2k</EM>it is possible to go beyond standard LDA (GGA) and include orbital
+dependent potentials in methods like LDA+U or the ''Orbital-Polarization'',
+which are very usefull for strongly correlated systems.
+
+<P>
+To use these features you need to create input-files for LAPWDM and ORB
+(<TT><B>case.indm, case.inorb</B></TT>). You may copy a template from 
+<TT><B>SRC_templates</B></TT>, but must modify it according to your needs. In 
+particular you must select for which atoms and which orbitals (usually 
+d-Orbitals of late transition metal atoms or f-orbitals for 4f/5f atoms)
+you want to add such a potential and also choose the proper U and J values
+for them. Once this is done, you can include this using the <TT><B>-orb</B></TT> 
+switch. The density matrix (<TT><B>case.dmatup/dn</B></TT>) will be calculated after <TT><B>lapw2</B></TT> in 
+<TT><B>lapwdm</B></TT>, it will be mixed in <TT><B>mixer</B></TT> (consistently with the 
+``regular'' charge density) and the orbital dependend potentials will be 
+calculated on <TT><B>orb</B></TT> (after <TT><B>lapw0</B></TT>). Note, you must run 
+spin-polarized in order to use orbital potentials.
+
+<P>
+
+<UL>
+<LI>runsp_lapw -orb [-so]
+  
+</LI>
+</UL>
+
+<P>
+If you want to force a non-magnetic solution you can constrain the spin-polarization
+to zero using  <TT><B>runsp_c_lapw</B></TT>.
+
+<P>
+Without SO, <TT><B>case.vorbup/dn</B></TT> will be considered in LAPW1(c). With SO,
+it will be applied in LAPWSO (and allows coupling of nondiagonal spin-terms).
+
+<P>
+
+<H2><A NAME="SECTION05157000000000000000"></A>
+<A NAME="sec:flow_eece"></A>
+<BR>
+7 Exact-exchange and Hybrid functionals for correlated electrons
+</H2>
+In <EM>WIEN2k</EM>it is also possible to go beyond standard LDA (GGA) and include 
+on-site exact-exchange (Hartree-Fock),
+which is very usefull for strongly correlated systems.
+The exact-exchange/hybrid methods are implemented only inside the atomic
+spheres, therefore it is recommended to us them only for localized electrons
+(see Tran et al. 2006 for details). They will NOT improve gaps in
+sp-semiconductors.
+
+<P>
+<B>Examples of implemented functionals</B> include:
+
+<P>
+
+<UL>
+<LI><B>LDA-Hartree-Fock</B> 
+<BR>
+Functional 5 in case.in0. mode = EECE and fraction = 1 in case.ineece.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+E_{xc}^{\textrm{LDA-HF}}[\rho] = E_{xc}^{\textrm{LDA}}[\rho] +
+E_{x}^{\textrm{HF}}[\Psi_{\textrm{corr}}] -
+E_{xc}^{\textrm{LDA}}[\rho_{\textrm{corr}}]
+\end{displaymath}
+ -->
+
+
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+</LI>
+<LI><B>LDA-Fock-<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"></B>
+<BR>
+Functional 5 in case.in0. mode = HYBR and fraction = <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"> in case.ineece.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+E_{xc}^{{\textrm{LDA-Fock-}}\alpha}[\rho] = E_{xc}^{\textrm{LDA}}[\rho] +
+\alpha \left(E_{x}^{\textrm{HF}}[\Psi_{\textrm{corr}}] -
+E_{x}^{\textrm{LDA}}[\rho_{\textrm{corr}}]\right)
+\end{displaymath}
+ -->
+
+
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+</LI>
+<LI><B>PBE-Fock-<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"></B> 
+<BR>
+Functional 13 in case.in0. mode = HYBR and fraction = <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"> in case.ineece.
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+E_{xc}^{\textrm{PBE-Fock-}\alpha}[\rho] = E_{xc}^{\textrm{PBE}}[\rho] +
+\alpha\left(E_{x}^{\textrm{HF}}[\Psi_{\textrm{corr}}] -
+E_{x}^{\textrm{PBE}}[\rho_{\textrm{corr}}]\right)
+\end{displaymath}
+ -->
+
+
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+The PBE0 functional corresponds to .
+</LI>
+<LI><B>B3PW91</B>
+<BR>
+Functional 18 in case.in0. mode = HYBR and fraction = 0.2 in case.ineece.
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+E_{xc}^{\textrm{B3PW91}}[\rho] & = & E_{xc}^{\textrm{LDA}}[\rho] +
+0.2\left(E_{x}^{\textrm{HF}}[\Psi_{\textrm{corr}}] -
+E_{x}^{\textrm{LDA}}[\rho_{\textrm{corr}}]\right) \nonumber\\
+& &+0.72\left(E_{x}^{\textrm{B88}}[\rho] -
+E_{x}^{\textrm{LDA}}[\rho]\right)
+\nonumber\\
+& & + 0.81\left(E_{c}^{\textrm{PW91}}[\rho] -
+E_{c}^{\textrm{LDA}}[\rho]\right)
+\end{eqnarray*}
+ -->
+</DIV>
+<BR CLEAR="ALL"><P></P>
+</LI>
+</UL>
+
+<P>
+In addition to the input files which are necessary for an usual LDA or GGA
+calculation, the input file <TT><B>case.ineece</B></TT> is necessary to start a 
+calculation.
+You may copy a template from 
+<TT><B>SRC_templates</B></TT>, but must modify it according to your needs. In 
+particular you must select for which atoms and which orbitals (usually 
+d-Orbitals of late transition metal atoms or f-orbitals for 4f/5f atoms)
+you want to add such a potential and which type of functional you want to use. 
+
+<P>
+A sample input for calculations with exact exchange is given below.
+<PRE>
+------------------ top of file: case.ineece -----------
+-9.0  2       emin, natorb
+1  1  2       1st atom index, nlorb, lorb
+2  1  2       2nd atom index, nlorb, lorb
+HYBR          HYBR / EECE mode
+0.25          fraction of exact exchange
+------------------ bottom of file ---------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows: 
+<BR>
+<P>
+
+<B>line 1</B>: free format 
+<BR>
+emin, natom 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>emin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lower energy cutoff, to be selected so that the energy of correlated states is
+larger than emin</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>natorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atoms for which the exact exchange is calculated</TD>
+</TR>
+</TABLE>
+
+<B>line 2</B>: free format 
+<BR>
+iatom(i), nlorb(i), (lorb(li,i), li=1,nlorb(i)) 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of atom in struct file</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nlorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of orbital moments for which exact exchange shall be calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>lorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>orbital numbers (repeated nlorb-times)</TD>
+</TR>
+</TABLE>
+
+<B> line repeated natorb-times</B> 
+<BR>
+<P>
+
+<B>line 3</B>: free format 
+<BR>
+mode 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>HYBR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>means that LDA/GGA exchange will be replaced by exact exchange</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>EECE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>means that LDA/GGA exchange-correlation will be replaced by exact exchange</TD>
+</TR>
+</TABLE>
+
+<B>line 4</B>: free format 
+<BR>
+This is the fraction of Hartree-Fock exchange (between 0 and 1) 
+
+<P>
+As with LDA+, hybrid functionals can be used only for spin-polarized
+calculations (<TT><B>runsp_lapw</B></TT> with the switch <TT><B>-eece</B></TT>).
+<TT><B>runsp_lapw</B></TT> will internally call <TT><B>runeece_lapw</B></TT>, which
+will create all necessary additional input files:
+<TT><B>case.indm (case.indmc), case.inorb, case.in0eece, case.in2eece
+  (case.in2ceece)</B></TT> 
+ and once this is done, calculates in a series of <TT><B>lapw2/lapwdm/lapw0/orb</B></TT>
+ calculations the corresponding orbital dependend potentials.
+
+<P>
+
+<UL>
+<LI>runsp_lapw -eece [-so]
+  
+</LI>
+</UL>
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1141"
+  HREF="5Shell_scripts.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1137"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1131"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1139"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1142"
+  HREF="5Shell_scripts.html">5 Shell scripts</A>
+<B> Up:</B> <A NAME="tex2html1138"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1132"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+ &nbsp; <B>  <A NAME="tex2html1140"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

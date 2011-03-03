@@ -1,0 +1,384 @@
+!$hp9000_800 intrinsics on
+      PROGRAM veccopy                                                     
+!                                                                       
+      IMPLICIT REAL*8 (A-H,O-Z)
+      include 'param.inc'
+      PARAMETER          (LMAX=   13)
+      PARAMETER          (nloat= 3)
+      PARAMETER          ( LOMAX=    3)
+      CHARACTER*3    ipgr
+      CHARACTER*4    IREL,LATTIC,cform                                 
+      CHARACTER*5    vech(20,3)                                                
+      CHARACTER*10   ANAME                                              
+      CHARACTER*11   STATUS,FORM                                        
+      CHARACTER*20   TITLE                                              
+      CHARACTER*77   FNAME
+      CHARACTER*79   MARGN
+      CHARACTER*91   MARGN91
+      LOGICAL        jatch2,forces
+!
+      real*8,allocatable :: z(:,:),factor(:)
+      real*8,allocatable :: e(:,:), elo(:,:,:),e1(:),pos1(:),pos2(:),pos3(:)
+      integer,allocatable :: kzz(:,:),klist(:),iatomlist(:),iatomlist1(:),nlo(:),ilo(:,:),nlo1(:)
+      logical,allocatable :: lapw(:,:),loor(:,:,:)
+
+
+      integer,allocatable :: jatch(:,:),lmch(:,:,:,:),lmchm(:)             
+      complex*16 tk,imag                                
+      COMPLEX*16,allocatable ::  ROKVL(:,:)                
+      INTEGer,allocatable :: KVECVL(:,:)
+      real*8,allocatable :: CLMNEW(:,:,:,:),fhelp(:,:),fsuhelp(:,:),clmfac(:,:)
+      INTEGer,allocatable :: LM(:,:,:),LMMAX(:),JRI(:),MULT(:)
+!
+      integer msym(3,3),krot(3),krotst(3,nsym)
+      real*8  taum(3),rrot(3)
+      DIMENSION TAU(3,NSYM),fakc(20,2)
+      COMMON /SYMM/  LSYM(3,3,NSYM),IORD,INUM(NSYM)                     
+      DATA      tiny/1.0d-15/
+!---------------------------------------------------------------------  
+!                                                                       
+      call getarg(2,fname)
+      if(fname.eq.'      ') call getarg(1,fname)
+      OPEN(1,FILE=fname,STATUS='OLD',ERR=8000)
+ 8003 READ(1,*,END=8001) IUNIT,FNAME,STATUS,FORM,IRECL
+      OPEN(IUNIT,FILE=FNAME,STATUS=STATUS,FORM=FORM, &
+      ERR=8002)
+      GOTO 8003
+ 8000 WRITE(*,*) ' ERROR IN OPENING MIXER.DEF !!!!'
+      STOP 'MIXER.DEF'
+ 8002 WRITE(*,*) ' ERROR IN OPENING UNIT:',IUNIT
+      WRITE(*,*) '       FILENAME: ',FNAME,'  STATUS: ',STATUS, &
+      '  FORM:',FORM
+      STOP 'OPEN FAILED'
+ 8001 CONTINUE
+      CLOSE (1)
+
+      tpi=2.d0*acos(-1.d0)
+      imag=(0.d0,1.d0)
+! reading input parameters : changing vectors 
+      do j2=1,3
+      READ(5,*) (mSYM(J2,J1),J1=1,3),TAUm(J2)
+      enddo
+
+!.....READ TAPE20=POTE                                                  
+!                                                                       
+      READ(20,1000) TITLE                                               
+      READ(20,1010) LATTIC,NAT,cform,IREL              
+      nato=nat                       
+      allocate ( CLMNEW(NRAD,NCOM,NATO,2),fhelp(nato,4),fsuhelp(nato,4))
+      allocate ( LM(2,NCOM,NATO),LMMAX(NATO),JRI(NATO),MULT(NATO))
+      allocate ( jatch(nato,2),lmch(nato,ncom,2,2),lmchm(nato),clmfac(nato,ncom)) 
+      allocate (pos1(48*nat),pos2(48*nat),pos3(48*nat),iatomlist(48*nat),iatomlist1(nat))
+      allocate (nlo(nat),nlo1(48*nat),ilo(0:lmax-1,nat),lapw(0:lmax-1,nat),loor(nloat,0:lomax,nat))
+!
+      READ(20,1030) AA,BB,CC                                            
+!      if(cform.eq.'NEW ') then
+        assign 2021 to iform1
+        assign 2071 to iform2
+        assign 2076 to iform3
+!      else
+!        assign 2020 to iform1
+!        assign 2070 to iform2
+!        assign 2075 to iform3
+!      end if                                    
+ 2020 FORMAT(3X,5E13.7)                                                 
+ 2021 FORMAT(3X,4E19.12)                                                 
+ 2070 FORMAT(3X,3I5,2E15.7)                                             
+ 2071 FORMAT(3X,3I5,2E19.12)                                             
+ 2075 FORMAT(3X,3I5,4E15.7)                                             
+ 2076 FORMAT(3X,3I5,2E19.12,2e11.3)                     
+      INDEX=0                                                           
+!     INDEX COUNTS ALL ATOMS IN THE UNIT CELL, JATOM COUNTS ONLY THE    
+!     NOTEQUIVALENT ATOMS                                               
+!                                                                       
+      DO 5 JATOM = 1,NAT                                                
+         INDEX=INDEX+1                                                  
+         READ(20,1040) IATNR,POS1(index),POS2(index),             &
+                       POS3(index),MULT(JATOM),ISPLIT            
+            MULTND=MULT(JATOM)-1                                        
+            DO 10 M=1,MULTND                                            
+            INDEX=INDEX+1                                               
+            READ(20,1041) IATNR,POS1(index),POS2(index),          &
+                          POS3(index)                                   
+ 10         CONTINUE                                                    
+         READ(20,1050) ANAME,JRI(JATOM),RNOT,RMTT,         &
+                       ZZ                                        
+         READ(20,*)                                                     
+         READ(20,*)                                                     
+         READ(20,*)                                                     
+ 5    CONTINUE                                                          
+!                                                                       
+!     READ SYMMETRY-OPERATIONS FROM TAPE20=POTE                         
+      READ(20,1055) IORD                                                
+      DO 12 J=1,IORD                                                    
+ 12   READ(20,1056) ( (LSYM(J1,J2,J),J1=1,3),TAU(J2,J), J2=1,3 ),INUM(J)
+!     ALL OF POTE IS READ                                               
+!
+!find equivalent atoms due to afm sym oper.
+!
+      index=0
+      do jatom=1,nat
+      do m=1,mult(jatom)
+      index=index+1
+         DO  J1=1,3                                                     
+         rrot(J1)=msym(J1,1)*pos1(index)+msym(J1,2)*pos2(index)+msym(J1,3)*pos3(index)+TAUm(J1)
+         if(rrot(j1).gt.0.99999999999999d0) rrot(j1)=rrot(j1)-1.d0
+         if(rrot(j1).lt.-0.0000000000001d0) rrot(j1)=rrot(j1)+1.d0
+         ENDDO
+         index1=0
+         do jatom1=1,nat
+         do m1=1,mult(jatom)
+         index1=index1+1
+!check rotated position
+         if(abs(rrot(1)-pos1(index1)).lt.1.d-5.and.abs(rrot(2)-pos2(index1)).lt.1.d-5.and.abs(rrot(3)-pos3(index1)).lt.1.d-5) then       
+           iatomlist(index)=index1
+           iatomlist1(jatom)=jatom1
+           write(*,16) index,pos1(index),pos2(index),pos3(index),index1,rrot(1),rrot(2),rrot(3) 
+ 16        format('atom',i4,3f8.4,' transfered to atom',i4,3f8.4)
+           goto 15
+         endif
+         enddo
+         enddo
+         write(*,*) 'equivalent position not found',pos1(index),pos2(index),pos3(index),rrot(1),rrot(2),rrot(3)
+         stop 'rrot not found'
+ 15   continue
+      enddo
+      enddo
+!
+!read vector file
+!                                                                       
+      nlo(1:nat)=0
+!      nlov(1:nat)=0
+!      nlon(1:nat)=0
+! nlo #LO on this atom, nlov #LO up til now, nlon #LO left
+      ilo(0:lmax,1:nat)=0
+      allocate(e(lmax,nat),elo(0:lomax,nloat,nat))
+      DO 80 I = 1, NAT
+         read(10) (E(J,I),J=1,LMAX)
+         read(10) ((ELO(J,k,I),J=0,LOMAX),k=1,nloat)
+         WRITE(6,'(100(f9.5))') (E(J,I),J=1,LMAX)
+         WRITE(6,'(100(f9.5))') ((ELO(J,k,I),J=0,LOMAX),k=1,nloat)
+   80 CONTINUE
+      nlotot=0
+      index1=0
+      DO 81 I = 1, NAT
+           DO l=0,lmax-1
+              lapw(l,i)=.TRUE.
+              IF(e(l+1,i).GT.150.) THEN
+!                 e(l+1,i)=e(l+1,i)-200.d+0
+                 lapw(l,i)=.FALSE.
+              ENDIF
+           ENDDO
+        DO l = 0,lomax
+           DO k=1,nloat
+              loor(k,l,i)=.FALSE.
+!              rlo(k,l,i)=.FALSE.
+!              IF (i.EQ.jatom) THEN 
+                 IF (elo(l,k,i).LT.(995.d+0)) THEN
+                    ilo(l,i)=ilo(l,i)+1
+                    nlo(i)=nlo(i)+((2*l+1))*mult(i)
+                    IF(.NOT.lapw(l,i).AND.k.EQ.1) GOTO 666
+!                    IF(k.EQ.nloat) THEN
+!                          rlo(ilo(l,i),l,i)=.TRUE.
+!                    ENDIF
+                    loor(ilo(l,i),l,i)=.TRUE.
+666                 CONTINUE
+                 ENDIF
+!              ELSE
+!                IF (elo(l,k,i).LT.(995.d+0)) nlov(i)=nlov(i)+((2*l+1))*mult(i)
+!              ENDIF
+           ENDDO
+        ENDDO
+      nlotot=nlotot+nlo(i)
+      write(6,17) i,nlo(i),(ilo(l,i),l=0,lomax)
+ 17   format('atom',i3,' has',i3,' LOs. For each l it has',10i3)
+     do i1=1,mult(i)
+     index1=index1+1
+     nlo1(index1)=nlo(i)/mult(i)
+     enddo
+81   CONTINUE
+     indexmax=index1
+!
+     do i=1,nat
+! Write in proper order
+         write(30) (E(J,Iatomlist1(i)),J=1,LMAX)
+         write(30) ((ELO(J,k,Iatomlist1(i)),J=0,LOMAX),k=1,nloat)
+         WRITE(6,'(100(f9.5))') (E(J,Iatomlist1(I)),J=1,LMAX)
+         WRITE(6,'(100(f9.5))') ((ELO(J,k,Iatomlist1(I)),J=0,LOMAX),k=1,nloat)
+     enddo
+!
+ 6666   read(10,end=998) SX, SY, SZ, ANAME, NV, NE , WEIGHT , IPGR
+	write(6,*) 'k=',SX, SY, SZ, ANAME, NV, NE, WEIGHT,ipgr
+  	write(30) SX, SY, SZ, ANAME, NV, NE, WEIGHT, IPGR
+        allocate (kzz(3,nv),z(nv,ne),e1(ne),klist(nv),factor(nv))
+     
+	read(10) (KZZ(1,I),KZZ(2,I),KZZ(3,I),I=1,NV)
+	write(30) (KZZ(1,I),KZZ(2,I),KZZ(3,I),I=1,NV)
+	DO I = 1, NE
+         read(10) I1,E1(i)
+         WRIte(6,*) I, E1(i)
+         read(10) (Z(J,I),J=1,NV)
+!_REAL         read(10) (Z(J,I),J=1,NV)
+!_COMPLEX         read(10) (CONJG(Z(J,I)),J=1,NV)
+
+
+        END DO
+!testing and factor
+         DO  J=1,Nv  
+             TK=0.                                                          
+             DO  J1=1,3                                                     
+               TK=TK+TAUm(J1)*Kzz(J1,J)*TPI        
+               Krot(J1)=0                                      
+             DO L=1,3                                                  
+               Krot(J1)=msym(J1,L)*Kzz(L,J)+Krot(J1)                   
+             ENDDO
+             ENDDO
+             tk=EXP(IMAG*TK)   
+!
+!             CALL STERN1(krot,NST,krotst)
+! .... test to which kzz the new krot belongs                   
+             DO  I=1,Nv          
+               IF(KDELTA(Kzz(1,I),1,krot)) GOTO 50
+             enddo
+             stop 'error: krot not found'
+ 50          CONTINUE                                                          
+!                                             
+             if(j.lt.50) write(6,51) j,(Kzz(JX,J),JX=1,3),i,tk
+ 51          format(i3,' K-vector:',3i4,' equal',i3,'th K-vector with factor',2f10.5)
+             klist(j)=i
+             factor(j)=tk    
+           if(j.gt.nv-nlotot) then
+!LO, interchange according to atoms, take factor from above
+             i0=nv-nlotot+1
+             do index=1,indexmax
+             i0=i0+nlo1(index)
+             if(j.lt.i0) then
+               i0start=j-i0+nlo1(index)
+               i1=nv-nlotot+1
+               do index1=1,iatomlist(index)-1
+                 i1=i1+nlo1(index1)
+               enddo
+               write(*,53) index,iatomlist(index),j,i1+i0start,factor(j)
+ 53            format('LO-atomindex',i3,' eq. atom',i3,' ipw:',i6,' eq.',i6,' with factor',2f10.5)
+               klist(j)=i1+i0start
+!               factor(j)=1.d0    !warning not always 1
+               goto 52
+             endif
+             enddo
+                  stop 'error: equiv.index not found'
+           endif
+ 52        continue
+         enddo       
+
+! writing:
+ 	DO I = 1, NE
+	write(30) i,e1(i)
+        write(30) (Z(klist(J),i)*factor(j),J=1,NV)
+        enddo
+
+        deallocate(kzz,z,e1,klist,factor)
+        goto 6666
+ 998    continue
+!                                                                       
+!                                                                       
+ 
+      STOP 'clmcopy END'                                                  
+!                                                                       
+!                                                                       
+ 77   FORMAT(1X,9(F9.7))                                                
+ 78   FORMAT(1X,A20,A4,3F10.6,I5)                                       
+ 700  FORMAT(A79)                                                    
+ 791  FORMAT(A91)                                                    
+ 710  FORMAT(4x,i2)                                                    
+ 720  FORMAT(a4,i2.2,a8,i3,a62)
+ 730  FORMAT(a4,i2.2,a29,i3,a41) 
+ 740  FORMAT(a4,i2.2,a25,i3,a45) 
+ 750  FORMAT(a4,i2.2,a72) 
+ 751  FORMAT(a4,i2.2,a84) 
+ 760  FORMAT(a4,i2.2,a20,i3,a48) 
+ 770  FORMAT(15X,4f15.3)
+ 780  FORMAT (7x,'VALENCE-FORCE IN mRy = |F|',8x,'Fx',13x, &
+              'Fy',13x,'Fz')
+ 790  FORMAT (':FVA',i2.2,':',1x,i2,'.ATOM',4f15.3)
+ 1790  FORMAT (':FSU',i2.2,':',1x,i2,'.ATOM',4f15.3)
+ 1000 FORMAT(A20)                                                       
+ 1010 FORMAT(A4,24X,I2,1x,a4,/,13X,A4)                                        
+ 1030 FORMAT(3F10.7)                                                    
+ 1040 FORMAT(5X,I3,4X,F10.7,3X,F10.7,3X,F10.7,/,15X,I2,17X,I2)          
+ 1041 FORMAT(5X,I3,4X,F10.7,3X,F10.7,3X,F10.7)                          
+ 1050 FORMAT(A10,5X,I5,5X,F10.9,5X,F10.5,5X,F10.5)                      
+ 1055 FORMAT(I4)                                                        
+ 1056 FORMAT(3(3I2,F5.2,/),I8)                                          
+ 1980 FORMAT(3X)                                                        
+ 1990 FORMAT(3X,'ATOM NUMBER =',I2,5X,10A4)                             
+ 2000 FORMAT(16X,I2//)                                                  
+ 2001 FORMAT(3X,'NUMBER OF LM=',I2//)                                   
+ 2010 FORMAT(16X,I2,5X,I2/)                                             
+ 2011 FORMAT(3X,'CLM(R) FOR L=',I2,3X,'M=',I2/)                         
+ 2031 FORMAT(/)                                                         
+ 2032 FORMAT(//)                                                        
+ 2033 FORMAT(///)                                                       
+ 2060 FORMAT(/,13X,I6)                                                  
+ 2061 FORMAT(/,1X,'NUMBER OF PW',I6)                                     
+ 3010 format(3a4)
+ 3011 format(3a4,2f4.1)
+      END                                                               
+      LOGICAL FUNCTION KDELTA(K,NST,STG)
+      include 'param.inc'
+!                                                                       
+!.... TEST, IF K IS IN STAR OF stg  (GENERATED IN STERN)                  
+!                                                                       
+!
+      IMPLICIT REAL*8 (A-H,O-Z)
+
+      INTEGER        G,NST,STG(3,nsym)
+
+      DIMENSION      K(3)                                               
+!---------------------------------------------------------------------  
+      DO 1 I=1,NST                                                      
+      DO 2 J=1,3 
+      IF(STG(J,I).NE.K(J)) GOTO 1                                       
+   2  CONTINUE                                                          
+      KDELTA=.TRUE.                                                     
+      RETURN                                                            
+  1   CONTINUE                                                          
+      KDELTA=.FALSE.                                                    
+      RETURN                                                            
+      END                                                               
+SUBROUTINE STERN1(G,NST,STG)
+  !.... GENERATE STAR OF G 
+  IMPLICIT real*8 (a-h,o-z)
+      include 'param.inc'
+  !
+      COMMON /SYMM/  iz(3,3,NSYM),IORD,INUM(NSYM)                     
+  INTEGER I,J,K,L,M
+  REAL*8  TK,TPI
+  INTEGER        G(3),NST,STG(3,NSYM),IND(NSYM)
+!---------------------------------------------------------------------  
+!                                         
+  tpi=two*pi
+  NST=0                                                             
+  DO 1 I=1,IORD                                                     
+     DO 2 J=1,3                                                     
+        K=0                                                         
+        DO L=1,3                                                  
+           K=IZ(J,L,I)*G(L)+K                                       
+        ENDDO
+        STG(J,I)=K                                                  
+2    CONTINUE                                                       
+     IF(NST.EQ.0) GOTO 7                                            
+     DO 4 M=1,NST                                                   
+        DO 5 J=1,3                                                  
+           IF(STG(J,M).NE.STG(J,I)) GOTO 4                          
+ 5      CONTINUE                                                    
+        IND(M)=IND(M)+1                                             
+        GOTO 1                                                      
+ 4   CONTINUE                                                       
+7    NST=NST+1                                                      
+     DO J=1,3                                                     
+        STG(J,NST)=STG(J,I)                                         
+     ENDDO
+     IND(NST)=1                                                     
+1 CONTINUE                                                          
+  RETURN                                                            
+END

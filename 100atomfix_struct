@@ -1,0 +1,17 @@
+#!/bin/csh -f
+#
+# usage: 100atomfix_struct_lapw    case.struct
+# find . -name '*.struct' -exec 100atomfix_struct_lapw {} \;
+#
+set file=$argv
+echo -n .
+#struct files
+   sed "s/ATOMS:/ATOMS /g" $file > _tmp_
+   mv _tmp_ $file
+   sed "s/ATOM=/ATOM /g" $file   > _tmp_ 
+   mv _tmp_ $file
+   sed "s/Atom=/ATOM /g" $file   > _tmp_ 
+   mv _tmp_ $file
+
+exit 0
+

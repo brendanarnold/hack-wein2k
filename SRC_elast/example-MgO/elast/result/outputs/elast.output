@@ -1,0 +1,10 @@
+Elastic parameters for cubic F phase
+MgO-B1                                                                         
+At volume:         121.80976 bohr^3 per formula:
+At calculated pressure: 0.000001 u.a. or     0.018927 GPa
+
+ in atomic units: 
+c11=        0.022371 c12=        0.006330 c44=        0.010257
+ 
+ in GPa: 
+c11=      329.088374 c12=       93.114314 c44=      150.881878

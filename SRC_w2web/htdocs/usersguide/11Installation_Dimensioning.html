@@ -1,0 +1,745 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>11 Installation and Dimensioning</TITLE>
+<META NAME="description" CONTENT="11 Installation and Dimensioning">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="12Trouble_shooting.html">
+<LINK REL="previous" HREF="3Installation_WIEN2k.html">
+<LINK REL="up" HREF="3Installation_WIEN2k.html">
+<LINK REL="next" HREF="12Trouble_shooting.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1472"
+  HREF="12Trouble_shooting.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1468"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1462"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1470"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1473"
+  HREF="12Trouble_shooting.html">12 Trouble shooting</A>
+<B> Up:</B> <A NAME="tex2html1469"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Previous:</B> <A NAME="tex2html1463"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+ &nbsp; <B>  <A NAME="tex2html1471"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1474"
+  HREF="11Installation_Dimensioning.html#SECTION06110000000000000000">1 Requirements</A>
+<LI><A NAME="tex2html1475"
+  HREF="11Installation_Dimensioning.html#SECTION06120000000000000000">2 Installation of <EM>WIEN2k</EM></A>
+<UL>
+<LI><A NAME="tex2html1476"
+  HREF="11Installation_Dimensioning.html#SECTION06121000000000000000">1 Expanding the <EM>WIEN2k</EM> distribution</A>
+<LI><A NAME="tex2html1477"
+  HREF="11Installation_Dimensioning.html#SECTION06122000000000000000">2 Site configuration for <EM>WIEN2k</EM></A>
+<LI><A NAME="tex2html1478"
+  HREF="11Installation_Dimensioning.html#SECTION06123000000000000000">3 User configuration</A>
+<LI><A NAME="tex2html1479"
+  HREF="11Installation_Dimensioning.html#SECTION06124000000000000000">4 Performance and special considerations</A>
+<LI><A NAME="tex2html1480"
+  HREF="11Installation_Dimensioning.html#SECTION06125000000000000000">5 Global dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1481"
+  HREF="11Installation_Dimensioning.html#SECTION06130000000000000000">3 <EM>w2web</EM></A>
+<UL>
+<LI><A NAME="tex2html1482"
+  HREF="11Installation_Dimensioning.html#SECTION06131000000000000000">1 General issues</A>
+<LI><A NAME="tex2html1483"
+  HREF="11Installation_Dimensioning.html#SECTION06132000000000000000">2 How does <EM>w2web</EM>  work?</A>
+<LI><A NAME="tex2html1484"
+  HREF="11Installation_Dimensioning.html#SECTION06133000000000000000">3 <EM>w2web</EM>-files in you home directory</A>
+<LI><A NAME="tex2html1485"
+  HREF="11Installation_Dimensioning.html#SECTION06134000000000000000">4 The configuration file conf/w2web.conf</A>
+<LI><A NAME="tex2html1486"
+  HREF="11Installation_Dimensioning.html#SECTION06135000000000000000">5 The password file conf/w2web.users</A>
+<LI><A NAME="tex2html1487"
+  HREF="11Installation_Dimensioning.html#SECTION06136000000000000000">6 Using the https-protocol with <EM>w2web</EM></A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1488"
+  HREF="11Installation_Dimensioning.html#SECTION06140000000000000000">4 Environment Variables</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION06100000000000000000"></A>
+<A NAME="cha:installation"></A>
+<BR>
+11 Installation and Dimensioning
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION06110000000000000000"></A>
+<A NAME="sec:requirements"></A>
+<BR>
+1 Requirements
+</H1>
+
+<P>
+<EM>WIEN2k</EM> is written in FORTRAN 90 and
+requires a UNIX operating system since the programs are linked
+together via C-shell scripts.  It has been implemented successfully on
+the following computer systems: Intel Pentium PCs running under
+Linux, IBM RS6000, HP, SGI, DEC Alpha and SUN. Hardware requirements
+will change from case to case (small cases with 10 atoms per unit cell
+can be run on a Pentium-II PC with 128 MB under Linux), but we recommend a
+more powerful PC or workstation  with at least 256 MB (better 512 MM or more)
+memory and plenty of disk space (a few Gb).
+
+<P>
+For coarse grain parallization on the k-point level, a 
+cluster of PCs with a 100 Mb/s network is sufficient. Faster communication 
+is recommended for the fine grain (single k-point) parallel version.
+
+<P>
+In order to use all options and features (such as the new graphical
+user interface <EM>w2web</EM> or some of its plotting tools) the following
+public domain program packages in addition to a F90 compiler must be
+installed:
+
+<UL>
+<LI>perl 5 or higher<A NAME="14844"></A> (for <EM>w2web</EM> only)
+</LI>
+<LI>emacs<A NAME="14846"></A> or another editor of your choice
+</LI>
+<LI>ghostscript (with jpg support)<A NAME="14847"></A>
+</LI>
+<LI>gnuplot (with png support)<A NAME="14848"></A>
+</LI>
+<LI>www-browser<A NAME="14849"></A>
+</LI>
+<LI>pdf-reader<A NAME="14850"></A>, acroread
+</LI>
+<LI>MPI+SCALAPACK<A NAME="14851"></A> (for fine grain parallelization only)
+</LI>
+<LI>Tcl/Tk-Toolkit (for Xcrysden only)
+</LI>
+</UL>
+
+<P>
+Usually these packages should be available on modern systems.  If one
+of these packages is not available it can either be installed from
+public domain sources (ask your computing center, use the WWW to
+search for the nearest location of these packages) or the
+corresponding configuration may be changed (e.g. using vi instead of
+emacs). None of the principal components of <EM>WIEN2k</EM> requires these
+packages, only <EM>w2web</EM> needs them.
+
+<P>
+
+<H1><A NAME="SECTION06120000000000000000"></A>
+<A NAME="sec:installation"></A><A NAME="14690"></A>
+<BR>
+2 Installation of <EM>WIEN2k</EM>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION06121000000000000000"></A>
+<A NAME="sec:expand_lapw"></A><A NAME="14693"></A>
+<BR>
+1 Expanding the <EM>WIEN2k</EM> distribution
+</H2>
+
+<P>
+The <EM>WIEN2k</EM> package comes as a single tar file (or you can download about 50
+individual tar files separately), which
+should be placed in a subdirectory which will be your
+<TT><B>$WIENROOT</B></TT> directory (e.g. <TT><B>./WIEN2k</B></TT>). In addition you can
+download three examples, namely <TT><B>TiC.tar.gz, TiO2.tar.gz</B></TT> and <TT><B>Fccni.tar.gz</B></TT>.
+
+<P>
+Uncompress and
+expand all files using:
+<BLOCKQUOTE>
+<TT><B>tar -xvf wien2k_00.tar</B></TT>       (skip this if you downloaded files separately)
+<BR> <TT><B>gunzip *.gz</B></TT> 
+<BR> <TT><B>chmod +x ./expand_lapw</B></TT> 
+<BR> <TT><B>./expand_lapw</B></TT>  
+
+</BLOCKQUOTE>
+
+<P>
+You should have gotten the following directories:
+
+<P>
+<PRE>
+./SRC
+  SRC_afminput 
+  SRC_aim
+  SRC_balsac-utils
+  SRC_broadening
+  SRC_clmcopy
+  SRC_dstart
+  SRC_elast
+  SRC_eosfit
+  SRC_filtvec
+  SRC_fsgen
+  SRC_initxspec
+  SRC_irrep
+  SRC_joint
+  SRC_kgen
+  SRC_kram
+  SRC_lapw0
+  SRC_lapw1
+  SRC_lapw2
+  SRC_lapw3
+  SRC_lapw5
+  SRC_lapw7
+  SRC_lapwdm
+  SRC_lapwso
+  SRC_lcore
+  SRC_lib
+  SRC_lorentz
+  SRC_lstart
+  SRC_mini
+  SRC_mixer
+  SRC_nn
+  SRC_optic
+  SRC_optimize
+  SRC_orb
+  SRC_phonon
+  SRC_qtl
+  SRC_reformat
+  SRC_sgroup
+  SRC_spacegroup
+  SRC_spaghetti
+  SRC_sumpara
+  SRC_supercell
+  SRC_symmetry
+  SRC_symmetso
+  SRC_telnes2
+  SRC_templates
+  SRC_tetra
+  SRC_trig
+  SRC_txspec
+  SRC_usersguide_html
+  example_struct_files
+  TiC
+  TiO2
+  fccni
+</PRE>
+
+<P>
+Thus, each program has its source code (split into several files) in
+its own subdirectory. All programs are written in FORTRAN90 (except 
+SRC_sgroup and SRC_reformat, which are in C).
+
+<P>
+<TT><B>/SRC</B></TT> contains the users guide (in form of a postscript file
+<TT><B>usersguide.ps</B></TT> and as pdf-file <TT><B>usersguide.pdf</B></TT>),
+all c-shell scripts and some auxiliary files.
+
+<P>
+<TT><B>/SRC_usersguide_html</B></TT> contains the html version  of the UG.
+
+<P>
+<TT><B>/Fccni</B></TT>, <TT><B>/TiC</B></TT> and <TT><B>/TiO2</B></TT> contain three
+example inputs and the respective outputs.
+
+<P>
+<TT><B>/example_struct_files</B></TT> contains a collection of various struct files,
+which could be of use especially for the less experienced user.
+
+<P>
+<TT><B>/SRC_templates</B></TT> contains various input templates.
+
+<P>
+In addition to the expansion of the tar-files <TT><B>./expand_lapw</B></TT>
+copies also all csh-shell scripts from <TT><B>/SRC</B></TT> to the current
+directory and creates links for some abbreviated commands.
+
+<P>
+
+<H2><A NAME="SECTION06122000000000000000"></A>
+<A NAME="sec:site_config"></A><A NAME="14720"></A><A NAME="14721"></A>
+<BR>
+2 Site configuration for <EM>WIEN2k</EM>
+</H2>
+
+<P>
+At the end of <TT><B>expand_lapw</B></TT> you will be prompted to start the
+script
+
+<P>
+<TT><B>./siteconfig_lapw</B></TT>
+
+<P>
+When you start this script for the first time (file
+ <TT><B>INSTALLDATE</B></TT> not present), you will be guided through the setup
+ process.
+
+<P>
+Later on you can use <TT><B>siteconfig_lapw</B></TT> to redimension
+ parameters, update individual packages and recompile the respective programs.
+
+<P>
+During the first run, you will be asked to specify:
+
+<UL>
+<LI>your system; at this point system specific files (e.g.
+  <TT><B>cputim.f</B></TT> will be
+  installed. If your system is not listed, use the system
+  <B>generic</B>, which should compile on any machine.
+</LI>
+<LI>your FORTRAN90 and C compilers; 
+</LI>
+<LI>your compiler and linker options as well as the place for LAPACK
+  and BLAS libraries. Depending on the system you selected, we have
+  included some recommended compiler and linker options, which are
+  known to work on our systems (use <B>generic</B> when you have
+  problems here; see also sec. <A HREF="#sec:performance">11.2.4</A>). On some systems
+  it is required to specify LAPACK and BLAS libraries twice (i.e.
+  R_LIBS:-llapack_lapw -lblas_lapw -llapack_lapw -lblas_lapw).
+  This generates Makefiles from the corresponding Makefile.orig in all subdirectories.
+</LI>
+<LI>configuration of parallel execution will ask whether your system
+  is shared memory, so that default parameters can be set
+  accordingly ( <TT><B>$WIENROOT/parallel_options</B></TT> is the file where
+  this information is stored).
+</LI>
+<LI>to configure parallel execution for distributed systems, specify
+  the command to open a remote shell, which on most systems is
+  <TT><B>rsh</B></TT> or <TT><B>ssh</B></TT>.
+</LI>
+<LI>You will then be asked wether you want to run fine-grained parallel.
+  This is only possible if MPI and SCALAPACK are installed on your system
+  and requires a fast network (100Mb/s is not very good) or a shared memory 
+  machine. It pays off only for big cases (matrixsize <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> 5000).
+</LI>
+<LI>You should define NMATMAX, i.e. the maximum matrixsize (number of
+basisfunctions). This value should be adjusted according to the memory of
+your hardware. Rough estimates are: 
+<BR>
+NMATMAX= 5000 <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img309.png"
+ ALT="$==&gt;$"> 256MB (real) or 500MB (complex, without inversion symmetry)
+<BR>
+NMATMAX=10000 <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img309.png"
+ ALT="$==&gt;$"> 1GB (real) (<IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img309.png"
+ ALT="$==&gt;$"> cells with about 80-150 atoms/unitcell)
+If you choose it too large, <TT><B>lapw1</B></TT> will start to ``page'' leading to
+inacceptable performance or a crash.
+</LI>
+<LI>Now you are prompted to compile all programs (this will be done
+  using <TT><B>make</B></TT>) and the executables are copied to the <TT><B>$WIENROOT</B></TT>
+  directory.
+</LI>
+</UL>
+
+<P>
+Compilation might take quite some time. After compilation you will
+find a file <TT><B>compile.msg</B></TT> in each <TT><B>SRC_*</B></TT> directory.
+
+<P>
+Later on you can use <TT><B>siteconfig_lapw</B></TT> to change parameters, options or
+to update a package.
+
+<P>
+
+<H2><A NAME="SECTION06123000000000000000"></A>
+<A NAME="sec:userconfig"></A><A NAME="14743"></A><A NAME="14744"></A>
+<BR>
+3 User configuration
+</H2>
+
+<P>
+Each <EM>WIEN2k</EM> user should run the script <TT><B>userconfig_lapw</B></TT>.  This
+will setup a proper environment.
+
+<P>
+The script <TT><B>userconfig_lapw</B></TT> will do the following for you:
+
+<UL>
+<LI>set a path to <EM>WIEN2k</EM> programs
+</LI>
+<LI>add aliases, and
+</LI>
+<LI>add environment variables (<TT><B>$WIENROOT</B></TT>) to your <TT><B>~/.cshrc</B></TT> file.
+</LI>
+</UL>
+
+<P>
+<I>Note: This will work only when the csh, tcsh or bash-shell is your
+  login shell.  Depending on your settings you may have to add similar
+  lines also in your <TT><B>.login</B></TT> file. If you are using a different
+  login-shell, edit your startup files manually.</I>
+
+<P>
+
+<H2><A NAME="SECTION06124000000000000000"></A>
+<A NAME="sec:performance"></A>
+<BR>
+4 Performance and special considerations
+</H2>
+
+<P>
+The script <TT><B>siteconfig_lapw</B></TT> is provided for general
+configuration and compilation of the <EM>WIEN2k</EM> package. When you call
+this script for the first time and follow the suggested answers,
+<EM>WIEN2k</EM> should run on your system (see <A HREF="#sec:site_config">11.2.2</A>).
+
+<P>
+The codes in the individual subdirectories <TT><B>/SRC_program</B></TT> are
+compiled using make. The file <TT><B>Makefile</B></TT> is generated during installation using <TT><B>Makefile.orig</B></TT> as template.
+
+<P>
+In some directories the source files <TT><B>*.frc, *.F</B></TT> and
+<TT><B>param.inc_r/c</B></TT> contain both, the real and complex
+(for systems without inversion symmetry) version of the code. 
+You create the coresponding versions with <TT><B>make</B></TT> and <TT><B>make
+ complex,</B></TT> respectively. (The <TT><B>*.frc</B></TT> and <TT><B>*.F</B></TT> files will then be
+preprocessed automatically).
+
+<P>
+The fine-grained parallel versions <TT><B>lapw0_mpi; lapw1_mpi, lapw1c_mpi,
+lapw2_mpi, lapw2c_mpi</B></TT> are created using <TT><B>make para</B></TT> (lapw0) and 
+<TT><B>make rp; make cp</B></TT>.
+
+<P>
+For timing purposes a subroutine <TT><B>CPUTIM</B></TT> is used in
+several programs and specific routines for IBM-AIX, HP-UX, DEC-OSF1,
+SGI and SUN are available. On other systems
+<TT><B>cputim_generic.c</B></TT> should work.
+
+<P>
+On some HP systems you may encounter problems like: ``stack growth
+failure''.  You may recompile with -K, reconfigure your Unix-kernel
+(with increased stack-size) or put large arrays in the respective
+program into COMMONS.
+
+<P>
+Most of the CPU time will be spent in <TT><B>lapw1</B></TT> and (to a smaller
+extent) in <TT><B>lapw2 and lapw0</B></TT>. Therefore we recommend to optimize
+the performance for these 3 programs:
+
+<P>
+
+<UL>
+<LI>Find out which compiler options (<TT><B>man f90</B></TT>) make these programs
+run faster. You could specify a higher optimization (-O3), specify a
+particular processor architecture (-qarch=pp2 or -R10000, ....) or a
+preprocessor (like kapp or vast).
+
+<P>
+</LI>
+<LI>Good performance depends on highly optimized BLAS and LAPACK libraries. 
+  Whenever it
+  is possible, replace the supplied libraries 
+  (<TT><B>SRC_lib/blas_lapw</B></TT> and <TT><B>SRC_lib/lapack_lapw</B></TT>), by
+  routines from your vendor (essl on IBM, complib.sgimath on SGI, dxml
+  on DEC, try also blas, nag, or imsl libraries). If such libraries
+  are not available try to optimize them yourself using the ``ATLAS'' system.
+  (see http://math-atlas.sourceforge.net). We provide an ATLAS-BLAS for a Pentium4 with <EM>WIEN2k</EM>.
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION06125000000000000000"></A>
+<A NAME="sec:dimensioning"></A><A NAME="14784"></A>
+<BR>
+5 Global dimensioning parameters
+</H2>
+
+<P>
+<EM>WIEN2k</EM> is written in Fortran 90 and all important arrays are allocated 
+dynamically. The only important parameters left are NMATMAX and NUME, 
+specifying the maximum matrixsize (should be adjusted to the memory of
+your hardware, see above) and the maximum number of eigenvalues (must be 
+increased for unitcells with large number of electrons)
+
+<P>
+Some less important parameters are still present and described in chapter
+``dimensioning parameters`` of the respective section in chapter
+<A HREF="6Initialization.html#cha:programs">6</A>.
+
+<P>
+We recommend to use <TT><B>siteconfig_lapw</B></TT> for redimensioning and
+recompilation. In order to work properly, the parameter XXXX in the
+respective <TT><B>param.inc</B></TT> files must obey the following syntax:
+
+<P>
+<PRE>
+      PARAMETER(XXXX= ....)
+</PRE>
+
+<P>
+<I>Note: between ``(``, XXXX and ``='' there must be no space.</I>
+
+<P>
+
+<H1><A NAME="SECTION06130000000000000000"></A>
+<A NAME="sec:gui-config"></A>
+<BR>
+3 Installation and Configuration of <EM>w2web</EM>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION06131000000000000000">
+1 General issues</A>
+</H2>
+<EM>w2web</EM> requires <TT><B>perl</B></TT>, which should be available on most systems.
+(If not contact your system administrator or install it yourself from the
+WWW)
+
+<P>
+When you start <EM>w2web</EM> for the first time on the computer where you want to
+execute <EM>WIEN2k</EM> (you may have to telnet, ssh,.. to this machine) with the
+command <TT><B>w2web [-p xxxx]</B></TT>, you will be asked for a 
+username/password (I recommend you use the same as for your UNIX login).
+
+<P>
+You must also specify a ``port'' number (which can be changed the next time you
+start <EM>w2web</EM>). If the default port (7890) used to serve the interface is already
+in use by some other process, you will get the error message <TT>w2web
+failed to bind port 7890 - port already in use!</TT>. Then you will have to choose
+a different port number (between 1024 and 65536) .  Please remember this port
+number, you need it when connecting to the <EM>w2web</EM> 
+server.
+
+<P>
+<I>Note: Only user <B>root</B> can specify port numbers below 1024!</I>
+
+<P>
+Once <EM>w2web</EM> has been started, use your favorite WWW-browser to connect 
+to <EM>w2web</EM>, specifying the correct portnumber, e.g. 
+<TT><B>netscape http://hostname_where_w2web_runs:7890</B></TT>
+
+<P>
+Using ``<I>Configuration</I> '' you can
+further tailor the behaviour according to your wishes. In particular
+you can define new ``execution types'' to adjust to your queuing system.
+For example the line
+<BR>
+batch=batch <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">%f
+<BR>
+defines an execution type ``batch'' using the UNIX batch command.
+<EM>w2web</EM> collects its commands in a temporary script and you can access it 
+using %f.
+
+<P>
+<EM>w2web</EM> saves several variables in startup files which are in the
+<TT><B>(</B></TT>~/.w2web) directory.
+
+<P>
+
+<H2><A NAME="SECTION06132000000000000000">
+2 How does <EM>w2web</EM>  work?</A>
+</H2>
+
+<P>
+<EM>w2web</EM>  acts like a normal web-server - except that it runs on a ''user level
+port'' instead of the default http-port 80. It serves html-files and executes
+perl-scripts or executes system or user commands on the server host.
+
+<P>
+
+<H2><A NAME="SECTION06133000000000000000">
+3 <EM>w2web</EM>-files in you home directory</A>
+</H2>
+
+<P>
+<EM>w2web</EM> creates on the first start of w2web on host ``hostname''  the directory  <TT><B>.w2web/hostname</B></TT> in your home directory
+with the following content:
+
+<UL>
+<LI>.w2web/hostname/conf
+</LI>
+<LI>.w2web/hostname/logs
+</LI>
+<LI>.w2web/hostname/sessions
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION06134000000000000000">
+4 The configuration file conf/w2web.conf</A>
+</H2>
+
+<P>
+In this file various configuration parameters are stored by <EM>w2web</EM>.
+To restrict the access to certain IP addresses you can add lines like:
+
+<P>
+<PRE>
+deny=*.*.*.*   
+allow=128.130.134.* 128.130.142.10
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION06135000000000000000">
+5 The password file conf/w2web.users</A>
+</H2>
+
+<P>
+This file is created during the first run of <EM>w2web</EM>.
+
+<P>
+If you remove this file, the next start of <EM>w2web</EM>will activate the
+installation procedure again.
+
+<P>
+
+<H2><A NAME="SECTION06136000000000000000">
+6 Using the https-protocol with <EM>w2web</EM></A>
+</H2>
+
+<P>
+In order to use the https-protocol the perl-library Net::SSLeay in addition to
+the OpenSSL package must be installed on your system. Both are freely
+available.
+
+<P>
+Then you must include a line with <TT><B>ssl=1</B></TT> in w2web.conf.
+
+<P>
+If you run <EM>w2web</EM>-server in ssl-mode you need a site certificate for your
+server. You may use the supplied certificate in
+<TT><B>$WIENROOT/SRC_w2web/bin/w2web.pem</B></TT> (copy this file to your
+conf-directory and set the keyfile=&nbsp;/.w2web/&lt;hostname&gt;/conf/w2web.pem line in
+your w2web.conf). 
+
+<P>
+This certificate will not expire until 2015, but usually browsers will complain
+that they do not know the Certificate Authority who issued this certificate -
+if you don't like this message, you must buy a certificate from VeriSign,
+Thawte or a similar CA.
+
+<P>
+Of course you must connect to <I>https:</I> instead of <I>http:</I>, i.e. use:
+
+<P>
+<TT><B>netscape https://hostname_where_w2web_runs:7890</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION06140000000000000000">
+4 Environment Variables</A>
+</H1>
+
+<P>
+<EM>WIEN2k</EM> uses the following environment variables:
+
+<P>
+<DL>
+<DT><STRONG>WIENROOT</STRONG></DT>
+<DD>base directory where <EM>WIEN2k</EM> is installed
+</DD>
+<DT><STRONG>PDFREADER</STRONG></DT>
+<DD>specifies program to read pdf files (acroread, xpdf,...)
+</DD>
+<DT><STRONG>SCRATCH</STRONG></DT>
+<DD>directory where <TT><B>case.vector</B></TT> and
+  <TT><B>case.help??</B></TT> are stored.
+</DD>
+<DT><STRONG>EDITOR</STRONG></DT>
+<DD>path and name of your prefered editor
+</DD>
+<DT><STRONG>XCRYSDEN_TOPDIR</STRONG></DT>
+<DD>if this variable is set <EM>WIEN2k</EM> will activate
+  all interface extensions to XCrysDen.
+</DD>
+<DT><STRONG>USE_REMOTE</STRONG></DT>
+<DD>[0<IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$\vert$">1] determines whether parallel jobs are run in 
+background (on shared memory machines) or using rsh.
+  It is overridden by settings  in <TT><B>$WIENROOT/parallel_options</B></TT>
+</DD>
+<DT><STRONG>WIEN_GRANULARITY</STRONG></DT>
+<DD>Default granularity for parallel execution.
+  It is overridden by setting the granularity in the <TT><B>.machines</B></TT>
+  file or in <TT><B>$WIENROOT/parallel_options</B></TT>
+</DD>
+<DT><STRONG>WIEN_EXTRAFINE</STRONG></DT>
+<DD>if set, the residual k-points are spread one
+    by one over the processors.
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1472"
+  HREF="12Trouble_shooting.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1468"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1462"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1470"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1473"
+  HREF="12Trouble_shooting.html">12 Trouble shooting</A>
+<B> Up:</B> <A NAME="tex2html1469"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Previous:</B> <A NAME="tex2html1463"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+ &nbsp; <B>  <A NAME="tex2html1471"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,55 @@
+data_global
+
+_symmetry_cell_setting     Monoclinic
+_symmetry_space_group_name_H-M     'P21/n'
+_symmetry_space_group_name_Hall     '-P 2yn'
+
+loop_
+    _symmetry_equiv_pos_as_xyz
+    'x, y, z'
+    '-x+1/2, y+1/2, -z+1/2'
+    '-x, -y, -z'
+    'x-1/2, -y-1/2, z-1/2'
+
+_cell_length_a     9.674(3)
+_cell_length_b     12.920(4)
+_cell_length_c     6.484(3)
+_cell_angle_alpha     90
+_cell_angle_beta     97.71(3)
+_cell_angle_gamma     90
+
+loop_
+    _atom_site_label
+    _atom_site_fract_x
+    _atom_site_fract_y
+    _atom_site_fract_z
+    _atom_site_U_iso_or_equiv
+    _atom_site_thermal_displace_type
+    _atom_site_calc_flag
+    _atom_site_refinement_flags
+    _atom_site_occupancy
+    _atom_site_disorder_group
+    _atom_site_type_symbol
+    NA  -.1046(4)  .4615(3)  .2011(6)  .0240(13) Uani d . 1 . N
+    O1A  -.2333(3)  .4701(2)  .1371(5)  .0304(12) Uani d . 1 . O
+    O2A  -.0548(3)  .3712(2)  .2277(5)  .0314(12) Uani d . 1 . O
+    O3A  -.0312(3)  .5375(2)  .2344(6)  .0401(12) Uani d . 1 . O
+    O4A  .2080(3)  .3880(3)  .3896(6)  .0327(13) Uani d . 1 . O
+    O5A  .3732(3)  .2385(2)  .3409(6)  .0261(13) Uani d . 1 . O
+    NB  .0952(4)  .0813(3)  .2027(7)  .0232(11) Uani d . 1 . N
+    O1B  .2157(3)  .0731(2)  .1442(5)  .0289(12) Uani d . 1 . O
+    O2B  .0487(3)  .1701(2)  .2239(5)  .0352(13) Uani d . 1 . O
+    O3B  .0301(3)  .0035(3)  .2393(5)  .0350(12) Uani d . 1 . O
+    O4B  -.1882(3)  .1659(2)  .3909(6)  .0303(12) Uani d . 1 . O
+    O5B  -.3676(3)  .2819(2)  .2136(6)  .0331(13) Uani d . 1 . O
+    H1A  .245(4)  .459(4)  .369(7)  .051(10) Uiso d . 1 . H
+    H2A  .265(4)  .338(3)  .366(8)  .053(10) Uiso d . 1 . H
+    H3A  .135(5)  .384(4)  .338(9)  .062(11) Uiso d . 1 . H
+    H4A  .332(6)  .194(4)  .257(10)  .074(11) Uiso d . 1 . H
+    H5A  .395(5)  .217(4)  .457(9)  .042(9) Uiso d . 1 . H
+    H1B  -.218(5)  .101(3)  .381(9)  .069(12) Uiso d . 1 . H
+    H2B  -.249(4)  .207(3)  .328(7)  .050(10) Uiso d . 1 . H
+    H3B  -.114(4)  .170(4)  .344(8)  .072(12) Uiso d . 1 . H
+    H4B  -.343(5)  .343(4)  .210(8)  .046(7) Uiso d . 1 . H
+    H5B  -.440(5)  .270(4)  .262(9)  .068(11) Uiso d . 1 . H
+

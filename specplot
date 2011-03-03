@@ -1,0 +1,205 @@
+#!/bin/csh -f
+# interface for plotting X-spectra
+# created with "xspec"
+#
+# (C)1997 by J. Luitz
+#
+unalias rm
+
+echo ""
+echo ""
+echo "####################################"
+echo "#                                  #"
+echo "#          SPEC  PLOT              #"
+echo "#                                  #"
+echo "####################################"
+echo ""
+echo ""
+set updn = ""
+unset help
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -i:
+    set ignore
+    shift; breaksw
+  case -up:
+    set updn = up
+    shift; breaksw
+  case -dn:
+    set updn = dn
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+set file    = `pwd`
+set file    = $file:t
+
+set defaults = specplot.ini
+set print    = specplot$updn.ps
+
+set xmin
+set xmax
+set ymin
+set ymax
+set out
+set xlabel = "Energy [eV]"
+
+echo "NOTE: this plotting interface only functions"
+echo "      correctly if you have followed the"
+echo "      guidelines from the User Interface"
+echo "      Wien in a BOX\!"
+echo ""
+echo ""
+
+if !($?ignore) then
+    if (-e $defaults) then
+	echo "... using defaults set in file $defaults"
+	cat $defaults
+	echo ""
+	echo ""
+    	source $defaults
+     endif
+endif
+
+if !($?spectra) then
+	echo "Which spectrum to plot?"
+	echo "      broadend .... 0 (default)" 
+	echo "      unbroadened ..1  "
+	set dummy=($<)
+	set spectra = xspec
+	if ($dummy == 1) set spectra = txspec
+endif
+
+if !(-e $file.$spectra$updn) goto error
+
+set atom = `head -2 <$file.inxs|tail -1|awk '{print $1}'`
+set n = `head -3 <$file.inxs|tail -1|awk '{print $1}'`
+set l = `head -4 <$file.inxs|tail -1|awk '{print $1}'`
+
+set label
+switch ($n)
+case 1:
+    if ($l == 0) set label = "K"
+    breaksw
+case 2:
+    if ($l == 1) set label = "L3"
+    breaksw
+case 3:
+    if ($l == 2) set label = "M5"
+    breaksw
+default:
+    breaksw
+endsw
+
+set atomname = `grep Z: $file.struct|head -$atom|tail -1|cut -f1 -d" " `
+
+set label = "$atomname $label"
+
+set title = $file.$spectra$updn
+set tmp2 = :spec
+
+if ($?noview) goto jump2
+replot:
+
+cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set noytics
+plot "$file.$spectra$updn" title "$label"
+pause -1
+EOF
+echo ""
+echo "Press RETURN to continue"
+gnuplot $tmp2
+
+echo -n "Do you want to set ranges? (y/N)"
+set yn = ($<)
+if ($yn == y) then
+    unset yn
+    echo -n "     Limit x-range? (y/N)"
+    set yn = ($<)
+    if ($yn == y) then
+	unset yn
+	echo -n "       xmin="
+     	set xmin = ($<)
+	echo -n "       xmax="
+     	set xmax = ($<)
+    endif
+    echo -n "     Limit y-range? (y/N)"
+    set yn = ($<)
+    if ($yn == y) then
+	unset yn
+	echo -n "       ymin="
+     	set ymin = ($<)
+	echo -n "       ymax="
+     	set ymax = ($<)
+    endif
+
+    goto replot
+endif
+
+echo -n "Do you want a hardcopy? (y/N)"
+set yn = ($<)
+if ($yn == y) then
+    echo -n "Specify a filename (default is $print)"
+    set out = ($<)
+jump2:
+    if ($out == "") set out = "$print"
+    cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set terminal postscript
+set output "$out"
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set noytics
+plot "$file.$spectra$updn" title "$label"
+EOF
+    gnuplot $tmp2
+
+endif
+
+rm $tmp2
+exit(0)
+
+error:
+
+echo ">>>"
+echo ">>> ERROR: $file.$spectra$updn not found\!"
+echo ">>>"
+exit(1)
+
+help:
+cat <<EOF
+SPECPLOT is an interface script to plot X-ray specra
+(broadened and unbroadened) using gnuplot.
+
+Basically SPECPLOT interactively asks for information
+which is used for plotting.
+
+To use SPECPLOT in a batch like manner create the file
+specplot.ini in which you can set various parameters
+in csh-style, these parameter are:
+
+    set specra = xspec     # type of spectra:
+                           #     xspec = broadened
+                           #    txspec = unbroadened
+    set xmin   = -2        # with xmin, xmax, ymin, ymax you
+    set xmax   = 15        # can specify plotting ranges
+    set print  = "file"    # file to be used for plotting, or 
+                           # pipe directly to printer queue e.g. "|lpr"
+    set noview             # set to skip preview and directly print
+
+
+EOF

@@ -1,0 +1,218 @@
+      SUBROUTINE STRFAC                                     
+      use atomgrid
+      use kgrid
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.inc'
+!
+      COMPLEX*16 YL((lmax2+1)*(lmax2+1)),IMAG                
+      LOGICAL REL                                                       
+      CHARACTER*3 NORM,VAL                                              
+      CHARACTER*4      LATTIC
+      CHARACTER*80     TITLE    
+      COMMON /CHAR/   TITLE,LATTIC                    
+      LOGICAL          ORTHO           
+      COMMON /ORTH/   ORTHO                
+      COMMON /POTNLC/ R(NRAD)
+      COMMON /COM/ XWT,EMIN,EF,ELECN,REL,MODUS,NBAND,NAT                
+      COMMON /GENER/ GX1,GY1,GZ1,GX2,GY2,GZ2,GX3,GY3,GZ3,BR2(3,3)       
+      COMMON /STRUK/ AA,BB,CC,alpha(3),PIA(3),VOL,ndif
+!      COMMON /CUBWK1/ CINT(999,ncom)                                    
+      COMMON /CUBWK1/  CINT(NRADINT,NCOM)
+!      COMMON /RADFU/ RHOLM(NRAD),BCOF(999,ncom)                          
+      COMMON /RADFU/ RHOLM(NRAD),BCOF(NRADINT,ncom)
+      COMMON /SYM2/ IORD,IZ(3,3,48),ITAU,TAU(3,48)                      
+      DIMENSION SK(3)
+      integer,allocatable :: LM(:,:,:),LMMX(:)
+!_COMPLEX      COMPLEX*16 f,phs,phs1,phs2,ffx1(NCOM)
+      dimension TCC(ncom),FFX(ncom),skrot(3),skloc(3) 
+      DOUBLE PRECISION   GBAS(3,3), RBAS(3,3)
+      DATA IMAG/(0.0d0,1.0d0)/,VAL/'VAL'/                                   
+!        DATA PI/3.141592654/                                            
+!      DATA SQ2IN,SQ3IN,SQ6IN/.7071067811867d0,.57735026919d0,.408248290464d0/ 
+      sq2in=1.d0/sqrt(2.d0)
+      sq3in=1.d0/sqrt(3.d0)
+      sq6in=1.d0/sqrt(6.d0)
+      PI=4.D0*DATAN(1.D0)
+      PI2=2.D0*PI
+      PI4=4.D0*PI
+  1   FORMAT(15X,I3,5X,I2/)                                             
+  2   FORMAT(3X, 5E13.7)                                                
+! 2   FORMAT(    6E12.7)                                                
+  3   FORMAT(15X,I3//)                                                  
+ 2032 FORMAT(//)                                                        
+ 1980 FORMAT(3X)                                                        
+        assign 2021 to iform1
+        assign 2071 to iform2
+ 2021 FORMAT(3X,4E19.12)                                                
+ 2071 FORMAT(3X,3I5,2E19.12)                                            
+      allocate ( LM(2,ncom,nat),LMMX(nat))
+      WRITE(*,*)'NORMALIZATION FOR VAL OR TOT CHARGE: VAL/TOT'          
+      READ(*,4) NORM                                                    
+  4   FORMAT(A3)                                                        
+      ANORM=1.0d0                                                         
+      IF(NORM.eq.'TOT') ANORM=1.d0/SQRT(4.d0*PI)                            
+      if(NORM.eq.'tot') ANORM=1.d0/SQRT(4.d0*PI)                            
+!                                                                       
+      REWIND 15  
+!
+!      call rotdef(nat,br2,ortho)    
+      CALL ROTDEF(iz,tau,iord,nat,pos,ndif,rotij,tauij,mult,lattic)
+      DO  I = 1,3
+         DO  J = 1,3
+            GBAS(I,J) = BR2(I,J)/2.0D+0/PI
+         enddo
+      enddo
+      CALL GBASS(GBAS,RBAS)
+      WRITE (66,6000) GBAS, RBAS
+ 6000 FORMAT ('RECIPROCAL AND REAL BRAVAIS MATRIX:',/,2(3(3F10.5,/)/))
+      IF(.not.ortho) then
+      INDEX=0                                                          
+      DO  JATOM=1,NAT
+         DO M=1,MULT(JATOM)                                          
+            INDEX=INDEX+1                                               
+            CALL LOCDEF(RBAS,GBAS,ROTIJ(1,1,INDEX))
+         enddo
+      enddo
+      endif
+!
+      READ(8,2032)                                                      
+      DO 20 JATOM=1,NAT                                                 
+      READ(8,1980)                                                      
+      IMAX=JRI(JATOM)                                                   
+      READ(8,3) LMMX(JATOM)                                             
+      LMMAX=LMMX(JATOM)                                                 
+      if(NCOM.lt.LMMAX) stop 'increase NCOM !'
+      DO 4099 I=1,IMAX                                                  
+ 4099 R(I)=RNOT(JATOM)*EXP(DX(JATOM)*(I-1))                             
+      DO 24 ILM=1,LMMAX                                                 
+      READ(8,1) LL,MM                                                   
+      LM(1,ILM,JATOM)=LL                                                
+      LM(2,ILM,JATOM)=MM                                                
+      READ(8,iform1) (RHOLM(I),I=1,IMAX)                                
+         IF(ILM.EQ.1) THEN                                              
+         DO 21 I=1,IMAX                                                 
+  21     RHOLM(I)=RHOLM(I)*ANORM                                        
+         END IF                                                         
+      READ(8,2031)                                                      
+!      RINC=RMT(JATOM)/998.d0                                              
+      RINC=RMT(JATOM)/(NRADINT-1.D0)
+      RINT=0.0d0                                                          
+!      DO 4998 I=1,999                                                   
+      DO 4998 I=1,NRADINT
+      IMAX2=IMAX-2                                                      
+      DO 5002 IJ=3,IMAX2                                                
+      IF(R(IJ).GT.RINT) GOTO 5001                                       
+ 5002 CONTINUE                                                          
+ 5001 CONTINUE                                                          
+      CINT(I,ILM)=AINTER(R(IJ-2),RHOLM(IJ-2),RINT)                      
+ 4998 RINT=RINT+RINC                                                    
+       CINT(1,ILM)=0.0d0                                                  
+       CINT(NRADINT,ILM)=RHOLM(IMAX)                                        
+      WRITE(15) (CINT(I,ILM),I=1,NRADINT)                                   
+  24  CONTINUE                                                          
+      READ(8,2033)                                                      
+  20  CONTINUE                                                          
+ 2031 FORMAT(/)                                                         
+ 2033 FORMAT(///)                                                       
+      REWIND 15                                                         
+!                                                                       
+!     Probably an error here                                                                  
+!      LMAX=6                                                            
+      LMAX=LMAX2
+      KATOM=0                                                           
+      DO 2005 JATOM=1,NAT                                               
+!      KATOM=KATOM+1                                                    
+      WRITE(66,1030) JATOM                                              
+ 1030 FORMAT(///,' X - RAY FORMFACTOR FOR SITE',I5//,'       K ',        &
+      5X,'SIN O/L (A-1)',5X,'F'/)                                       
+      IMAX=JRI(JATOM)                                                   
+       LMMAX=LMMX(JATOM)                                                
+        RINC=RMT(JATOM)/(NRADINT-1.D0)                                            
+      DO 4999 I=1,IMAX                                                  
+ 4999 R(I)=RNOT(JATOM)*EXP(DX(JATOM)*(I-1))                             
+      DO 4009 ILM=1,LMMAX                                               
+ 4009 READ(15) (CINT(I,ILM),I=1,NRADINT)                                    
+!                                                                       
+      LLL=MULT(JATOM)                                                   
+      DO 2006 IL =1,LLL                                                 
+      KATOM=KATOM+1                                                     
+      write(66,*)
+      write(66,*) 'Equiv.atom ',il,' at ',(pos(katom,i),i=1,3)
+      write(66,*)
+      DO 2000 K=1,NK                                                    
+!_REAL      F=0.0d0                                                  
+!_COMPLEX      F=(0.0d0,0.d0)                                                  
+      XM=ABSK(K)                                                     
+      SK(1)=KZZ(1,K)*GX1+KZZ(2,K)*GX2+KZZ(3,K)*GX3                      
+      SK(2)=KZZ(1,K)*GY1+KZZ(2,K)*GY2+KZZ(3,K)*GY3                      
+      SK(3)=KZZ(1,K)*GZ1+KZZ(2,K)*GZ2+KZZ(3,K)*GZ3                      
+!                                                                       
+      CALL ROTATE (SK,ROTIJ(1,1,KATOM),SKROT)               
+      CALL ROTATE (SKrot,ROTLOC(1,1,JATOM),SKloc)           
+      CALL YLM(SKloc,LMAX,YL)  
+!                                                                       
+!....FOURIER BESSEL TRANSFORMATION                                      
+!                                                                       
+      CALL FTRANS(BCOF,LMAX+1,NRADINT,0.d0,RINC,XM,NRADINT)                       
+      LMMAX=LMMX(JATOM)                                                 
+!                                                                       
+      DO 1015 ILM=1,LMMAX                                               
+      LL=IABS(LM(1,ILM,JATOM))                                          
+      LL1=LL+1                                                          
+      TCC(ILM)=0.0d0                                                      
+!                                                                       
+      DO 1010 I=1,NRADINT                                                   
+      TCC(ILM)=TCC(ILM)+BCOF(I,LL1)*CINT(I,ILM)                         
+ 1010 CONTINUE                                                          
+!                                                                       
+      TCC(ILM)=TCC(ILM)*(-1)**(LL/2)                                    
+ 1015 CONTINUE                                                          
+!                                                                       
+      IF(IATNR(JATOM).LT.0) THEN                                        
+      CALL SUML(LMMAX,TCC,YL,Fs,FA,LM(1,1,JATOM),FFX)                   
+      ELSE                                                              
+      CALL SUMLM(LMMAX,TCC,YL,Fs,FA,LM(1,1,JATOM),FFX)
+      END IF                                                            
+!                                                                       
+!_REAL      F=0.0d0                                                  
+!_COMPLEX      F=(0.0d0,0.d0)                                                  
+      XM=XM/(PI4*0.5291772083d0)
+            arg=PI2*(pos(KATOM,1)*KZZ(1,K)+ &
+                pos(KATOM,2)*KZZ(2,K)+pos(KATOM,3)*KZZ(3,K))
+!_REAL      phs1=PI4*cos(arg)
+!_REAL      phs2=PI4*sin(arg)                                              
+!_COMPLEX   ca=cos(arg)
+!_COMPLEX   sa=sin(arg)
+!_COMPLEX   phs1=pi4*cmplx(ca,sa)
+!_COMPLEX   phs2=pi4*cmplx(sa,-ca)
+!!_REAL      phs1=PI4*COS(PI2*(pos(KATOM,1)*KZZ(1,K)+ &
+!!_REAL      pos(KATOM,2)*KZZ(2,K)+pos(KATOM,3)*KZZ(3,K))) 
+!!_COMPLEX      phs1=PI4*EXP(PI2*(0.d0,1.d0)*(pos(KATOM,1)*KZZ(1,K)+ &
+!!_COMPLEX      pos(KATOM,2)*KZZ(2,K)+pos(KATOM,3)*KZZ(3,K))) 
+      F=FS*phs1
+!!_REAL      phs2=PI4*SIN(PI2*(pos(KATOM,1)*KZZ(1,K)   &
+!!_REAL      +pos(KATOM,2)*KZZ(2,K)+pos(KATOM,3)*KZZ(3,K)))         
+!!_COMPLEX      phs2=PI4*EXP(PI2*(0.d0,1.d0)*(pos(KATOM,1)*KZZ(1,K)   &
+!!_COMPLEX      +pos(KATOM,2)*KZZ(2,K)+pos(KATOM,3)*KZZ(3,K)))*(0.d0,-1.d0)   
+      F=F-FA*phs2
+      DO 4956 IKB=1,LMMAX                                               
+      PHS=PHS1                                                          
+      IF(MOD(LM(1,IKB,JATOM),2).ne.0) PHS=-PHS2                         
+!_REAL 4956 FFX(IKB)=FFX(IKB)*PHS   
+!_COMPLEX 4956 FFX1(IKB)=FFX(IKB)*PHS                                     
+      IF(k.lt.101) THEN
+!_REAL      WRITE(66,1025) (KZZ(N1,K),N1=1,3),XM,F,(FFX(IKL),IKL=1,LMMAX)   
+!_COMPLEX      WRITE(66,1025) (KZZ(N1,K),N1=1,3),XM,F,(FFX1(IKL),IKL=1,LMMAX)
+      ENDIF
+!_REAL 1025 FORMAT(3I3,F8.4,2F9.4,48F9.5)                                    
+!_COMPLEX 1025 FORMAT(3I3,F8.4,4F9.4,96F9.5)                            
+      STRF(K)=STRF(K)+F                                                 
+!                                                                       
+ 2000 CONTINUE                                                          
+!
+ 2006  CONTINUE                                                         
+!      KATOM=KATOM-LLL                                                  
+!      KATOM=KATOM+MULT(JATOM)                                          
+ 2005 CONTINUE                                                          
+      RETURN                                                            
+      END                                                               

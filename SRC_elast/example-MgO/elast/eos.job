@@ -1,0 +1,31 @@
+#!/bin/csh -f
+#Modify this script according to your needs
+
+set flist = `ls eos_*.struct | cut -c 1-9`
+cd ./eos
+foreach i ($flist)
+echo $i
+cp ../$i.struct ./eos.struct
+x_lapw dstart
+#x_lapw dstart -up
+#x_lapw dstart -dn
+#cp ../result/$i.clmsum ./eos.clmsum
+#cp ../result/$i.clmup ./eos.clmup
+#cp ../result/$i.clmdn ./eos.clmdn
+run_lapw -ec 0.00001 -p
+   set stat = $status
+   if ($stat) then
+    echo "ERROR status in" $i
+    exit 1
+   endif
+
+#echo $i >> error
+#x lapw2 -p -qtl | & tee -a error
+#x tetra
+#mv eos.outputt $i.outputt
+#mv eos.qtl $i.qtl
+#mv eos.dos1 $i.dos1
+#mv eos.dos1ev $i.dos1ev
+save_lapw $i
+mv $i.* ../result
+end

@@ -1,0 +1,70 @@
+###############################################################################
+#                                                                             #
+#                          IBM RS6000  AIX 3.2.x                              #
+#                                                                             #
+#  make           ... generate executable for the REAL-version                #
+#  make complex   ... generate executable for the COMPLEX-version             #
+#  make clean     ... delete unnecessary files                                #
+#                                                                             #
+#  CAUTION: This makefile must not be called via the '-f' parameter of 'make'.#
+#           (Don't use 'make -f Makefile.aix32' !!)                           #
+#           (Always (symbolic) link the appropriate Makefile to 'Makefile'!!) #
+#                                                                             #
+###############################################################################
+#
+# FC ........... compiler name
+# FOPT ......... optimization flags
+# FGEN ......... code generation flags (flags not related to optimization)
+# LDFLAGS ...... linker flags
+# R_LIBS ....... libraries needed to build the REAL executable
+# C_LIBS ....... libraries needed to build the COMPLEX executable
+# DESTDIR ...... dir. where the executable should go (without trailing '/'!)
+# R_EXECNAME ... name of the resulting REAL executable (without prefixed path!)
+# C_EXECNAME ... name of the resulting COMPLEX executable ( -"- )
+#
+
+FC = ifort
+FOPT = -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+FGEN = 
+LDFLAGS = $(FOPT) -L/opt/intel/mkl/9.0/lib/em64t -lpthread
+LIBS = 
+DESTDIR	= .
+EXECNAME = struct2mol
+
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC = $(DESTDIR)/$(EXECNAME)
+
+#..............................................................................
+#
+#  Object files common to both REAL and COMPLEX type subroutines
+#
+#
+OBJS    = reallocate.o module.o gtfnam.o errflg.o errclr.o outerr.o \
+          struct2mol.o pdb.o xtl.o xyz.o pov.o dataexp.o \
+          make_list_P.o make_list_F.o make_list_B.o make_list_H.o \
+          make_list_R.o make_list_CXY.o make_list_CXZ.o make_list_CYZ.o\
+          add2list.o create_in.o getelem.o create_cf.o
+
+
+#..............................................................................
+
+$(EXEC): $(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS)
+	size $(EXEC)
+
+
+#..............................................................................
+#
+#  remove unnecessary files (executable(s) are not removed)
+#
+
+clean:
+	rm -f *.o _tmp_.* *.P .real .complex *.mod struct2mol
+
+#..............................................................................
+#
+
+.f.o:
+	$(FC) $(FFLAGS) -c $<

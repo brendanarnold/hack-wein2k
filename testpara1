@@ -1,0 +1,126 @@
+#!/bin/csh -f
+#
+# (C)1997 by Joachim Luitz
+#
+# $Revision: 1.4 $
+# $Date: 1997/12/02 13:00:34 $
+#
+# $Author: jluitz $
+# $Source: /zeus/lapw/WIEN97/bin/RCS/testpara1_lapw,v $
+# $State: Exp $
+#
+unalias rm
+
+if !(-e .machines) then
+    echo "Case not set up for parallel execution\!"
+    echo "No .machines file present."
+    exit 1
+endif
+
+set tmp = .tmp_testpara1.$$
+onintr exit
+
+alias   testinput       'if (! -e \!:1 || -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+
+
+
+
+############################################################################
+# First we set up some variables
+#
+
+set residue     = residue:
+set kpl
+set cmplx
+
+set granularity = 3            # higher values split k-list into more
+                               # junks, however, each vector will produce
+                               # its own clmval file!!!
+                               # Granularity 3 yields approx. 3 files per
+                               # processor
+
+############################################################################
+#In this section use 0 to turn of an option, 1 to turn it on, 
+#respectively choose a value
+
+set debug       = 0             # verbosity of debugging output
+
+############################################################################
+
+#get name of case
+set case    = `pwd`
+set case    = $case:t 
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+
+if (-e $case.in1c && -s $case.in1c ) set cmplx = c
+#check if klist is read from unit 4
+#else quit!
+set test = `grep "K-VECTORS" $case.in1${cmplx}|cut -c21`
+if ($test != 4) then
+  echo "   K-Vectors must be read from unit 4"
+  echo "   for parallel execution! "
+  echo "   Change setting in $case.in1${cmplx}! "
+  exit 1
+endif
+
+
+sed "/END/q" <$case.klist >$tmp
+set mist = `wc $tmp`
+set klist = $mist[1]
+@ klist -- 
+
+set kdone = `awk -F: '{sum += $3} END {print sum}' <.processes`
+set percent = `echo "$kdone * 100 / $klist" | bc`
+
+echo ""
+echo "#####################################################"
+echo "#                     TESTPARA1                     #"
+echo "#####################################################"
+echo ""
+date
+echo ""
+if !(-e .lapw1para) then
+    echo "   lapw1para was not yet executed"
+    exit
+endif
+
+set test = `cat .lapw1para`
+
+if ($test == "DONE") then
+    echo "    lapw1para has finished"
+    exit
+endif
+
+if ($test == "ERROR") then
+    echo "    lapw1para exited due to an ERROR"
+    echo "    Check *.error files"
+    exit
+endif
+
+echo "     lapw1para is running"
+echo ""
+echo "$kdone of $klist ($percent%) k-points distributed"
+echo ""
+set machines = `grep init: .processes|cut -f2 -d:|xargs`
+
+set i = 1
+while ($i <= $#machines)
+    echo -n "  $machines[$i]":" "
+    if (-e .lock_$machines[$i]$i ) then
+	echo running
+    else
+	echo not running
+    endif
+    @ i ++
+end
+echo ""
+
+
+endkloop:
+exit:
+    rm $tmp* >&/dev/null

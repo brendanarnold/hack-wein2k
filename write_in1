@@ -1,0 +1,252 @@
+#!/bin/csh -f
+# reads case.scf and case.in1 and writes a new case.in1
+# based on an idea of J.Sofo and J.Fuhr
+unalias rm
+# define charge limit, when an energy parameter should be set
+set qlimit=0.05
+# define etest, E-l parameters below etest will be "searched" 
+# by original approach using de
+set etest=-3.
+
+set updn = ""
+set cmplx
+unset help
+
+set contstop
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -ql:
+    shift; set qlimit=$1
+    shift; breaksw
+  case -c:
+    set cmplx = c
+    shift; breaksw
+  case -up:
+    set updn = up
+    shift; breaksw
+  case -dn:
+    set updn = dn
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+set file    = `pwd`
+set file    = $file:t
+
+if( ! -e $file.in1$cmplx ) then
+    echo " the required file    $file.in1$cmplx    does not exist"
+    exit(3)
+endif
+if( ! -e $file.scf2$updn ) then
+    echo " the required file    $file.scf2$updn    does not exist"
+    exit(3)
+endif
+
+head -2 $file.in1$cmplx > $file.in1"$cmplx"new
+set lines=2
+
+#determine EF
+set ef1 = (`grep :FER $file.scf2$updn | sed -e 's/:FER.*=//'`)
+if ($#ef1 == 0 ) then
+            echo " FERMI energy not found in   $file.scf2$updn"
+            exit(3)
+endif
+set eferm=`echo "scale=4;$ef1 - 0.3 " |bc -l`
+
+
+#loop over atoms 
+set natom=`head -2 $file.struct | tail -1 | cut -c28-30`
+set iatom=1
+while ($iatom <= $natom)
+@ lines ++
+set nn=`head -$lines $file.in1$cmplx |tail -1`
+#find global APW parameter
+set apw0=0
+if ( $nn[3] == 1 ) set apw0=1
+set apws=1
+set apwp=1
+set apwd=1
+set apwf=1
+set i0=1
+
+#find l-specific APW parameters from case.in1
+while ($i0 <= $nn[2] )
+@ lines ++
+  set nnn=`head -$lines $file.in1$cmplx |tail -1`
+if ($#nnn >= 5 ) then
+   if( $nnn[1] == 0 ) set apws=$nnn[5]
+   if( $nnn[1] == 1 ) set apwp=$nnn[5]
+   if( $nnn[1] == 2 ) set apwd=$nnn[5]
+   if( $nnn[1] == 3 ) set apwf=$nnn[5]
+endif
+@ i0 ++
+end
+
+#find energy parameter from case.scf2  (EPL/EPH)
+  if ($iatom <= 9) then
+set epl = (`grep :EPL00$iatom $file.scf2$updn`)
+set eph = (`grep :EPH00$iatom $file.scf2$updn`)
+  else if ($iatom <= 99) then
+set epl = (`grep :EPL0$iatom $file.scf2$updn`)
+set eph = (`grep :EPH0$iatom $file.scf2$updn`)
+  else
+set epl = (`grep :EPL$iatom $file.scf2$updn`)
+set eph = (`grep :EPH$iatom $file.scf2$updn`)
+  endif
+if($#epl == 1 ) then
+  echo " EPLxx not found in     $file.scf2$updn"
+  exit(3)
+endif 
+if($#eph == 1 ) then
+  echo " EPHxx not found in     $file.scf2$updn"
+  exit(3)
+endif 
+
+#E-parameter will be set when the respective charge is larger than qlimit
+unset eslo
+unset eplo
+unset edlo
+unset eflo
+
+if(`echo "if ($epl[2] > $qlimit)1;if ($epl[2] <= $qlimit)0"|bc`) set eslo=$epl[3]
+if(`echo "if ($epl[4] > $qlimit)1;if ($epl[4] <= $qlimit)0"|bc`) set eplo=$epl[5]
+if(`echo "if ($epl[6] > $qlimit)1;if ($epl[6] <= $qlimit)0"|bc`) set edlo=$epl[7]
+if(`echo "if ($epl[8] > $qlimit)1;if ($epl[8] <= $qlimit)0"|bc`) set eflo=$epl[9]
+unset es
+unset ep
+unset ed
+unset ef
+if(`echo "if ($eph[2] > $qlimit)1;if ($eph[2] <= $qlimit)0"|bc`) set es=$eph[3]
+if(`echo "if ($eph[4] > $qlimit)1;if ($eph[4] <= $qlimit)0"|bc`) set ep=$eph[5]
+if(`echo "if ($eph[6] > $qlimit)1;if ($eph[6] <= $qlimit)0"|bc`) set ed=$eph[7]
+if(`echo "if ($eph[8] > $qlimit)1;if ($eph[8] <= $qlimit)0"|bc`) set ef=$eph[9]
+
+# set the high-E parameter if low-E is already defined
+if( $?eslo ) set es=$eph[3]
+if( $?eplo ) set ep=$eph[5]
+if( $?edlo ) set ed=$eph[7]
+if( $?eflo ) set ef=$eph[9]
+
+set n=0
+if ($?eslo) @ n ++
+if ($?eplo) @ n ++
+if ($?edlo) @ n ++
+if ($?eflo) @ n ++
+if ($?es) then
+ if ($es == '10.0000') set es=$eferm
+ @ n ++
+endif
+if ($?ep) then
+ if ($ep == '10.0000') set ep=$eferm
+ @ n ++
+endif
+if ($?ed) then
+ if ($ed == '10.0000') set ed=$eferm
+ @ n ++
+endif
+if ($?ef) then
+ if ($ef == '10.0000') set ef=$eferm
+ @ n ++
+endif
+#write   global energy line for each atom
+echo " $eferm   $n   $apw0      global e-param with N other choices, napw ">> $file.in1"$cmplx"new
+#write l-specific lines
+if ($?es) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $es < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $es $de $contstop $apws | awk '{printf (" 0   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?eslo) then  
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $eslo < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $eslo $de $contstop $apws | awk '{printf (" 0   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?ep) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $ep < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $ep $de $contstop $apwp | awk '{printf (" 1   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?eplo) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $eplo < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $eplo $de $contstop $apwp | awk '{printf (" 1   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?ed) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $ed < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $ed $de $contstop $apwd | awk '{printf (" 2   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?edlo) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $edlo < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $edlo $de $contstop $apwd | awk '{printf (" 2   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?ef) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $ef < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $ef $de $contstop $apwf | awk '{printf (" 3   % 5.3f     %5.3f %s%2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+if ($?eflo) then
+  set de=0.000
+  set contstop = CONT
+  if (  `echo "if ( $eflo < $etest ) 1" | bc` == 1 ) then
+  set de=0.002
+  set contstop = STOP
+  endif
+  echo $eflo $de $contstop $apwf | awk '{printf (" 3   % 5.3f     %5.3f%s %2.0f \n",$1,$2,$3,$4)}' >>$file.in1"$cmplx"new
+endif
+
+   @ iatom ++
+end
+
+# @ lines ++
+#write rest of case.in1 file
+set nn=`wc $file.in1"$cmplx"`
+@ n = $nn[1] - $lines
+tail -$n $file.in1"$cmplx" >>$file.in1"$cmplx"new
+
+exit(0)
+
+
+help:
+
+cat <<EOF 
+write_in1_lapw [-up/dn -c -ql 0.05 ]
+write_in1_lapw   writes a case.in1new file using the Energy parameters from 
+                 case.scf2[up/dn] (:EPLxx/EPHxx) and case.in1[c]
+EOF

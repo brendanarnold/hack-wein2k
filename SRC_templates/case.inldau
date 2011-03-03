@@ -1,0 +1,14 @@
+  9  1  2  0  0.7     number of atoms, nsic, ipr1,2,   pratt mixing
+  2              L for LDA+U of first atom
+  0.59  0.07     U, J  (Ry)                          
+  2              L for LDA+U of second atom
+  0.59  0.07                                                                
+  2              L for LDA+U
+  0.59  0.07                                                                
+  2              L for LDA+U
+  0.59  0.07                                                                
+  -1             do not include U for this atom
+  -1             do not include U 
+  -1             do not include U 
+  -1             do not include U 
+  -1             do not include U 

@@ -1,0 +1,27 @@
+ 5,'fe3o4.insymso',   'old',    'formatted',0
+ 6,'fe3o4.outsymso','unknown','formatted',0
+25,'fe3o4.vspdn',         'unknown',    'formatted',0
+45,'fe3o4.vspdn_so',         'unknown',    'formatted',0
+26,'fe3o4.vspup',         'unknown',    'formatted',0
+46,'fe3o4.vspup_so',         'unknown',    'formatted',0
+27,'fe3o4.vnsdn',         'unknown',    'formatted',0
+47,'fe3o4.vnsdn_so',         'unknown',    'formatted',0
+28,'fe3o4.vnsup',         'unknown',    'formatted',0
+48,'fe3o4.vnsup_so',         'unknown',    'formatted',0
+20,'fe3o4.struct_interm',         'unknown',    'formatted',0
+21,'fe3o4.struct_so',         'unknown',    'formatted',0
+22,'fe3o4.struct'           'old',    'formatted',0
+23,'fe3o4.ksym',         'unknown',    'formatted',0
+24,'fe3o4.temp',         'unknown',    'formatted',0
+29,'fe3o4.in1',         'unknown',    'formatted',0
+49,'fe3o4.in1_so',         'unknown',    'formatted',0
+30,'fe3o4.inc',         'unknown',    'formatted',0
+50,'fe3o4.inc_so',         'unknown',    'formatted',0
+31,'fe3o4.inldau',         'unknown',    'formatted',0
+51,'fe3o4.inldau_so',         'unknown',    'formatted',0
+32,'fe3o4.Vldaudn',         'unknown',    'formatted',0
+52,'fe3o4.Vldaudn_so',         'unknown',    'formatted',0
+33,'fe3o4.Vldauup',         'unknown',    'formatted',0
+53,'fe3o4.Vldauup_so',         'unknown',    'formatted',0
+34,'fe3o4.in2',         'unknown',    'formatted',0
+54,'fe3o4.in2_so',         'unknown',    'formatted',0

@@ -1,0 +1,889 @@
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE01:  1. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO =  0.27283E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.36870E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.2162324E-03                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.2162324E-03                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.6710406E-05                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.6710406E-05                           
+:DEN  : DENSITY INTEGRALS =            -267.314791            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.8675   E(BOTTOM)=   -5.090   E(TOP)=   -4.645            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.4925   E(BOTTOM)=   -2.790   E(TOP)=   -2.195            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.9750   E(BOTTOM)=   -2.060   E(TOP)=    0.110            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.8167537   -2.4221558   -2.4221558   -2.4221558   -1.1038161         
+         0.1226532    0.1226532    0.1226532    0.6150346    1.4594897         
+         1.4594897    1.4594897                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.13043                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.026296                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.037 5.953 0.031 0.005 0.000 0.000 0.000 0.023 0.008 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.944174                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.672 4.269 0.003 0.000 0.000 0.000 0.000 0.001 0.002 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -26.174665                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.090027 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.684379 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       69.633798        0.000000     1070.093666     1139.727464    
+:RTO02:   2       15.576537        0.000000      299.289643      314.866180    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.0295255                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0262965                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.9441741                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.6172989                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.2260908                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.1566474                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00004   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.2094853                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.6734396                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.4414625                                       
+       BROYD MIXING SCHEME WITH 0.200                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.4997153                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1861320                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.3141527                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -549.038268                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE02:  2. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO =  0.61656E-03                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.40867E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.3225074E-03                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.3225074E-03                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.8617348E-05                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.8617348E-05                           
+:DEN  : DENSITY INTEGRALS =            -267.949854            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9125   E(BOTTOM)=   -5.135   E(TOP)=   -4.690            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5375   E(BOTTOM)=   -2.835   E(TOP)=   -2.240            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.8550   E(BOTTOM)=   -1.960   E(TOP)=    0.250            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.8630380   -2.4684419   -2.4684419   -2.4684419   -1.0124117         
+         0.2314345    0.2314345    0.2314345    0.6456301    1.4629076         
+         1.4629076    1.4629076                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.23176                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.059099                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.049 5.968 0.036 0.005 0.000 0.000 0.000 0.026 0.010 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.712913                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.648 4.061 0.004 0.000 0.000 0.000 0.000 0.001 0.002 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.805003                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.151006 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.451222 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       69.952446        0.000000     1070.135143     1140.087588    
+:RTO02:   2       15.002920        0.000000      299.194324      314.197244    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.2279835                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0590989                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.7129138                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.4997153                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1861320                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.3141527                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.1409906                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.3625055                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.2517480                                       
+       BROYD MIXING SCHEME WITH 0.400                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3966148                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1284658                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.4749193                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.959313                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE03:  3. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.26616E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.46426E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.6660068E-03                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.6660068E-03                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.1350591E-04                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.1350591E-04                           
+:DEN  : DENSITY INTEGRALS =            -268.372708            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9550   E(BOTTOM)=   -5.175   E(TOP)=   -4.735            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5800   E(BOTTOM)=   -2.875   E(TOP)=   -2.285            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.7500   E(BOTTOM)=   -1.870   E(TOP)=    0.370            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.9074549   -2.5119046   -2.5119046   -2.5119046   -0.9352042         
+         0.3215646    0.3215646    0.3215646    0.6770715    1.4720450         
+         1.4720450    1.4720450                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.32716                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.088636                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.059 5.983 0.042 0.005 0.000 0.000 0.000 0.030 0.012 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.522957                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.628 3.888 0.004 0.000 0.000 0.000 0.000 0.001 0.003 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.541993                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.198306 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.313159 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       70.208331        0.000000     1070.164688     1140.373019    
+:RTO02:   2       14.600756        0.000000      299.245008      313.845764    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.3884021                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0886369                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5229573                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.3966148                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1284658                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.4749193                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.0545660                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.1395694                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.0970677                                       
+       BROYD MIXING SCHEME WITH 0.400                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3924256                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1134911                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.4940834                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.937631                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE04:  4. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.29735E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.47818E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.8456474E-03                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.8456474E-03                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.1593309E-04                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.1593309E-04                           
+:DEN  : DENSITY INTEGRALS =            -268.332200            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9600   E(BOTTOM)=   -5.180   E(TOP)=   -4.740            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5850   E(BOTTOM)=   -2.880   E(TOP)=   -2.290            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.7450   E(BOTTOM)=   -1.860   E(TOP)=    0.370            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.9107984   -2.5146560   -2.5146560   -2.5146560   -0.9308934         
+         0.3248432    0.3248432    0.3248432    0.6800926    1.4760488         
+         1.4760488    1.4760488                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.32603                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.088939                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.059 5.983 0.042 0.005 0.000 0.000 0.000 0.030 0.012 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.526600                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.629 3.892 0.004 0.000 0.000 0.000 0.000 0.001 0.003 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.535074                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.196158 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.338622 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       70.190848        0.000000     1070.163734     1140.354582    
+:RTO02:   2       14.632826        0.000000      299.311405      313.944230    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.3844566                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0889393                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5266004                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.3924256                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.1134911                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.4940834                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.0337811                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.0819534                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.0578672                                       
+       BROYD MIXING SCHEME WITH 0.400                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3838277                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0910970                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5250753                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.936834                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE05:  5. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.34851E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.49925E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1180632E-02                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1180632E-02                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2005175E-04                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2005175E-04                           
+:DEN  : DENSITY INTEGRALS =            -268.305342            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9650   E(BOTTOM)=   -5.185   E(TOP)=   -4.745            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5875   E(BOTTOM)=   -2.880   E(TOP)=   -2.295            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.7350   E(BOTTOM)=   -1.850   E(TOP)=    0.380            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.9164194   -2.5194518   -2.5194518   -2.5194518   -0.9220223         
+         0.3328067    0.3328067    0.3328067    0.6858819    1.4821786         
+         1.4821786    1.4821786                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.34001                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.090437                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.059 5.983 0.042 0.005 0.000 0.000 0.000 0.030 0.012 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.524495                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.628 3.891 0.004 0.000 0.000 0.000 0.000 0.001 0.003 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.510178                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.195082 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.365421 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       70.183379        0.000000     1070.167105     1140.350484    
+:RTO02:   2       14.660359        0.000000      299.394776      314.055134    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.3850646                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0904371                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5244947                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.3838277                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0910970                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5250753                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.0026185                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.0044775                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.0035480                                       
+       BROYD MIXING SCHEME WITH 0.400                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3842426                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0907345                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5250230                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.936526                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE06:  6. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.34836E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.49973E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1198629E-02                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1198629E-02                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2042127E-04                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2042127E-04                           
+:DEN  : DENSITY INTEGRALS =            -268.312311            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9650   E(BOTTOM)=   -5.185   E(TOP)=   -4.745            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5875   E(BOTTOM)=   -2.880   E(TOP)=   -2.295            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.7350   E(BOTTOM)=   -1.850   E(TOP)=    0.380            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.9160768   -2.5190953   -2.5190953   -2.5190953   -0.9218069         
+         0.3330134    0.3330134    0.3330134    0.6861462    1.4823948         
+         1.4823948    1.4823948                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.34013                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.090421                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.059 5.983 0.042 0.005 0.000 0.000 0.000 0.030 0.012 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.524465                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.628 3.891 0.004 0.000 0.000 0.000 0.000 0.001 0.003 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.505674                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.194756 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.364514 Ry                                    
+                                                                               
+       DENSITY AT NUCLEUS                                                      
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL       
+                                                                               
+:RTO01:   1       70.180974        0.000000     1070.168613     1140.349588    
+:RTO02:   2       14.660218        0.000000      299.391585      314.051803    
+                                                                               
+       CHARGES OF NEW CHARGE DENSITY                                           
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.3851104                                
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0904210                                
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5244650                                
+                                                                               
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CHARGES OF OLD CHARGE DENSITY                                           
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.3842426                                
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0907345                                
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5250230                                
+                                                                               
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000           
+                                                                               
+       CONVERGENCE TEST                                                        
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.0014305                  
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.0026255                  
+                                                                               
+:DIS  :  CHARGE DISTANCE       0.0020280                                       
+       BROYD MIXING SCHEME WITH 0.400                                          
+                                                                               
+       CHARGES OF MIXED CHARGE DENSITY                                         
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3849618                                
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0904102                                
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5246278                                
+                                                                               
+                                                                               
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.936525                    
+                                                                               
+                                                                               
+                                                                               
+            ---------                                                          
+:ITE07:  7. ITERATION                                                          
+            ---------                                                          
+                                                                               
+       SUBSTANCE: MgO-B1                                                       
+                                                                               
+       LATTICE                      = F                                        
+       NON-SPINPOLARIZED CALCULATION                                           
+:POT  : POTENTIAL OPTION    5                                                  
+:LAT  : LATTICE CONSTANTS=  7.92101  7.92101  7.92101   90.000   90.000   90.00
+:VOL  : UNIT CELL VOLUME =     124.24593                                       
+       MODE OF CALCULATION IS       = RELA                                     
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.34769E-01                      
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.50022E+00                      
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1220616E-02                           
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1220616E-02                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2089587E-04                           
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2089587E-04                           
+:DEN  : DENSITY INTEGRALS =            -268.319194            0.000000   (Ry)  
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg                      
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=    0.3000                                                     
+          E( 0)=   -4.9650   E(BOTTOM)=   -5.185   E(TOP)=   -4.745            
+          E( 1)=    0.3000                                                     
+          E( 1)=   -2.5875   E(BOTTOM)=   -2.880   E(TOP)=   -2.295            
+                                                                               
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O                       
+                                                                               
+          OVERALL ENERGY PARAMETER IS    0.3000                                
+          E( 0)=   -0.7350   E(BOTTOM)=   -1.850   E(TOP)=    0.380            
+          E( 0)=    0.3000                                                     
+          E( 1)=    0.3000                                                     
+                                                                               
+       K=   0.00000   0.00000   0.00000            1                           
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.98  WEIGHT= 1.00  PGR:                
+       EIGENVALUES ARE:                                                        
+        -4.9156873   -2.5187051   -2.5187051   -2.5187051   -0.9216470         
+         0.3331534    0.3331534    0.3331534    0.6864236    1.4826353         
+         1.4826353    1.4826353                                                
+       ********************************************************                
+                                                                               
+       NUMBER OF K-POINTS:          165                                        
+                                                                               
+                                                                               
+:NOE  : NUMBER OF ELECTRONS          =  16.000                                 
+                                                                               
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.34026                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS01: AT.NR.  1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.090379                          
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,      D-EG,D-T2G                   
+:QTL01: 2.059 5.983 0.042 0.005 0.000 0.000 0.000 0.030 0.012 0.000 0.000 0.000
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+:POS02: AT.NR.  2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                               
+       LMMAX= 5                                                                
+       LM=  0 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                               
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.524616                          
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,      D-EG,D-T2G                   
+:QTL02: 1.628 3.891 0.004 0.000 0.000 0.000 0.000 0.001 0.003 0.000 0.000 0.000
+                                                                               
+:CHA  : TOTAL CHARGE INSIDE UNIT CELL =      16.000001                         
+                                                                               
+:SUM  : SUM OF EIGENVALUES =            -25.501299                             
+                                                                               
+:GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+                                                                               
+        1.ATOM      Mg                    1 CORE STATES                        
+:1S 01: 1S                    -91.194663 Ry                                    
+                                                                               
+        2.ATOM      O                     1 CORE STATES                        
+:1S 02: 1S                    -36.363354 Ry                                    
+
+       DENSITY AT NUCLEUS
+        JATOM    VALENCE       SEMI-CORE            CORE           TOTAL
+
+:RTO01:   1       70.178875        0.000000     1070.171050     1140.349925
+:RTO02:   2       14.660297        0.000000      299.387096      314.047393
+     
+       CHARGES OF NEW CHARGE DENSITY
+:NTO  : TOTAL   INTERSTITIAL CHARGE=  2.3850030
+:NTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0903779
+:NTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5246154
+
+:NEC01: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000
+     
+       CHARGES OF OLD CHARGE DENSITY
+:OTO  : TOTAL   INTERSTITIAL CHARGE=  2.3849618
+:OTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0904102
+:OTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5246278
+
+:NEC02: NUCLEAR AND ELECTRONIC CHARGE   20.00000  20.00000   1.00000
+     
+       CONVERGENCE TEST
+:DTO01: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 1 =  0.0001533
+:DTO02: TOTAL   DIFFERENCE CHARGE**2 IN SPHERE 2 =  0.0001510
+
+:DIS  :  CHARGE DISTANCE       0.0001522
+       BROYD MIXING SCHEME WITH 0.400
+     
+       CHARGES OF MIXED CHARGE DENSITY
+:CTO  : TOTAL   INTERSTITIAL CHARGE=  2.3849928
+:CTO01: TOTAL   CHARGE IN SPHERE 1 = 10.0903870
+:CTO02: TOTAL   CHARGE IN SPHERE 2 =  7.5246201
+
+
+:ENE  : ********** TOTAL ENERGY IN Ry =         -548.936527
+

@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+require "../../libs/w2web.pl";
+&GetInput;
+$randmax=999999;
+
+$newsid = int(rand($randmax));
+while ( -e "$sessionpath/$newsid" ) {
+	$newsid = int(rand($randmax));
+}
+ 
+$OUT .= "new SID = $newsid<br>" if $debug;
+
+$OUT .= <<__STOP__;
+<H2>Session created:</H2>
+new session ID is $newsid
+
+<p>
+<A HREF="/index.pl?SID=$newsid&cd=1" TARGET=_parent>click to start new session</A>
+__STOP__
+
+
+&GetSession;
+$SID=$newsid;
+$NAME=$FORM{'NEWNAME'};
+$DIR=$ENV{'HOME'};
+
+&SaveSession;
+
+PrintPage("New session", $OUT);   

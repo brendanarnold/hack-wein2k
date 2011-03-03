@@ -1,0 +1,940 @@
+Lieber Herr Blaha,
+ich bin mit meiner Analyse der Inkonsistenzen in SRC_kgen fertig.
+Sie hatten recht, fuer "tetragonal body-centered" (ebenso wie fuer
+"orthorhombic body-centered") muss IARB = 1 1 1 gesetzt werden obwohl
+die reziproken Gittervektoren verschieden lang sind, sonst bricht das
+generierte k-Punktgitter die Punktsymmetrie der Kristallklasse und
+der Algorithmus in reduz.f (SRC_kgen) funktioniert dann auch nicht mehr.
+
+Am besten schicke ich ihnen die Zusammenfassung und Erlaeuterungen meiner
+Ueberlegungen zu den Inkonsistenzen in SRC_kgen. Die meines Erachtens not-
+wendingen Programmaenderungen sind "@@@ <program> in <directory>" ge-
+kennzeichnet. Einige der hier aufgelisteten Fehler und Korrekturvorschlaege
+habe ich Ihnen schon mit meiner letzten email mitgeteilt. Sie sind der 
+Vollstaendigkeit halber nochmals aufgefuehrt. Bei der Korrektur der
+Programme aus SRC_kgen bin ich Ihrem Vorschlag: "ai = RBAS(i,*)" gefolgt,
+obwohl sich im Nachhinein herausstellte, dass diese Wahl mehr Aenderungen
+im Programm noetig macht. Auch schicke ich Ihnen wieder meine neu korrigierte
+Version von bravai.f aus SRC_kgen, in der die meisten Aenderunge vorzunehmen 
+waeren.
+
+Weiter habe ich mir ueberlegt, warum diese Inkonsistenzen bisher nicht
+aufgefallen sind, wo das WIEN95 Programm doch intensive eingesetzt wird. 
+Der Grund ist recht einfach: 
+Durch eine Verkettung guenstiger Umstaende macht sich die inkonsistente
+Konvention der vier nicht-orthogonalen Gitter nur wenig und nirgends fatal
+bemerkbar. In einzelen sind die Auswirkungen :
+ 
+a) Im Output von KGEN
+     R1 = . . .     
+     R2 = . . .
+     R3 = . . .
+   und
+     G1   G2   G3
+     .    .    .
+     .    .    .
+     .    .    .
+   werden die direkten und reziproken Gittervektoren transponiert ausgegeben.
+ 
+b) Orthorhombisch basiszentriertes Gitter:
+   In diesem Fall ist IARB = 1 0 0 oder 0 1 0 oder 0 0 1 und die falsche
+   Berechnung der Betraege |bi| kann zu unerwuenschter Wahl der Aufteilung
+   ndiv(1), ndiv(2) und ndiv(3) fuehren.
+ 
+c) nicht-orthogonale Gitter (hexagonal, trigonal, monoclin):
+   In diesem Fall werden die Diagonalen im Parallelepiped falsch berechnet,
+   was zu einer unguenstigeren Wahl der Tetraederorientierung fuehren kann.
+ 
+Keiner dieser Fehler ist gravierend!
+
+Mit freundlichen Gruessen
+Uwe Birkenheuer
+
+#######################################################
+# Auflistung meiner Ueberlegungen zu SRC_kgen und ... #
+#######################################################
+
+BUG 1
+-----
+orthorhombic face-centered:
+bravai.f ist nicht konsistent mit dirlat.f and latgen.f
+
+bravai.f
+a1 = ( a/2,  0 , c/2)  =>  b1 = 2pi*( 1/a, 1/b, 1/c)
+a2 = (  0 ,-b/2, c/2)  =>  b2 = 2pi*(-1/a,-1/b, 1/c)
+a3 = ( a/2,-b/2,  0 )  =>  b3 = 2pi*( 1/a,-1/b,-1/c)
+
+dirlat.f / latgen.f
+a1 = (  0 , b/2, c/2)  =>  b1 = 2pi*(-1/a, 1/b, 1/c)
+a2 = ( a/2,  0 , c/2)  =>  b2 = 2pi*( 1/a,-1/b, 1/c)
+a3 = ( a/2, b/2,  0 )  =>  b3 = 2pi*( 1/a, 1/b,-1/c)
+
+@@@ bravai.f in SRC_kgen
+-----
+  130 AX=AX*0.5E0
+      BX=BX*0.5E0
+      CX=CX*0.5E0
+      RBAS(1,1)=AX
+      RBAS(3,1)=CX
+      RBAS(2,2)=-BX
+      RBAS(3,2)=CX
+      RBAS(1,3)=AX
+      RBAS(2,3)=-BX
+      afact=0.5
+ ==>
+  130 AX=AX*0.5E0
+      BX=BX*0.5E0
+      CX=CX*0.5E0
+C:UB[ << consistent with dirlat.f and latgen.f ! >>
+      RBAS(2,1)=BX
+      RBAS(3,1)=CX 
+      RBAS(1,2)=AX 
+      RBAS(3,2)=CX
+      RBAS(1,3)=AX 
+      RBAS(2,3)=BX 
+C:UB]
+      afact=0.5
+-----
+
+
+BUG 2
+-----
+base-centered monoclinic:
+ax := ax(orig) * sin(gamma)/2.0
+ay := ay(orig) * sin(gamma)/2.0
+ay muss zuerst ausgewertet werden, falls keine neuen Variablen verwendet werden.
+
+@@@ bravai.f in SRC_kgen
+-----
+C     CX = C / 2
+ 90   ax=ax*sin(gamma)/2.
+      ay=ax*cos(gamma)/2.
+      cx=cx/2.
+ ==>
+C     CX = C / 2
+C:UB[ ay=ax(orig)*cos(gamma)/2 thus ay must be evaluated first 
+ 90   ay=ax*cos(gamma)/2.
+      ax=ax*sin(gamma)/2.
+C:UB] 
+      cx=cx/2.
+-----
+
+
+BUG 3
+-----
+Inkonsistenzen in bravai.f bezueglich der Speicherkonventionen
+ai = RBAS(i,*) oder ai = RBAS(*,i) und
+bi = GBAS(i,*) oder bi = GBAS(*,i):
+
+Derzeit von Peter Blaha bervorzugte Konvention : ai = RBAS(i,*) !
+
+WRITE Statement                  : ai = RBAS(*,i)     <- wrong !
+                                 : bi = GBAS(i,*)     <- wrong !
+
+orthorhombic, base-centered (xy) : ai = RBAS(*,i)     <- wrong !
+orthorhombic, base-centered (yz) : ai = RBAS(*,i)     <- wrong !
+orthorhombic, base-centered (xz) : ai = RBAS(*,i)     <- wrong !
+orthorhombic, body-centered      : ai = RBAS(*,i)     <- wrong !
+orthorhombic, face-centered      : ai = RBAS(*,i)     <- wrong !
+tetragonal, body-centered        : ai = RBAS(*,i)     <- wrong !
+
+monoclinic, primitive            : ai = RBAS(i,*)
+monoclinic, base-centered (xz)   : ai = RBAS(i,*)
+rhombohedral                     : ai = RBAS(i,*)
+hexagonal                        : ai = RBAS(i,*)
+
+orthorhombic, primitive          : RBAS is symmetric 
+tetragonal, primitive            : RBAS is symmetric 
+cubic, primitive                 : RBAS is symmetric 
+cubic, face-centered             : RBAS is symmetric 
+cubic, body-centered             : RBAS is symmetric 
+
+Determination of GBAS            : ai = RBAS(i,*)
+                                   bi = GBAS(*,i)
+
+@@@ bravai.f in SRC_kgen
+-----
+C     ..................................................................
+      DIMENSION     GBAS(3,3), IARB(3)
+ ==>
+C     ..................................................................
+C:UB  The direct lattice vectors     : ai = RBAS(i,*)
+C:UB  The reciprocal lattice vectors : bi = GBAS(*,i)
+C:UB           redefined by GBASS as : bi = GBAS(i,*) !
+C:UB  ..................................................................
+      DIMENSION     GBAS(3,3), IARB(3)
+-----
+  110 IF(LATTI(2:3).EQ.'XZ') GOTO 111
+      IF(LATTI(2:3).EQ.'YZ') GOTO 112
+      RBAS(1,1)=AX*0.5E0
+      RBAS(2,1)=-BX*0.5E0
+      RBAS(1,2)=AX*0.5E0
+      RBAS(2,2)=BX*0.5E0
+      RBAS(3,3)=CX
+ ==>
+110 IF(LATTI(2:3).EQ.'XZ') GOTO 111
+      IF(LATTI(2:3).EQ.'YZ') GOTO 112
+      RBAS(1,1)=AX*0.5E0
+C:UB[ << ai = RBAS(i,*) >> 
+      RBAS(1,2)=-BX*0.5E0
+      RBAS(2,1)=AX*0.5E0
+C:UB] 
+      RBAS(2,2)=BX*0.5E0
+      RBAS(3,3)=CX
+-----
+ 111  RBAS(1,1)=AX*0.5E0
+      RBAS(3,1)=-CX*0.5E0
+      RBAS(1,3)=AX*0.5E0
+      RBAS(3,3)=CX*0.5E0
+      RBAS(2,2)=BX
+ ==>
+ 111  RBAS(1,1)=AX*0.5E0
+C:UB[ << ai = RBAS(i,*) >> 
+      RBAS(1,3)=-CX*0.5E0
+      RBAS(3,1)=AX*0.5E0
+C:UB] 
+      RBAS(3,3)=CX*0.5E0
+      RBAS(2,2)=BX
+-----
+ 112  RBAS(2,2)=BX*0.5E0
+      RBAS(3,2)=-CX*0.5E0
+      RBAS(2,3)=BX*0.5E0
+      RBAS(3,3)=CX*0.5E0
+      RBAS(1,1)=AX
+ ==>
+C:UB[ << ai = RBAS(i,*) >>
+      RBAS(2,3)=-CX*0.5E0
+      RBAS(3,2)=BX*0.5E0
+C:UB] 
+      RBAS(3,3)=CX*0.5E0
+      RBAS(1,1)=AX
+-----
+      RBAS(1,1)=-AX
+      RBAS(2,1)=BX
+      RBAS(3,1)=CX
+      RBAS(1,2)=+AX
+      RBAS(2,2)=-BX
+      RBAS(3,2)=+CX
+      RBAS(1,3)=AX
+      RBAS(2,3)=+BX
+      RBAS(3,3)=-CX
+      afact=0.5
+      ORTHO=.TRUE.
+      ibrava=6
+ ==>
+
+      RBAS(1,1)=-AX
+C:UB[ << ai = RBAS(i,*) >> 
+      RBAS(1,2)=BX
+      RBAS(1,3)=CX
+      RBAS(2,1)=+AX
+      RBAS(2,2)=-BX
+      RBAS(2,3)=+CX
+      RBAS(3,1)=AX
+      RBAS(3,2)=+BX
+C:UB] 
+      RBAS(3,3)=-CX
+      afact=0.5
+      ORTHO=.TRUE.
+      ibrava=6
+-----
+  130 AX=AX*0.5E0
+      BX=BX*0.5E0
+      CX=CX*0.5E0
+      RBAS(1,1)=AX
+      RBAS(3,1)=CX
+      RBAS(2,2)=-BX
+      RBAS(3,2)=CX
+      RBAS(1,3)=AX
+      RBAS(2,3)=-BX
+ ==>
+  130 AX=AX*0.5E0
+      BX=BX*0.5E0
+      CX=CX*0.5E0
+C:UB[ << ai = RBAS(i,*) >> 
+C:UB  << ai consistent with dirlat.f and latgen.f ! >>
+C      RBAS(1,1)=AX
+C      RBAS(3,1)=CX
+C      RBAS(2,2)=-BX
+C      RBAS(3,2)=CX
+C      RBAS(1,3)=AX
+C      RBAS(2,3)=-BX
+      RBAS(1,2)=BX    
+      RBAS(1,3)=CX
+      RBAS(2,1)=AX
+      RBAS(2,3)=CX
+      RBAS(3,1)=AX
+      RBAS(3,2)=BX
+C:UB]
+-----
+  150 AX=AX*0.5E0
+      CX=CX*0.5E0
+      RBAS(1,1)=-AX
+      RBAS(2,1)=AX
+      RBAS(3,1)=CX
+      RBAS(1,2)=AX
+      RBAS(2,2)=-AX
+      RBAS(3,2)=CX
+      RBAS(1,3)=AX
+      RBAS(2,3)=AX
+      RBAS(3,3)=-CX
+ ==>
+  150 AX=AX*0.5E0
+      CX=CX*0.5E0
+      RBAS(1,1)=-AX
+C:UB[ << ai = RBAS(i,*) >> 
+      RBAS(1,2)=AX
+      RBAS(1,3)=CX
+      RBAS(2,1)=AX
+      RBAS(2,2)=-AX
+      RBAS(2,3)=CX
+      RBAS(3,1)=AX
+      RBAS(3,2)=AX
+C:UB] 
+      RBAS(3,3)=-CX
+-----
+      DO 230 J=1,3
+  230 WRITE (66,240) J,(RBAS(I,J),I=1,3)
+  240 FORMAT (1H ,' R',I1,' = ',3F10.6)
+ ==>
+      DO 230 J=1,3
+C:UB[ << ai = RBAS(i,*) >> 
+  230 WRITE (66,240) J,(RBAS(J,I),I=1,3)
+C:UB] 
+  240 FORMAT (1H ,' R',I1,' = ',3F10.6)
+-----
+c      DO 280 J=1,3
+c  280 WRITE (66,290) J,(GBAS(J,I),I=1,3)
+   290 FORMAT (1H ,' G',I1,' = ',3F10.6)
+ ==>
+c      DO 280 J=1,3
+C:UB[  << bi = GBAS(*,i) >> 
+c  280 WRITE (66,290) J,(GBAS(I,J),I=1,3)
+C:UB] 
+   290 FORMAT (1H ,' G',I1,' = ',3F10.6)
+-----
+
+
+CHECK 1 : gbass.f in SRC_kgen
+-------
+Die 3x3 Matrix RBAS wird ueber Spaltenrvektoren ri = RBAS(*,i) verwendet.
+Dann wirden die dualen Vektoren 
+  g1 = 2pi/V ( r2 x r3 ) , g2 = 2pi/V ( r3 x r1 ) , g3 = 2pi/V ( r1 x r2 )
+mit
+  V = < r1 | r2 x r3 > = < r2 | r3 x r1 > = < r3 | r1 x r2 >
+aufgebaut, die als Spaltenvektoren gi = GBAS(*,i) in GBAS abgespeichert werden.
+Insgesamt ist GBAS damit die transponierte Inverse von RBAS, was bedeutet, dass
+ 
+wenn ai = RBAS(*,i) ist, dann ist bi = GBAS(*,i)  und
+wenn ai = RBAS(i,*) ist, dann ist bi = GBAS(i,*)  .
+
+Letzere Variante entspricht der aktuellen Konvention        <- right !
+
+
+CHECK 2 : main.f in SRC_kgen
+-------
+C     READ SYMMETRY-OPERATION FROM TAPE20=POTE                          
+      READ(20,1151) IORD                              
+      DO 2 J=1,IORD                                                    
+  2   READ(20,1101) ( (IZ(J1,J2,J),J1=1,3),J2=1,3 ),INUM
+
+Fuer orthogonale Bravais-Gitter (kubische, tetragonale und orthorhombische)
+werden hier die orthogonalen Transformationsmatrizen in kartesischen
+Koordinaten, y_i = Sum(j) Q_ij*x_j + a_i, eingelesen, und zwar in der Form
+          Q_11 Q_12 Q_13 a_1
+          Q_21 Q_22 Q_23 a_2
+          Q_31 Q_32 Q_33 a_3  .
+Im Fall nicht-orthogonaler Bravais-Gitter (hexagonal, rhombodehral, monoklin
+und triklin) hingegen werden die Transformationsmatrizen direkt in der Basis
+der direkten Gittervektoren ai angegeben: y_l = Sum(k) D(Q)_lk*x_k + a_k mit
+D(Q)_lk = Sum(i,j) bl_i Q_ij ak_j = <bl|Q|ak>, und zwar ebenfalls in der Form
+          Q_11 Q_12 Q_13 a_1
+          Q_21 Q_22 Q_23 a_2
+          Q_31 Q_32 Q_33 a_3  .
+Schliesslich benoetigt werden im Programm die Transformationsmatrizen Q in der
+Basis der reziproke Gittervektoren: R(Q)_nm = <an|Q|bm>. Nun gilt aber
+R(Q)_nm = <an|Q(bm)> = <Q+(an)|bm> = <Q^-1(an)|bm> = <bm|Q^-1(an)> = D(Q^-1)_mn.
+Darueber hinaus ist Q orthogonal, so dass auch Q_ij = (Q^-1)_ji gilt.
+
+Im Fall nicht-orthogonaler Bravais-Gitter wird D(Q)_ij eingelesen, dann als
+R(Q^-1)_ji interpretiert und in der Form R(Q^-1)_ji = IZ(j,i,J) abgespeichert.
+Im Fall orthogonaler Bravais-Gitter wird Q_ij eingelesen, dann ebenfalls als
+(Q^-1)_ji interpretiert und in der Form (Q^-1)_ji = IZ(j,i,J) abgespeichert.
+
+READ(20,1101) ((IZ(j,i,J),j=1,3),i=1,3)    <- right !
+
+
+BUG 4
+-----
+Falls das Bravais-Gitter orthogonal ist, werden die benoetigte R(Q^-1)_nm
+Matrizen in sdefl.f aus den eingelesenen (Q^-1)_ij generiert werden.
+
+R(Q^-1)_nm = <an|Q^-1|bm> = Sum(i,j) an_i (Q^-1)_ij bm_j
+
+Speicherung:  bm_j       = GBAS(m,j)
+              an_i       = RBAS(n,i) = RBAS1(i,n)
+              (Q^-1)_i,j = IZ(i,j,IND) = A(i,j)
+              R(Q^-1)_nm = A(n,m) = IIO(n,m,IND)
+also
+A(n,m) = Sum(i,j) RBAS1(i,n) * A(i,j) * GBAS(m,j)  <- wrong!
+
+Das waere in der alten Konvention, die ja gerade fuer the orthogonalen
+Bravais-Gittern noch verwendet worden ist richtig, muss fuer die Verwendung
+der neuen Konvention jedoch umgeschrieben werden.
+
+Speicherung:  bm_j       = GBAS(m,j) = GBAS1(j,m)
+              an_i       = RBAS(n,i)
+              (Q^-1)_i,j = IZ(i,j,IND) = A(i,j)
+              R(Q^-1)_nm = A(n,m) = IIO(n,m,IND)
+also
+A(n,m) = Sum(i,j) RBAS(n,i) * A(i,j) * GBAS1(j,m)
+
+
+@@@ sdefl.f in SRC_kgen
+-----
+      dimension rbas1(3,3)
+ ==>
+C:UB[ << new storage mode >>
+      dimension gbas1(3,3) 
+C      dimension rbas1(3,3)
+C:UB]
+-----
+      do 5 i=1,3
+      do 5 j=1,3
+      rbas1(j,i)=rbas(i,j)
+  5   gbas(i,j)=gbas(i,j)/2.d0/pi
+ ==>
+      do 5 i=1,3 
+      do 5 j=1,3 
+C:UB[ << new storage mode >>
+      gbas(i,j)=gbas(i,j)/2.d0/pi 
+  5   gbas1(j,i)=gbas(i,j) 
+C      rbas1(j,i)=rbas(i,j)
+C  5   gbas(i,j)=gbas(i,j)/2.d0/pi
+C:UB]
+-----
+         if(ortho) then
+             call matmm(b,rbas1,a)
+             call matmm(a,b,gbas)
+         end if
+ ==>
+         if(ortho) then
+C:UB[        << new storage mode >>
+             call matmm(b,rbas,a)
+             call matmm(a,b,gbas1)
+C             call matmm(b,rbas1,a)
+C             call matmm(a,b,gbas)
+C:UB]
+         end if
+-----
+
+
+BUG 5 ??
+-----
+@@@ arbmsh.f in SRC_kgen
+1. WRITE statement : bi = GBAS(i,*)
+   CALL GBASS(RBAS,GBAS)
+2. WRITE statement : bi = GBAS(i,*)
+Hier habe ich vergessen, wie die Originalquelle aussah.
+Die zur aktuellen Konvention passenden WRITE-Statements muessen jedenfalls
+      DO 281 J=1,3
+  281 WRITE (66,290) (GBAS(I,J),I=1,3)
+und 
+      DO 280 J=1,3
+  280 WRITE (66,290) (GBAS(I,J),I=1,3)
+lauten.
+
+
+BUG 6
+-----
+In basdiv.f wird IARB wie folgt verwendet:
+
+if( ndiv1 = ndiv2 ) iarb(1) = 1
+if( ndiv1 = ndiv3 ) iarb(2) = 1
+if( ndiv2 = ndiv3 ) iarb(3) = 1
+
+Mit zwei Ausnahmen (orthorhomic body-centered und tetragonal body-centered)
+gilt, dass sobald zwei reziproke Gittervektoren bi und bj verschieden lang
+sind, auch unterschiedliche Unterteilungen ndivi und ndivj verwendet werden
+duerfen (und auch sinnvoll sind). Im Fall der nicht-kubischen innen-
+zentrierten Gitter, bei denen nicht alle drei reziproken Gittervektoren 
+gleich lang sind, fuehrt die Wahl unterschiedlicher Unterteilungen ndiv
+jedoch zu k-Punktgittern die nicht mehr mit der Punktsymmetrie des
+entsprechenden Kristallsystems vertraeglich sind. Deshalb muss in diesen
+beiden Spezialfaellen IARB = 1 1 1 gesetzt werden:
+
+in bravai.f
+ |b1| = |b2| = |b3| : IARB = 1 1 1  rhombohedral
+                      IARB = 1 1 1  cubic body-centered
+                      IARB = 1 1 1  orthorhombic face-centered
+                      IARB = 1 1 1  cubic face-centered
+                      IARB = 1 1 1  cubic primitive
+
+ |b1| = |b2|        : IARB = 1 0 0  hexagonal
+                      IARB = 1 0 0  orthorhombic base-centered (xy)
+                      IARB = 1 0 0  tetragonal primitive
+                      IARB = 1 1 1  tetragonal body-centered         <- o.k.!!!
+
+ |b2| = |b3|        : IARB = 0 0 1  orthorhombic base-centered (yz)
+
+ |b1| = |b3|        : IARB = 0 0 1  monoclinic base-centered (xz)    <- wrong !
+                    : IARB = 0 1 0  orthorhombic base-centered (xz)
+
+ all diff. lenght   : IARB = 1 1 1  orthorhombic body-centered       <- o.k.!!!
+                      IARB = 0 0 0  monoclinic primitive
+                                    orthorhombic primitive
+
+@@@ basdiv.f in SRC_kgen
+-----
+C     **                ( IF IARB(1)=1 THEN 1ST AND 2ND LATTICE       **
+C     **                  VECTORS ARE DIVIDED BY AN EQUAL NUMBER;     **
+C     **                  IF IARB(2)=1 THEN SAME FOR 2ND AND 3RD;     **
+C     **                  IF IARB(3)=1 THEN SAME FOR 3RD AND 1ST)     **
+ ==>
+C     **                ( IF IARB(1)=1 THEN 1ST AND 2ND LATTICE       **
+C     **                  VECTORS ARE DIVIDED BY AN EQUAL NUMBER;     **
+C     **                  IF IARB(3)=1 THEN SAME FOR 2ND AND 3RD;     **
+C     **                  IF IARB(2)=1 THEN SAME FOR 3RD AND 1ST)     **
+-----
+Der entsprechende Kommentar in arbmsh.f ist korrekt                <- right !
+
+Die zur Berechnung der Betraege |bi| verwendete Speicherkonvention
+      DO 30 I=1,3
+      BETR(I)=DSQRT(GBAS(I,1)**2+GBAS(I,2)**2+GBAS(I,3)**2)        <- right !
+30    CONTINUE
+entspricht der aktuellen Konvention bi = GBAS(i,*)
+
+
+@@@ bravai.f in SRC_kgen
+-----
+C     ..................................................................
+C:UB  The direct lattice vectors     : ai = RBAS(i,*)
+C:UB  The reciprocal lattice vectors : bi = GBAS(*,i)
+C:UB           redefined by GBASS as : bi = GBAS(i,*) !
+      DIMENSION     GBAS(3,3), IARB(3)
+ ==>
+C     ..................................................................
+C:UB  The direct lattice vectors     : ai = RBAS(i,*)
+C:UB  The reciprocal lattice vectors : bi = GBAS(*,i)
+C:UB           redefined by GBASS as : bi = GBAS(i,*) !
+C:UB  if( ndiv1 = ndiv2 ) iarb(1) = 1
+C:UB  if( ndiv1 = ndiv3 ) iarb(2) = 1
+C:UB  if( ndiv2 = ndiv3 ) iarb(3) = 1
+C:UB  ..................................................................
+      DIMENSION     GBAS(3,3), IARB(3)
+-----
+      IARB(1)=0
+      IARB(2)=0
+      ORTHO=.FALSE.
+      ibrava=3
+ ==>
+      IARB(1)=0
+C:UB[ << |b1| = |b3| >>
+      IARB(3)=0
+C:UB]
+      ORTHO=.FALSE.
+      ibrava=3
+-----
+  150 AX=AX*0.5E0
+      CX=CX*0.5E0
+      RBAS(1,1)=-AX
+ ==>
+  150 AX=AX*0.5E0
+      CX=CX*0.5E0
+C:UB[ 
+c      IARB(2)=0
+c      IARB(3)=0
+C:UB]
+      RBAS(1,1)=-AX
+-----
+
+CHECK 3 : IIO in reduz.f
+-------
+      J1=IO(1,1,I)*I1+IO(1,2,I)*I2+IO(1,3,I)*I3
+      J2=IO(2,1,I)*I1+IO(2,2,I)*I2+IO(2,3,I)*I3
+      J3=IO(3,1,I)*I1+IO(3,2,I)*I2+IO(3,3,I)*I3
+      << Ji = Sum(j) IO(i,j,I)*Ij >>                         <- right !
+
+      J1=MOD(IO(1,1,I)*I1+IO(1,2,I)*I2+IO(1,3,I)*I3,2*N(1))
+      J2=MOD(IO(2,1,I)*I1+IO(2,2,I)*I2+IO(2,3,I)*I3,2*N(2))
+      J3=MOD(IO(3,1,I)*I1+IO(3,2,I)*I2+IO(3,3,I)*I3,2*N(3))
+      << Ji = MOD( Sum(j) IO(i,j,I)*Ij , 2*N(i) )            <- right !
+
+BUG 7 : GBAS in zuord.f
+-----
+        RINDA=(DBLE(I1-1)+DBLE(ISHIFT(1))/2.D0)/DBLE(N(1))
+        RINDB=(DBLE(I2-1)+DBLE(ISHIFT(2))/2.D0)/DBLE(N(2))
+        RINDC=(DBLE(I3-1)+DBLE(ISHIFT(3))/2.D0)/DBLE(N(3))
+        << RINDk : k-point in fractional coordinates >>
+        BK(1,NDIM)=GBAS(1,1)*RINDA+GBAS(1,2)*RINDB+GBAS(1,3)*RINDC
+        BK(2,NDIM)=GBAS(2,1)*RINDA+GBAS(2,2)*RINDB+GBAS(2,3)*RINDC
+        BK(3,NDIM)=GBAS(3,1)*RINDA+GBAS(3,2)*RINDB+GBAS(3,3)*RINDC
+        << BK(i,NDIM) = Sum(k) GBAS(i,k)*RINDk >>            <- wrong !
+        bki(1,ndim)=rinda
+        bki(2,ndim)=rindb
+        bki(3,ndim)=rindc
+        << BKi(k,NDIM) = RINDk
+
+@@@ zuord.f in SRC_kgen
+-----
+        BK(1,NDIM)=GBAS(1,1)*RINDA+GBAS(1,2)*RINDB+GBAS(1,3)*RINDC
+        BK(2,NDIM)=GBAS(2,1)*RINDA+GBAS(2,2)*RINDB+GBAS(2,3)*RINDC
+        BK(3,NDIM)=GBAS(3,1)*RINDA+GBAS(3,2)*RINDB+GBAS(3,3)*RINDC
+ ==>
+C:UB[   << bi = GBAS(i,*) >>
+        BK(1,NDIM)=GBAS(1,1)*RINDA+GBAS(2,1)*RINDB+GBAS(3,1)*RINDC
+        BK(2,NDIM)=GBAS(1,2)*RINDA+GBAS(2,2)*RINDB+GBAS(3,2)*RINDC
+        BK(3,NDIM)=GBAS(1,3)*RINDA+GBAS(2,3)*RINDB+GBAS(3,3)*RINDC
+C       BK(1,NDIM)=GBAS(1,1)*RINDA+GBAS(1,2)*RINDB+GBAS(1,3)*RINDC 
+C       BK(2,NDIM)=GBAS(2,1)*RINDA+GBAS(2,2)*RINDB+GBAS(2,3)*RINDC 
+C       BK(3,NDIM)=GBAS(3,1)*RINDA+GBAS(3,2)*RINDB+GBAS(3,3)*RINDC 
+C:UB] 
+-----
+
+BUG 8 : GBAS in tetdiv.f
+-----
+      DO 10 I=0,1
+      DO 10 J=0,1
+      DO 10 K=0,1
+      ISVAR=4*I+2*J+K+1
+      << the eight corners of the reciprocal primitive unit cell >>
+      P(ISVAR,L)=GBAS(L,1)*DBLE(I)/DBLE(N(1))
+     1          +GBAS(L,2)*DBLE(J)/DBLE(N(2))
+     1          +GBAS(L,3)*DBLE(K)/DBLE(N(3))
+      << P(i1,i2,i3,l) = Sum(k) GBAS(l,k)*(ik/N(k)) >>      <- wrong !
+10    CONTINUE
+      DO 20 I=1,4
+      DIAG(I)=0.D0
+      DO 20 J=1,3
+      DIAG(I)=DIAG(I)+(P(I,J)-P(9-I,J))**2
+20    CONTINUE
+      << DIAG(1) = |P(0,0,0)-P(1,1,1)|^2 >>
+      << DIAG(2) = |P(0,0,1)-P(1,1,0)|^2 >>
+      << DIAG(3) = |P(0,1,0)-P(1,0,1)|^2 >>
+      << DIAG(4) = |P(0,1,1)-P(1,0,0)|^2 >>
+      MNDG=1
+      DO 30 I=2,4
+      IF(DIAG(I).LT.DIAG(MNDG)) THEN
+        MNDG=I
+      END IF
+30    CONTINUE
+      << MNDG : the shortest diagonal >>
+
+@@@ tetdiv.f in SRC_kgen
+-----
+      P(ISVAR,L)=GBAS(L,1)*DBLE(I)/DBLE(N(1))
+     1          +GBAS(L,2)*DBLE(J)/DBLE(N(2))
+     1          +GBAS(L,3)*DBLE(K)/DBLE(N(3))
+c      P(ISVAR,L)=GBAS(1,L)*DBLE(I)/DBLE(N(1))
+c     1          +GBAS(2,L)*DBLE(J)/DBLE(N(2))
+c     1          +GBAS(3,L)*DBLE(K)/DBLE(N(3))
+ ==>
+C:UB[ << bi = GBAS(i,*) >> 
+C      P(ISVAR,L)=GBAS(L,1)*DBLE(I)/DBLE(N(1))
+C     1          +GBAS(L,2)*DBLE(J)/DBLE(N(2))
+C     1          +GBAS(L,3)*DBLE(K)/DBLE(N(3))
+      P(ISVAR,L)=GBAS(1,L)*DBLE(I)/DBLE(N(1))
+     1          +GBAS(2,L)*DBLE(J)/DBLE(N(2))
+     1          +GBAS(3,L)*DBLE(K)/DBLE(N(3))
+C:UB] 
+-----
+
+CHECK 4
+-------
+BK in main.f
+~~~~~~~~~~~~
+      AAA(1)=A1 
+      AAA(2)=A2
+      AAA(3)=A3
+      << conventional lattice parameters >>
+      ak1=bk(1,ikp)
+      ak2=bk(2,ikp)
+      ak3=bk(3,ikp)
+      << k-points in cartesian coordinates [bohr-1,bohr^-1,bohr^-1] >>
+      ak1=ak1/2./pi*aaa(1)
+      ak2=ak2/2./pi*aaa(2)
+      ak3=ak3/2./pi*aaa(3)
+      << k-points in scaled cartesian coordinates [2pi/a,2pi/b,2pi/c] >>
+      K1=NINT(AK1*IDIV)
+      K2=NINT(AK2*IDIV)
+      K3=NINT(AK3*IDIV)
+      << k-points in idiv-scaled cartesian coord. [2pi/aN,2pi/bN,2pi/cN] >>
+
+>>>>> orthogonal lattices
+      klist(ikp,1)=K1
+      klist(ikp,2)=K2
+      klist(ikp,3)=K3
+      << k-points in idiv-scaled cartesian coord. [2pi/aN,2pi/bN,2pi/cN] >>
+
+>>>>> non-orthogonal lattices
+      klist(ikp,1)=NINT(bKi(1,ikp)*IDIV)
+      klist(ikp,2)=NINT(bKi(2,ikp)*IDIV)
+      klist(ikp,3)=NINT(bKi(3,ikp)*IDIV)
+      << k-points in idiv-scaled fractional coordinates [b1/N,b2/N,b3/N] >>
+
+      do 301 ikp=1,nkp
+      WRITE(8,1520) IKP, (klist(ikp,ir),ir=1,3),idiv,wei(ikp)    <- *.klist
+ 301  CONTINUE
+
+USE of klist in inilpw.f of SRC_lapw1
+-------------------------------------
+      DOUBLE PRECISION   SX(NKPT),  SY(NKPT),  SZ(NKPT)
+      COMMON  /KPTS/     SX,  SY,  SZ
+
+>>>>> orthogonal lattices
+      READ (ITAPE,5100) KNAME(KINDEX), ISX, ISY, ISZ, IDV
+      << k-points in idiv-scaled cartesian coord. [2pi/aN,2pi/bN,2pi/cN] >>
+      SX(KINDEX) = DBLE(ISX)/DBLE(IDV)
+      SY(KINDEX) = DBLE(ISY)/DBLE(IDV)
+      SZ(KINDEX) = DBLE(ISZ)/DBLE(IDV)
+      << k-points in scaled cartesian coord. [2pi/a,2pi/b,2pi/c] >>
+
+>>>>> non-orthogonal lattices
+      READ (ITAPE,5100) KNAME(KINDEX), ISX, ISY, ISZ, IDV
+      << k-points in idiv-scaled fractional coordinates [b1/N,b2/N,b3/N] >>
+      SX(KINDEX) = DBLE(ISX)/DBLE(IDV)
+      SY(KINDEX) = DBLE(ISY)/DBLE(IDV)
+      SZ(KINDEX) = DBLE(ISZ)/DBLE(IDV)
+      << k-points in fractional coordinates [b1,b2,b3] >>
+
+USE of klist in setkpt.f of SRC_lapw1
+-------------------------------------
+      DOUBLE PRECISION   SX(NKPT),  SY(NKPT),  SZ(NKPT)
+      COMMON  /KPTS/     SX,  SY,  SZ
+
+      DOUBLE PRECISION   SX1, SY1, SZ1
+      COMMON  /ONEKPT/   SX1, SY1, SZ1
+
+>>>>> orthogonal lattices
+      SX1 = SX(KPOINT)
+      SY1 = SY(KPOINT)
+      SZ1 = SZ(KPOINT)
+      << k-points in scaled cartesian coord. [2pi/a,2pi/b,2pi/c] >>
+
+>>>>> non-orthogonal lattices 
+      SX1 = SX(KPOINT)
+      SY1 = SY(KPOINT)
+      SZ1 = SZ(KPOINT)
+      << k-points in fractional coordinates [b1,b2,b3] >>
+
+USE of klist in prtkpt.f of SRC_lapw1
+-------------------------------------
+      DOUBLE PRECISION   SX(NKPT),  SY(NKPT),  SZ(NKPT)
+      COMMON  /KPTS/     SX,  SY,  SZ
+
+      WRITE(...) ... SX(...), SY(...), SZ(...) ...
+
+USE of klist in calkpt.f of SRC_lapw1
+-------------------------------------
+      DOUBLE PRECISION   SX1, SY1, SZ1
+      COMMON  /ONEKPT/   SX1, SY1, SZ1
+
+      CALL COORS(...,SX1,SX2,SX3,...)
+
+USE of klist in coors.f of SRC_lapw1
+------------------------------------
+      IF (ORTHO) THEN
+         SKX = SX*PIA(1)
+         SKY = SY*PIA(2)
+         SKZ = SZ*PIA(3)
+         << k-points in cartesian coordinates >>
+      ELSE
+         SKX = SX*BR2(1,1) + SY*BR2(1,2) + SZ*BR2(1,3)
+         SKY = SX*BR2(2,1) + SY*BR2(2,2) + SZ*BR2(2,3)
+         SKZ = SX*BR2(3,1) + SY*BR2(3,2) + SZ*BR2(3,3)
+         << k-points in cartesian coordinates >>
+      ENDIF
+
+      ...
+     
+      alles in Ordnung !
+
+
+WIEN dirlat.f
+=============
+SRC_symmetry <-> SRC_nn : MONOCLINIC CASE missing in SRC_symmetry
+
+BUG 9
+-----
+@@@ dirlat.f in SRC_symmetry
+-----
+C.....CXZ  CASE (DIRECT LATTICE)
+ 60   CONTINUE
+      BR2(1,1)=0.5
+      ...
+      BR2(3,3)=0.5
+      ORTHO=.TRUE.
+      GOTO 100
+ ==> 
+C.....CXZ  CASE (DIRECT LATTICE)
+ 60   CONTINUE
+C.....CXZ ORTHOROMBIC CASE
+C:UB[ << as in dirlat.f ins SRC_nn ! >>
+      if(gamma.eq.90.d0) then
+         BR2(1,1)=0.5
+         ...
+         BR2(3,3)=0.5
+         ORTHO=.TRUE.
+         GOTO 100
+      ELSE
+C.....CXZ MONOCLINIC CASE
+         write(*,*) 'gamma not equal 90'
+         SINAB=SIN(gamma/180.d0*pi)
+         COSAB=COS(gamma/180.d0*pi)
+C
+         BR2(1,1)=0.5*sinab
+         BR2(1,2)=0.5*cosab
+         BR2(1,3)=-0.5
+         BR2(2,1)=0.0
+         BR2(2,2)=1.0
+         BR2(2,3)=0.0
+         BR2(3,1)=0.5*sinab
+         BR2(3,2)=0.5*cosab
+         BR2(3,3)=0.5
+         ORTHO=.FALSE.
+         GOTO 100
+      ENDIF
+C:UB]
+-----
+
+
+WIEN latgen.f
+=============
+SRC_lapw0 <-> SRC_lapw2 : hexagonal lattice : a = b is not used in SRC_lapw0
+SRC_mixer <-> SRC_lapw2 : hexagonal lattice : a = b is not used in SRC_mixer
+SRC_mixer <-> SRC_lapw2 : monoclinic body-c.: BR1(1,3)=0.0 missing in SRC_mixer
+SRC_dstart<-> SRC_lapw2 : monoclinic body-c.: BR1(1,3)=0.0 missing in SRC_dstart
+
+BUG 10
+------
+@@@ latgen.f in SRC_lapw0
+-----
+ 10   CONTINUE
+      BR1(1,1)=2.D0/SQRT3*PIA(1)
+      BR1(1,2)=1.D0/SQRT3*PIA(2)
+      BR1(1,3)=0.0D0
+      ...
+C
+      BR2(1,1)=2.D0/SQRT3*PIA(1)
+      BR2(1,2)=1.D0/SQRT3*PIA(2)
+      BR2(1,3)=0.0D0
+ ==>
+ 10   CONTINUE
+      BR1(1,1)=2.D0/SQRT3*PIA(1)
+C:UB[ << PIA(2) = PIA(1) >> 
+      BR1(1,2)=1.D0/SQRT3*PIA(1)                                        
+C:UB] 
+      BR1(1,3)=0.0D0
+      ...
+C   
+      BR2(1,1)=2.D0/SQRT3*PIA(1)
+C:UB[ << PIA(2) = PIA(1) >>
+      BR2(1,2)=1.D0/SQRT3*PIA(1)
+C:UB] 
+      BR2(1,3)=0.0D0
+-----
+
+@@@ latgen.f in SRC_mixer
+-----
+ 10   CONTINUE
+      BR1(1,1)=2.D0/SQRT3*PIA(1)
+      BR1(1,2)=1.D0/SQRT3*PIA(2)
+      BR1(1,3)=0.0D0
+      ...
+C
+      BR2(1,1)=2.D0/SQRT3*PIA(1)
+      BR2(1,2)=1.D0/SQRT3*PIA(2)
+      BR2(2,1)=0.0D0
+ ==>
+ 10   CONTINUE
+      BR1(1,1)=2.D0/SQRT3*PIA(1)
+C:UB[ << PIA(2) = PIA(1) >> 
+      BR1(1,2)=1.D0/SQRT3*PIA(1)                                        
+      BR1(1,3)=0.0D0
+C:UB] 
+      BR2(2,1)=0.0D0
+      ...
+C   
+      BR2(1,1)=2.D0/SQRT3*PIA(1)
+C:UB[ << PIA(2) = PIA(1) >>
+      BR2(1,2)=1.D0/SQRT3*PIA(1)
+C:UB] 
+      BR2(1,3)=0.0D0
+-----
+C.....CXZ MONOCLINIC CASE
+         write(*,*) 'gamma not equal 90'
+         SINAB=SIN(ALPHA(3))
+         COSAB=COS(ALPHA(3))
+C
+         BR1(1,1)= PIA(1)/SINAB
+         BR1(1,2)= -PIA(1)*COSAB/SINAB
+         BR1(1,3)= PIA(1)/SINAB
+         BR1(2,1)= 0.0
+         BR1(2,2)= PIA(2)
+         BR1(2,3)= 0.0
+         BR1(3,1)=-PIA(3)
+         BR1(3,2)= 0.0
+         BR1(3,3)= PIA(3)
+ ==>
+C.....CXZ MONOCLINIC CASE
+         write(*,*) 'gamma not equal 90'
+         SINAB=SIN(ALPHA(3))
+         COSAB=COS(ALPHA(3))
+C
+         BR1(1,1)= PIA(1)/SINAB
+         BR1(1,2)= -PIA(1)*COSAB/SINAB
+C:UB[    << similar to latgen.f in SRC_lapw2 ! >>
+c         BR1(1,3)= PIA(1)/SINAB
+         BR1(1,3)= 0.0
+C:UB]
+         BR1(2,1)= 0.0
+         BR1(2,2)= PIA(2)
+         BR1(2,3)= 0.0
+C:UB[    << similar to latgen.f in SRC_lapw2 ! >>
+c         BR1(3,1)=-PIA(3)
+         BR1(3,1)= 0.0
+C:UB]
+         BR1(3,2)= 0.0
+         BR1(3,3)= PIA(3)
+-----
+
+@@@ latgen.f in SRC_dstart
+-----
+C.....CXZ MONOCLINIC CASE
+         write(*,*) 'gamma not equal 90'
+         SINAB=SIN(ALPHA(3))
+         COSAB=COS(ALPHA(3))
+C
+         BR1(1,1)= PIA(1)/SINAB
+         BR1(1,2)= -PIA(1)*COSAB/SINAB
+         BR1(1,3)= PIA(1)/SINAB
+         BR1(2,1)= 0.0
+         BR1(2,2)= PIA(2)
+         BR1(2,3)= 0.0
+         BR1(3,1)=-PIA(3)
+         BR1(3,2)= 0.0
+         BR1(3,3)= PIA(3)
+ ==>
+C.....CXZ MONOCLINIC CASE
+         write(*,*) 'gamma not equal 90'
+         SINAB=SIN(ALPHA(3))
+         COSAB=COS(ALPHA(3))
+C
+         BR1(1,1)= PIA(1)/SINAB
+         BR1(1,2)= -PIA(1)*COSAB/SINAB
+C:UB[    << similar to latgen.f in SRC_lapw2 ! >>
+c         BR1(1,3)= PIA(1)/SINAB
+         BR1(1,3)= 0.0
+C:UB]
+         BR1(2,1)= 0.0
+         BR1(2,2)= PIA(2)
+         BR1(2,3)= 0.0
+C:UB[    << similar to latgen.f in SRC_lapw2 ! >>
+c         BR1(3,1)=-PIA(3)
+         BR1(3,1)= 0.0
+C:UB]
+         BR1(3,2)= 0.0
+         BR1(3,3)= PIA(3)
+-----
+
+ > > >  E N D E  < < <

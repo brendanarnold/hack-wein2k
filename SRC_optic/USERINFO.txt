@@ -1,0 +1,38 @@
+short description to handle OPTIC -program:
+
+the Makefile produces an executable  optic (real version) opticc (complex)
+to execute OPTIC program the definition file is needed as comand parameter.
+
+  optic(c) optic.def
+
+definition file:  optic.def
+5, '<case>.inop'     ,      'OLD',    'FORMATTED',  0
+6, '<case>.outputop' ,  'UNKNOWN',    'FORMATTED',  0
+3, '<case>.outmat'   ,  'UNKNOWN',    'FORMATTED',  0
+10,'<case>.vector'   ,      'OLD',  'UNFORMATTED',  0
+18,'<case>.vsp'      ,      'OLD',    'FORMATTED',  0  
+20,'<case>.struct'   ,      'OLD',    'FORMATTED',  0  
+
+input file: <case>.inop
+nkmax , nkfirst    : maximal number of k-points , number of k-point to start calculation (format: 2i *)
+emin , emax        : absolute energyrange (ryd) where matrixelements are calculated
+
+
+short comment on what is computed:
+
+      for the linear optical response of the electronic system it is necessary to calculate
+      the momentumopeerator in the one-electron picture. Compared to FERMIS GOLDEN RULE these
+      matrixelements are the transitionprobability. Obviousely this should result in a hermitic
+      matrix. But even the wavefunctions in LAPW are continuous in value and slope at the atomic-
+      sphereboundery there are in some cases numerical significant discrepancies. So the hermicity
+      can be forced by P(i,f) = (<i|P|f>+<f|P|i>* )/2. But several calculations have shown for the
+      dielectric functiond there is no differenc. therefore P(i,f) = (<i|P|f>)**2 is written.
+      Of course P(i,f) is only calculated in the irreducible wedge, therefore a symmetrization is 
+      done treating the P(i,f,k) as a vector and applying all symmetryoperation from struct-file.
+      For ORTHO=.true. structures only the 3 main components of dielectric tensor Px(i,f,k)*Px(i,f,k),
+      Py(i,f,k)*Py(i,f,k) ... is written to the <case>.outmat - file. Otherwise all six compnents of 
+      this symmetrix tensor are listed.
+      hint: the program code is not straightforward, bacause many particularities are not smoothed yet
+
+
+

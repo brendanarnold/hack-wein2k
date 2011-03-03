@@ -1,0 +1,125 @@
+      subroutine vldau(nup,nsic,l,dmat,U,J,V,mult,ipr)
+      IMPLICIT REAL*8(A-H,O-Z)
+! calculation of additional LDA+U potential, three versions
+! of double counting are implemented:
+! 1/ 'self-interaction corrected' LDA+U of Anisimov et al. 1993. 
+! 2/ 'around the mean field' (nsic=0 in the input). Czyzyk and Sawatzky 1994.
+! 3/  Mean field Hubbard model (nsic=2 in input) Anisimov et al. 1991
+!     this option is to be used with LDA (not LSDA)
+! *****************************************************************
+      real*8 J,trace(2),n0(2),ntot
+      complex*16 dmat(-3:3,-3:3,2),V(-3:3,-3:3),czero      
+      real*8 Vee(-3:3,-3:3,-3:3,-3:3)
+      COMMON/FACT/FCT(0:100),nfac   
+      nfac=20
+      call fac
+!**********************************************************************
+!
+      czero=(0.d0,0.d0)
+      ipr3j=0
+      if(nup.eq.2)then
+      write(6,*)' DNUP block of orbital potential'
+      else
+!
+! traces of density matrices
+      do isp=1,2
+        trace(isp)=0.d0
+          do m=-l,l
+            trace(isp)=trace(isp)+dmat(m,m,isp)
+          enddo
+      enddo
+! average number of electron per state
+      do isp=1,2
+        n0(isp)=trace(isp)/dfloat(2*l+1)
+      enddo
+      ntot=(n0(1)+n0(2))/2.d0
+      trtot=trace(1)+trace(2)
+! 
+      if(ipr.gt.1)then
+        write(6,589)(n0(isp),isp=1,2),ntot
+        write(6,*)
+      endif
+589   format(' nspin1',f10.5,' nspin2',f10.5,' nspintot',f10.5)
+! DFT (conventional) double counting correction 
+! subtract from diagonal elements 
+! of density matrix average number of electron per state. 
+! AMF method
+      if(nsic.eq.0)then
+       do isp=1,2
+        do m=-l,l
+          dmat(m,m,isp)=dmat(m,m,isp)-n0(isp)
+        enddo
+       write(6,600)isp,(dble(dmat(m,m,isp)),m=-l,l)
+600   format(i3,7f11.5)
+       enddo
+      endif
+! MFH method
+      if(nsic.eq.2)then
+       do isp=1,2
+        do m=-l,l
+          dmat(m,m,isp)=dmat(m,m,isp)-ntot   
+        enddo
+       write(6,600)isp,(dble(dmat(m,m,isp)),m=-l,l)
+       enddo
+      endif
+!
+      endif
+!
+! calculate the matrix Vee(M,M',M'',M''')
+      call Vcalc(Vee,L,U,J)
+      Eldau=0.0d0
+      do m=-l,l
+       do m1=-l,l
+! double sum 
+        v(m,m1)=czero
+         do m2=-l,l
+          do m3=-l,l
+          if(nup.eq.2)then
+           v(m,m1)=v(m,m1)-Vee(m,m2,m3,m1)*dmat(m2,m3,1)
+! Mean field (H-F) LDA+U energy
+           Eldau=Eldau-Vee(m,m2,m3,m1)*dmat(m,m1,1)*dmat(m2,m3,1)
+          else
+! first term with opposite spin &
+! second term with the same spin as potential &
+           v(m,m1)=v(m,m1)+ &
+           Vee(m,m2,m1,m3)*dmat(m2,m3,2) + &
+           (Vee(m,m2,m1,m3)-Vee(m,m2,m3,m1))*dmat(m2,m3,1)
+! Mean field (H-F) LDA+U energy
+           Eldau=Eldau+ &
+           Vee(m,m2,m1,m3)*dmat(m,m1,1)*dmat(m2,m3,2)+ &
+           (Vee(m,m2,m1,m3)-Vee(m,m2,m3,m1)) &
+           *dmat(m,m1,1)*dmat(m2,m3,1)
+          endif
+          enddo
+         enddo
+        enddo
+! double counting correction to the potential 
+      if((nsic.eq.1).and.(nup.ne.2))   &
+                 v(m,m)=v(m,m)-U*(trtot-0.5d0)+J*(trace(1)-0.5d0)
+      enddo
+      Eldau=Eldau/2.d0
+      Edc=0.d0
+      trdmv=0.d0
+      if(nup.ne.2)then
+! double counting correction to the energy 
+      if(nsic.eq.1) Edc=0.5d0*U*trtot*(trtot-1.d0) - &
+             0.5d0*J*(trace(1)*(trace(1)-1.d0)+trace(2)*(trace(2)-1.d0))
+!
+! trace dmat(1)*v
+      do m=-l,l
+       do m1=-l,l
+        trdmv=trdmv+dmat(m,m1,1)*v(m1,m)
+       enddo
+      enddo
+      endif
+! overall contribution to total energy of given spin
+      Ecorr=Eldau-Edc/2.d0-trdmv
+      EORB=Ecorr*mult
+      write(6,106)EORB
+      write(6,107)Ecorr,mult,Eldau,Edc,trdmv
+      write(21,106)EORB
+106   format(':EORB:',f13.6)
+107   format(' Ecorr',f11.5,' Mult',i3,' Eldau',f11.5,' Edc',f11.5, &
+             ' Tr(rho.V)',f11.5)
+      return
+      end

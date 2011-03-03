@@ -1,0 +1,178 @@
+###############################################################################
+#                                                                             #
+#                          Generic Makefile for lapw1                         #
+#                                                                             #
+#  make           ... generate executable for the REAL-version                #
+#  make complex   ... generate executable for the COMPLEX-version             #
+#  make clean     ... delete unnecessary files                                #
+#                                                                             #
+#  CAUTION: This makefile must not be called via the '-f' parameter of 'make'.#
+#           (Don't use 'make -f Makefile.aix32' !!)                           #
+#           (Always (symbolic) link the appropriate Makefile to 'Makefile'!!) #
+#                                                                             #
+###############################################################################
+#
+# FC ........... compiler name
+# FOPT ......... optimization flags
+# FGEN ......... code generation flags (flags not related to optimization)
+# LDFLAGS ...... linker flags
+# R_LIBS ....... libraries needed to build the REAL executable
+# C_LIBS ....... libraries needed to build the COMPLEX executable
+# DESTDIR ...... dir. where the executable should go (without trailing '/'!)
+# R_EXECNAME ... name of the resulting REAL executable (without prefixed path!)
+# C_EXECNAME ... name of the resulting COMPLEX executable ( -"- )
+#
+.SUFFIXES:      .F
+SHELL = /bin/sh
+include SLmake.inc
+FC = f90
+FC = pgf90
+FC = xlf90 -freeform
+FC = mpxlf90
+FOPT = -g -YEXT_NAMES=LCS -s  -B108 -YCFRL=1
+FOPT = -fast -pc 64 -Kieee -C -g
+FOPT = -C -64 -DParallel
+FOPT = -C -64
+FOPT = -64 -mips4 -r10000 -O3 -64 -DParallel
+FOPT = -64 -mips4 -r10000 -O3 -64 -C -g
+FOPT =
+FGEN =
+LDFLAGS = -L/usr/local/pgi/linux86/lib -L../SRC_lib
+R_LIBS = -llapack -latlas_athlon
+R_LIBS = -64 -lcomplib.sgimath -L $(HOME)/SCALAPACK $(LIBS)
+R_LIBS = -lessl -llapack
+C_LIBS = -llapack -latlas_athlon
+C_LIBS = $(R_LIBS)
+#C_LIBS = -llapack -latlas_pII
+#C_LIBS = -llapack -lblas
+DESTDIR	= .
+R_EXECNAME = lapw1
+C_EXECNAME = lapw1c
+
+###############################################################################
+
+TYPE='REAL'
+TYPE_COMMENT='!_REAL'
+FFLAGS = $(FGEN) $(FOPT)
+R_EXEC = $(DESTDIR)/$(R_EXECNAME)
+C_EXEC = $(DESTDIR)/$(C_EXECNAME)
+
+#..............................................................................
+#
+#  Object files common to both REAL and COMPLEX type subroutines
+#
+PAROBJS = pdsyevx16.o
+SEQMATOBJS	=	dsyr2m.o dsymm2.o zhemm2.o zher2m.o \
+	dsyxev4.o
+IBMMATOBJS	=	
+MATOBJS =	$(SEQMATOBJS) dstebz2.o \
+        zhcgst.o zhetrd2.o zheevx2.o dscgst.o dsyevx2.o dsytrd2.o \
+        dsyrdt4.o dsyrb4.o dsbein1.o dsyrb5l.o bandv1.o \
+        dblr2k.o dsywyv.o eisps.o dgeqrl.o dgewyg.o dgewy.o dlbrfg.o \
+	service.o
+OBJS =  modules.o \
+        abc.o    atpar.o  calkpt.o cbcomb.o coors.o  dvbes1.o errclr.o \
+        errflg.o forfhs.o gaunt1.o gaunt2.o gbass.o  gtfnam.o hamilt.o \
+        hns.o    inikpt.o inilpw.o lapw1.o  latgen.o lmsort.o locdef.o \
+        lohns.o  lopw.o   matmm.o  nn.o     outerr.o outwin.o prtkpt.o \
+        prtres.o rdswar.o rint13.o rotate.o rotdef.o seclr5.o select.o \
+        setkpt.o setwar.o sphbes.o stern.o  tapewf.o ustphx.o warpin.o \
+        wfpnt.o  ylm.o    cputim.o seclr4.o vectf.o  wfpnt1.o \
+        horb.o   seclit.o \
+	$(MATOBJS)
+
+#OBJS =	modules.o \
+#        abc.o    atpar.o  calkpt.o cbcomb.o coors.o  dvbes1.o errclr.o \
+#        errflg.o forfhs.o gaunt1.o gaunt2.o gbass.o  gtfnam.o hamilt.o \
+#        hns.o    inikpt.o inilpw.o lapw1.o  latgen.o lmsort.o locdef.o \
+#        lohns.o  lopw.o   matmm.o  nn.o     outerr.o outwin.o prtkpt.o \
+#        prtres.o rdswar.o rint13.o rotate.o rotdef.o seclit.o seclr5.o select.o \
+#        setkpt.o setwar.o sphbes.o stern.o  tapewf.o ustphx.o warpin.o \
+#        wfpnt.o  ylm.o    cputim.o seclr4.o vectf.o  wfpnt1.o \
+#        hldau.o dsyr2m.o dsymm2.o dstebz2.o zher2m.o \
+#        zhemm2.o zhcgst.o zhetrd2.o zheevx2.o dscgst.o dsyevx2.o dsytrd2.o \
+#	dsyrdt4.o dsyxev4.o dsyrb4.o dsbein1.o service.o dsyrb5l.o bandv1.o \
+#	dblr2k.o dsywyv.o eisps.o dgeqrl.o dgewyg.o dgewy.o dlbrfg.o
+#
+# Object files using modules
+#
+OBJSMOD = abc.o    atpar.o  calkpt.o hamilt.o hns.o hldau.o inilpw.o outwin.o \
+	prtkpt.o seclr4.o seclr4it.o 
+
+#..............................................................................
+#
+#  Object files for REAL and COMPLEX versions
+#
+R_OBJS = $(OBJS) 
+C_OBJS = $(OBJS)
+
+#..............................................................................
+#
+#  Build executable (either REAL or COMPLEX versions)
+#
+real: rm_c_files
+	$(MAKE) TYPE='REAL' TYPE_COMMENT='!_REAL' $(R_EXEC)
+	rm param.inc
+
+complex: rm_r_files
+	$(MAKE) TYPE='COMPLEX' TYPE_COMMENT='!_COMPLEX' $(C_EXEC)
+	rm param.inc
+
+#..............................................................................
+
+$(R_EXEC): $(R_OBJS)
+	$(FC) -o $(R_EXEC) $(R_OBJS) $(LDFLAGS) $(R_LIBS)
+	size $(R_EXEC)
+
+$(C_EXEC): $(C_OBJS)
+	$(FC) -o $(C_EXEC) $(C_OBJS) $(LDFLAGS) $(C_LIBS)
+	size $(C_EXEC)
+
+rm_c_files:
+	if [ -f .complex ]; then \
+	   $(MAKE) clean; \
+	fi
+	touch .real
+	cp -p param.inc_r param.inc
+
+rm_r_files:
+	if [ -f .real ]; then \
+	   $(MAKE) clean; \
+	fi
+	touch .complex
+	cp -p param.inc_c param.inc
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+#$(R_OBJS):		param.inc_r Makefile
+#$(C_OBJS):		param.inc_c Makefile
+$(R_OBJS):		param.inc_r 
+$(C_OBJS):		param.inc_c
+$(OBJSMOD):		modules.o
+
+#..............................................................................
+#
+#  remove unnecessary files (executable(s) are not removed)
+#
+clean:
+	-rm -f *.o _tmp_.* *.P .real .complex *.mod
+
+#..............................................................................
+#
+#  define inference rules to generate object files from source files
+#  (From .F files the appropriatly typed subroutine (REAL/COMPLEX) has to
+#  be chosen.)
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.F.o:
+	sed -e 's/^$(TYPE_COMMENT)//' -e "s/'\([^']*\)'/\"\1\"/g" -e "s/'//g" $< | cpp $(FFLAGS) >_tmp_.F
+	echo "$<: $(TYPE) version extracted"
+	cpp _tmp_.F |sed -e 's/^#.*//' >_tmp_.f
+	touch _tmp_.o
+	$(FC) $(FFLAGS) -c _tmp_.f
+	mv _tmp_.o $*.o
+#cputim.o:
+#	cc -64 -c cputim.c

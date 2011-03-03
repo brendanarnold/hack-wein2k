@@ -1,0 +1,101 @@
+\markup{begin:qtl}
+\section[QTL]{QTL (calculate densities of states)}
+\label{sec:qtl}
+\index{qtl}\index{densities of states}
+
+\prog{qtl} creates input for calculation of total density of states,
+ spin projected densities of 
+states and densities of states projected on an arbibtrary basis on a
+given $l$-subshell of any atom (including the relativistic $jj_z$ basis)
+using \prog{tetra}.
+The caculation is based on the spectral decomposition of a density matrix
+on a given atomic site and its transformation to the required basis.
+There are three types of input, the ordinary input file described below, the
+unitary transformation matrix from ${}_{lms}$-basis to the required one, and
+the proper setting of local rotation matrix in the case.struct file, which 
+could be different from the setting for scf calculation. In the special
+case of $jj_z$ projected densities of states the local $z$-axis must coincide with 
+the magnetization direction defined in case.inso. This is not done automaticaly but
+a message is written in the output together with the spin coordinate matrix.
+The unitary transformation matrices for the most common bases (e.g. ${}_{jj_z}$, ${}_{lms}$, or
+$e_g-t_{2g}$) are supplied with the code. For less common cases these must be generated
+by hand. The transfomation matrices are read from file case.cf$iatom and these output
+is written to case.qtl$iatom, which is used as an input for \prog{tetra}.
+ 
+
+\contribution{
+   J.Kune\v{s} \\
+Inst. of Physics, Acad.Science, Prague, Czeck Republic \\
+   email: kunes@fzu.cz \\
+}
+
+\subsection{Execution}
+\label{sec:qtl-exe}
+
+The program \prog{lapwdm} is executed by invoking the command:
+\begin{quote}
+  \file{x qtl [ -up/dn -p -c -so ]} or\\
+  \file{qtl qtl.def }
+\end{quote}
+
+
+\subsection{Dimensioning parameters}
+\label{sec:qtl-dim}
+
+The following parameters are used (collected in file \file{param.inc}):
+$$  ??????
+\dimpar{
+LMAX &    highest l of wave function inside sphere (consistent with
+          \prog{lapw1}) \\
+LABC &    highest l of wave function inside sphere where SO is considered \\
+LOMAX &   max l for local orbital basis\\
+NRAD &    number of radial mesh points\\
+}
+
+\subsection{Input}
+\label{sec:qtl-in}
+
+A sample input for \file{qtl} is given below.
+
+{\scriptsize
+\begin{verbatim}
+------------------ top of file: case.inq --------------------
+FULL               (SUMA,SPIN,TOTA)
+DOSYM              (NOSYM)
+0.0 1.2                   Emin, Emax
+0.768                     Fermi energy 
+ 2                       number of atoms for which density matrix is calculated
+ 1  2      index of 1st atom, L
+ 4  3
+------------------- bottom of file ------------------------
+\end{verbatim}
+}
+
+Interpretive comments on this file are as follows:
+
+\begin{description}
+\item[line 1:] format{A4}\\
+    \tabthree{
+  FULL  & & all $2(2l+1)$ components of $l$-subshell calculated\\
+  SUMA  & & olny sums defined by stars in case.cf$n file calculated\\
+  SPIN & & projections of total DOS on up/dn subspaces for the case of calculation with SOC\\
+  TOTA & & shortcut for calculating total DOS only.\\}
+\item[line 2:] format{A5}\\
+     \tabthree{
+ DOSYM & & standard option \\
+ NOSYM & & symmetrization schwiched off. Allowed only in special cases.\\}
+\item[line 3:] free format \\
+  \tabthree{emin, emax & & energy window\\
+\item[line 4:] free format \\
+   \tabthree{ef & & Fermi energy\\}
+\item[line 5:] free format \\
+   \tabthree{natom & & number of atom for which projected DOS is calculated\\}
+\item[line 6:] free format \\
+   iatom, l \\
+   \tabthree{iatom & & index of atom for which projected DOS should be calculated \\
+             l & & l-value for which projected DOS should be calculated\\
+}
+\item[line 6 is repeated natom times]\\
+\end{description}
+\markup{end:qtl}
+

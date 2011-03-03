@@ -1,0 +1,250 @@
+#!/bin/csh -f
+# interface for plotting electron densities
+# created with the program lapw5
+# (C)1997 by J.Luitz
+#     rhoplot [filename zmin zmax 3/c dc labels(y/n) plotfile ] 
+# This script is based on the "rho3d" script
+# by Bernd Kohler
+unalias rm
+
+
+# $1 is 
+
+if ($1 == "-h") goto help
+
+unset plotfile
+set cc0=(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0 )
+set dc=0.1
+set labels=y
+set contur
+set zmin1=0
+set zmax1=2
+set zmin
+set zmax
+set print = rhoplot.ps
+set hardcopy
+
+set file    = `pwd`
+set file    = $file:t
+set file    = $file.rho
+
+cat <<EOF
+
+#####################################
+#                                   #
+#             RHOPLOT               #
+#                                   #
+#####################################
+
+EOF
+
+# parsing command line or contur parameter
+if !($1 == "") set file = $1
+if !($2 == "") then
+        set zmin = $2
+        set zmin1=$zmin
+endif
+if !($3 == "") then
+        set zmax = $3
+        set zmax1=$zmax
+endif
+if !($4 == "") then
+   set contur=$4
+else
+   echo -n "3D- or Contour-plot ? (3/c)"
+   set contur = ($<)
+   if ($contur == c) then
+	echo -n "       zmin = (0.0) "
+	set zmin = ($<)
+        if ($zmin == "" ) set zmin=0
+        set zmin1=$zmin
+	echo -n "       zmax = (2.0) "
+	set zmax = ($<)
+        if ($zmax == "" ) set zmax=2
+        set zmax1=$zmax
+	echo -n "       delta z = (0.1) "
+	set dc = ($<)
+        if ($dc == "" ) set dc=0.1
+	echo -n "       labels ? (Y/n) "
+	set labels =($<)
+        if ($labels == "" ) set labels=y
+   endif
+endif
+if !($5 == "") set dc = $5
+if !($6 == "") set labels=$6
+if !($7 == "") set plotfile=$7
+
+#set contour array
+set tmp1 = :rho1
+set tmp2 = :rho2
+set title = $file
+
+if !(-e $file) then
+    echo ">>"
+    echo ">> ERROR: $file not found"
+    echo ">>"
+    echo ""
+    exit 1
+endif
+reformat  < $file > $tmp1
+
+set l1=`head -1 $file|cut -c11-20`
+set l2=`head -1 $file|cut -c21-30`
+set ratio = `echo "scale = 16;$l1 / $l2"|bc`
+echo $ratio
+set f1=0.652
+set corr=0.08
+set l1=`echo "scale = 16;if ($f1 / $ratio<1) { $f1/($ratio-($ratio-1.0)*$corr) };if ($f1 / $ratio>1){1}"|bc` 
+set l2=`echo "scale = 16;if ($f1 / $ratio<1) { 1};if ($f1 / $ratio>1){($ratio-($ratio-1.0)*$corr/2.) / $f1 }"|bc` 
+
+replot:
+
+#if ($zmax != "" ) then
+#set ii=1
+#set cc0=$zmin
+#set cc=$zmin
+#set iflag = `echo "if ($cc <= $zmax)1;if ($cc > $zmax)0"|bc`
+#echo $iflag
+#while ( $iflag == 1 )
+#   set cc0=($cc0, $cc)
+#   @ i ++
+#   set cc = `echo "scale = 16;$cc + $dc"|bc`   
+#   set iflag = `echo "if ($cc <= $zmax)1;if ($cc > $zmax)0"|bc`
+#end
+#echo contour levels at $cc0
+#endif
+
+
+cat <<EOF > $tmp2
+#set title '$title'
+set data style lines 
+set noxtics
+set noytics
+set zrange[$zmin :$zmax]
+set nokey
+set hidden3d
+set contour base
+set cntrparam levels incremental $zmin1,$dc,$zmax1
+#set cntrparam levels discrete $cc0
+show cntrparam
+EOF
+
+if ( $contur == c) then
+cat <<EOF >> $tmp2
+set size 0.65,1.
+set size $l1,$l2
+show size
+#set noclabel
+set lmargin 0
+set bmargin 0
+set tmargin 0
+set rmargin 0
+
+set nosurface
+set view 0,0,1
+EOF
+if ($labels == 'y' ) echo set key >>$tmp2
+if ($labels == 'Y' ) echo set key >>$tmp2
+endif
+
+if ($hardcopy == y) then
+   cat <<EOF >> $tmp2
+   set terminal postscript color solid
+   set output "$out"
+   splot '$tmp1' with lines lt 0
+EOF
+   gnuplot $tmp2
+   echo "hardcopy in file $out"
+   if ( $contur == c) then
+     echo "Modify in $out the line       0.100 0.100 scale    to    0.100 0.0yy scale "
+     echo "until your plot matches the correct axis ration of `head -1 $file|cut -c11-20` /`head -1 $file|cut -c21-30`"
+   endif
+  goto ende 
+
+else if ($?plotfile) then
+   cat <<EOF >> $tmp2
+   set terminal png
+   set output '$plotfile.png'
+   splot '$tmp1' with lines lt 0
+   set terminal postscript color solid
+   set output '$plotfile.ps'
+   replot
+EOF
+   gnuplot $tmp2
+   if ( $contur == c) then
+#     echo "Modify in $plotfile.ps the line       0.100 0.100 scale    to    0.100 0.0yy scale "
+#     echo "until your plot matches the correct axis ration of `head -1 $file|cut -c11-20` /`head -1 $file|cut -c21-30`"
+   endif
+  goto ende 
+
+else 
+   cat <<EOF >> $tmp2
+   splot '$tmp1' with lines lt 0
+   pause -1
+EOF
+   echo "Wait until graph appears. Then press RETURN to continue"
+   gnuplot $tmp2
+endif
+
+echo -n "Do you want to set ranges? (y/N)"
+set yn = ($<)
+if ($yn == y) then
+	unset yn
+	echo -n "       zmin = (0.0) "
+	set zmin = ($<)
+        if ($zmin == "" ) set zmin=0
+        set zmin1=$zmin
+	echo -n "       zmax = (2.0) "
+	set zmax = ($<)
+        if ($zmax == "" ) set zmax=2
+        set zmax1=$zmax
+	echo -n "       delta z = (0.1) "
+	set dc = ($<)
+        if ($dc == "" ) set dc=0.1
+        goto replot
+endif
+
+echo -n "Do you want a hardcopy? (y/N)"
+set hardcopy = ($<)
+if ($hardcopy == y) then
+	echo -n "Specify a filename (default is $print)"
+	set out = ($<)
+	echo "Printing Electron Density"
+	if ($out == "") set out = "$print"
+        goto replot
+endif
+
+ende:
+#    rm $tmp1 $tmp2
+
+exit(0)
+
+
+help:
+cat <<EOF
+
+
+#####################################
+#                                   #
+#             RHOPLOT               #
+#                                   #
+#####################################
+
+Plotting interface for plotting 3-dimensional electron densities
+using gnuplot.
+
+If started without any arguments rhoplot will plot the electron density
+from the file case.rho.
+
+However, rhoplot can also be started in batch mode using:
+ 
+  rhoplot filename [z-min z-max 3/c dc y/n plotfile ]
+
+3/c specifies 3D or contur plot
+dc  increment of conturlines
+y/n labels conturplot
+If  plotfile is specified, a png and ps file will be produced without 
+    user-interaction
+
+EOF
+

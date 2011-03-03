@@ -1,0 +1,840 @@
+starting parallel lapw1 at mar jui 10 16:11:15 CEST 2001
+     bilal(163) 47.430u 0.510s 0:48.32 99.2%	0+0k 0+0io 287pf+0w
+     tardi(163) 48.110u 0.180s 0:48.40 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 48.150u 0.320s 0:48.78 99.3%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=47.43	 wallclock=48.32
+   tardi	 k=163	 user=48.11	 wallclock=48.4
+   loisel	 k=163	 user=48.15	 wallclock=48.78
+<-  done at mar jui 10 16:12:08 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:12:09 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:12:09 CEST 2001
+      bilal 10.500u 0.290s 0:11.00 98.0% 0+0k 0+0io 215pf+0w
+      tardi 10.240u 0.120s 0:10.43 99.3% 0+0k 0+0io 181pf+0w
+      loisel 11.630u 0.150s 0:11.83 99.5% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.5	 wallclock=11
+   tardi	 user=10.24	 wallclock=10.43
+   loisel	 user=11.63	 wallclock=11.83
+<-  done at mar jui 10 16:12:24 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:12:24 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:12:25 CEST 2001
+<-  done at mar jui 10 16:12:25 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:12:29 CEST 2001
+     bilal(163) 49.340u 0.480s 0:50.93 97.8%	0+0k 0+0io 289pf+0w
+     tardi(163) 47.470u 0.240s 0:47.79 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.630u 0.200s 0:47.97 99.7%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=49.34	 wallclock=50.93
+   tardi	 k=163	 user=47.47	 wallclock=47.79
+   loisel	 k=163	 user=47.63	 wallclock=47.97
+<-  done at mar jui 10 16:13:21 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:13:21 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:13:22 CEST 2001
+      bilal 10.610u 0.380s 0:11.15 98.5% 0+0k 0+0io 206pf+0w
+      tardi 10.820u 0.120s 0:10.99 99.5% 0+0k 0+0io 181pf+0w
+      loisel 11.550u 0.170s 0:12.20 96.0% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.61	 wallclock=11.15
+   tardi	 user=10.82	 wallclock=10.99
+   loisel	 user=11.55	 wallclock=12.2
+<-  done at mar jui 10 16:13:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:13:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:13:38 CEST 2001
+<-  done at mar jui 10 16:13:38 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:13:42 CEST 2001
+     bilal(163) 47.540u 0.410s 0:48.50 98.8%	0+0k 0+0io 289pf+0w
+     tardi(163) 46.620u 0.260s 0:46.93 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.640u 0.240s 0:48.06 99.6%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=47.54	 wallclock=48.5
+   tardi	 k=163	 user=46.62	 wallclock=46.93
+   loisel	 k=163	 user=47.64	 wallclock=48.06
+<-  done at mar jui 10 16:14:34 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:14:35 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:14:35 CEST 2001
+      bilal 10.260u 0.220s 0:10.62 98.6% 0+0k 0+0io 206pf+0w
+      tardi 10.920u 0.140s 0:11.14 99.2% 0+0k 0+0io 181pf+0w
+      loisel 11.310u 0.160s 0:11.64 98.5% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.26	 wallclock=10.62
+   tardi	 user=10.92	 wallclock=11.14
+   loisel	 user=11.31	 wallclock=11.64
+<-  done at mar jui 10 16:14:50 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:14:50 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:14:50 CEST 2001
+<-  done at mar jui 10 16:14:51 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:14:55 CEST 2001
+     bilal(163) 48.240u 0.410s 0:49.07 99.1%	0+0k 0+0io 289pf+0w
+     tardi(163) 47.560u 0.210s 0:47.85 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.600u 0.260s 0:48.17 99.3%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=48.24	 wallclock=49.07
+   tardi	 k=163	 user=47.56	 wallclock=47.85
+   loisel	 k=163	 user=47.6	 wallclock=48.17
+<-  done at mar jui 10 16:15:47 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:15:47 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:15:48 CEST 2001
+      bilal 10.750u 0.210s 0:11.22 97.6% 0+0k 0+0io 206pf+0w
+      tardi 10.850u 0.110s 0:11.04 99.2% 0+0k 0+0io 181pf+0w
+      loisel 11.340u 0.060s 0:11.86 96.1% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.75	 wallclock=11.22
+   tardi	 user=10.85	 wallclock=11.04
+   loisel	 user=11.34	 wallclock=11.86
+<-  done at mar jui 10 16:16:03 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:16:03 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:16:03 CEST 2001
+<-  done at mar jui 10 16:16:04 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:16:08 CEST 2001
+     bilal(163) 47.840u 0.370s 0:48.58 99.2%	0+0k 0+0io 289pf+0w
+     tardi(163) 48.040u 0.190s 0:48.35 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.590u 0.250s 0:48.51 98.6%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=47.84	 wallclock=48.58
+   tardi	 k=163	 user=48.04	 wallclock=48.35
+   loisel	 k=163	 user=47.59	 wallclock=48.51
+<-  done at mar jui 10 16:17:01 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:17:01 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:17:01 CEST 2001
+      bilal 10.760u 0.310s 0:11.23 98.5% 0+0k 0+0io 206pf+0w
+      tardi 10.710u 0.080s 0:10.86 99.3% 0+0k 0+0io 181pf+0w
+      loisel 11.190u 0.160s 0:11.70 97.0% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.76	 wallclock=11.23
+   tardi	 user=10.71	 wallclock=10.86
+   loisel	 user=11.19	 wallclock=11.7
+<-  done at mar jui 10 16:17:16 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:17:16 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:17:17 CEST 2001
+<-  done at mar jui 10 16:17:17 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:17:21 CEST 2001
+     bilal(163) 48.160u 0.390s 0:49.31 98.4%	0+0k 0+0io 289pf+0w
+     tardi(163) 48.130u 0.300s 0:48.51 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.920u 0.250s 0:48.32 99.6%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=48.16	 wallclock=49.31
+   tardi	 k=163	 user=48.13	 wallclock=48.51
+   loisel	 k=163	 user=47.92	 wallclock=48.32
+<-  done at mar jui 10 16:18:14 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:18:14 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:18:14 CEST 2001
+      bilal 10.260u 0.340s 0:10.90 97.2% 0+0k 0+0io 206pf+0w
+      tardi 10.400u 0.170s 0:10.66 99.1% 0+0k 0+0io 181pf+0w
+      loisel 11.070u 0.200s 0:11.34 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.26	 wallclock=10.9
+   tardi	 user=10.4	 wallclock=10.66
+   loisel	 user=11.07	 wallclock=11.34
+<-  done at mar jui 10 16:18:29 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:18:29 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:18:29 CEST 2001
+<-  done at mar jui 10 16:18:30 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:18:34 CEST 2001
+     bilal(163) 47.610u 0.350s 0:49.21 97.4%	0+0k 0+0io 289pf+0w
+     tardi(163) 48.420u 0.190s 0:48.74 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.590u 0.310s 0:48.62 98.5%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=47.61	 wallclock=49.21
+   tardi	 k=163	 user=48.42	 wallclock=48.74
+   loisel	 k=163	 user=47.59	 wallclock=48.62
+<-  done at mar jui 10 16:19:27 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:19:27 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:19:28 CEST 2001
+      bilal 11.080u 0.290s 0:13.63 83.4% 0+0k 0+0io 206pf+0w
+      tardi 10.850u 0.090s 0:11.02 99.2% 0+0k 0+0io 181pf+0w
+      loisel 11.980u 0.130s 0:12.73 95.1% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.08	 wallclock=13.63
+   tardi	 user=10.85	 wallclock=11.02
+   loisel	 user=11.98	 wallclock=12.73
+<-  done at mar jui 10 16:19:44 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:19:44 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:19:44 CEST 2001
+<-  done at mar jui 10 16:19:45 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:19:50 CEST 2001
+     bilal(163) 44.760u 0.440s 0:47.70 94.7%	0+0k 0+0io 289pf+0w
+     tardi(163) 46.570u 0.220s 0:46.90 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 45.990u 0.220s 0:46.35 99.6%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=44.76	 wallclock=47.7
+   tardi	 k=163	 user=46.57	 wallclock=46.9
+   loisel	 k=163	 user=45.99	 wallclock=46.35
+<-  done at mar jui 10 16:20:41 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:20:41 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:20:42 CEST 2001
+      bilal 10.450u 0.340s 0:11.35 95.0% 0+0k 0+0io 218pf+0w
+      tardi 11.580u 0.150s 0:11.88 98.7% 0+0k 0+0io 182pf+0w
+      loisel 10.910u 0.160s 0:11.14 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.45	 wallclock=11.35
+   tardi	 user=11.58	 wallclock=11.88
+   loisel	 user=10.91	 wallclock=11.14
+<-  done at mar jui 10 16:20:56 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:20:56 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:20:57 CEST 2001
+<-  done at mar jui 10 16:20:57 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:21:01 CEST 2001
+     bilal(163) 45.450u 0.400s 0:46.23 99.1%	0+0k 0+0io 289pf+0w
+     tardi(163) 45.600u 0.200s 0:45.86 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 46.110u 0.310s 0:47.85 97.0%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=45.45	 wallclock=46.23
+   tardi	 k=163	 user=45.6	 wallclock=45.86
+   loisel	 k=163	 user=46.11	 wallclock=47.85
+<-  done at mar jui 10 16:21:53 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:21:53 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:21:54 CEST 2001
+      bilal 9.930u 0.260s 0:10.45 97.5% 0+0k 0+0io 206pf+0w
+      tardi 11.060u 0.170s 0:11.25 99.8% 0+0k 0+0io 182pf+0w
+      loisel 10.900u 0.120s 0:11.18 98.5% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=9.93	 wallclock=10.45
+   tardi	 user=11.06	 wallclock=11.25
+   loisel	 user=10.9	 wallclock=11.18
+<-  done at mar jui 10 16:22:08 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:22:08 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:22:09 CEST 2001
+<-  done at mar jui 10 16:22:09 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:22:13 CEST 2001
+     bilal(163) 45.670u 0.430s 0:46.30 99.5%	0+0k 0+0io 289pf+0w
+     tardi(163) 45.090u 0.250s 0:45.40 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 46.250u 0.240s 0:46.57 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=45.67	 wallclock=46.3
+   tardi	 k=163	 user=45.09	 wallclock=45.4
+   loisel	 k=163	 user=46.25	 wallclock=46.57
+<-  done at mar jui 10 16:23:04 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:23:04 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:23:04 CEST 2001
+      bilal 10.850u 0.300s 0:11.33 98.4% 0+0k 0+0io 206pf+0w
+      tardi 11.260u 0.100s 0:11.42 99.4% 0+0k 0+0io 182pf+0w
+      loisel 11.480u 0.150s 0:11.66 99.7% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.85	 wallclock=11.33
+   tardi	 user=11.26	 wallclock=11.42
+   loisel	 user=11.48	 wallclock=11.66
+<-  done at mar jui 10 16:23:19 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:23:19 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:23:20 CEST 2001
+<-  done at mar jui 10 16:23:20 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:23:24 CEST 2001
+     bilal(163) 45.470u 0.290s 0:45.99 99.4%	0+0k 0+0io 289pf+0w
+     tardi(163) 45.770u 0.200s 0:46.05 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 45.780u 0.220s 0:46.08 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=45.47	 wallclock=45.99
+   tardi	 k=163	 user=45.77	 wallclock=46.05
+   loisel	 k=163	 user=45.78	 wallclock=46.08
+<-  done at mar jui 10 16:24:15 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:24:15 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:24:15 CEST 2001
+      bilal 10.280u 0.320s 0:10.74 98.6% 0+0k 0+0io 206pf+0w
+      tardi 11.410u 0.130s 0:11.63 99.2% 0+0k 0+0io 182pf+0w
+      loisel 11.270u 0.140s 0:11.48 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.28	 wallclock=10.74
+   tardi	 user=11.41	 wallclock=11.63
+   loisel	 user=11.27	 wallclock=11.48
+<-  done at mar jui 10 16:24:30 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:24:30 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:24:31 CEST 2001
+<-  done at mar jui 10 16:24:31 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:24:35 CEST 2001
+     bilal(163) 46.100u 0.470s 0:46.86 99.3%	0+0k 0+0io 289pf+0w
+     tardi(163) 46.000u 0.210s 0:46.25 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.030u 0.170s 0:47.24 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=46.1	 wallclock=46.86
+   tardi	 k=163	 user=46	 wallclock=46.25
+   loisel	 k=163	 user=47.03	 wallclock=47.24
+<-  done at mar jui 10 16:25:27 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:25:27 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:25:27 CEST 2001
+      bilal 10.560u 0.240s 0:10.97 98.4% 0+0k 0+0io 206pf+0w
+      tardi 10.720u 0.140s 0:10.92 99.4% 0+0k 0+0io 182pf+0w
+      loisel 10.990u 0.150s 0:11.23 99.1% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.56	 wallclock=10.97
+   tardi	 user=10.72	 wallclock=10.92
+   loisel	 user=10.99	 wallclock=11.23
+<-  done at mar jui 10 16:25:42 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:25:42 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:25:42 CEST 2001
+<-  done at mar jui 10 16:25:43 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:25:47 CEST 2001
+     bilal(163) 44.570u 0.320s 0:45.18 99.3%	0+0k 0+0io 289pf+0w
+     tardi(163) 44.040u 0.190s 0:44.36 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 46.370u 0.190s 0:46.63 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=44.57	 wallclock=45.18
+   tardi	 k=163	 user=44.04	 wallclock=44.36
+   loisel	 k=163	 user=46.37	 wallclock=46.63
+<-  done at mar jui 10 16:26:38 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:26:38 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:26:38 CEST 2001
+      bilal 10.440u 0.290s 0:10.86 98.8% 0+0k 0+0io 206pf+0w
+      tardi 10.930u 0.120s 0:11.14 99.1% 0+0k 0+0io 182pf+0w
+      loisel 10.910u 0.170s 0:11.16 99.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.44	 wallclock=10.86
+   tardi	 user=10.93	 wallclock=11.14
+   loisel	 user=10.91	 wallclock=11.16
+<-  done at mar jui 10 16:26:53 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:26:53 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:26:53 CEST 2001
+<-  done at mar jui 10 16:26:53 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:26:57 CEST 2001
+     bilal(163) 44.760u 0.370s 0:45.67 98.8%	0+0k 0+0io 289pf+0w
+     tardi(163) 45.640u 0.290s 0:46.00 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 47.600u 0.190s 0:47.84 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=44.76	 wallclock=45.67
+   tardi	 k=163	 user=45.64	 wallclock=46
+   loisel	 k=163	 user=47.6	 wallclock=47.84
+<-  done at mar jui 10 16:27:50 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:27:50 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:27:50 CEST 2001
+      bilal 10.660u 0.210s 0:11.10 97.9% 0+0k 0+0io 206pf+0w
+      tardi 10.790u 0.150s 0:11.02 99.2% 0+0k 0+0io 182pf+0w
+      loisel 11.010u 0.170s 0:11.25 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.66	 wallclock=11.1
+   tardi	 user=10.79	 wallclock=11.02
+   loisel	 user=11.01	 wallclock=11.25
+<-  done at mar jui 10 16:28:05 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:28:05 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:28:05 CEST 2001
+<-  done at mar jui 10 16:28:06 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:28:10 CEST 2001
+     bilal(163) 50.290u 0.380s 0:51.05 99.2%	0+0k 0+0io 289pf+0w
+     tardi(163) 50.030u 0.190s 0:50.29 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 50.640u 0.280s 0:50.97 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=50.29	 wallclock=51.05
+   tardi	 k=163	 user=50.03	 wallclock=50.29
+   loisel	 k=163	 user=50.64	 wallclock=50.97
+<-  done at mar jui 10 16:29:06 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:29:06 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:29:06 CEST 2001
+      bilal 10.440u 0.230s 0:10.86 98.2% 0+0k 0+0io 218pf+0w
+      tardi 10.760u 0.120s 0:11.02 98.7% 0+0k 0+0io 181pf+0w
+      loisel 11.500u 0.120s 0:11.71 99.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.44	 wallclock=10.86
+   tardi	 user=10.76	 wallclock=11.02
+   loisel	 user=11.5	 wallclock=11.71
+<-  done at mar jui 10 16:29:22 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:29:22 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:29:22 CEST 2001
+<-  done at mar jui 10 16:29:22 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:29:26 CEST 2001
+     bilal(163) 51.150u 0.350s 0:52.06 98.9%	0+0k 0+0io 289pf+0w
+     tardi(163) 51.090u 0.210s 0:51.44 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 50.690u 0.190s 0:50.96 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=51.15	 wallclock=52.06
+   tardi	 k=163	 user=51.09	 wallclock=51.44
+   loisel	 k=163	 user=50.69	 wallclock=50.96
+<-  done at mar jui 10 16:30:21 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:30:22 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:30:22 CEST 2001
+      bilal 10.690u 0.210s 0:11.05 98.6% 0+0k 0+0io 206pf+0w
+      tardi 10.590u 0.130s 0:10.74 99.8% 0+0k 0+0io 181pf+0w
+      loisel 11.420u 0.130s 0:11.64 99.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.69	 wallclock=11.05
+   tardi	 user=10.59	 wallclock=10.74
+   loisel	 user=11.42	 wallclock=11.64
+<-  done at mar jui 10 16:30:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:30:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:30:37 CEST 2001
+<-  done at mar jui 10 16:30:38 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:30:42 CEST 2001
+     bilal(163) 50.180u 0.430s 0:50.98 99.2%	0+0k 0+0io 289pf+0w
+     tardi(163) 51.500u 0.270s 0:51.86 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 51.410u 0.240s 0:51.72 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=50.18	 wallclock=50.98
+   tardi	 k=163	 user=51.5	 wallclock=51.86
+   loisel	 k=163	 user=51.41	 wallclock=51.72
+<-  done at mar jui 10 16:31:38 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:31:38 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:31:38 CEST 2001
+      bilal 10.710u 0.290s 0:11.16 98.5% 0+0k 0+0io 206pf+0w
+      tardi 10.630u 0.190s 0:10.90 99.2% 0+0k 0+0io 181pf+0w
+      loisel 11.700u 0.100s 0:11.88 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.71	 wallclock=11.16
+   tardi	 user=10.63	 wallclock=10.9
+   loisel	 user=11.7	 wallclock=11.88
+<-  done at mar jui 10 16:31:54 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:31:54 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:31:54 CEST 2001
+<-  done at mar jui 10 16:31:54 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:31:58 CEST 2001
+     bilal(163) 50.280u 0.350s 0:51.08 99.1%	0+0k 0+0io 289pf+0w
+     tardi(163) 50.510u 0.210s 0:50.82 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 50.230u 0.330s 0:50.68 99.7%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=50.28	 wallclock=51.08
+   tardi	 k=163	 user=50.51	 wallclock=50.82
+   loisel	 k=163	 user=50.23	 wallclock=50.68
+<-  done at mar jui 10 16:32:53 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:32:54 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:32:54 CEST 2001
+      bilal 10.430u 0.320s 0:11.30 95.1% 0+0k 0+0io 206pf+0w
+      tardi 10.530u 0.140s 0:10.76 99.1% 0+0k 0+0io 181pf+0w
+      loisel 11.280u 0.140s 0:11.50 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.43	 wallclock=11.3
+   tardi	 user=10.53	 wallclock=10.76
+   loisel	 user=11.28	 wallclock=11.5
+<-  done at mar jui 10 16:33:09 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:33:09 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:33:09 CEST 2001
+<-  done at mar jui 10 16:33:10 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:33:14 CEST 2001
+     bilal(163) 50.960u 0.440s 0:52.25 98.3%	0+0k 0+0io 289pf+0w
+     tardi(163) 51.580u 0.310s 0:51.96 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 51.180u 0.310s 0:51.54 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=50.96	 wallclock=52.25
+   tardi	 k=163	 user=51.58	 wallclock=51.96
+   loisel	 k=163	 user=51.18	 wallclock=51.54
+<-  done at mar jui 10 16:34:10 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:34:10 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:34:10 CEST 2001
+      bilal 10.700u 0.310s 0:11.13 98.9% 0+0k 0+0io 206pf+0w
+      tardi 10.810u 0.130s 0:11.05 99.0% 0+0k 0+0io 181pf+0w
+      loisel 11.080u 0.160s 0:11.30 99.4% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.7	 wallclock=11.13
+   tardi	 user=10.81	 wallclock=11.05
+   loisel	 user=11.08	 wallclock=11.3
+<-  done at mar jui 10 16:34:25 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:34:25 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:34:25 CEST 2001
+<-  done at mar jui 10 16:34:26 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:34:30 CEST 2001
+     bilal(163) 51.150u 0.350s 0:52.10 98.8%	0+0k 0+0io 289pf+0w
+     tardi(163) 50.340u 0.170s 0:50.60 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 51.760u 0.330s 0:52.16 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=51.15	 wallclock=52.1
+   tardi	 k=163	 user=50.34	 wallclock=50.6
+   loisel	 k=163	 user=51.76	 wallclock=52.16
+<-  done at mar jui 10 16:35:26 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:35:26 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:35:27 CEST 2001
+      bilal 10.810u 0.270s 0:11.23 98.6% 0+0k 0+0io 206pf+0w
+      tardi 11.530u 0.160s 0:11.75 99.4% 0+0k 0+0io 181pf+0w
+      loisel 11.270u 0.100s 0:11.46 99.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.81	 wallclock=11.23
+   tardi	 user=11.53	 wallclock=11.75
+   loisel	 user=11.27	 wallclock=11.46
+<-  done at mar jui 10 16:35:42 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:35:42 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:35:42 CEST 2001
+<-  done at mar jui 10 16:35:42 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:35:46 CEST 2001
+     bilal(163) 50.250u 0.340s 0:51.07 99.0%	0+0k 0+0io 289pf+0w
+     tardi(163) 51.520u 0.270s 0:51.87 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 51.250u 0.230s 0:51.55 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=50.25	 wallclock=51.07
+   tardi	 k=163	 user=51.52	 wallclock=51.87
+   loisel	 k=163	 user=51.25	 wallclock=51.55
+<-  done at mar jui 10 16:36:42 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:36:42 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:36:43 CEST 2001
+      bilal 10.800u 0.280s 0:11.23 98.6% 0+0k 0+0io 206pf+0w
+      tardi 10.550u 0.070s 0:10.69 99.3% 0+0k 0+0io 181pf+0w
+      loisel 11.270u 0.180s 0:11.52 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.8	 wallclock=11.23
+   tardi	 user=10.55	 wallclock=10.69
+   loisel	 user=11.27	 wallclock=11.52
+<-  done at mar jui 10 16:36:58 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:36:58 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:36:58 CEST 2001
+<-  done at mar jui 10 16:36:58 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:37:03 CEST 2001
+     bilal(163) 54.550u 0.470s 0:55.55 99.0%	0+0k 0+0io 290pf+0w
+     tardi(163) 54.140u 0.260s 0:54.43 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 52.320u 0.230s 0:52.60 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=54.55	 wallclock=55.55
+   tardi	 k=163	 user=54.14	 wallclock=54.43
+   loisel	 k=163	 user=52.32	 wallclock=52.6
+<-  done at mar jui 10 16:38:02 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:38:02 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:38:03 CEST 2001
+      bilal 10.520u 0.240s 0:11.01 97.7% 0+0k 0+0io 218pf+0w
+      tardi 11.030u 0.140s 0:11.25 99.2% 0+0k 0+0io 181pf+0w
+      loisel 10.710u 0.150s 0:10.97 98.9% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.52	 wallclock=11.01
+   tardi	 user=11.03	 wallclock=11.25
+   loisel	 user=10.71	 wallclock=10.97
+<-  done at mar jui 10 16:38:17 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:38:17 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:38:18 CEST 2001
+<-  done at mar jui 10 16:38:18 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:38:22 CEST 2001
+     bilal(163) 54.690u 0.440s 0:56.19 98.1%	0+0k 0+0io 290pf+0w
+     tardi(163) 53.180u 0.300s 0:53.51 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 52.400u 0.290s 0:52.79 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=54.69	 wallclock=56.19
+   tardi	 k=163	 user=53.18	 wallclock=53.51
+   loisel	 k=163	 user=52.4	 wallclock=52.79
+<-  done at mar jui 10 16:39:21 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:39:21 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:39:21 CEST 2001
+      bilal 11.250u 0.280s 0:12.02 95.9% 0+0k 0+0io 206pf+0w
+      tardi 10.810u 0.130s 0:11.03 99.1% 0+0k 0+0io 181pf+0w
+      loisel 10.890u 0.160s 0:11.22 98.4% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.25	 wallclock=12.02
+   tardi	 user=10.81	 wallclock=11.03
+   loisel	 user=10.89	 wallclock=11.22
+<-  done at mar jui 10 16:39:36 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:39:36 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:39:36 CEST 2001
+<-  done at mar jui 10 16:39:37 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:39:41 CEST 2001
+     bilal(163) 55.860u 0.530s 1:02.18 90.6%	0+0k 0+0io 290pf+0w
+     tardi(163) 52.230u 0.300s 0:52.62 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 53.530u 0.320s 0:53.89 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=55.86	 wallclock=62.18
+   tardi	 k=163	 user=52.23	 wallclock=52.62
+   loisel	 k=163	 user=53.53	 wallclock=53.89
+<-  done at mar jui 10 16:40:44 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:40:44 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:40:45 CEST 2001
+      bilal 11.430u 0.210s 0:11.79 98.7% 0+0k 0+0io 206pf+0w
+      tardi 10.720u 0.220s 0:11.00 99.4% 0+0k 0+0io 181pf+0w
+      loisel 10.770u 0.110s 0:10.97 99.1% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.43	 wallclock=11.79
+   tardi	 user=10.72	 wallclock=11
+   loisel	 user=10.77	 wallclock=10.97
+<-  done at mar jui 10 16:40:59 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:40:59 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:41:00 CEST 2001
+<-  done at mar jui 10 16:41:00 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:41:04 CEST 2001
+     bilal(163) 55.010u 0.410s 0:56.39 98.2%	0+0k 0+0io 290pf+0w
+     tardi(163) 52.160u 0.220s 0:52.50 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 53.470u 0.260s 0:53.77 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=55.01	 wallclock=56.39
+   tardi	 k=163	 user=52.16	 wallclock=52.5
+   loisel	 k=163	 user=53.47	 wallclock=53.77
+<-  done at mar jui 10 16:42:02 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:42:02 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:42:03 CEST 2001
+      bilal 11.210u 0.280s 0:11.68 98.3% 0+0k 0+0io 206pf+0w
+      tardi 10.610u 0.140s 0:10.83 99.2% 0+0k 0+0io 181pf+0w
+      loisel 10.460u 0.150s 0:10.69 99.2% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.21	 wallclock=11.68
+   tardi	 user=10.61	 wallclock=10.83
+   loisel	 user=10.46	 wallclock=10.69
+<-  done at mar jui 10 16:42:17 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:42:17 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:42:17 CEST 2001
+<-  done at mar jui 10 16:42:18 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:42:21 CEST 2001
+     bilal(163) 53.060u 0.350s 0:53.86 99.1%	0+0k 0+0io 290pf+0w
+     tardi(163) 53.440u 0.290s 0:53.78 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 53.470u 0.240s 0:53.79 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=53.06	 wallclock=53.86
+   tardi	 k=163	 user=53.44	 wallclock=53.78
+   loisel	 k=163	 user=53.47	 wallclock=53.79
+<-  done at mar jui 10 16:43:20 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:43:21 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:43:21 CEST 2001
+      bilal 10.620u 0.280s 0:11.10 98.1% 0+0k 0+0io 206pf+0w
+      tardi 10.960u 0.100s 0:11.13 99.3% 0+0k 0+0io 181pf+0w
+      loisel 10.810u 0.160s 0:11.02 99.5% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.62	 wallclock=11.1
+   tardi	 user=10.96	 wallclock=11.13
+   loisel	 user=10.81	 wallclock=11.02
+<-  done at mar jui 10 16:43:35 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:43:35 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:43:36 CEST 2001
+<-  done at mar jui 10 16:43:36 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:43:40 CEST 2001
+     bilal(163) 55.630u 0.260s 0:56.32 99.2%	0+0k 0+0io 290pf+0w
+     tardi(163) 52.760u 0.200s 0:53.01 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 52.990u 0.190s 0:53.27 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=55.63	 wallclock=56.32
+   tardi	 k=163	 user=52.76	 wallclock=53.01
+   loisel	 k=163	 user=52.99	 wallclock=53.27
+<-  done at mar jui 10 16:44:39 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:44:39 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:44:40 CEST 2001
+      bilal 10.700u 0.220s 0:11.18 97.6% 0+0k 0+0io 206pf+0w
+      tardi 11.360u 0.160s 0:11.57 99.5% 0+0k 0+0io 181pf+0w
+      loisel 10.530u 0.120s 0:10.76 98.9% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.7	 wallclock=11.18
+   tardi	 user=11.36	 wallclock=11.57
+   loisel	 user=10.53	 wallclock=10.76
+<-  done at mar jui 10 16:44:54 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:44:54 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:44:54 CEST 2001
+<-  done at mar jui 10 16:44:54 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:44:58 CEST 2001
+     bilal(163) 53.150u 0.440s 0:54.09 99.0%	0+0k 0+0io 290pf+0w
+     tardi(163) 53.060u 0.230s 0:53.43 99.7%	0+0k 0+0io 213pf+0w
+     loisel(163) 52.840u 0.360s 0:53.26 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=53.15	 wallclock=54.09
+   tardi	 k=163	 user=53.06	 wallclock=53.43
+   loisel	 k=163	 user=52.84	 wallclock=53.26
+<-  done at mar jui 10 16:45:57 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:45:57 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:45:58 CEST 2001
+      bilal 10.880u 0.240s 0:11.47 96.9% 0+0k 0+0io 206pf+0w
+      tardi 10.670u 0.150s 0:10.88 99.4% 0+0k 0+0io 181pf+0w
+      loisel 10.960u 0.080s 0:11.13 99.1% 0+0k 0+0io 181pf+0w
+   Summary of lapw2para:
+   bilal	 user=10.88	 wallclock=11.47
+   tardi	 user=10.67	 wallclock=10.88
+   loisel	 user=10.96	 wallclock=11.13
+<-  done at mar jui 10 16:46:12 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:46:12 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:46:13 CEST 2001
+<-  done at mar jui 10 16:46:13 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:46:18 CEST 2001
+     bilal(163) 58.510u 0.470s 1:01.58 95.7%	0+0k 0+0io 290pf+0w
+     tardi(163) 56.620u 0.260s 0:56.93 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 55.040u 0.260s 0:55.38 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=58.51	 wallclock=61.58
+   tardi	 k=163	 user=56.62	 wallclock=56.93
+   loisel	 k=163	 user=55.04	 wallclock=55.38
+<-  done at mar jui 10 16:47:21 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:47:21 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:47:22 CEST 2001
+      bilal 11.350u 0.380s 0:12.13 96.7% 0+0k 0+0io 221pf+0w
+      tardi 11.620u 0.120s 0:11.88 98.8% 0+0k 0+0io 182pf+0w
+      loisel 11.670u 0.120s 0:11.88 99.2% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.35	 wallclock=12.13
+   tardi	 user=11.62	 wallclock=11.88
+   loisel	 user=11.67	 wallclock=11.88
+<-  done at mar jui 10 16:47:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:47:37 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:47:37 CEST 2001
+<-  done at mar jui 10 16:47:38 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:47:42 CEST 2001
+     bilal(163) 57.240u 0.430s 0:59.20 97.4%	0+0k 0+0io 290pf+0w
+     tardi(163) 55.900u 0.230s 0:56.18 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 56.070u 0.290s 0:56.41 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=57.24	 wallclock=59.2
+   tardi	 k=163	 user=55.9	 wallclock=56.18
+   loisel	 k=163	 user=56.07	 wallclock=56.41
+<-  done at mar jui 10 16:48:43 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:48:43 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:48:43 CEST 2001
+      bilal 11.790u 0.220s 0:12.18 98.6% 0+0k 0+0io 207pf+0w
+      tardi 11.620u 0.170s 0:11.94 98.7% 0+0k 0+0io 182pf+0w
+      loisel 11.420u 0.150s 0:11.73 98.6% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.79	 wallclock=12.18
+   tardi	 user=11.62	 wallclock=11.94
+   loisel	 user=11.42	 wallclock=11.73
+<-  done at mar jui 10 16:48:58 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:48:59 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:48:59 CEST 2001
+<-  done at mar jui 10 16:48:59 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:49:03 CEST 2001
+     bilal(163) 57.860u 0.350s 1:02.42 93.2%	0+0k 0+0io 290pf+0w
+     tardi(163) 55.660u 0.350s 0:56.08 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 54.350u 0.310s 0:54.73 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=57.86	 wallclock=62.42
+   tardi	 k=163	 user=55.66	 wallclock=56.08
+   loisel	 k=163	 user=54.35	 wallclock=54.73
+<-  done at mar jui 10 16:50:07 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:50:07 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:50:08 CEST 2001
+      bilal 11.390u 0.270s 0:11.90 97.9% 0+0k 0+0io 207pf+0w
+      tardi 11.250u 0.180s 0:11.53 99.1% 0+0k 0+0io 182pf+0w
+      loisel 11.250u 0.210s 0:11.58 98.9% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.39	 wallclock=11.9
+   tardi	 user=11.25	 wallclock=11.53
+   loisel	 user=11.25	 wallclock=11.58
+<-  done at mar jui 10 16:50:23 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:50:23 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:50:23 CEST 2001
+<-  done at mar jui 10 16:50:23 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:50:27 CEST 2001
+     bilal(163) 57.230u 0.410s 0:58.44 98.6%	0+0k 0+0io 290pf+0w
+     tardi(163) 56.810u 0.250s 0:57.14 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 56.310u 0.200s 0:56.57 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=57.23	 wallclock=58.44
+   tardi	 k=163	 user=56.81	 wallclock=57.14
+   loisel	 k=163	 user=56.31	 wallclock=56.57
+<-  done at mar jui 10 16:51:30 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:51:30 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:51:31 CEST 2001
+      bilal 11.290u 0.260s 0:11.75 98.2% 0+0k 0+0io 207pf+0w
+      tardi 11.120u 0.230s 0:11.43 99.3% 0+0k 0+0io 182pf+0w
+      loisel 11.750u 0.130s 0:11.91 99.7% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.29	 wallclock=11.75
+   tardi	 user=11.12	 wallclock=11.43
+   loisel	 user=11.75	 wallclock=11.91
+<-  done at mar jui 10 16:51:46 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:51:46 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:51:47 CEST 2001
+<-  done at mar jui 10 16:51:47 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:51:51 CEST 2001
+     bilal(163) 57.050u 0.450s 0:57.88 99.3%	0+0k 0+0io 290pf+0w
+     tardi(163) 55.580u 0.240s 0:55.86 99.9%	0+0k 0+0io 213pf+0w
+     loisel(163) 56.030u 0.230s 0:56.34 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=57.05	 wallclock=57.88
+   tardi	 k=163	 user=55.58	 wallclock=55.86
+   loisel	 k=163	 user=56.03	 wallclock=56.34
+<-  done at mar jui 10 16:52:52 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:52:52 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:52:52 CEST 2001
+      bilal 11.500u 0.220s 0:11.81 99.2% 0+0k 0+0io 207pf+0w
+      tardi 11.970u 0.230s 0:12.31 99.1% 0+0k 0+0io 182pf+0w
+      loisel 11.420u 0.160s 0:11.68 99.1% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.5	 wallclock=11.81
+   tardi	 user=11.97	 wallclock=12.31
+   loisel	 user=11.42	 wallclock=11.68
+<-  done at mar jui 10 16:53:07 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:53:07 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:53:08 CEST 2001
+<-  done at mar jui 10 16:53:08 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:53:12 CEST 2001
+     bilal(163) 56.600u 0.430s 0:57.35 99.4%	0+0k 0+0io 290pf+0w
+     tardi(163) 55.510u 0.190s 0:55.78 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 55.330u 0.260s 0:55.65 99.8%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=56.6	 wallclock=57.35
+   tardi	 k=163	 user=55.51	 wallclock=55.78
+   loisel	 k=163	 user=55.33	 wallclock=55.65
+<-  done at mar jui 10 16:54:12 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:54:12 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:54:13 CEST 2001
+      bilal 12.590u 0.350s 0:13.15 98.4% 0+0k 0+0io 207pf+0w
+      tardi 11.850u 0.160s 0:12.07 99.5% 0+0k 0+0io 182pf+0w
+      loisel 11.870u 0.120s 0:12.05 99.5% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=12.59	 wallclock=13.15
+   tardi	 user=11.85	 wallclock=12.07
+   loisel	 user=11.87	 wallclock=12.05
+<-  done at mar jui 10 16:54:28 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:54:28 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:54:29 CEST 2001
+<-  done at mar jui 10 16:54:29 CEST 2001
+-----------------------------------------------------------------
+starting parallel lapw1 at mar jui 10 16:54:33 CEST 2001
+     bilal(163) 56.760u 0.220s 0:57.25 99.5%	0+0k 0+0io 290pf+0w
+     tardi(163) 55.400u 0.220s 0:55.68 99.8%	0+0k 0+0io 213pf+0w
+     loisel(163) 57.830u 0.250s 0:58.13 99.9%	0+0k 0+0io 213pf+0w
+   Summary of lapw1para:
+   bilal	 k=163	 user=56.76	 wallclock=57.25
+   tardi	 k=163	 user=55.4	 wallclock=55.68
+   loisel	 k=163	 user=57.83	 wallclock=58.13
+<-  done at mar jui 10 16:55:35 CEST 2001
+-----------------------------------------------------------------
+->  starting Fermi on bilal.ipgp.jussieu.fr at mar jui 10 16:55:35 CEST 2001
+->  starting parallel lapw2 at mar jui 10 16:55:36 CEST 2001
+      bilal 11.770u 0.270s 0:12.28 98.0% 0+0k 0+0io 207pf+0w
+      tardi 11.590u 0.130s 0:11.79 99.4% 0+0k 0+0io 182pf+0w
+      loisel 12.090u 0.170s 0:12.34 99.3% 0+0k 0+0io 182pf+0w
+   Summary of lapw2para:
+   bilal	 user=11.77	 wallclock=12.28
+   tardi	 user=11.59	 wallclock=11.79
+   loisel	 user=12.09	 wallclock=12.34
+<-  done at mar jui 10 16:55:52 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:55:52 CEST 2001
+->  starting sumpara 3 on bilal.ipgp.jussieu.fr at mar jui 10 16:55:52 CEST 2001
+<-  done at mar jui 10 16:55:52 CEST 2001
+-----------------------------------------------------------------

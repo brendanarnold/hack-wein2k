@@ -1,0 +1,25 @@
+#!/bin/csh -f
+#
+# 
+echo -n changing struct files .
+ find . -name '*.struct' -exec 100atomfix_struct_lapw {} \;
+echo
+echo -n changing qtl files .
+ find . -name '*.qtl*' -exec 100atomfix_struct_lapw {} \;
+echo
+echo -n changing clm files .
+ find . -name '*.clm*' -exec 100atomfix_clm_lapw {} \;
+echo
+echo -n changing vsp files .
+ find . -name '*.vsp*' -exec 100atomfix_clm_lapw {} \;
+echo
+echo -n changing vns files .
+ find . -name '*.vns*' -exec 100atomfix_clm_lapw {} \;
+echo
+echo -n changing in2 files .
+ find . -name '*.in2*' -exec 100atomfix_in2_lapw {} \;
+echo
+echo
+
+exit 0
+

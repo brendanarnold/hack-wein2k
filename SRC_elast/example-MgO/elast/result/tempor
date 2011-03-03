@@ -1,0 +1,5 @@
+set format y "%.4f"
+set xlabel "Rhombohedral strain"
+set ylabel "Energy in Ry"
+plot "rhomb.strain" title "Data" w p, "rhomb.fit" title "Polynomial fit" w l
+pause -1

@@ -1,0 +1,134 @@
+#!/bin/csh -f
+# testconv now completely as a shell script using `bc`
+#
+set name  = $0
+set name  = $name:t 		#name of executable
+set tmp   = tmp1$$ 		#temporary files
+
+#default
+set cut = 0.0001		#upper limit for convergence
+set para = ":ENE"			#dayfile-parameter being tested
+unset conv
+unset help
+unset output
+unset file
+goto weiter
+
+testconv1:
+                    set iflag = 0
+		    set diff = 0
+		    set cut  = `head -1 $tmp `
+		    set v1   = `tail -1 $tmp `
+		    set lines = `cat $tmp |wc -l`
+		    if ($lines > 3) then
+		      set v2   = `tail -2 $tmp |head -1`
+		      set v3   = `tail -3 $tmp |head -1`
+		      set dv1  = `echo "scale = 16;$v3 - $v1"|bc`
+		      set dv2  = `echo "scale = 16;$v2 - $v1"|bc`
+#Note: some versions of bc have problems with: sqrt(1.2099) and similar numbers
+#in these cases use testconv_lapw_no_bc_problem (different CONVERGENCE)
+#
+		      set diff = `echo "scale =16;sqrt ( $dv1^2 + $dv2^2)"|bc`
+		      set iflag = `echo "if ($diff < $cut)1;if ($diff >= $cut)0		    endif
+goto $returnlabel
+
+weiter:
+#handling of input options
+while ($#argv)
+  switch ($1)
+  case -c:
+    shift; set cut = $1
+    shift; breaksw
+  case -p: 
+    shift; set para = $1
+    shift; breaksw
+  case -f: 
+    shift; set file = $1
+    shift; breaksw
+  case -[h|H]:
+  default:
+    set help
+    shift; breaksw
+  endsw
+end
+
+#---> path- and file-names
+if !($?file) then
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+endif
+
+if ($?help) goto help
+
+echo $cut 				> $tmp	
+set para1=`echo $para | cut -c1-4`
+if ($para1 == :FOR ) then
+   grep $para $file.scf | cut  -c31-45 >> $tmp
+   set returnlabel = forx
+   goto testconv1   
+forx:
+   set flagx = (`echo $iflag $cut $diff $v1`)
+   echo $cut 				> $tmp	
+   grep $para $file.scf | cut  -c46-60 >> $tmp
+   set returnlabel = fory
+   goto testconv1  
+fory:
+   set flagy = (`echo $iflag $cut $diff $v1`)
+   echo $cut 				> $tmp	
+   grep $para $file.scf | cut  -c61-75 >> $tmp
+   set returnlabel = forz
+   goto testconv1 
+forz:
+   set flagz = (`echo $iflag $cut $diff $v1`)
+
+   set flagx[4] = XCO
+   if !($flagy[1]) then
+      set flagx = ($flagy)
+      set flagx[4] = YCO
+   else 
+      if !($flagz[1]) then
+         set flagx = ($flagz)
+         set flagx[4] = ZCO
+      endif
+   endif
+   rm $tmp
+   echo " $flagx" 
+   exit 0
+else
+   grep $para $file.scf |awk '{print $NF}'	>> $tmp
+   set returnlabel = ene
+   goto testconv1 
+ene:
+   echo $iflag $cut $diff $v1
+#    source /zeus/lapw/testconv2
+   rm $tmp
+#   echo " <- flag, cut, diff, last value" 
+endif
+exit 0
+
+
+help: 
+
+cat << theend
+PROGRAM:	$0
+
+PURPOSE:	test of variable convergence within WIEN95. 
+
+OPTIONS:
+-c NUMBER ->	convergence criteria ($cut) 
+-p PATTERN ->	pattern ($para) used in scf-file;
+		e.g. :ENE, :FER, :FOR01, ...
+-f FILE ->	use FILE.scf for convergence test
+
+FLAGS:
+-h/-H ->	help
+
+OUTPUT: 	
+
+theend
+
+exit 1
+
+
+
+

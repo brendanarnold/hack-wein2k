@@ -1,0 +1,32 @@
+rm -f *.o *_tmp_.* *.P *.mod
+make: Circular module.o <- module.o dependency dropped.
+ifort  -FR -mp -w -c module.f
+ifort  -FR -mp -w -c gtfnam.f
+ifort  -FR -mp -w -c errflg.f
+ifort  -FR -mp -w -c errclr.f
+ifort  -FR -mp -w -c outerr.f
+ifort  -FR -mp -w -c ncmsymmetry.f
+ifort  -FR -mp -w -c determinant.f
+ifort  -FR -mp -w -c euler.f
+ifort  -FR -mp -w -c inversa.f
+ifort  -FR -mp -w -c make_struct_klist.f
+ifort  -FR -mp -w -c test_symetry.f
+ifort  -FR -mp -w -c def_Ylm_rot_mat.f
+ifort  -FR -mp -w -c def_spin_rot_mat.f
+ifort  -FR -mp -w -c make_point_groups.f
+ifort  -FR -mp -w -c make_lm_list.f
+ifort  -FR -mp -w -c fix_nonmagatom.f
+ifort  -FR -mp -w -c lapack.f
+ifort  -FR -mp -w -c fix_rotloc.f
+ifort  -FR -mp -w -c fiteta.f
+ifort  -FR -mp -w -c symop.f
+ifort  -FR -mp -w -c class.f
+ifort  -FR -mp -w -c dirdeh.f
+ifort  -FR -mp -w -c kurki.f
+ifort  -FR -mp -w -c lmsort.f
+ifort  -FR -mp -w -c matrot.f
+ifort  -FR -mp -w -c dirdef.f
+ifort  -FR -mp -w -c lapack2.f
+ifort  -FR -mp -w -c symgen.f
+ifort  -FR -mp -w -c order_symoper.f
+ifort -o ./ncmsymmetry module.o gtfnam.o errflg.o errclr.o outerr.o ncmsymmetry.o determinant.o euler.o inversa.o make_struct_klist.o test_symetry.o def_Ylm_rot_mat.o def_spin_rot_mat.o make_point_groups.o make_lm_list.o fix_nonmagatom.o lapack.o fix_rotloc.o fiteta.o symop.o class.o dirdeh.o kurki.o lmsort.o matrot.o dirdef.o lapack2.o symgen.o  order_symoper.o -L/area51/opt/intel/mkl721/lib/32 -static-libcxa -lmkl_lapack -lmkl_ia32 -lguide -lpthread

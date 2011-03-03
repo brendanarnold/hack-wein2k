@@ -1,0 +1,4 @@
+0.000 1.000 0.0002   # spectrum : start end step
+NSKIP                # do not skip any 
+                     #   NSKIP/GSKIP/PSKIP/TSKIP
+

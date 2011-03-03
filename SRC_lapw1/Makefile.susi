@@ -1,0 +1,254 @@
+###############################################################################
+#                                                                             #
+#                          Generic Makefile for lapw1                         #
+#                                                                             #
+#  make           ... generate executable for the REAL-version                #
+#  make complex   ... generate executable for the COMPLEX-version             #
+#  make clean     ... delete unnecessary files                                #
+#                                                                             #
+#  CAUTION: This makefile must not be called via the '-f' parameter of 'make'.#
+#           (Don't use 'make -f Makefile.aix32' !!)                           #
+#           (Always (symbolic) link the appropriate Makefile to 'Makefile'!!) #
+#                                                                             #
+###############################################################################
+#
+# FC ........... compiler name
+# FOPT ......... optimization flags
+# FGEN ......... code generation flags (flags not related to optimization)
+# LDFLAGS ...... linker flags
+# R_LIBS ....... libraries needed to build the REAL executable
+# C_LIBS ....... libraries needed to build the COMPLEX executable
+# DESTDIR ...... dir. where the executable should go (without trailing '/'!)
+# R_EXECNAME ... name of the resulting REAL executable (without prefixed path!)
+# C_EXECNAME ... name of the resulting COMPLEX executable ( -"- )
+#
+
+
+.SUFFIXES:      .F
+SHELL = /bin/sh
+FC = pgf90 -Mfreeform
+FOPT =       -pc 64 -Kieee -C -g -Minfo=all -Minform,inform
+FOPT = -fast -pc 64 -Kieee
+LINKER  =       $(FC)
+LFLAGS  =       -g77libs
+FGEN = $(PARALLEL)
+LDFLAGS =
+#include /opt/local/SCALAPACK/SLmake.inc
+include SLmake.inc_dummy
+BLASLIB =       -L/opt/local/ATLAS/lib/Linux_PIIISSE1_4/ -lpgf77blas -latlas
+BLASLIB =       -L/home/dieter/lib/ -lblas_debug
+LIBSRIGHTORDER = $(SCALAPACKLIB) $(REDISTLIB) $(TOOLSLIB) \
+                $(FBLACSLIB) $(CBLACSLIB) $(PBLASLIB) $(BLASLIB) $(SMPLIB)
+R_LIBS = -llapack $(LIBSRIGHTORDER) $(LIBSRIGHTORDER)
+R_LIBS = -llapack_debug $(LIBSRIGHTORDER) $(LIBSRIGHTORDER)
+C_LIBS = $(R_LIBS)
+
+SHELL = /bin/sh
+FOPT = -fast -pc 64 -Kieee
+FGEN =
+LDFLAGS = -L../SRC_lib
+R_LIBS = -llapack -latlas_athlon
+C_LIBS = -llapack -latlas_athlon
+#C_LIBS = -llapack -latlas_pII
+#C_LIBS = -llapack -lblas
+DESTDIR = .
+R_EXECNAME = lapw1
+C_EXECNAME = lapw1c
+
+
+
+R_EXECNAME = lapw1
+C_EXECNAME = lapw1c
+RP_EXECNAME = lapw1_mpi
+CP_EXECNAME = lapw1c_mpi
+
+
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+R_EXEC = $(DESTDIR)/$(R_EXECNAME)
+C_EXEC = $(DESTDIR)/$(C_EXECNAME)
+RP_EXEC = $(DESTDIR)/$(RP_EXECNAME)
+CP_EXEC = $(DESTDIR)/$(CP_EXECNAME)
+
+#..............................................................................
+#
+#  Object files common to both REAL and COMPLEX type subroutines
+#
+OBJS =	\
+	abc.o atpar.o bandv1.o calkpt.o cbcomb.o coors.o cputim.o \
+	dblr2k.o dgeqrl.o dgewy.o dgewyg.o dlbrfg.o dsbein1.o \
+	dscgst.o dstebz2.o dsyevx2.o dsymm2.o dsyr2m.o dsyrb4.o \
+	dsyrb5l.o dsyrdt4.o dsytrd2.o dsywyv.o dsyxev4.o dvbes1.o \
+	eisps.o errclr.o errflg.o forfhs.o gaunt1.o gaunt2.o \
+	gbass.o gtfnam.o hamilt.o hns.o horb.o inikpt.o \
+	inilpw.o lapw1.o latgen.o lmsort.o locdef.o lohns.o \
+	lopw.o matmm.o modules.o nn.o outerr.o outwin.o \
+	pdsyevx16.o prtkpt.o prtres.o pzheevx16.o rdswar.o \
+	rint13.o rotate.o rotdef.o seclit.o seclr4.o seclr5.o \
+	select.o service.o setkpt.o setwar.o sphbes.o stern.o \
+	tapewf.o ustphx.o vectf.o warpin.o wfpnt.o wfpnt1.o \
+	ylm.o zhcgst.o zheevx2.o zhemm2.o zher2m.o zhetrd2.o \
+	pdsyr2m.o
+#
+# Object files with !_REAL and !_COMPLEX
+#
+RC_OBJS = calkpt.o hamilt.o hns.o horb.o modules.o seclit.o seclr4.o seclr5.o \
+        tapewf.o ustphx.o wfpnt.o wfpnt1.o
+#
+# Object files for parallel and sequential
+#
+SP_OBJS = calkpt.o gtfnam.o hamilt.o hldau.o hns.o modules.o pdsyevx16.o \
+        prtkpt.o pzheevx16.o seclit.o seclr4.o seclr5.o \
+	inikpt.o inilpw.o lapw1.o pdsyr2m.o setkpt.o
+
+#
+# Object files using modules
+#
+OBJSMOD = abc.o    atpar.o  calkpt.o hamilt.o hns.o hldau.o inilpw.o outwin.o \
+	prtkpt.o seclr4.o seclr5.o gtfnam.o lapw1.o seclit.o \
+        cbcomb.o coors.o forfhs.o gaunt1.o gaunt2.o horb.o inikpt.o latgen.o \
+	lohns.o lopw.o nn.o prtres.o rdswar.o rint13.o rotdef.o \
+	setkpt.o setwar.o tapewf.o ustphx.o wfpnt.o wfpnt1.o
+#
+#..............................................................................
+#
+#  Object files for REAL and COMPLEX versions
+#
+R_OBJS = $(OBJS)
+C_OBJS = $(OBJS)
+
+#..............................................................................
+#
+#  Build executable (either REAL or COMPLEX versions)
+#
+
+default: last
+
+all:    
+	make real complex rp cp
+
+last:
+	if [ ! -f .real -a ! -f .complex  -o ! -f .sequential -a ! -f .parallel ]; then make real; fi
+	if [ -f .real -a -f .sequential ]; then make real; fi
+	if [ -f .complex -a -f .sequential ]; then make complex; fi
+	if [ -f .real -a -f .parallel ]; then make rp; fi
+	if [ -f .complex -a -f .parallel ]; then make cp; fi
+        
+
+real: keep_rs_files
+	$(MAKE) TYPE='REAL' TYPE_COMMENT='\!_REAL' $(R_EXEC)
+	rm param.inc
+
+complex: keep_cs_files
+	$(MAKE) TYPE='COMPLEX' TYPE_COMMENT='\!_COMPLEX' $(C_EXEC)
+	rm param.inc
+
+rp: keep_rp_files
+	$(MAKE) PARALLEL='-DParallel' TYPE='REAL' TYPE_COMMENT='\!_REAL' $(RP_EXEC)
+	rm param.inc
+
+cp: keep_cp_files
+	$(MAKE) PARALLEL='-DParallel' TYPE='COMPLEX' TYPE_COMMENT='\!_COMPLEX' $(CP_EXEC)
+	rm param.inc
+
+#..............................................................................
+
+$(R_EXEC): $(R_OBJS)
+	$(LINKER) $(LFLAGS) -o $(R_EXEC) $(R_OBJS) $(LDFLAGS) $(R_LIBS) $(LFLAGS)
+#	$(FC) -o $(R_EXEC) $(R_OBJS) $(LDFLAGS) $(R_LIBS)
+	size $(R_EXEC)
+
+$(C_EXEC): $(C_OBJS)
+	$(FC) -o $(C_EXEC) $(C_OBJS) $(LDFLAGS) $(C_LIBS)
+	size $(C_EXEC)
+
+$(RP_EXEC): $(R_OBJS)
+	$(LINKER) $(LFLAGS) -o $(RP_EXEC) $(R_OBJS) $(LDFLAGS) $(R_LIBS) $(LFLAGS)
+#	$(FC) -o $(R_EXEC) $(R_OBJS) $(LDFLAGS) $(R_LIBS)
+	size $(RP_EXEC)
+
+$(CP_EXEC): $(C_OBJS)
+	$(FC) -o $(CP_EXEC) $(C_OBJS) $(LDFLAGS) $(C_LIBS)
+	size $(CP_EXEC)
+
+# real and sequential
+keep_rs_files:
+	if [ -f .complex ]; then \
+	   rm -f .complex $(RC_OBJS) param.inc *.mod; \
+	fi
+	touch .real
+	cp -p param.inc_r param.inc
+	if [ -f .parallel ]; then \
+	   rm -f .parallel $(SP_OBJS) *.mod; \
+	fi
+	touch .sequential
+
+# complex and sequential
+keep_cs_files:
+	if [ -f .real ]; then \
+	   rm -f .real $(RC_OBJS) param.inc *.mod; \
+	fi
+	touch .complex
+	cp -p param.inc_c param.inc
+	if [ -f .parallel ]; then \
+	   rm -f .parallel $(SP_OBJS) *.mod; \
+	fi
+	touch .sequential
+
+# real and parallel
+keep_rp_files:
+	if [ -f .complex ]; then \
+	   rm -f .complex $(RC_OBJS) param.inc *.mod; \
+	fi
+	touch .real
+	cp -p param.inc_c param.inc
+	if [ -f .sequential ]; then \
+	   rm -f .sequential $(SP_OBJS) *.mod; \
+	fi
+	touch .parallel
+
+# complex and parallel
+keep_cp_files:
+	if [ -f .real ]; then \
+	   rm -f .real $(RC_OBJS) param.inc; \
+	fi
+	touch .complex
+	cp -p param.inc_c param.inc
+	if [ -f .sequential ]; then \
+	   rm -f .sequential $(SP_OBJS) *.mod; \
+	fi
+	touch .parallel
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+#$(R_OBJS):		param.inc_r Makefile
+#$(C_OBJS):		param.inc_c Makefile
+$(R_OBJS):		param.inc_r 
+$(C_OBJS):		param.inc_c
+$(OBJSMOD):		modules.o
+
+#..............................................................................
+#
+#  remove unnecessary files (executable(s) are not removed)
+#
+clean:
+	rm -f *.o *_tmp_.* *.P .real .complex .sequential .parallel *.mod
+
+#..............................................................................
+#
+#  define inference rules to generate object files from source files
+#  (From .F files the appropriatly typed subroutine (REAL/COMPLEX) has to
+#  be chosen.)
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+#.F.o:
+#	$(FC) $(FFLAGS) -D$(TYPE_COMMENT)= -c $<
+.F.o:
+	@sed -e 's/^$(TYPE_COMMENT)//'   $< >$*_tmp_.F
+	@echo "$<: $(TYPE) version extracted"
+	$(FC) $(FFLAGS) -c $*_tmp_.F
+	mv $*_tmp_.o $*.o

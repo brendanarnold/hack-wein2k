@@ -1,0 +1,61 @@
+SHELL = /bin/sh
+FC = _FC_
+CC = _CC_
+LINKER = $(FC)
+FOPT = _FOPT_
+FGEN =
+LDFLAGS = _LDFLAGS_
+LIBS = _R_LIBS_
+DESTDIR	= ./
+EXECNAME = qtl
+
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS    = reallocate.o modules.o angle.o abcd.o atpar.o dvbes1.o \
+          errclr.o errflg.o \
+          gtfnam2.o harmon.o inispl.o \
+          inverss.o l2main.o qtlmain.o  latgen.o outerr.o \
+          outwin.o ph.o psplit.o rint13.o \
+          rotate.o sphbes.o symop.o \
+          ylm.o cputim.o mknam.o diracout.o dergl.o\
+          xsplt.o sym.o readc.o outp.o qtl.o\
+          radint.o rout.o lomain.o \
+         inth.o inouh.o
+
+#..............................................................................
+
+$(EXEC): $(OBJS)
+	$(LINKER) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS) 
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	Makefile
+
+#..............................................................................
+#  remove unnecessary files (executable(s) are not removed)
+#
+clean:
+	rm -f *.o *_tmp_.* *.P .sequential .parallel *.mod
+
+#..............................................................................
+#
+#  define inference rules to generate object files from source files
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.c.o:
+	$(CC)  -c $<
+
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $<

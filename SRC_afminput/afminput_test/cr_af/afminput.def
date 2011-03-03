@@ -1,0 +1,6 @@
+14, 'cr_af.outputafminput',  'unknown','formatted', 0
+15, 'cr_af.inclmcopy_st',    'unknown','formatted', 0
+16,'cr_af.clmup',            'old',    'formatted', 0
+17,'cr_af.clmdn',            'old',    'formatted', 0
+20,'cr_af.struct',           'old',    'formatted', 0
+21,'cr_af.struct_supergroup','unknown','formatted', 0

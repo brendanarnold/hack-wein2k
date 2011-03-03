@@ -1,0 +1,50 @@
+      SUBROUTINE TAPEWF(KNAME,E,SX,SY,SZ,NV,NE,WEIGHT,IPGR,LDZ,Z)
+      use matrices, only: kzz
+      use char, only  : LATTIC, NAME
+      use orth, only  : ORTHO
+      IMPLICIT NONE
+!
+!        Scalar Arguments   
+!
+      INTEGER            LDZ, NE, NV
+!      INTEGER            KZZ(3,NV)
+      DOUBLE PRECISION   SX, SY, SZ, WEIGHT
+      DOUBLE PRECISION   E(NE)
+!_REAL      DOUBLE PRECISION   Z(LDZ,NE)
+!_COMPLEX      COMPLEX*16         Z(LDZ,NE)
+      CHARACTER*3        IPGR
+      CHARACTER*10       KNAME
+!
+!     ..................................................................
+!
+!        write the wavefunction (unformatted) to a file (vector-file)
+!
+!     ..................................................................
+!       
+!        Local Scalars   
+!
+      INTEGER            I, J
+      DOUBLE PRECISION   SXHELP
+!       
+!  transformation into primitiv monoclinic basis
+      IF(.not.ORTHO.and.lattic(1:3).eq.'CXZ') then
+         sxhelp=sx
+         sx=sx+sz
+         sz=sxhelp-sz
+      endif 
+!                                                                       
+      WRITE(10) SX, SY, SZ, KNAME, NV, NE, WEIGHT, IPGR
+      WRITE(11,'(3e19.12,a10,2i6,f5.1,a3)') SX, SY, SZ, KNAME, NV, NE, WEIGHT, IPGR      
+      WRITE(10) (KZZ(1,I),KZZ(2,I),KZZ(3,I),I=1,NV)
+      DO 10 I = 1, NE
+         WRITE(10) I, E(I)
+         WRITE(11,*) I, E(I)
+!_REAL         WRITE(10) (Z(J,I),J=1,NV)
+!_COMPLEX         WRITE(10) (CONJG(Z(J,I)),J=1,NV)
+   10 CONTINUE
+!
+      RETURN
+!
+!        End of 'TAPEWF'
+!
+      END

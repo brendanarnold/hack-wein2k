@@ -1,0 +1,349 @@
+\documentclass{article}
+\begin{document}
+\title{Implementation of Bader theory in WIEN package}
+\author{J. O. Sofo and G. N. Garc\'{\i}a}
+\date{\today}
+\maketitle
+
+\section{Representation of the Charge Density in the Package WIEN97}
+
+This section summarizes the way the charge density is calculated by
+lapw5 from the coefficients stored in clmsum or clmval.
+
+The charge density is represented by a plane wave expansion in the
+interstitial region (I) and as the combination of a radial function
+times spherical harmonics inside the muffin-tin spheres, in this way,
+\begin{equation}
+\rho(\vec{r})=\left\{
+\begin{array}{ll}
+\displaystyle \sum_{\vec{G}} \rho_{\vec{G}}\;
+e^{i\vec{G}\cdot\vec{r}} & \vec{r} \in \mbox{I}\\
+\displaystyle \sum_{lm} \rho_{lm}(r)\;Y_{lm}(\theta,\phi) &
+\vec{r}\notin \mbox{I}
+\end{array}
+\right.
+\label{rho}
+\end{equation}
+
+
+The subroutine \texttt{main1}
+\footnote{All the subroutine names refer to the files located in
+SRC\_lapw5 of the WIEN97 distribution and are written in
+\texttt{typewriter} font.}
+reads the mesh where the charge density is going to be calculated from
+\texttt{case.in5}. 
+The coefficients of the charge density expansion are stored in
+\texttt{case.clmsum}. The first part of this file contains the coefficients
+of the spherical expansion and the last part the representative
+reciprocal lattice vector of each star and the corresponding
+coefficient. This former part is read in \texttt{outin}, where the
+stars are also rebuilt.
+
+
+\subsection{The charge density calculation in the
+interstitial region}
+
+When the point $\vec{r}$ is in the interstitial region the charge
+density is calculated as the Fourier expansion shown in
+Eq.~(\ref{rho}) by the routine \texttt{rhoout}. This is a very simple
+routine that performs the summation over $\vec{G}$ space of the
+coefficients.
+
+The summation over $\vec{G}$ is done over stars of $\vec{G}$. In
+the file clmsum, after the coefficients of the expansion inside the
+spheres, \texttt{NK} lines are stored with the $\vec{G}$ and the
+corresponding $\rho_{\vec{G}}$. These are not all the $\vec{G}$
+included in the summation, these are the representatives of each
+star. When these lines are read in \texttt{outin} the star for each
+one of these representatives is built by \texttt{stern}.
+
+The stars are built applying each of the rotations in the symmetry
+group (\texttt{COMMON /SYM2/}) to the representative $\vec{G}$. In
+this way, \texttt{INST(I)} new $\vec{G}$ are created and stored in
+\texttt{KREC} (first member of \texttt{COMMON /OUT/}). In this process
+of creating the starts, some symmetry operations map the
+representative onto the same star member, for these symmetry
+operations the summation $\tau(\vec{G})$ has to be done as 
+\[
+\tau(\vec{G}^\prime)={1\over \mathtt{INST(I)}} \sum_R e^{i\vec{G}^\prime\cdot\vec{t}_R}\;,
+\]
+where the summation is done over all the symmetry operations that map
+$\vec{G}$ onto the same $\vec{G}^\prime$ and the normalization
+with the number of elements of the star \texttt{INST(I)} is included
+here.  These $\tau(\vec{G}^\prime)$ are stored in \texttt{TAUK}
+(fourth member of \texttt{COMMON /OUT/}).
+
+With the stars rebuilt the summation of the Fourier series is done as
+\begin{equation}
+\rho(\vec{r})=\sum_{i\in\mbox{stars}}\rho_i\sum_{\vec{G}\in\mbox{star
+i}}e^{i\vec{G}\cdot\vec{r}}\tau(\vec{G})\;.
+\label{rhoinst}
+\end{equation}
+
+\subsection{The charge density calculation inside
+the muffin-tin spheres}
+
+When \texttt{main1} determines that the point $\vec{r}$ where the
+charge density is to be calculated falls inside a muffin-tin sphere
+(\texttt{inter} is false) the following steps are performed:
+\begin{itemize}
+\item The point $\vec{r}$ is rotated using the symmetry operation
+that maps the atom where $\vec{r}$ fell close to the representative
+atom. This is done taking car of the ortho switch.
+\item The point $\vec{r}$ is reduced to the smallest possible with
+\texttt{reduc}. (No rotation performed here)
+\item The local rotation matrix is applied to the point.
+\item The index $i_r$ of $r=|\vec{r}|$ in the logarithmic radial grid is
+calculated through
+\begin{equation}
+i_r=1+{\ln \left({r\over R_0(j)}\right)\over \Delta X(j)}\;.
+\end{equation} 
+Here $j$ is the index of the inequivalent atom, $\Delta X(j)$ the mesh
+separation given by
+\begin{equation}
+\Delta X(j)={\ln \left({R_{MT}(j)\over R_0(j)}\right)\over n-1}\;,
+\end{equation} 
+where $R_0(j)$ is the first radial mesh point, $R_{MT}(j)$ the
+muffin-tin radius, and $n$ the number of radial mesh points for atom
+$j$ as read form the \texttt{struct} file.
+\item The module \texttt{charge} is called, where the summation over
+$lm$ is done as
+\begin{equation}
+\rho(r,\theta,\phi)=\sum_{lm=1}^\mathtt{LMMAX}\rho_{lm}(r)\;
+\Lambda_{lm}(\theta,\phi)\;,
+\label{sumchg}
+\end{equation}
+with $\rho(r,\theta,\phi)$ stored in \texttt{CHG}, $\rho_{lm}(r)$ stored in
+\texttt{RHO(ILM)}, and $\Lambda_{lm}(\theta,\phi)$ stored in \texttt{ANG(ILM)}.
+To perform this sum the code follows this steps:
+\begin{itemize}
+\item The spherical harmonics $Y_l^m(\theta,\phi)$ are calculated in
+\texttt{ylm} using a recursion method and stored in
+\texttt{YL}$\left(l(l+1)+m+1\right)$.
+\item For each $lm$ pair $\rho_{lm}(r)$ is calculated by
+\texttt{radial} interpolating the \texttt{CLM} read from
+\texttt{clmsum} and dividing by $r^2$.
+\item In the same loop $\Lambda_{lm}(\theta,\phi)$ is calculated as
+\[
+\Lambda_{lm}=\left\{
+\begin{array}{ll}
+\displaystyle 
+Y_l^m & \mbox{if}\; m=0\;,\\
+~\\
+\displaystyle 
+{i\left((-1)^{m+1}Y_l^m+Y_l^{-m}\right)\over\sqrt{2}}& 
+\mbox{if}\;\; m\neq0\; \mbox{and}\;\; l<0\;,\\
+~\\
+\displaystyle 
+{\left((-1)^{m}Y_l^m+Y_l^{-m}\right)\over\sqrt{2}}& 
+\mbox{if}\;\; m\neq0\; \mbox{and}\;\; l>0\;,
+\end{array}
+\right.
+\]
+where l and m are stored in $\mathtt{LM}(1,\mathtt{ILM},j)$ and
+$\mathtt{LM}(2,\mathtt{ILM},j)$ respectively, and read from
+\texttt{in2}.
+\item Finally the summation of Eq.~(\ref{sumchg}) is performed talking
+care if the local symmetry of the atom is cubic or not.
+\end{itemize}
+\item With the charge density stored in \texttt{CHG}, \texttt{main1}
+writes it to a temporary unformatted file (unit 10).
+\end{itemize}
+
+\section{Calculation of the charge density gradient}
+
+Using \texttt{lapw5} as our starting point, we have written a program,
+called \texttt{bader}, which adds to the functionality of
+\texttt{lapw5} a switch \texttt{GRAD} to calculate the charge density
+gradient. In this section we describe the details of the
+implementations of this switch.
+
+The input files are read by \texttt{main1} as before and the decision
+is made if the point where the charge density or gradient are to be
+calculated falls inside or outside the muffin tins. If the point is
+interstitial, $\nabla\rho(\vec{r})$ is calculated inside
+\texttt{grhoinst}, if the point is inside a muffin tin, the
+calculation is done in \texttt{grhosphe}. These routines are described
+in the following sub-sections. After the gradient is returned, it is
+projected on the plane where $\vec{r}$ is constrained.
+
+\subsection{Gradient of the charge density in the interstitial region}
+
+Before calling \texttt{grhoinst} to calculate $\nabla\rho(\vec{r})$ in
+the interstitial region, \texttt{main1} takes care of the
+normalization difference between \texttt{ortho} false and true. If 
+\texttt{ortho} is true, $\vec{r}$ is given to  \texttt{grhoinst} in
+units of the lattice constants and the $\vec{G}$'s in units of the
+inverse of lattice constants. On the other hand, if \texttt{ortho} is
+false, $\vec{r}$ is given in Bohr and the $\vec{G}$'s in
+Bohr$^{-1}$. This difference in the treatment has to be taken into
+account to correct the units once \texttt{grhoinst} returns the gradient.
+
+In \texttt{grhoinst} the calculation of the gradient is very simple,
+the derivative of the charge density in the interstitial region is
+given by the gradient of $\rho$ given by Eq.~(\ref{rhoinst}), as
+\begin{equation}
+\nabla\rho(\vec{r})=\sum_{i\in\mbox{stars}}\rho_i\sum_{\vec{G}\in\mbox{star
+i}}i\vec{G}\;e^{i\vec{G}\cdot\vec{r}}\;\tau(\vec{G})\;.
+\label{grhoinst}
+\end{equation}
+
+In case of a real calculation, with inversion symmetry, the charge
+density is calculated using the real part of Eqs.~(\ref{rhoinst}) and
+(\ref{grhoinst}). This saves the space required for complex storage.
+
+\subsection{Gradient of the charge density inside the spheres}
+
+In the case of the charge density inside the spheres, before calling
+\texttt{grhosphe} the vector $\vec{r}$ is rotated twice. First, a
+symmetry rotation is applied that maps the atom where $\vec{r}$ fell
+close to, onto the representative atom. Second, the local rotation
+matrix for that atom is applied. After the vector $\nabla\rho$ is
+returned by \texttt{grhosphe} this rotations have to be reversed, this
+is done by \texttt{rotat\_back} for the local rotation matrix, and by
+\texttt{rotate\_back} for the symmetry rotation.
+
+The calculation of the gradient charge density in \texttt{grhosphe} is
+done in four parts: the initialization part, a loop over \texttt{ilm}
+with the calculation of the radial and angular parts of the expansion
+and its derivatives, the summation over ilm, and the transformation to
+Cartesian coordinates.
+
+During the initialization part we calculate the spherical harmonics
+with a call to \texttt{ylm}, the derivative of the spherical harmonics
+with respect to $\theta$ in \texttt{dtylm}, and the matrix
+\texttt{change} that maps the derivatives of $\rho$ with respect to
+$r$, $\theta$, and $\phi$ to its derivatives respect to $x$, $y$, and
+$z$. Details on the calculation of $\partial_{\theta}
+Y_l^m(\theta,\phi)$ are given in Appendix~\ref{dtylm}. The storage of
+$\partial_{\theta} Y_l^m(\theta,\phi)$ is similar to the one used to
+store the $Y_l^m$, i.e.  $\partial_{\theta} Y_l^m(\theta,\phi)$ is
+stored in \texttt{dtyl}$\left(l(l+1)+m+1\right)$.
+
+In the loop over $lm$ the values of $\rho_{lm}$,
+$\partial_r\rho_{lm}$, $\Lambda_{lm}$,
+$\partial_{\theta}\Lambda_{lm}$, and
+$\partial_{\phi}\Lambda_{lm}$ are obtained and stored in
+\texttt{rho(ilm), drrho(ilm), ang(ilm), dtang(ilm),} and
+\texttt{dfang(ilm)} respectively.
+
+The sum over $lm$ is done to calculate the partial derivatives of the
+charge density respect to $r$. $\theta$, and $\phi$ as,
+\begin{eqnarray}
+\partial_{r}\rho&=&\sum_{lm=1}^{\mathtt{LMMAX}} 
+\partial_r\rho_{lm}(r)\;\Lambda(\theta,\phi)
+\\
+\partial_{\theta}\rho&=&\sum_{lm=1}^{\mathtt{LMMAX}} 
+\rho_{lm}(r)\;\partial_{\theta}\Lambda(\theta,\phi)
+\\
+\partial_{\phi}\rho&=&\sum_{lm=1}^{\mathtt{LMMAX}} 
+\rho_{lm}(r)\;\partial_{\phi}\Lambda(\theta,\phi)\;,
+\end{eqnarray}
+the partial derivatives of $\rho$ in spherical coordinates are stored
+in the vector \texttt{dscrho}.
+
+Finally, the transformation to Cartesian coordinates is done. If we
+call $u_1=r$, $u_2=\theta$, $u_3=\phi$, $x_1=x$, $x_2=y$, and $x_3=z$,
+the components of the gradient in Cartesian coordinates
+$\partial\rho/\partial x_i$ are obtained as
+\[
+\frac{\partial\rho}{\partial x_i}=\sum_{j=1}^3
+\frac{\partial\rho}{\partial u_j} \frac{\partial u_j}{\partial x_i}\;,
+\]
+The terms $\partial u_j/\partial x_i$ are stored in
+\texttt{change(j,i)} and are given by
+\[
+\begin{array}{lll}
+\displaystyle 
+\frac{\partial r}{\partial x}=\sin{\theta}\cos{\phi} & 
+\displaystyle 
+\frac{\partial\theta}{\partial x}=\frac{\cos{\theta}\cos{\phi}}{r} &
+\displaystyle 
+\frac{\partial\phi}{\partial x}=-\frac{\sin{\phi}}{r\sin{\theta}} \\
+~\\
+\displaystyle 
+\frac{\partial r}{\partial y}=\sin{\theta}\sin{\phi} & 
+\displaystyle 
+\frac{\partial\theta}{\partial y}=\frac{\cos{\theta}\sin{\phi}}{r} &
+\displaystyle 
+\frac{\partial\phi}{\partial y}=\frac{\cos{\phi}}{r\sin{\theta}} \\
+~\\
+\displaystyle 
+\frac{\partial r}{\partial z}=\cos{\theta} & 
+\displaystyle 
+\frac{\partial\theta}{\partial z}=\frac{\sin{\theta}}{r} &
+\displaystyle 
+\frac{\partial\phi}{\partial z}=0 \\
+\end{array}
+\]
+This expressions are coded in \texttt{gen\_change}, where
+\texttt{change} is loaded.
+
+\appendix
+\section{Derivatives of the spherical harmonics}
+\label{dtylm}
+
+The expression for the spherical harmonics is \cite{press}
+\[
+Y_l^m(\theta,\phi)=\sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}\;
+P_l^m(\cos{\theta})\;e^{im\phi}\;.
+\]
+
+The derivative of the spherical harmoinics with respect to $\phi$ is
+just
+\[
+\partial_\phi Y_l^m(\theta,\phi)=i m Y_l^m(\theta,\phi)\;
+\]
+and does not need any special consideration.
+
+The derivative respect to $\theta$ is essentialy the derivative of the
+associated Legendre polynomial
+\[
+\partial_{\theta}Y_l^m(\theta,\phi)=-
+\sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}\;
+\left(\frac{dP_l^m(x)}{dx}\right)_{x=\cos{\theta}}\;\sin{\theta}\;e^{im\phi}\;,
+\]
+and from the definition of these polynomials
+\[
+P_l^m(x)=(-1)^m \left(1-x^2\right)^{m/2}\frac{d^{m}}{dx^{m}}P_l^0(x)
+\]
+the derivative can be evaluated as
+\[
+\frac{dP_l^m(x)}{dx}=
+-\frac{mx}{1-x^2}P_l^m(x)
+-\frac{1}{\left(1-x^2\right)^{1/2}}P_l^{m+1}(x)\;.
+\]
+Replacing this derivative in the expresion for the derivative of the
+spherical harmonics we get
+\[
+\partial_{\theta}Y_l^m(\theta,\phi)=
+m\frac{\cos{\theta}}{\sin{\theta}}Y_l^m(\theta,\phi)
++e^{-i\phi}\sqrt{l(l+1)-m(m+1)}Y_l^{m+1}(\theta,\phi)\;.
+\]
+This is the expresion we coded in \texttt{dtylm}. In this expresion,
+there is a detail to be taken into account regrading the limit when
+$\theta$ is zero. In this limit the second member on the right is zero,
+because the spherical harmonics is zero. The first member instead has
+a non-zero limit if $|m|=1$ and zero otherwise.
+In the case $\theta=0$, the expression
+\[
+\partial Y_l^m(0,0)=\left\{
+\begin{array}{ll}
+\displaystyle 
+-m\frac{\sqrt{l(l+1)(2l+1)}}{4\sqrt{\pi}} & \mbox{if}\; |m|=1\;,\\
+~\\
+\displaystyle 
+0& 
+\mbox{other case}
+\end{array}
+\right.
+\]
+is used.
+
+\begin{thebibliography}{99}
+\bibitem{press} W. H. Press, S. A. Teuklosky, W. T. Vetterling, and
+B. P. Flannery, \textit{Numerical Recipes in C: The Art of Scientific
+Computing} (Cambridge University Press, Cambridge, UK, 1992) p. 252.
+\end{thebibliography}
+
+\end{document}

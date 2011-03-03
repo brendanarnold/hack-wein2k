@@ -1,0 +1,45 @@
+rm  -f symmetso.o angle.o br1dm.o checks.o class.o clmchange.o dirdef.o dirdeh.o dirlat.o dot.o gbass.o gtfnam.o inverss.o in1ch.o incch.o kurki.o latgen.o latsym.o  lmsort.o locdef.o lubksb.o ludcmp.o matmm.o matinv.o matrot.o minvec.o order.o ordix.o outerr.o pgbsym.o pglsym.o put.o reclat.o rewr.o rotdef.o rstruc.o strwri.o symso.o symho.o symop.o volnew.o volofb.o    symmetso.P angle.P br1dm.P checks.P class.P clmchange.P dirdef.P dirdeh.P dirlat.P dot.P gbass.P gtfnam.P inverss.P in1ch.P incch.P kurki.P latgen.P latsym.P  lmsort.P locdef.P lubksb.P ludcmp.P matmm.P matinv.P matrot.P minvec.P order.P ordix.P outerr.P pgbsym.P pglsym.P put.P reclat.P rewr.P rotdef.P rstruc.P strwri.P symso.P symho.P symop.P volnew.P volofb.P  symmetso.prj angle.prj br1dm.prj checks.prj class.prj clmchange.prj dirdef.prj dirdeh.prj dirlat.prj dot.prj gbass.prj gtfnam.prj inverss.prj in1ch.prj incch.prj kurki.prj latgen.prj latsym.prj  lmsort.prj locdef.prj lubksb.prj ludcmp.prj matmm.prj matinv.prj matrot.prj minvec.prj order.prj ordix.prj outerr.prj pgbsym.prj pglsym.prj put.prj reclat.prj rewr.prj rotdef.prj rstruc.prj strwri.prj symso.prj symho.prj symop.prj volnew.prj volofb.prj   \
+	symmetso.xref
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c symmetso.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c angle.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c br1dm.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c checks.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c class.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c clmchange.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dirdef.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dirdeh.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dirlat.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dot.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c gbass.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c gtfnam.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inverss.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c in1ch.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c incch.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c kurki.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c latgen.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c latsym.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c lmsort.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c locdef.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c lubksb.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ludcmp.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c matmm.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c matinv.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c matrot.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c minvec.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c order.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ordix.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c outerr.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c pgbsym.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c pglsym.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c put.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c reclat.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rewr.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rotdef.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rstruc.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c strwri.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c symso.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c symho.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c symop.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c volnew.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c volofb.f
+ifort -o ./symmetso -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML symmetso.o angle.o br1dm.o checks.o class.o clmchange.o dirdef.o dirdeh.o dirlat.o dot.o gbass.o gtfnam.o inverss.o in1ch.o incch.o kurki.o latgen.o latsym.o  lmsort.o locdef.o lubksb.o ludcmp.o matmm.o matinv.o matrot.o minvec.o order.o ordix.o outerr.o pgbsym.o pglsym.o put.o reclat.o rewr.o rotdef.o rstruc.o strwri.o symso.o symho.o symop.o volnew.o volofb.o   -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -L/opt/intel/mkl/9.0/lib/em64t -lpthread 

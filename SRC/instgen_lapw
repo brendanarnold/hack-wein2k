@@ -1,0 +1,1280 @@
+#!/bin/csh -f
+#*******************************************************
+# instgen_lapw
+#
+# Written: J.T. Frey, 02.27.2001
+# Modified by P.Blaha
+# Purpose: Generate atomic configuration information
+#          in     case.inst    from     case.struct.
+#
+# Notes:   From the original code which can be found
+#          in $WIENROOT/SRC_wienbox/inst_gen.tcl
+#
+#*******************************************************
+if($#argv != 0 ) then
+        echo  'instgen_lapw (without arguments) \n'
+        echo  'Generates atomic configuration in     case.inst    from     case.struct.'
+exit (1)
+endif
+
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+
+set atoms=`grep -i rmt= $file.struct | cut -c1-2`
+
+#echo $atoms
+if ($#atoms == 0) then
+  echo " no atoms found in $file.struct (you need RMT= lines in it) "
+  exit(3)
+else
+  echo " $#atoms Atoms found: $atoms "
+endif
+  set add
+
+if (-e $file.inst) then
+  echo " An old $file.inst file has been found. Do you want to overwrite (y/n)"
+  set b=($<)
+  if ($b == 'n') exit(1)
+  rm $file.inst
+endif
+
+
+alias sb 'shift atoms;  breaksw'	#definition used in switch
+alias echo 'echo \!:* >> $file.inst' 
+
+while ($#atoms)
+switch ($atoms[1])
+
+  case H:
+	echo "H" $add
+	echo "1  "
+	echo "1,-1,0.9  N"
+	echo "1,-1,0.1  N"
+	sb
+  
+  case D:
+       echo "D" $add
+       echo "1  "
+       echo "1,-1,0.9  N"
+       echo "1,-1,0.1  N"
+       sb
+
+  case He:
+	echo "He" $add
+	echo "1  "
+	echo "1,-1,1.0  N"
+	echo "1,-1,1.0  N"
+	sb
+  
+  case Li:
+	echo "Li" $add
+	echo "He 1  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,0.0  N"
+	sb
+	
+  case Be:
+	echo "Be" $add
+	echo "He 1  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	sb
+	
+  case B:
+	echo "B" $add
+	echo "He 2  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,0.0  N"
+	sb
+	
+  case C:
+	echo "C" $add
+	echo "He 3  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,0.0  N"
+	echo "2,-2,1.0  N"
+	echo "2,-2,0.0  N"
+	sb
+  
+  case N:
+	echo "N" $add
+	echo "He 3  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,0.0  N"
+	echo "2,-2,2.0  N"
+	echo "2,-2,0.0  N"
+	sb
+	
+  case O:
+	echo "O" $add
+	echo "He 3  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2,-2,2.0  N"
+	echo "2,-2,0.0  N"
+	sb
+	
+  case F:
+	echo "F" $add
+	echo "He 3  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2,-2,2.0  N"
+	echo "2,-2,1.0  N"
+	sb
+  
+  case Ne:
+	echo "Ne" $add
+	echo "He 3  "
+	echo "2,-1,1.0  N"
+	echo "2,-1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2, 1,1.0  N"
+	echo "2,-2,2.0  N"
+	echo "2,-2,2.0  N"
+	sb
+  
+  case Na:
+	echo "Na" $add
+	echo "Ne 1  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,0.0  N"
+	sb
+  
+  case Mg:
+	echo "Mg" $add
+	echo "Ne 1  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	sb
+ 
+  case Al:
+	echo "Al" $add
+	echo "Ne 2  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,0.0  N"
+	sb
+  
+  case Si:
+	echo "Si" $add
+	echo "Ne 3  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,0.0  N"
+	echo "3,-2,1.0  N"
+	echo "3,-2,0.0  N"
+	sb
+  
+  case P:
+	echo "P" $add
+	echo "Ne 3  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,0.0  N"
+	echo "3,-2,2.0  N"
+	echo "3,-2,0.0  N"
+	sb
+  
+  case S:
+	echo "S" $add
+	echo "Ne 3  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3,-2,2.0  N"
+	echo "3,-2,0.0  N"
+	sb
+  
+  case Cl:
+	echo "Cl" $add
+	echo "Ne 3  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3,-2,2.0  N"
+	echo "3,-2,1.0  N"
+	sb
+  
+  case Ar:
+	echo "Ar" $add
+	echo "Ne 3  "
+	echo "3,-1,1.0  N"
+	echo "3,-1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3, 1,1.0  N"
+	echo "3,-2,2.0  N"
+	echo "3,-2,2.0  N"
+	sb
+  
+  case K:
+	echo "K" $add
+	echo "Ar 1  "
+	echo "4,-1,1.0  N"
+	echo "4,-1,0.0  N"
+	sb
+	
+  case Ca:
+	echo "Ca" $add
+	echo "Ar 1  "
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Sc:
+	echo "Sc" $add
+	echo "Ar 2  "
+	echo "3, 2,1.0  N"
+	echo "3, 2,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Ti:
+	echo "Ti" $add
+	echo "Ar 2  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case V:
+	echo "V" $add
+	echo "Ar 2  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Cr:
+	echo "Cr" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,1.0  N"
+	echo "3,-3,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,0.0  N"
+	sb
+	
+  case Mn:
+	echo "Mn" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,0.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Fe:
+	echo "Fe" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,2.5  N"
+	echo "3,-3,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,0.5  N"
+	sb
+  
+  case Co:
+	echo "Co" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,0.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Ni:
+	echo "Ni" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Cu:
+	echo "Cu" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,2.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Zn:
+	echo "Zn" $add
+	echo "Ar 3  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	sb
+  
+  case Ga:
+	echo "Ga" $add
+	echo "Ar 4  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,0.0  N"
+	sb
+  
+  case Ge:
+	echo "Ge" $add
+	echo "Ar 5  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,0.0  N"
+	echo "4,-2,1.0  N"
+	echo "4,-2,0.0  N"
+	sb
+  
+  case As:
+	echo "As" $add
+	echo "Ar 5  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,0.0  N"
+	echo "4,-2,2.0  N"
+	echo "4,-2,0.0  N"
+	sb
+  
+  case Se:
+	echo "Se" $add
+	echo "Ar 5  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4,-2,2.0  N"
+	echo "4,-2,0.0  N"
+	sb
+  
+  case Br:
+	echo "Br" $add
+	echo "Ar 5  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4,-2,2.0  N"
+	echo "4,-2,1.0  N"
+	sb
+  
+  case Kr:
+	echo "Kr" $add
+	echo "Ar 5  "
+	echo "3, 2,2.0  N"
+	echo "3, 2,2.0  N"
+	echo "3,-3,3.0  N"
+	echo "3,-3,3.0  N"
+	echo "4,-1,1.0  N"
+	echo "4,-1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4, 1,1.0  N"
+	echo "4,-2,2.0  N"
+	echo "4,-2,2.0  N"
+	sb
+  
+  case Rb:
+	echo "Rb" $add
+	echo "Kr 1  "
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Sr:
+	echo "Sr" $add
+	echo "Kr 1  "
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	sb
+  
+  case Y:
+	echo "Y" $add
+	echo "Kr 2  "
+	echo "4, 2,1.0  N"
+	echo "4, 2,0.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	sb
+  
+  case Zr:
+	echo "Zr" $add
+	echo "Kr 2  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,0.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	sb
+  
+  case Nb:
+	echo "Nb" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,1.0  N"
+	echo "4,-3,1.0  N"
+	echo "4,-3,0.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Mo:
+	echo "Mo" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,1.0  N"
+	echo "4,-3,2.0  N"
+	echo "4,-3,0.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Tc:
+	echo "Tc" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,2.0  N"
+	echo "4,-3,0.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Ru:
+	echo "Ru" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,2.0  N"
+	echo "4,-3,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Rh:
+	echo "Rh" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Pd:
+	echo "Pd" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,2.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Ag:
+	echo "Ag" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,0.0  N"
+	sb
+  
+  case Cd:
+	echo "Cd" $add
+	echo "Kr 3  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	sb
+  
+  case In:
+	echo "In" $add
+	echo "Kr 4  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,0.0  N"
+	sb
+  
+  case Sn:
+	echo "Sn" $add
+	echo "Kr 5  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,0.0  N"
+	echo "5,-2,1.0  N"
+	echo "5,-2,0.0  N"
+	sb
+  
+  case Sb:
+	echo "Sb" $add
+	echo "Kr 5  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,0.0  N"
+	echo "5,-2,2.0  N"
+	echo "5,-2,0.0  N"
+	sb
+  
+  case Te:
+	echo "Te" $add
+	echo "Kr 5  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5,-2,2.0  N"
+	echo "5,-2,0.0  N"
+	sb
+  
+  case I:
+	echo "I" $add
+	echo "Kr 5  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5,-2,2.0  N"
+	echo "5,-2,1.0  N"
+	sb
+  
+  case Xe:
+	echo "Xe" $add
+	echo "Kr 5  "
+	echo "4, 2,2.0  N"
+	echo "4, 2,2.0  N"
+	echo "4,-3,3.0  N"
+	echo "4,-3,3.0  N"
+	echo "5,-1,1.0  N"
+	echo "5,-1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5, 1,1.0  N"
+	echo "5,-2,2.0  N"
+	echo "5,-2,2.0  N"
+	sb
+  
+  case Cs:
+	echo "Cs" $add
+	echo "Xe 1  "
+	echo "6,-1,1.0  N"
+	echo "6,-1,0.0  N"
+	sb
+  
+  case Ba:
+	echo "Ba" $add
+	echo "Xe 1  "
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case La:
+	echo "La" $add
+	echo "Xe 2  "
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Ce:
+	echo "Ce" $add
+	echo "Xe 4  "
+	echo "4, 3,1.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,0.0  N"
+	echo "4,-4,0.0  N" 
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Pr:
+	echo "Pr" $add
+	echo "Xe 4  "
+	echo "4, 3,2.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,0.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Nd:
+	echo "Nd" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,0.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Pm:
+	echo "Pm" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,1.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Sm:
+	echo "Sm" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,2.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Eu:
+	echo "Eu" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,3.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Gd:
+	echo "Gd" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,0.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Tb:
+	echo "Tb" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,1.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Dy:
+	echo "Dy" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,2.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,0.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Ho:
+	echo "Ho" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	sb
+  
+  case Er:
+	echo "Er" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,1.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Tm:
+	echo "Tm" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,2.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Yb:
+	echo "Yb" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,3.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Lu:
+	echo "Lu" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,1.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Hf:
+	echo "Hf" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Ta:
+	echo "Ta" $add
+	echo "Xe 4  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case W:
+	echo "W" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,1.0  N"
+	echo "5,-3,1.0  N"
+	echo "5,-3,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Re:
+	echo "Re" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,1.0  N"
+	echo "5,-3,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Os:
+	echo "Os" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,2.0  N"
+	echo "5,-3,0.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Ir:
+	echo "Ir" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,2.0  N"
+	echo "5,-3,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Pt:
+	echo "Pt" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,2.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,0.0  N"
+	sb
+  
+  case Au:
+	echo "Au" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,0.0  N"
+	sb
+  
+  case Hg:
+	echo "Hg" $add
+	echo "Xe 5  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	sb
+  
+  case Tl:
+	echo "Tl" $add
+	echo "Xe 6  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,0.0  N"
+	sb
+  
+  case Pb:
+	echo "Pb" $add
+	echo "Xe 7  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,0.0  N"
+	echo "6,-2,1.0  N"
+	echo "6,-2,0.0  N"
+	sb
+  
+  case Bi:
+	echo "Bi" $add
+	echo "Xe 7  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6,-2,1.0  N"
+	echo "6,-2,0.0  N"
+	sb
+  
+  case Po:
+	echo "Po" $add
+	echo "Xe 7  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6,-2,2.0  N"
+	echo "6,-2,0.0  N"
+	sb
+  
+  case At:
+	echo "At" $add
+	echo "Xe 7  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6,-2,2.0  N"
+	echo "6,-2,1.0  N"
+	sb
+  
+  case Rn:
+	echo "Rn" $add
+	echo "Xe 7  "
+	echo "4, 3,3.0  N"
+	echo "4, 3,3.0  N"
+	echo "4,-4,4.0  N"
+	echo "4,-4,4.0  N"
+	echo "5, 2,2.0  N"
+	echo "5, 2,2.0  N"
+	echo "5,-3,3.0  N"
+	echo "5,-3,3.0  N"
+	echo "6,-1,1.0  N"
+	echo "6,-1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6, 1,1.0  N"
+	echo "6,-2,2.0  N"
+	echo "6,-2,2.0  N"
+	sb
+  
+  case Fr:
+	echo "Fr" $add
+	echo "Rn 1  "
+	echo "7,-1,1.0  N"
+	echo "7,-1,0.0  N"
+	sb
+  
+  case Ra:
+	echo "Ra" $add
+	echo "Rn 1  "
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Ac:
+	echo "Ac" $add
+	echo "Rn 2  "
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Th:
+	echo "Th" $add
+	echo "Rn 2  "
+	echo "6, 2,2.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Pa:
+	echo "Pa" $add
+	echo "Rn 3  "
+	echo "5, 3,2.0  N"
+	echo "5, 3,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case U:
+	echo "U" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Np:
+	echo "Np" $add
+	echo "Rn 4  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,0.0  N"
+	echo "5,-4,1.0  N"
+	echo "5,-4,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Pu:
+	echo "Pu" $add
+	echo "Rn 4  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,0.0  N"
+	echo "5,-4,2.0  N"
+	echo "5,-4,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Am:
+	echo "Am" $add
+	echo "Rn 4  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,0.0  N"
+	echo "5,-4,3.0  N"
+	echo "5,-4,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Cm:
+	echo "Cm" $add
+	echo "Rn 4  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,0.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,0.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Bk:
+	echo "Bk" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,2.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Cf:
+	echo "Cf" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Es:
+	echo "Es" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,1.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Fm:
+	echo "Fm" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,2.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Md:
+	echo "Md" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,3.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case No:
+	echo "No" $add
+	echo "Rn 3  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,4.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  case Lr:
+	echo "Lr" $add
+	echo "Rn 4  "
+	echo "5, 3,3.0  N"
+	echo "5, 3,3.0  N"
+	echo "5,-4,4.0  N"
+	echo "5,-4,4.0  N"
+	echo "6, 2,1.0  N"
+	echo "6, 2,0.0  N"
+	echo "7,-1,1.0  N"
+	echo "7,-1,1.0  N"
+	sb
+  
+  default:
+	echo "WARNING: specified Element '"$atoms"' not in database!"
+	sb
+
+endsw
+end
+
+echo '****'
+echo '****         END of input (instgen_lapw)'

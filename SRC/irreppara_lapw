@@ -1,0 +1,281 @@
+#!/bin/csh -f
+#
+# $Revision: 1.0 $
+# $Date: 2002/01/17$
+#
+# $Author: gmadsen $
+# 
+
+set tmp  = .tmp_lapwirpara.$$
+set tmp2 = .tmp_lapwirpara.$$_2
+onintr exit
+# remove in final
+set exe         = '/u/gmadsen/WIENtest/irrep'
+
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+unalias rm
+alias   testinput       'if (! -e \!:1 ||  -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+set t	    = time  
+set log     = :parallel
+set defmach = `hostname`
+set updn			# spinpolarization switch
+set dnup    = 'dn'		# spinpolarization switch
+set so				# spinorbit-switch
+set remote = "ssh"
+set init = init:
+set res  = residue:
+set scratch =               
+
+if ( $?SCRATCH ) then
+  set scratch=`echo $SCRATCH  | sed -e 's/\/$//'`/ # we are afraid
+				# different settings in different 
+				# computing centers
+			        #use global variable for scratch if set
+endif
+############################################################################
+# In this section use 0 to turn of an option, 1 to turn it on, 
+# respectively choose a value
+
+set useremote   = 0             # using remote shell to launch processes
+set delay       = 1             # delay launching of processes by n seconds
+set debug       = 0             # set verbosity of debugging output
+
+############################################################################
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+   source $bin/parallel_options
+endif
+
+
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+
+############################################################################
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit
+endif
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -up:
+    set updn = 'up'
+    set dnup = 'dn'
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -so:
+    set so = 'so'
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+set exe = $bin/irrep
+set exe = irrep
+
+#are we running parallel?
+testinput .processes single
+echo "running IRREP in parallel mode"
+echo "RUNNING" >.irreppara
+
+#before we start, we wipe away all parallel error files
+if ( -e irrep.error ) rm *irrep*.error
+if ( -e irrep_1.error ) rm *irrep_*.error
+if ( -e .timeir_1) rm .timeir_*
+touch .lock_
+foreach i (.lock_*)
+    rm $i
+end
+
+
+if (-e .machines.help) rm .machines.help
+
+grep -v $init .processes|grep : | grep -v $res >$tmp2
+set mist     = `wc $tmp2 `
+set maxproc  = $mist[1]
+set machine  = `grep $init .processes |cut -f2 -d: | xargs`
+set lockfile = `cut -f2 -d: $tmp2 | awk '{print $1 NR}'|xargs`
+set residue  = `grep $res .processes|cut -f2 -d:`
+if ($residue == "") unset residue
+
+if ($debug > 0) echo machines: $machine
+
+
+echo "** " Error in Parallel IRREP >$def.error
+
+
+#get name of case
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+#echo $PWD
+setenv PWD $cwd
+set case    = $PWD
+set case    = $case:t          
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+set case    = $case:r           #head of file-names
+if ($debug > 0) echo Setting up case $case for parallel execution
+if ($debug > 0) echo of IRREP
+if ($debug > 0) echo "  "
+#
+
+#creating  def files
+if ($debug > 0) echo " "
+if ($debug > 0) echo -n "creating "$def"_*.def:  "
+set i = 1
+while ($i <= $maxproc)
+  if ($debug > 0) echo -n "$i "
+  cp $def.def .tmp
+  #subsituting in files:
+  cat <<theend >.script
+s/vector$so$dnup/&_$i/w .mist
+s/vector$so$updn/&_$i/w .mist
+s/irrep$updn/&_$i/w .mist
+s/outputir$updn/&_$i/w .mist
+
+theend
+
+  sed -f .script .tmp > .tmp1
+  sed "s/vector_${i}dn_$i/vectordn_$i/" .tmp1>.tmp2 
+  sed "s/vector_${i}up/vectorup_$i/" .tmp2>.tmp1 
+  sed "s/vector_${i}up_$i/vectorup_$i/" .tmp1>.tmp2 
+  sed "s/vector_${i}dn/vectordn_$i/" .tmp2>.tmp1 
+  sed "s/irrep_${i}up/irrepup_$i/" .tmp1>.tmp2 
+  sed "s/irrep_${i}dn/irrepdn_$i/" .tmp2>.tmp1 
+  sed "s/outputir_${i}up/outputirup_$i/" .tmp1>.tmp2 
+  sed "s/outputir_${i}dn/outputirdn_$i/" .tmp2> "$def"_$i.def
+
+
+  @ i ++
+end
+if ($debug > 0) echo " "
+
+
+#starting processes
+if ($debug > 0) echo " "
+if ($debug > 0) echo "starting process:  "
+
+echo "->  "starting parallel irrep at `date` >>$log
+
+set loop    = 0
+set endloop = 0
+set runmach = ""
+echo "files:$maxproc" >.processes2
+# change working dir because of problems with automounted directories
+#   cd $cwd
+while ($loop < $maxproc)
+  set p = 1
+  if ($?residue && $?resok) set p = 2
+  while ($p <= $#machine)
+    if ($loop < $maxproc) then
+	if !(-e .lock_$lockfile[$p]) then
+	    @ loop ++
+	    echo "${loop}:${maxproc}" >.processes2
+	    if ($debug > 0) echo prepare $loop on $machine[$p]
+	    set runmach = ($runmach $machine[$p])
+	    echo $runmach >>.processes2
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]"
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]">>$log
+	    if ($useremote == 1) then
+	    if ($debug > 1) echo use remote
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] ">.timeir_$loop
+		($remote $machine[$p] "cd $PWD;$t $exe ${def}_${loop}.def;rm -f .lock_$lockfile[$p]") >>.timeir_$loop  &
+	 else
+		if ($debug > 1) echo not using remote shell
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] " >.timeir_$loop
+		(cd $PWD;$t $exe ${def}_${loop}.def;rm -f .lock_$lockfile[$p]) >>.timeir_$loop  &
+	    endif
+	endif
+    if ($debug > 1) echo sleeping for $delay seconds
+    sleep $delay
+            jobs -l >.irreppara.$$.`hostname`
+    endif
+    @ p ++
+  end
+end
+
+#wait for execution to be completed
+if ($debug > 0) echo " "
+if ($debug > 0) echo "waiting for processes:  "
+wait
+
+
+set i = 1
+while ($i <= $maxproc)
+  testerror "$def"_$i
+  @ i ++
+end
+
+#cpu summary:
+set i = 1
+while ($i <= $maxproc)
+    echo "      "`cat .timeir_$i`
+    echo "      "`cat .timeir_$i` >>$log
+    @ i ++
+end
+
+# postanalysis
+echo "   Summary of lapwirpara:" >$tmp
+set p = 1
+while ($p <= $#machine)
+    set m = $runmach[$p]
+    cat .timeir_* | grep $m | tr "():" " " | \
+	    awk '{u += $2; cl += 60*$4+$5} \
+		END {print "   '$m'\t user=" u "\t wallclock=" cl}' >>$tmp
+    @ p ++
+end
+
+uniq < $tmp |tee -a $log
+
+echo "<-  "done at `date` >>$log
+
+echo "<-  "done at `date` >>$log
+echo "-----------------------------------------------------------------">>$log
+rm $def.error
+#rm .in.tmp .in.tmp1
+touch $def.error
+rm $tmp* >&/dev/null
+rm .irreppara.$$.`hostname` >&/dev/null
+echo "DONE" >.irreppara
+exit 0
+
+single:
+echo "running in single mode"
+$exe $def.def
+rm $tmp* >&/dev/null
+rm .irreppara.$$.`hostname` >&/dev/null
+exit 0
+
+
+error:
+echo "** " IRREP crashed!
+echo "** " IRREP crashed at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " Error in Parallel IRREP >>$def.error
+rm $tmp* >&/dev/null
+rm .irreppara.$$.`hostname` >&/dev/null
+echo "ERROR" >.lapwsopara
+exit 1
+

@@ -1,0 +1,729 @@
+//
+// time: Sun Mar 28 19:18:22 2004
+//
+// version: 3.1.2 (format), 4.2.0 (DX)
+//
+//
+// Begin MDF
+// MODULE struct
+// CATEGORY Macros
+// DESCRIPTION crystal structure
+// INPUT filename; string; (struct.dx); fname of dx file containing structure data
+// INPUT balls_sw; integer; (1); switch balls on/off
+// INPUT stick_sw; integer; (1); switch stick on/off
+// INPUT stick_color; field or vector or string; (1 1 0); rgb of stick
+// INPUT box_sw; integer; (0); box on/off
+// INPUT write_sw; value list or field or string or string list; (0); chnanges fonts to tube while writing
+// INPUT names_sw; integer; (0); names on/off
+// INPUT momenta_sw; integer; (0); momenta on/off
+// INPUT color_momenta; field or vector or string; (read); color of momenta glyph
+// INPUT scale_momenta; scalar; (1); scale of momenta glyph
+// INPUT color_name; field or vector or string; (white); colors of the atom names
+// INPUT scale_name; value list or field or string or string list; (1); scale of atom name
+// INPUT shape_momenta; scalar; (1); shape of momenta glyph
+// INPUT bond_dameter; scalar; (no default); bond diameter
+// INPUT style_sw; integer; (0); style switch
+// INPUT ball_scale; scalar; (1); ball scale
+// OUTPUT model; object; model
+// End MDF
+// page assignment: ballstic	order=3, windowed=0, showing=0
+// page assignment: box	order=4, windowed=0, showing=0
+// page assignment: import	order=2, windowed=0, showing=0
+// page assignment: model	order=8, windowed=0, showing=0
+// page assignment: momenta	order=6, windowed=0, showing=0
+// page assignment: names	order=5, windowed=0, showing=1
+// page assignment: sticks	order=7, windowed=0, showing=0
+// workspace: width = 593, height = 571
+// layout: snap = 0, width = 50, height = 50, align = NN
+//
+macro struct(
+ filename
+,balls_sw
+,stick_sw
+,stick_color
+,box_sw
+,write_sw
+,names_sw
+,momenta_sw
+,color_momenta
+,scale_momenta
+,color_name
+,scale_name
+,shape_momenta
+,bond_dameter
+,style_sw
+,ball_scale
+) -> (
+ model
+) {
+    // 
+    // node Input[2]: x = 26, y = 68, inputs = 0, label = Input
+    // page group: ballstic
+    // parameter: position = 2, name = 'balls_sw', value = '(1)', descriptive = 1, description = 'switch balls on/off', required = 0, visible = 1
+    //
+struct_Input_2_out_1 = balls_sw;
+    // 
+    // node Input[1]: x = 69, y = 59, inputs = 0, label = Input
+    // page group: import
+    // parameter: position = 1, name = 'filename', value = '(struct.dx)', descriptive = 1, description = 'fname of dx file containing structure data', required = 0, visible = 1
+    //
+struct_Input_1_out_1 = filename;
+    // 
+    // node Import[1]: x = 60, y = 195, inputs = 6, label = Import
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "ballstick"
+    // page group: import
+    //
+struct_Import_1_out_1 = 
+    Import(
+    struct_Input_1_out_1,
+    "ballstick",
+    NULL,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Transmitter[1]: x = 59, y = 364, inputs = 1, label = input
+    // page group: import
+    //
+input = struct_Import_1_out_1;
+    // 
+    // node Receiver[4]: x = 164, y = 23, inputs = 1, label = input
+    // page group: ballstic
+    //
+struct_Receiver_4_out_1[cache: 0] = input;
+    // 
+    // node Input[17]: x = 283, y = 44, inputs = 0, label = Input
+    // page group: ballstic
+    // parameter: position = 16, name = 'ball_scale', value = '(1)', descriptive = 1, description = 'ball scale', required = 0, visible = 1
+    //
+struct_Input_17_out_1 = ball_scale;
+    // 
+    // node Glyph[1]: x = 115, y = 169, inputs = 7, label = Glyph
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "sphere"
+    // input[4]: defaulting = 1, visible = 1, type = 5, value = 1.00000
+    // input[5]: defaulting = 0, visible = 1, type = 5, value = 0.00000
+    // input[6]: defaulting = 0, visible = 1, type = 5, value = 0.00000
+    // input[7]: visible = 1
+    // page group: ballstic
+    //
+struct_Glyph_1_out_1 = 
+    Glyph(
+    struct_Receiver_4_out_1,
+    "sphere",
+    NULL,
+    struct_Input_17_out_1,
+    0.00000,
+    0.00000,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Switch[2]: x = 71, y = 265, inputs = 2, label = Switch
+    // input[1]: defaulting = 1, visible = 1, type = 1, value = 0
+    // page group: ballstic
+    //
+struct_Switch_2_out_1 = 
+    Switch(
+    struct_Input_2_out_1,
+    struct_Glyph_1_out_1
+    ) [instance: 2, cache: 1];
+    // 
+    // node Transmitter[5]: x = 163, y = 375, inputs = 1, label = balls
+    // page group: ballstic
+    //
+balls = struct_Switch_2_out_1;
+    // 
+    // node Receiver[5]: x = 45, y = 66, inputs = 1, label = balls
+    // page group: model
+    //
+struct_Receiver_5_out_1[cache: 0] = balls;
+    // 
+    // node Input[3]: x = 278, y = 251, inputs = 0, label = Input
+    // page group: ballstic
+    // parameter: position = 3, name = 'stick_sw', value = '(1)', descriptive = 1, description = 'switch stick on/off', required = 0, visible = 1
+    //
+struct_Input_3_out_1 = stick_sw;
+    // 
+    // node Input[15]: x = 425, y = 29, inputs = 0, label = Input
+    // page group: ballstic
+    // parameter: position = 14, name = 'bond_dameter', value = '(no default)', descriptive = 1, description = 'bond diameter', required = 0, visible = 1
+    //
+struct_Input_15_out_1 = bond_dameter;
+    // 
+    // node Tube[1]: x = 360, y = 162, inputs = 4, label = Tube
+    // input[2]: defaulting = 1, visible = 1, type = 5, value = 0.300000
+    // page group: ballstic
+    //
+struct_Tube_1_out_1 = 
+    Tube(
+    struct_Receiver_4_out_1,
+    struct_Input_15_out_1,
+    NULL,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Input[4]: x = 597, y = 54, inputs = 0, label = Input
+    // page group: ballstic
+    // parameter: position = 4, name = 'stick_color', value = '(1 1 0)', descriptive = 1, description = 'rgb of stick', required = 0, visible = 1
+    //
+struct_Input_4_out_1 = stick_color;
+    // 
+    // node Color[1]: x = 449, y = 233, inputs = 5, label = Color
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "steelblue"
+    // input[5]: defaulting = 1, visible = 0, type = 3, value = 1
+    // page group: ballstic
+    //
+struct_Color_1_out_1 = 
+    Color(
+    struct_Tube_1_out_1,
+    struct_Input_4_out_1,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Switch[3]: x = 366, y = 306, inputs = 2, label = Switch
+    // input[1]: defaulting = 1, visible = 1, type = 1, value = 1
+    // page group: ballstic
+    //
+struct_Switch_3_out_1 = 
+    Switch(
+    struct_Input_3_out_1,
+    struct_Color_1_out_1
+    ) [instance: 3, cache: 1];
+    // 
+    // node Transmitter[6]: x = 278, y = 376, inputs = 1, label = bonds
+    // page group: ballstic
+    //
+bonds = struct_Switch_3_out_1;
+    // 
+    // node Receiver[7]: x = 145, y = 64, inputs = 1, label = bonds
+    // page group: model
+    //
+struct_Receiver_7_out_1[cache: 0] = bonds;
+    // 
+    // node Input[5]: x = 41, y = 37, inputs = 0, label = Input
+    // page group: box
+    // parameter: position = 5, name = 'box_sw', value = '(0)', descriptive = 1, description = 'box on/off', required = 0, visible = 1
+    //
+struct_Input_5_out_1 = box_sw;
+    // 
+    // node Receiver[8]: x = 234, y = 28, inputs = 1, label = input
+    // page group: box
+    //
+struct_Receiver_8_out_1[cache: 0] = input;
+    // 
+    // node ShowBox[1]: x = 168, y = 107, inputs = 1, label = ShowBox
+    // page group: box
+    //
+struct_ShowBox_1_out_1,
+struct_ShowBox_1_out_2 = 
+    ShowBox(
+    struct_Receiver_8_out_1
+    ) [instance: 1, cache: 1];
+    // 
+    // node Color[6]: x = 134, y = 203, inputs = 5, label = Color
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "yellow"
+    // page group: box
+    //
+struct_Color_6_out_1 = 
+    Color(
+    struct_ShowBox_1_out_1,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 6, cache: 1];
+    // 
+    // node Tube[2]: x = 154, y = 303, inputs = 4, label = Tube
+    // input[2]: defaulting = 1, visible = 1, type = 5, value = 0.3
+    // page group: box
+    //
+struct_Tube_2_out_1 = 
+    Tube(
+    struct_Color_6_out_1,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 2, cache: 1];
+    // 
+    // node Switch[4]: x = 198, y = 398, inputs = 2, label = Switch
+    // input[1]: defaulting = 1, visible = 1, type = 1, value = 1
+    // page group: box
+    //
+struct_Switch_4_out_1 = 
+    Switch(
+    struct_Input_5_out_1,
+    struct_Tube_2_out_1
+    ) [instance: 4, cache: 1];
+    // 
+    // node Transmitter[7]: x = 298, y = 274, inputs = 1, label = box_tube
+    // page group: box
+    //
+box_tube = struct_Switch_4_out_1;
+    // 
+    // node Receiver[10]: x = 234, y = 65, inputs = 1, label = box_tube
+    // page group: model
+    //
+struct_Receiver_10_out_1[cache: 0] = box_tube;
+    // 
+    // node Input[8]: x = 49, y = 107, inputs = 0, label = Input
+    // page group: momenta
+    // parameter: position = 8, name = 'momenta_sw', value = '(0)', descriptive = 1, description = 'momenta on/off', required = 0, visible = 1
+    //
+struct_Input_8_out_1 = momenta_sw;
+    // 
+    // node Import[3]: x = 178, y = 199, inputs = 6, label = Import
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "ballstick_ncm"
+    // page group: import
+    //
+struct_Import_3_out_1 = 
+    Import(
+    struct_Input_1_out_1,
+    "ballstick_ncm",
+    NULL,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 3, cache: 1];
+    // 
+    // node Transmitter[4]: x = 202, y = 364, inputs = 1, label = input_ncm
+    // page group: import
+    //
+input_ncm = struct_Import_3_out_1;
+    // 
+    // node Receiver[3]: x = 168, y = 32, inputs = 1, label = input_ncm
+    // page group: momenta
+    //
+struct_Receiver_3_out_1[cache: 0] = input_ncm;
+    // 
+    // node Input[13]: x = 310, y = 39, inputs = 0, label = Input
+    // page group: momenta
+    // parameter: position = 13, name = 'shape_momenta', value = '(1)', descriptive = 1, description = 'shape of momenta glyph', required = 0, visible = 1
+    //
+struct_Input_13_out_1 = shape_momenta;
+    // 
+    // node Input[10]: x = 461, y = 83, inputs = 0, label = Input
+    // page group: momenta
+    // parameter: position = 10, name = 'scale_momenta', value = '(1)', descriptive = 1, description = 'scale of momenta glyph', required = 0, visible = 1
+    //
+struct_Input_10_out_1 = scale_momenta;
+    // 
+    // node Glyph[2]: x = 170, y = 135, inputs = 7, label = Glyph
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "rocket"
+    // input[3]: defaulting = 1, visible = 1, type = 5, value = 2.0
+    // input[5]: defaulting = 0, visible = 1, type = 5, value = 0.0
+    // page group: momenta
+    //
+struct_Glyph_2_out_1 = 
+    Glyph(
+    struct_Receiver_3_out_1,
+    NULL,
+    struct_Input_13_out_1,
+    struct_Input_10_out_1,
+    0.0,
+    NULL,
+    NULL
+    ) [instance: 2, cache: 1];
+    // 
+    // node Input[9]: x = 424, y = 203, inputs = 0, label = Input
+    // page group: momenta
+    // parameter: position = 9, name = 'color_momenta', value = '(read)', descriptive = 1, description = 'color of momenta glyph', required = 0, visible = 1
+    //
+struct_Input_9_out_1 = color_momenta;
+    // 
+    // node Color[8]: x = 250, y = 267, inputs = 5, label = Color
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "green"
+    // page group: momenta
+    //
+struct_Color_8_out_1 = 
+    Color(
+    struct_Glyph_2_out_1,
+    struct_Input_9_out_1,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 8, cache: 1];
+    // 
+    // node Switch[8]: x = 59, y = 278, inputs = 2, label = Switch
+    // page group: momenta
+    //
+struct_Switch_8_out_1 = 
+    Switch(
+    struct_Input_8_out_1,
+    struct_Color_8_out_1
+    ) [instance: 8, cache: 1];
+    // 
+    // node Transmitter[10]: x = 184, y = 417, inputs = 1, label = momenta
+    // page group: momenta
+    //
+momenta = struct_Switch_8_out_1;
+    // 
+    // node Receiver[12]: x = 374, y = 83, inputs = 1, label = momenta
+    // page group: model
+    //
+struct_Receiver_12_out_1[cache: 0] = momenta;
+    // 
+    // node Input[7]: x = 62, y = 341, inputs = 0, label = Input
+    // page group: names
+    // parameter: position = 7, name = 'names_sw', value = '(0)', descriptive = 1, description = 'names on/off', required = 0, visible = 1
+    //
+struct_Input_7_out_1 = names_sw;
+    // 
+    // node Input[6]: x = 30, y = 45, inputs = 0, label = Input
+    // page group: names
+    // parameter: position = 6, name = 'write_sw', value = '(0)', descriptive = 1, description = 'chnanges fonts to tube while writing', required = 0, visible = 1
+    //
+struct_Input_6_out_1 = write_sw;
+    // 
+    // node Compute[11]: x = 74, y = 150, inputs = 3, label = Compute
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "$0+1"
+    // page group: names
+    // expression: value = a+1
+    // name[2]: value = a
+    // name[3]: value = b
+    //
+struct_Compute_11_out_1 = 
+    Compute(
+    "$0+1",
+    struct_Input_6_out_1,
+    NULL
+    ) [instance: 11, cache: 1];
+    // 
+    // node Import[4]: x = 290, y = 198, inputs = 6, label = Import
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "names"
+    // input[3]: defaulting = 1, visible = 1, type = 32, value = "dx"
+    // page group: import
+    //
+struct_Import_4_out_1 = 
+    Import(
+    struct_Input_1_out_1,
+    "names",
+    NULL,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 4, cache: 1];
+    // 
+    // node Transmitter[13]: x = 354, y = 364, inputs = 1, label = input_names
+    // page group: import
+    //
+input_names = struct_Import_4_out_1;
+    // 
+    // node Receiver[17]: x = 211, y = 28, inputs = 1, label = input_names
+    // page group: names
+    //
+struct_Receiver_17_out_1[cache: 0] = input_names;
+    // 
+    // node Input[12]: x = 551, y = 38, inputs = 0, label = Input
+    // page group: names
+    // parameter: position = 12, name = 'scale_name', value = '(1)', descriptive = 1, description = 'scale of atom name', required = 0, visible = 1
+    //
+struct_Input_12_out_1 = scale_name;
+    // 
+    // node Compute[12]: x = 426, y = 88, inputs = 3, label = Compute
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "$1*($0*0.6+1)"
+    // page group: names
+    // expression: value = b*(a*0.6+1)
+    // name[2]: value = a
+    // name[3]: value = b
+    //
+struct_Compute_12_out_1 = 
+    Compute(
+    "$1*($0*0.6+1)",
+    struct_Input_6_out_1,
+    struct_Input_12_out_1
+    ) [instance: 12, cache: 1];
+    // 
+    // node Glyph[3]: x = 203, y = 131, inputs = 7, label = Glyph
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "rocket"
+    // input[3]: defaulting = 0, visible = 1, type = 5, value = 2.0
+    // page group: names
+    //
+struct_Glyph_3_out_1 = 
+    Glyph(
+    struct_Receiver_17_out_1,
+    NULL,
+    2.0,
+    struct_Compute_12_out_1,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 3, cache: 1];
+    // 
+    // node Input[11]: x = 505, y = 233, inputs = 0, label = Input
+    // page group: names
+    // parameter: position = 11, name = 'color_name', value = '(white)', descriptive = 1, description = 'colors of the atom names', required = 0, visible = 1
+    //
+struct_Input_11_out_1 = color_name;
+    // 
+    // node Color[9]: x = 227, y = 211, inputs = 5, label = Color
+    // input[2]: defaulting = 1, visible = 1, type = 32, value = "white"
+    // input[3]: defaulting = 1, visible = 1, type = 2048, value = NULL
+    // page group: names
+    //
+struct_Color_9_out_1 = 
+    Color(
+    struct_Glyph_3_out_1,
+    struct_Input_11_out_1,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 9, cache: 1];
+    // 
+    // node Tube[4]: x = 387, y = 298, inputs = 4, label = Tube
+    // input[2]: defaulting = 0, visible = 1, type = 5, value = 0.2
+    // input[4]: defaulting = 1, visible = 0, type = 32, value = NULL
+    // page group: names
+    //
+struct_Tube_4_out_1 = 
+    Tube(
+    struct_Color_9_out_1,
+    0.2,
+    NULL,
+    NULL
+    ) [instance: 4, cache: 1];
+    // 
+    // node Switch[10]: x = 166, y = 354, inputs = 3, label = Switch
+    // page group: names
+    //
+struct_Switch_10_out_1 = 
+    Switch(
+    struct_Compute_11_out_1,
+    struct_Color_9_out_1,
+    struct_Tube_4_out_1
+    ) [instance: 10, cache: 1];
+    // 
+    // node Switch[9]: x = 148, y = 446, inputs = 2, label = Switch
+    // page group: names
+    //
+struct_Switch_9_out_1 = 
+    Switch(
+    struct_Input_7_out_1,
+    struct_Switch_10_out_1
+    ) [instance: 9, cache: 1];
+    // 
+    // node Transmitter[14]: x = 263, y = 509, inputs = 1, label = names
+    // page group: names
+    //
+names = struct_Switch_9_out_1;
+    // 
+    // node Receiver[18]: x = 430, y = 201, inputs = 1, label = names
+    // page group: model
+    //
+struct_Receiver_18_out_1[cache: 0] = names;
+    // 
+    // node Collect[6]: x = 146, y = 243, inputs = 5, label = Collect
+    // page group: model
+    //
+struct_Collect_6_out_1 = 
+    Collect(
+    struct_Receiver_5_out_1,
+    struct_Receiver_7_out_1,
+    struct_Receiver_10_out_1,
+    struct_Receiver_12_out_1,
+    struct_Receiver_18_out_1
+    ) [instance: 6, cache: 1];
+    // 
+    // node Receiver[14]: x = 54, y = 54, inputs = 1, label = box_tube
+    // page group: sticks
+    //
+struct_Receiver_14_out_1[cache: 0] = box_tube;
+    // 
+    // node Receiver[1]: x = 187, y = 54, inputs = 1, label = input
+    // page group: sticks
+    //
+struct_Receiver_1_out_1[cache: 0] = input;
+    // 
+    // node Transmitter[16]: x = 474, y = 111, inputs = 1, label = bond_diameter
+    // page group: ballstic
+    //
+bond_diameter = struct_Input_15_out_1;
+    // 
+    // node Receiver[20]: x = 323, y = 38, inputs = 1, label = bond_diameter
+    // page group: sticks
+    //
+struct_Receiver_20_out_1[cache: 0] = bond_diameter;
+    // 
+    // node Tube[3]: x = 222, y = 134, inputs = 4, label = Tube
+    // input[2]: defaulting = 1, visible = 1, type = 5, value = 0.3
+    // input[3]: defaulting = 0, visible = 0, type = 1, value = 3
+    // input[4]: defaulting = 1, visible = 0, type = 32, value = NULL
+    // page group: sticks
+    //
+struct_Tube_3_out_1 = 
+    Tube(
+    struct_Receiver_1_out_1,
+    struct_Receiver_20_out_1,
+    3,
+    NULL
+    ) [instance: 3, cache: 1];
+    // 
+    // node Color[4]: x = 250, y = 214, inputs = 5, label = Color
+    // input[5]: defaulting = 0, visible = 0, type = 3, value = 1
+    // page group: sticks
+    //
+struct_Color_4_out_1 = 
+    Color(
+    struct_Tube_3_out_1,
+    NULL,
+    NULL,
+    NULL,
+    1
+    ) [instance: 4, cache: 1];
+    // 
+    // node Collect[7]: x = 139, y = 254, inputs = 2, label = Collect
+    // page group: sticks
+    //
+struct_Collect_7_out_1 = 
+    Collect(
+    struct_Receiver_14_out_1,
+    struct_Color_4_out_1
+    ) [instance: 7, cache: 1];
+    // 
+    // node Input[16]: x = 23, y = 290, inputs = 0, label = Input
+    // page group: model
+    // parameter: position = 15, name = 'style_sw', value = '(0)', descriptive = 1, description = 'style switch', required = 0, visible = 1
+    //
+struct_Input_16_out_1 = style_sw;
+    // 
+    // node Shade[1]: x = 160, y = 329, inputs = 8, label = Shade
+    // input[4]: defaulting = 0, visible = 0, type = 5, value = 0.8
+    // input[5]: defaulting = 0, visible = 0, type = 1, value = 20
+    // page group: model
+    //
+struct_Shade_1_out_1 = 
+    Shade(
+    struct_Collect_6_out_1,
+    NULL,
+    NULL,
+    0.8,
+    20,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Transmitter[12]: x = 171, y = 354, inputs = 1, label = sticks
+    // page group: sticks
+    //
+sticks = struct_Collect_7_out_1;
+    // 
+    // node Receiver[15]: x = 439, y = 286, inputs = 1, label = sticks
+    // page group: model
+    //
+struct_Receiver_15_out_1[cache: 0] = sticks;
+    // 
+    // node Shade[3]: x = 294, y = 339, inputs = 8, label = Shade
+    // input[4]: defaulting = 0, visible = 0, type = 5, value = 0.8
+    // input[5]: defaulting = 0, visible = 0, type = 1, value = 20
+    // page group: model
+    //
+struct_Shade_3_out_1 = 
+    Shade(
+    struct_Receiver_15_out_1,
+    NULL,
+    NULL,
+    0.8,
+    20,
+    NULL,
+    NULL,
+    NULL
+    ) [instance: 3, cache: 1];
+    // 
+    // node Switch[5]: x = 146, y = 451, inputs = 3, label = Switch
+    // input[1]: defaulting = 1, visible = 1, type = 1, value = 2
+    // page group: model
+    //
+struct_Switch_5_out_1 = 
+    Switch(
+    struct_Input_16_out_1,
+    struct_Shade_1_out_1,
+    struct_Shade_3_out_1
+    ) [instance: 5, cache: 1];
+    // 
+    // node Output[1]: x = 450, y = 504, inputs = 1, label = Output
+    // page group: model
+    // parameter: position = 1, name = 'model', value = ' ', descriptive = 0, description = 'model', required = 0, visible = 1
+    //
+model = struct_Switch_5_out_1;
+    // 
+    // node Transmitter[9]: x = 26, y = 189, inputs = 1, label = box_toggle
+    // page group: box
+    //
+box_toggle = struct_Input_5_out_1;
+    // 
+    // node Transmitter[15]: x = 24, y = 237, inputs = 1, label = write
+    // page group: names
+    //
+write = struct_Input_6_out_1;
+// network: end of macro body
+}
+struct_Input_2_out_1 = NULL;
+struct_Input_1_out_1 = NULL;
+struct_Import_1_out_1 = NULL;
+struct_Transmitter_1_out_1 = NULL;
+struct_Receiver_4_out_1 = NULL;
+struct_Input_17_out_1 = NULL;
+struct_Glyph_1_out_1 = NULL;
+struct_Switch_2_out_1 = NULL;
+struct_Transmitter_5_out_1 = NULL;
+struct_Receiver_5_out_1 = NULL;
+struct_Input_3_out_1 = NULL;
+struct_Input_15_out_1 = NULL;
+struct_Tube_1_out_1 = NULL;
+struct_Input_4_out_1 = NULL;
+struct_Color_1_out_1 = NULL;
+struct_Switch_3_out_1 = NULL;
+struct_Transmitter_6_out_1 = NULL;
+struct_Receiver_7_out_1 = NULL;
+struct_Input_5_out_1 = NULL;
+struct_Receiver_8_out_1 = NULL;
+struct_ShowBox_1_out_1 = NULL;
+struct_Color_6_out_1 = NULL;
+struct_Tube_2_out_1 = NULL;
+struct_Switch_4_out_1 = NULL;
+struct_Transmitter_7_out_1 = NULL;
+struct_Receiver_10_out_1 = NULL;
+struct_Input_8_out_1 = NULL;
+struct_Import_3_out_1 = NULL;
+struct_Transmitter_4_out_1 = NULL;
+struct_Receiver_3_out_1 = NULL;
+struct_Input_13_out_1 = NULL;
+struct_Input_10_out_1 = NULL;
+struct_Glyph_2_out_1 = NULL;
+struct_Input_9_out_1 = NULL;
+struct_Color_8_out_1 = NULL;
+struct_Switch_8_out_1 = NULL;
+struct_Transmitter_10_out_1 = NULL;
+struct_Receiver_12_out_1 = NULL;
+struct_Input_7_out_1 = NULL;
+struct_Input_6_out_1 = NULL;
+struct_Compute_11_out_1 = NULL;
+struct_Import_4_out_1 = NULL;
+struct_Transmitter_13_out_1 = NULL;
+struct_Receiver_17_out_1 = NULL;
+struct_Input_12_out_1 = NULL;
+struct_Compute_12_out_1 = NULL;
+struct_Glyph_3_out_1 = NULL;
+struct_Input_11_out_1 = NULL;
+struct_Color_9_out_1 = NULL;
+struct_Tube_4_out_1 = NULL;
+struct_Switch_10_out_1 = NULL;
+struct_Switch_9_out_1 = NULL;
+struct_Transmitter_14_out_1 = NULL;
+struct_Receiver_18_out_1 = NULL;
+struct_Collect_6_out_1 = NULL;
+struct_Receiver_14_out_1 = NULL;
+struct_Receiver_1_out_1 = NULL;
+struct_Transmitter_16_out_1 = NULL;
+struct_Receiver_20_out_1 = NULL;
+struct_Tube_3_out_1 = NULL;
+struct_Color_4_out_1 = NULL;
+struct_Collect_7_out_1 = NULL;
+struct_Input_16_out_1 = NULL;
+struct_Shade_1_out_1 = NULL;
+struct_Transmitter_12_out_1 = NULL;
+struct_Receiver_15_out_1 = NULL;
+struct_Shade_3_out_1 = NULL;
+struct_Switch_5_out_1 = NULL;

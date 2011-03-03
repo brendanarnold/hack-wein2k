@@ -1,0 +1,889 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6 Initialization</TITLE>
+<META NAME="description" CONTENT="6 Initialization">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="7SCF_cycle.html">
+<LINK REL="previous" HREF="5Shell_scripts.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="7SCF_cycle.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1221"
+  HREF="7SCF_cycle.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1217"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1211"
+  HREF="5Shell_scripts.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1219"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1222"
+  HREF="7SCF_cycle.html">7 SCF cycle</A>
+<B> Up:</B> <A NAME="tex2html1218"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1212"
+  HREF="5Shell_scripts.html">5 Shell scripts</A>
+ &nbsp; <B>  <A NAME="tex2html1220"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1223"
+  HREF="6Initialization.html#SECTION05310000000000000000">1 NN</A>
+<UL>
+<LI><A NAME="tex2html1224"
+  HREF="6Initialization.html#SECTION05311000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1225"
+  HREF="6Initialization.html#SECTION05320000000000000000">2 SGROUP</A>
+<UL>
+<LI><A NAME="tex2html1226"
+  HREF="6Initialization.html#SECTION05321000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1227"
+  HREF="6Initialization.html#SECTION05330000000000000000">3 SYMMETRY</A>
+<UL>
+<LI><A NAME="tex2html1228"
+  HREF="6Initialization.html#SECTION05331000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1229"
+  HREF="6Initialization.html#SECTION05340000000000000000">4 LSTART</A>
+<UL>
+<LI><A NAME="tex2html1230"
+  HREF="6Initialization.html#SECTION05341000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1231"
+  HREF="6Initialization.html#SECTION05342000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1232"
+  HREF="6Initialization.html#SECTION05343000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1233"
+  HREF="6Initialization.html#SECTION05350000000000000000">5 KGEN</A>
+<UL>
+<LI><A NAME="tex2html1234"
+  HREF="6Initialization.html#SECTION05351000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1235"
+  HREF="6Initialization.html#SECTION05352000000000000000">2 Dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1236"
+  HREF="6Initialization.html#SECTION05360000000000000000">6 DSTART</A>
+<UL>
+<LI><A NAME="tex2html1237"
+  HREF="6Initialization.html#SECTION05361000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1238"
+  HREF="6Initialization.html#SECTION05362000000000000000">2 Dimensioning parameters</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05300000000000000000"></A>
+<A NAME="cha:programs"></A><A NAME="cha:init-progs"></A>
+<BR>
+6 Programs for the initialization
+</H1>
+
+<P>
+In sections (<A HREF="#sec:nn">6.1</A>-<A HREF="#sec:dstart">6.6</A>) we describe the initial
+utility programs. These programs are used to set up a calculation.
+
+<P>
+
+<H1><A NAME="SECTION05310000000000000000"></A>
+<A NAME="sec:nn"></A><A NAME="5893"></A>
+<BR>
+1 NN (nearest neighbor distances)
+</H1>
+
+<P>
+This program uses the <TT><B>case.struct</B></TT> file (see <A HREF="4Files_Program.html#sec:struct-file">4.3</A>)
+in which the atomic positions in the unit cell are specified, calculates
+the nearest neighbor distances of all atoms, and checks that the
+corresponding atomic spheres (radii) are not overlapping.  If an overlap
+occurs, an error message is shown on the screen.  In addition, the next
+nearest-neighbor distances up to <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img150.png"
+ ALT="$f$"> times the nearest-neighbor distance
+(<IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img150.png"
+ ALT="$f$"> is provided interactively) are written to an output file named
+<TT><B>case.outputnn</B></TT>.  
+It is highly recommended in many cases that you change your sphere sizes and
+NOT use the default of 2.0.
+An increase from 2.0 to 2.1 may already result in drastically reduced 
+computing time. More recommendations are given in chapter <A HREF="4Files_Program.html#sec:struct-file">4.3</A>.
+
+<P>
+<TT><B>nn</B></TT> also checks if equivalent atoms are specified correctly in
+<TT><B>case.struct</B></TT>.  At the bottom of <TT><B>case.outputnn</B></TT> the
+coordination shell-structure is listed and from that a comparison with
+the input is made verifying that equivalent atoms really have
+equivalent environments. If this is not the case, an ERROR will be
+printed and a new structure file <TT><B>case.struct_nn</B></TT> is generated.
+You have to recheck your input and then decide whether you want to accept
+the new structure file, or reject it (because the equivalency may just be 
+an artefact due to a special choice of lattice parameters). It also may be 
+that you have made a simple input error.
+If you want to force two atoms of the same kind (e.g. 2 Fe atoms) to be
+nonequivalent (e.g. because you want to do an antiferromagnetic calculation), 
+label the atoms as ``Fe1''  and ``Fe2'' in <TT><B>case.struct</B></TT>.
+
+<P>
+Thus this program helps to generate proper <TT><B>struct</B></TT>-files
+especially in the case of artificial unit cells, e.g. a supercell
+simulating an impurity or a surface.
+
+<P>
+
+<H2><A NAME="SECTION05311000000000000000"></A>
+<A NAME="sec:nn-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>nn</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>nn nn.def</B></TT> or <TT><B>x nn</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H1><A NAME="SECTION05320000000000000000"></A>
+<A NAME="sec:sgroup"></A><A NAME="5915"></A>
+<BR>
+2 SGROUP
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+   Bogdan Yanchitsky and Andrei Timoshevskii \\
+   Institute of Magnetism, Kiev, Ukraine\\
+   email: yan@imag.kiev.ua  and  tim@ukron.kiev.ua
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="119" ALIGN="MIDDLE" BORDER="0"
+ SRC="img151.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Bogdan Yanchitsky and Andrei Timoshevskii \\
+...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+It was published in Yanchitsky and Timoshevskii 2001, and is written in C.
+
+<P>
+This program uses information from <TT><B>case.struct</B></TT> (lattice type, lattice constants,
+atomic positions) and determines the spacegroup as well as all pointgroups 
+of non-equivalent sites. It uses the nuclear charges Z or the "label" in the 3rd place of
+the atomic name (Si1, Si2) to distinguish different atoms uniquely. It is able to find possible smaller unit cells, shift
+the origin of the cell and can even produce a new struct file <TT><B>case.struct_sgroup</B></TT> based on your 
+input <TT><B>case.struct</B></TT>  with proper lattice types and equivalency.
+It is thus most usefull in particular for ``handmade'' structures.
+
+<P>
+For more information see also the README in SRC_sgroup.
+
+<P>
+
+<H2><A NAME="SECTION05321000000000000000"></A>
+<A NAME="sec:sgroup-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program sgroup is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>sgroup -wi case.struct [-wo case.struct_sgroup] case.outputsgen</B></TT> or <TT><B>x sgroup</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H1><A NAME="SECTION05330000000000000000"></A>
+<A NAME="sec:symmetry"></A><A NAME="5930"></A>
+<BR>
+3 SYMMETRY
+</H1>
+
+<P>
+This program uses information from <TT><B>case.struct</B></TT> (lattice type,
+atomic positions). If NSYM was set to zero it generates the space
+group symmetry operations and writes them to <TT><B>case.struct_st</B></TT> to
+complete this file. Otherwise (NSYM <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> 0) it compares the generated
+symmetry operations with the already present ones. If they disagree a
+warning is given in the output. In addition the point group of each
+atomic site is determined and the respective symmetry operations and
+LM values of the lattice harmonics representation are printed. The
+latter information is written into <TT><B>case.in2_sy</B></TT>, while the
+local rotation matrix, the positive or negative IATNR values and the
+proper ISPLIT parameter are written to <TT><B>case.struct_st</B></TT>.  (See
+appendix <A HREF="A_Local_rotation.html#sec:loc-rot">A</A> and Sec. <A HREF="4Files_Program.html#sec:struct-file">4.3</A>).
+
+<P>
+
+<H2><A NAME="SECTION05331000000000000000"></A>
+<A NAME="sec:symmetry-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program symmetry is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>symmetry symmetry.def</B></TT> or <TT><B>x symmetry</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H1><A NAME="SECTION05340000000000000000"></A>
+<A NAME="sec:lstart"></A><A NAME="5947"></A>
+<BR>
+4  LSTART (atomic LSDA program) 
+</H1>
+
+<P>
+<TT><B>lstart</B></TT> is a relativistic atomic LSDA code originally written by
+Desclaux (69, 75) and modified for the present purpose. Internally it
+uses Hartree atomic units, but all output has been converted to
+Rydberg units.  <TT><B>lstart</B></TT> generates atomic densities which are
+used by <TT><B>dstart</B></TT> to generate a starting density for a scf
+calculation and all the input files for the scf run: <TT><B>in0</B></TT>,
+<TT><B>in1</B></TT>, <TT><B>in2</B></TT>, <TT><B>inc</B></TT> and <TT><B>inm</B></TT> (according to the
+atomic eigenvalues). In addition it creates atomic potentials (which
+are truncated at their corresponding atomic radii and could be used to
+run <TT><B>lapw1</B></TT>) and optional atomic valence densities, which can be
+used in <TT><B>lapw5</B></TT> for a difference density plot. The atomic total
+energies are also printed, but it can only be used  for cohesive
+energy calculations of light elements. Already for second-row elements 
+the different treatment of relativistic effects in  <TT><B>lstart</B></TT> and 
+<TT><B>lapwso</B></TT> yields inconsistent data and you must calculate the 
+atomic total energy consistently by a supercell approach via a ``bandstructure
+calculation (Put a single atom in a sufficiently large fcc-type unit cell).
+
+<P>
+If the program stops with some lines:
+<BLOCKQUOTE>
+<TT><B>NSTOP= .....</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+in  <TT><B>case.outputst</B></TT>, this means, that a proper solution for at 
+least one orbital could not be obtained. In such a case the input 
+must be changed and one should provide different occupation numbers 
+for these states (e.g. Cu can not be started with <IMG
+ WIDTH="56" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img152.png"
+ ALT="$3d^{10}4s^1$">, but 
+it works with <IMG
+ WIDTH="50" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img153.png"
+ ALT="$3d^{9}4s^2$">). 
+
+<P>
+Warnings about the radial mesh can usually be ignored. They can be avoided
+by larger dimension parameters NPT and NPT00, so that the radial mesh will
+reach up to  RMAX0.
+
+<P>
+
+<H2><A NAME="SECTION05341000000000000000"></A>
+<A NAME="sec:lstart-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lstart</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>lstart lstart.def</B></TT> or <TT><B>x lstart [-sigma]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+The files <TT><B>case.rsp(up<IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$\vert$">dn)</B></TT> are generated and contain the atomic 
+(spin) densities, which will be used by DSTART later on. 
+<BR>
+Using <TT><B>-sigma</B></TT> generates <TT><B>case.inst_sigma</B></TT> with modified input to
+generate <TT><B>case.sigma</B></TT> used for difference densities (see below).
+
+<P>
+
+<H2><A NAME="SECTION05342000000000000000"></A>
+<A NAME="sec:lstart-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are defined in file <TT><B>param.inc</B></TT> 
+(static and not allocatable arrays):
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NPT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>total number of radial mesh points, must be gt.(NRAD+NPT00), 
+  where NRAD is the number of mesh-points up to RMT specfied in 
+  case.struct.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NPT00</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. number of radial mesh points beyond RMT</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>RMAX0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. distance of radial mesh</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05343000000000000000"></A>
+<A NAME="sec:lstart-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+When running <TT><B>lstart</B></TT> you will first be asked interactively to
+specify an XC-potential switch. Currently 5 (LSDA, Perdew and Wang 92)
+as well as 13 and 14 (two GGAs, Perdew et al. 96 and Perdew et al.
+92, respectively) are officially supported, but 13 is recommended. 
+
+<P>
+In addition the program asks for an energy cut-off, separating core from
+valence states. Usually -6.0 Ry is a good choice, but you should check
+for each atom how much core charge leaks out of the sphere (bottom of
+<TT><B>case.outputs</B></TT>). If this is the case one should lower this energy cut-off
+and thus include these low lying states into the valence region.
+
+<P>
+The rest of the input is described in the sample input below. 
+
+<P>
+<I>Note: Only the data at the beginning of the line are read whereas
+  the comment describes the respective orbitals</I>.  This file can
+  be generated automatically in <EM>w2web</EM> using ``<I>RunPrograms
+    <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Struct Generator</I>'' or with the script <TT><B>instgen_lapw</B></TT>. To edit this file by hand choose
+  ``<I>View/Edit <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Input Files</I>'' and choose <TT><B>case.inst</B></TT>.
+
+<P>
+<PRE>
+------------------ top of file: case.inst -------------------
+ZINC
+Ne 6         (inert gas, # OF VALENCE ORBITALS not counting spin)
+3,-1,1.0  N        ( N,KAPPA,OCCUP; = 3S UP, 1 ELECTRON)
+3,-1,1.0  N                           3S DN
+3,-2,2.0  N                           3P UP
+3,-2,2.0  N                           3P DN
+3, 1,1.0  N                           3P*UP
+3, 1,1.0  N                           3P*DN
+3,-3,3.0  P                           3D UP
+3,-3,3.0  P                           3D DN
+3, 2,2.0  P                           3D*UP
+3, 2,2.0  P                           3D*DN
+4,-1,1.0  P                           4S UP
+4,-1,1.0  P                           4S DN
+****               END OF Input
+****               END OF Input
+------------------- bottom of file ---------------------------
+</PRE>
+
+<P>
+Interpretive comments follow:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(a4,a6)
+<BR>
+title, keyword
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>title</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>keyword</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>The keyword <B>Watson</B> enables a stabilization of negative ions
+using a ``Watson''-sphere of radius R-wat with charge Q-wat, which must
+be given in the next line when this keyword is specified.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>The keyword <B>PRATT</B> enables a scf mixing using standard PRATT
+  scheme. It might be usefull if a certain atomic configuration does not
+  converge with the standard mixing scheme and requires a (usually quite small) mixing factor, which must
+be given in the next line when this keyword is specified.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+config
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>config</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the core state configuration by an inert gas
+    (He, Ne, Ar, Kr, Xe, Rn) and  the number of (valence) orbitals
+    (without spin).  (In the example given above one could also use
+    <B>Ar 3 </B>  and omit the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$3s$"> and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$"> states.) The atomic
+    configurations  are listed in the appendix and can also be found
+    online using  <TT><B>periodic_table</B></TT>, a shell script  which
+    displays <TT><B>SRC/periodic.ps</B></TT>  with ghostview)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>format(i1,1x,i2,1x,f5.3,a1)
+<BR>
+n, kappa, occup, plot
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>n</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>the principle quantum number</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>kappa</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>the relativistic
+  quantum number (see below)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>occup</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>occupation number (per spin)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>plot</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><B>P</B> specifies that the density of the respective
+  orbital is written to the file <TT><B>case.sigma</B></TT>, which can be used
+  for difference density plots in <TT><B>lapw5</B></TT>. <B>N</B> or an empty field
+  will exempt density of the respective orbital from being printed to file.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:line 3</STRONG></DT>
+<DD>is repeated for the other spin and for all orbitals 
+specified above by config.
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: the last two lines</STRONG></DT>
+<DD>must be
+<BR>  <TT><B>**** 
+<BR>***** 
+<BR></B></TT> 
+
+<P>
+</DD>
+<DT><STRONG>optional inserted as line 2 when ``Watson'' has been specified in line 1:</STRONG></DT>
+<DD>free format
+<BR>
+R-wat, Q-wat
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>R-wat</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>radius of a charged sphere used to stabilize otherwise unstable 
+negative ions (e.g. 2.5 for O<IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img154.png"
+ ALT="$^{2-}$">)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Q-wat</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>charge of the stabilizing sphere, (e.g. 2 for O<IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img154.png"
+ ALT="$^{2-}$">)</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+The quantum numbers are defined as follows (see e.g. Liberman 
+et al 65):
+
+<P>
+Spin quantum number: <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img155.png"
+ ALT="$s = +1$"> or <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$s = -1$">
+
+<P>
+Orbital quantum number <IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img157.png"
+ ALT="$j=l+s/2$">
+
+<P>
+Relativistic quantum number <!-- MATH
+ $\kappa = -s(j+1/2)$
+ -->
+<IMG
+ WIDTH="117" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img158.png"
+ ALT="$\kappa = -s(j+1/2)$">
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="6024"></A>
+<TABLE>
+<CAPTION><STRONG>Table 6.6:</STRONG>
+Relativistic quantum numbers</CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+<FONT SIZE="-2">  </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2">
+    </FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"><IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img157.png"
+ ALT="$j=l+s/2$"></FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img159.png"
+ ALT="$\kappa$"></FONT></TD>
+<TD ALIGN="CENTER" COLSPAN=2><FONT SIZE="-2"> max. occupation</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+    
+    </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$s = -1$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img155.png"
+ ALT="$s = +1$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$s = -1$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img155.png"
+ ALT="$s = +1$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$s = -1$"> </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> <IMG
+ WIDTH="53" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img155.png"
+ ALT="$s = +1$"></FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+    
+    s </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 0 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 1/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> -1 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2">  </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 2</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+    
+    p </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 1 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 1/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 3/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 1 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> -2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 4</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+    
+    d </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 3/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 5/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> -3 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 4 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 6</FONT></TD>
+</TR>
+<TR><TD ALIGN="CENTER"><FONT SIZE="-2"> 
+    
+    f </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 3 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 5/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 7/2 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 3 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> -4 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 6 </FONT></TD>
+<TD ALIGN="CENTER"><FONT SIZE="-2"> 8</FONT></TD>
+</TR>
+</TABLE>
+    
+    <A NAME="tab:rel-quant-number"></A>  
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+<H1><A NAME="SECTION05350000000000000000"></A>
+<A NAME="sec:kgen"></A><A NAME="6031"></A>
+<BR>
+5 KGEN (generates k mesh)
+</H1>
+
+<P>
+This program generates the k-mesh in the irreducible wedge of the
+Brillouin zone (IBZ) on a special point grid, which can be used in a
+modified tetrahedron integration scheme (Bl&#246;chl et al 1994).
+
+<P>
+<TT><B>kgen</B></TT> needs as interactive input the total number of k-points in the BZ
+and, if inversion symmetry is not present, asks whether or not it
+should include this symmetry when generating the k-mesh.  One should
+usually add inversion here except for certain magnetic cases including SO interaction. If symmetry permits, it further asks
+whether or not the k-mesh should be shifted away from high symmetry
+directions. The file <TT><B>case.klist</B></TT> is used in <TT><B>lapw1</B></TT> and
+<TT><B>case.kgen</B></TT> is used in <TT><B>tetra</B></TT> and <TT><B>lapw2</B></TT>, if the EF
+switch is set to TETRA, i.e. the tetrahedron method for the k-space
+integration is used. For the format of the <TT><B>case.klist</B></TT> see page
+<A HREF="7SCF_cycle.html#sec:lapw1-klist"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<H2><A NAME="SECTION05351000000000000000"></A>
+<A NAME="sec:kgen-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program kgen is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>kgen kgen.def</B></TT> or <TT><B>x kgen [-so]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+With the switch <TT><B>-so</B></TT> it uses a file <TT><B>case.ksym</B></TT> (usually
+generated by <TT><B>symmetso</B></TT> instead of  <TT><B>case.struct</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05352000000000000000"></A>
+<A NAME="sec:kgen-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used in <TT><B>main.f, ord1.f</B></TT> (static arrays):
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>IDKP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of inequivalent k-points (like NKPT in other programs)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NWX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>internal parameter, must be increased for very large k-meshes</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>INDEXM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>internal parameter, must be increased for very large k-meshes</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05360000000000000000"></A>
+<A NAME="sec:dstart"></A><A NAME="6059"></A>
+<BR>
+6 DSTART (superposition of atomic densities)
+</H1>
+
+<P>
+This program generates an initial crystalline charge density
+<TT><B>case.clmsum</B></TT> by a superposition of atomic densities (<TT><B>case.rsp</B></TT>) generated
+with <TT><B>lstart</B></TT>. Information about LM values of the lattice harmonics
+representation and number of Fourier coefficients of the interstitial
+charge density are taken from <TT><B>case.in1</B></TT> and <TT><B>case.in2</B></TT>. In
+the case of a spin-polarized calculation it must also be run for the
+spin-up charge density <TT><B>case.clmup</B></TT> and spin-down charge density
+<TT><B>case.clmdn</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05361000000000000000"></A>
+<A NAME="sec:dstart-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>dstart</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>dstart dstart.def</B></TT> or <TT><B>x dstart [-up|dn -c]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05362000000000000000"></A>
+<A NAME="sec:dstart-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are collected in file <TT><B>param.inc</B></TT>, but usually 
+need not to be changed:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>IPINST</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of r-mesh points beyond Rmt (should be NPT00 as in LSTART)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1221"
+  HREF="7SCF_cycle.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1217"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1211"
+  HREF="5Shell_scripts.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1219"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1222"
+  HREF="7SCF_cycle.html">7 SCF cycle</A>
+<B> Up:</B> <A NAME="tex2html1218"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1212"
+  HREF="5Shell_scripts.html">5 Shell scripts</A>
+ &nbsp; <B>  <A NAME="tex2html1220"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

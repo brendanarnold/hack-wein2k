@@ -1,0 +1,226 @@
+#!/usr/bin/perl
+
+use Sys::Hostname;
+
+#######################################################################
+# This file is part of w2web
+# the web-based user interface for WIEN2k
+# This and any other files that belong to w2web are protected by
+# international copyright laws and may only be used in connection
+# with WIEN2k. 
+#
+# Changes except for personal use must be filed with the author
+# at w2web@luitz.at 
+#
+# w2web as a whole or in parts must not be incorporated into other
+# software packages without prior written permission of the author.
+#
+# $Revision: 1.11 $
+# $Date: 2005/07/12 11:33:44 $
+# $Source: /susi/cvs/SRC_w2web/w2web,v $
+#######################################################################
+
+print <<__HEADER__;
+#######################################################################
+# w2web starter                                                       #
+# Copyright (C) 2001 luitz.at                                         #
+#######################################################################
+__HEADER__
+
+if (!($ENV{'WIENROOT'})) {
+  die "Environment variable WIENROOT not set!\n";
+}
+if (!($ENV{'HOME'})) {
+  die "Environment variable HOME not set!\n";
+}
+
+$VERSION = "w2web V1.2345678";
+$W2WEB="$ENV{'WIENROOT'}/SRC_w2web";
+$Hostname = `hostname -f`;
+chop($Hostname);
+$Hostname = hostname() if $?; # for systems without hostname -f 
+
+print "w2web installer on host $Hostname\n";
+
+$InstallLocation="$ENV{'HOME'}/.w2web/${Hostname}";
+$userfile="$InstallLocation/conf/w2web.users";
+$home=$ENV{'HOME'};
+
+
+print <<__HEADER__;
+
+#######################################################################
+# w2web installer                                                     #
+# Copyright (C) 2001 luitz.at                                         #
+#######################################################################
+__HEADER__
+&CheckPerl;
+
+# INSTALL LOCATION
+
+print "\n";
+if ( -e "$home/.w2web/conf/w2web.conf" ) {
+	print "Old installation found - moving files to new location\n";
+	if (! -d "$InstallLocation" ) {
+		print "Creating $InstallLocation\n";
+		system("mkdir $InstallLocation");
+		sleep 1;
+	}
+	system("mv $home/.w2web/conf $InstallLocation/conf");
+	system("mv $home/.w2web/logs $InstallLocation/logs");
+	system("mv $home/.w2web/sessions $InstallLocation/sessions");
+	print "New location is: $InstallLocation\n\n";
+}
+$install=0;
+print "Checking for Installation in $InstallLocation\n";
+
+#----------------- install directories and files
+print "\n";
+@w2web_dir=qw(conf logs sessions tmp);
+# from now on we store /tmp in ~/.w2web/hostname/tmp
+
+if (! -d "$home/.w2web" ) {
+	print "Creating $home/.w2web\n";
+	system("mkdir $home/.w2web");
+		sleep 1;
+	$install=1;
+}
+if (! -d "$InstallLocation" ) {
+	print "Creating $InstallLocation\n";
+	system("mkdir $InstallLocation");
+		sleep 1;
+	$install=1;
+}
+	
+foreach $i (@w2web_dir) {
+	$mydirname= "${InstallLocation}/${i}";
+	if ( ! -d $mydirname ) {
+		print "$i directory does not exist - creating it.\n";
+		system("mkdir $mydirname");
+		sleep 1;
+		$install=1;
+	}
+}
+
+
+if (-e $userfile && $install == 0) {
+	# good, we have a users-file
+	# so just start server
+  system("$W2WEB/bin/w2web @ARGV");
+	exit;
+}
+
+print "\nInstalling w2web files ... \nPlease answer these questions for proper installaltion. \nJust press enter for the default value of (in brackets).\n\n";
+# SET UP VARIABLES
+
+# ORIGINAL USER
+$DefaultUser = Input("Please enter the username", "admin");
+
+# ORIGINAL PASSWORD
+$Password = Input("Please enter the password", "password");
+print "$DefaultUser:$Password\n";
+print "Remember these. You will need them when you log in.\n\n";
+
+# PORT TO RUN ON (DEFAULT 7890)
+$Port = Input("Select the port to run on", "7890");
+print "Running on port $Port\n\n";
+
+# HOSTNAME
+$Hostname = Input("Please enter this system's hostname", $Hostname);
+print "Using $Hostname\n\n";
+
+#Master node
+$Master = Input("Is this your master node?", "y");
+if ($Master =~ /n|N/) {
+	$MasterURL = Input("Specify URL of your masternode (incl. port; i.e.: http://your_host.domain.xx:7890)", "");
+} else {
+	$MasterURL="";
+}
+
+
+
+# INSTALLING
+print "Installing... ";
+
+# MAKE CONFIGURATION FILE
+&makeConfigFile;
+
+# SETUP USER AND PASSWORD
+
+@chars = ('a'..'z', 'A'..'Z', 0..9);
+$ok=1;
+$msg = "$DefaultUser saved.";
+if(length($Password) > 13) {
+	$ok=0;
+	$msg = "$DefaultUser not saved; password is too long!";
+}
+
+if ($Password =~ /[\W]/) {
+	$ok=0;
+	$msg = "$DefaultUser not saved; password contains invalid chars!";
+}
+
+if ($Password !~ /[a-zA-Z]/ || $Password !~ /[\d]/ || length($Password) < 6) {
+	$msg = "Warning: password isn't very secure!";
+}
+if ($ok) {
+	$Password = crypt($Password, $chars[rand(@chars)].$chars[rand(@chars)]);
+	open(PWD, '>>'.$userfile) or (print "Can't open pwd file for writing. Reason: $!" and exit);
+	flock(PWD, 2) or (print "Can't get exclusive file lock. Reason: $!" and exit);
+	print PWD $DefaultUser.":".$Password."\n";
+	close PWD;
+} else {
+	print $msg;
+	exit;
+}
+
+
+print "Attempting to start now...\n\n";
+print "Trying to start $W2WEB/bin/w2web\n";
+
+system("$W2WEB/bin/w2web");
+print "\ndone.\n";
+
+
+sub Input {
+	print "$_[0]: [$_[1]] ";
+	$input = <STDIN>;
+	chop($input);
+	if ($input eq "") {
+		return $_[1];
+	} else {
+		return $input;
+	}
+}
+
+sub makeConfigFile {
+	$Config = <<__STOP__;
+port=$Port
+host=$Hostname
+master_url=$MasterURL
+realm=w2web
+passdelay=3
+log=0
+logtime=60
+logfile=$InstallLocation/logs/w2web.log
+pidfile=$InstallLocation/logs/w2web.pid
+userfile=$InstallLocation/conf/w2web.users
+keyfile=$InstallLocation/conf/w2web.pem
+debug=0
+__STOP__
+	open(FILE, ">$InstallLocation/conf/w2web.conf") || die("CANNOT OPEN $InstallLocation/conf/w2web.conf for writing. Reason: $!");
+	print FILE $Config;
+	close(FILE);
+}
+
+sub CheckPerl {
+	 # CHECKING FOR PERL 5
+	 #print "Checking for PERL version 5... ";
+	 eval ("require 5;");
+	 if ($@) {
+		 print "NOT FOUND\n";
+		 print "This is not PERL 5 running now. Please edit the
+first line of this script so it correctly points to PERL5";
+		 exit;
+	 }
+}

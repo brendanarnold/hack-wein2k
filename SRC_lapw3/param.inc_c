@@ -1,0 +1,7 @@
+      INTEGER nrad,ncom,lmax2,nradint
+      PARAMETER (NRAD=981)                                               
+      PARAMETER (NCOM=49)                                               
+      PARAMETER          (LMAX2=  10)
+!     Number of radial integration points
+!     PARAMETER (NRADINT=999)
+      PARAMETER (NRADINT=3001)

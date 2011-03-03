@@ -1,0 +1,162 @@
+Comment to symmetry in WIEN calculation with spin-orbit coupling
+P. Novak, J. Kunes, July 1999, novakp@fzu.cz, kunes@fzu.cz
+
+*************** Non spin-polarized calculations *****************
+Symmetry of system is not changed when spin-orbit (s-o) coupling is
+included. No change of input files is needed.
+
+***************** Spin-polarized calculations **********************
+s-o + magnetization leads to the reduction of the symmetry of system.
+Only those symmetry operations remain which leave the magnetization
+unchanged. These form a subgroup of the original symmetry group and
+could be found in two steps:
+(1) the symmetry is reduced to a uniaxial one, axis being parallel to
+    magnetization
+(2) the time inversion does no more couple to all the direct space symmetry
+    operations, but only to those inverting the magnetization (i. e. combination
+    with the time inversion remains the magnetization unchanged).
+The point (2) must be kept in mind when calculating mean values of tensor
+operators (e.g. conductivity tensor). For systems without inversion symmetry
+it leads also to different symmetries in direct and k-space as explained below.
+
+The symmetry operations (1) may be found by adding in the structure
+file to each atom a pair of 'auxiliary' atoms along the spin direction,
+each auxiliary atom has the same distance from the original atom.
+SYMMETRY program is then used to find the remaining symmetry operations and
+KGEN is run to obtain the irreducible k-points.
+
+Care is needed when the system does not have the inversion center. Because
+the time inversion behaves like the space inversion in the k-space (contrary
+to its behaviour in the direct space where it generates complex conjugate)
+the symmetry operations which include the time inversion must be changed 
+in the respective way (i.e. multiplied by -1 matrix) for the propose of 
+generation of the irreducible k-points (such modified structure file is used
+!only! for KGEN). This procedure should be in general applied to systems
+with inversion symmetry as well, but in this case the symmetry group of the
+k-space would be the same as the symmetry group of the direct space and so
+it is not necessary.
+
+The way in which we proceed depend on whether s-o is or is not included
+into the selfconsistent loop.
+
+1/ s-o coupling not included in scf iterations (it is run only once
+   after the scf calculation is finished, which is sufficient for small
+   s-o e.g. most of 3d atoms, or if the force theorem is used to calculate
+   the anisotropy etc.). It is then sufficient to use the case.klist
+   file created as described above, not changing any other input file.
+   Note that AVERX can be used only for calculating the average value
+   of quantities, which are invariant under the (reduced) symmetry
+   group (energy, z-component of orbital momentum etc.).
+
+2/ s-o coupling included in scf iterations. The reduction of the symmetry
+   due to the simultaneous presence of the magnetization may lead to:
+   (i) local symmetry is changed, resulting in different (l,m) components
+       of the potential and different local rotation matrices.
+   (ii)  atoms which were equivalent are no longer equivalent.
+   If (i) is true, the situation can still be handled with the 'auxiliary'
+   atoms method. New case.struct and case.in2 files are obtained in the
+   usual way.
+   However, the 'auxiliary' atoms procedure does not check whether
+   or not the atoms remain equivalent and the checking must be done
+   manually. Because of this problem and because the manipulation of spin-
+   polarized + s-o cases became rather incomprehensible, we have created
+   package SYMMETSO, based on the SYMMETRY package, which is available on
+   request.
+
+*************************** SYMMETSO *********************************
+ SYMMETRY file for the spin-orbit calculation in magnetically ordered
+systems.
+
+  Modified program SYMMETRY of WIEN97 - analysis of symmetry in the
+  presence of spin-orbit coupling and magnetization. Program creates
+  modified structure file case.struct_so. If the system does not
+  have center of inversion, different set of symmetry operations is
+  needed to make case.klist and case.kgen files. This
+  set is written on file case.ksym (fort.23), which is to be
+  appended to case.struct (instead of proper set) when KGEN is
+  run.
+  Analysis is made in two steps:
+  1/ File case.struct is read, check is made which operations are
+     retained with M in (tm1,tm2,tm3) direction. Distribution of atoms
+     into groups of magnetically equivalent atoms is performed and
+     intermediate case.struct file created (SUBROUTINE SYMSO).
+     WARNING: SYMMETSO must be run with case.struct containing all
+     symmetry operations i.e. number of symmetry operations can not
+     be set to 0 (otherwise run SYMMETRY first).
+  2/ For each nonequivalent group of atoms local rotation matrix,
+     local symmetry and nonzero (l,m) components are found - output
+     is then analogous as when using SYMMETRY package. In some cases,
+     however, the reduced symmetry group is not equivalent to any of
+     the crystallographic groups listed in SYMMETRY. The program then
+     prints a warning and local rotation matrices, as well as (l,m)
+     components must be found separatelly - still the output of 
+     SYMMETSO helps. Note that (l,m) components are needed only when
+     a s-o is taken into account selfconsistently.
+
+
+SYMMETSO is run by:
+
+symmetso symmetso.def
+
+where symmetso.def file for Fe3O4 compound is:
+
+ 5,'fe3o4.insymso',   'old',    'formatted',0
+ 6,'fe3o4.outsymso','unknown','formatted',0
+25,'fe3o4.vspdn',         'unknown',    'formatted',0
+45,'fe3o4.vspdn_so',         'unknown',    'formatted',0
+26,'fe3o4.vspup',         'unknown',    'formatted',0
+46,'fe3o4.vspup_so',         'unknown',    'formatted',0
+27,'fe3o4.vnsdn',         'unknown',    'formatted',0
+47,'fe3o4.vnsdn_so',         'unknown',    'formatted',0
+28,'fe3o4.vnsup',         'unknown',    'formatted',0
+48,'fe3o4.vnsup_so',         'unknown',    'formatted',0
+20,'fe3o4.struct_interm',         'unknown',    'formatted',0
+21,'fe3o4.struct_so',         'unknown',    'formatted',0
+22,'fe3o4.struct'           'old',    'formatted',0
+23,'fe3o4.ksym',         'unknown',    'formatted',0
+24,'fe3o4.temp',         'unknown',    'formatted',0
+29,'fe3o4.in1',         'unknown',    'formatted',0
+49,'fe3o4.in1_so',         'unknown',    'formatted',0
+30,'fe3o4.inc',         'unknown',    'formatted',0
+50,'fe3o4.inc_so',         'unknown',    'formatted',0
+31,'fe3o4.inldau',         'unknown',    'formatted',0
+51,'fe3o4.inldau_so',         'unknown',    'formatted',0
+32,'fe3o4.Vldaudn',         'unknown',    'formatted',0
+52,'fe3o4.Vldaudn_so',         'unknown',    'formatted',0
+33,'fe3o4.Vldauup',         'unknown',    'formatted',0
+53,'fe3o4.Vldauup_so',         'unknown',    'formatted',0
+34,'fe3o4.in2',         'unknown',    'formatted',0
+54,'fe3o4.in2_so',         'unknown',    'formatted',0
+Files case.file_so are to be copied in case.file for s-o calculation. 
+File 20 intermediate structure file (see below).
+*******************************************
+Input data:
+
+The input consists of single line (free format):
+
+  x  y  z  ipot
+
+ x,y,z are the magnetization components in lattice unit vectors
+  if ipot.lt.0 only struct_so and struct_interm are written
+  if ipot.ge.0 in1_so, in2_so and inc_so are also written
+  if ipot.gt.0 VNS_so and VSP_so files are also written
+  if ipot.gt.1 files for LDA+U (inldau_so, Vldauup, Vldaudn) are also wr.
+   the Brillouin zone. As mentioned above if the system does not have
+   center of symmetry, KGEN must be run with symmetry operations
+   contained in the file urhal.ksym
+******************************************
+Recommended procedure if spin-orbit calculation is started from
+calculation without spin-orbit. Spin-polarized calculation.
+
+After finishing iteration without s-o:
+1/ Run LAPW0 with old files to get VSP, VNS (up, dn). Remove
+   clmsum_old, clmup_old, clmdn_old and the broyden files!
+2/ Run symmetso with ipot=1 in *insymso
+3/ Run KGEN using the case.struct_so file to get .kgen, .klist for the
+   reduced symmetry
+4/ copy in1_so, vsp_so (up,dn), vns_so (up dn) and struct_interm in
+   in1, vsp ... files
+5/ run LAPW1 -up, -dn, LAPWSO
+6/ copy in2_so in in2c, struct_so into struct, inc_so into inc
+7/ run LAPW2c -up, -dn, LCORE -up, -dn, MIXER
+8/ Now you can proceed with the normal s-o iterations

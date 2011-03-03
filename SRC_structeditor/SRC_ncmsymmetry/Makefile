@@ -1,0 +1,82 @@
+###############################################################################
+#                                                                             #
+#  make              ... generate executable                                  #
+#  make clean        ... delete unnecessary files                             #
+#  make check        ... check static semantics of the FORTRAN routines       #
+#  make xref         ... generate a cross reference listing                   #
+#                                                                             #
+###############################################################################
+
+#------------------------------------------------------------------------------
+#
+#                          IBM RS6000  AIX 3.2
+#
+# FC ......... compiler name
+# FOPT ....... optimization flags
+# FGEN ....... code generation flags (flags not related to optimization)
+# LDFLAGS .... linker flags
+# LIBS ....... libraries needed to build the executable
+# DESTDIR .... directory where the executable should go (incl. trailing '/'!)
+# EXECNAME ... name of the resulting executable (without prefixed path!)
+#
+#------------------------------------------------------------------------------
+FC = ifort
+CC = icc
+FOPT     = -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+FGEN     = 
+LDFLAGS  = $(FOPT) -L/opt/intel/mkl/9.0/lib/em64t -lpthread
+LIBS     = -lmkl_lapack64 -lmkl_em64t -lguide -lvml -pthread
+DESTDIR  = ./
+EXECNAME = ncmsymmetry
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS    = module.o gtfnam.o errflg.o errclr.o outerr.o \
+          ncmsymmetry.o determinant.o euler.o \
+          inversa.o make_struct_klist.o test_symetry.o \
+          def_Ylm_rot_mat.o def_spin_rot_mat.o make_point_groups.o \
+          make_lm_list.o fix_nonmagatom.o lapack.o fix_rotloc.o fiteta.o \
+          symop.o class.o dirdeh.o kurki.o lmsort.o matrot.o dirdef.o \
+          lapack2.o symgen.o  order_symoper.o pglsym.o put.o matinv.o \
+          ludcmp.o lubksb.o
+
+#..............................................................................
+#
+#  Build executable
+#
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS)
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	 Makefile 
+$(OBJS):		module.o
+#..............................................................................
+
+#..............................................................................
+#
+#  remove unnecessary files (executable(s) are not removed)
+#
+clean:
+	rm -f *.o *_tmp_.* *.P *.mod ncmsymmetry
+#..............................................................................
+#
+#  define rules for generating files needed to check the static semantics
+#  of the FORTRAN source code and for generating object files from source files
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.c.o:
+	$(CC)  -c $<
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $<

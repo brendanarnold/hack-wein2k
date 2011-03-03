@@ -1,0 +1,39 @@
+      module rad
+      real*8, allocatable :: rm(:,:)
+      integer,allocatable :: jri(:)
+      end module rad 
+
+      module sphe
+      real*8, allocatable :: pos(:,:),rmt(:),rotloc(:,:,:),dx(:),rnot(:)
+      integer,allocatable :: IATNR(:),IOP(:),MULT(:)
+      integer                ndat
+      end module sphe 
+
+      module blank
+      real*8, allocatable :: clm(:,:,:),clm2(:,:,:)
+      integer,allocatable :: lm(:,:,:),lmmax(:)
+      end module blank 
+
+      module zsphe
+      real*8, allocatable ::  zz(:)
+      end module zsphe
+
+      module crit
+      real*8, allocatable ::  pc(:,:),evpc(:,:),zpc(:,:,:),pcrb(:,:)
+      integer,allocatable :: icpc(:)
+      integer                npc,npcm3
+      end module crit
+
+      module atpos
+      real*8, allocatable ::  atp(:,:)
+      integer NPOS,NSA,NSB,NSC
+      end module atpos
+
+      module out
+!_COMPLEX      COMPLEX*16,allocatable ::  rhok(:),tauk(:)
+!_REAL      real*8,allocatable ::  rhok(:),tauk(:) 
+      real*8,allocatable :: krec(:,:)
+      integer,allocatable :: inst(:)
+      integer indmax
+      end module out
+

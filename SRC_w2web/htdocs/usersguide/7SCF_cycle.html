@@ -1,0 +1,3643 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7 SCF cycle</TITLE>
+<META NAME="description" CONTENT="7 SCF cycle">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="8Analysis_Properties.html">
+<LINK REL="previous" HREF="6Initialization.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="8Analysis_Properties.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1249"
+  HREF="8Analysis_Properties.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1245"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1239"
+  HREF="6Initialization.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1247"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1250"
+  HREF="8Analysis_Properties.html">8 Analysis, Properties and</A>
+<B> Up:</B> <A NAME="tex2html1246"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1240"
+  HREF="6Initialization.html">6 Initialization</A>
+ &nbsp; <B>  <A NAME="tex2html1248"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1251"
+  HREF="7SCF_cycle.html#SECTION05410000000000000000">1 LAPW0</A>
+<UL>
+<LI><A NAME="tex2html1252"
+  HREF="7SCF_cycle.html#SECTION05411000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1253"
+  HREF="7SCF_cycle.html#SECTION05412000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1254"
+  HREF="7SCF_cycle.html#SECTION05413000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1255"
+  HREF="7SCF_cycle.html#SECTION05420000000000000000">2 ORB</A>
+<UL>
+<LI><A NAME="tex2html1256"
+  HREF="7SCF_cycle.html#SECTION05421000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1257"
+  HREF="7SCF_cycle.html#SECTION05422000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1258"
+  HREF="7SCF_cycle.html#SECTION05423000000000000000">3 Input</A>
+<UL>
+<LI><A NAME="tex2html1259"
+  HREF="7SCF_cycle.html#SECTION05423100000000000000">1 Input for all potentials</A>
+<LI><A NAME="tex2html1260"
+  HREF="7SCF_cycle.html#SECTION05423200000000000000">2 Input for LDA+U (nmod=1)</A>
+<LI><A NAME="tex2html1261"
+  HREF="7SCF_cycle.html#SECTION05423300000000000000">3 Input for Orbital Polarization (nmod=2)</A>
+<LI><A NAME="tex2html1262"
+  HREF="7SCF_cycle.html#SECTION05423400000000000000">4 Input for interaction with <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$"> (nmod=3)</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html1263"
+  HREF="7SCF_cycle.html#SECTION05430000000000000000">3 LAPW1</A>
+<UL>
+<LI><A NAME="tex2html1264"
+  HREF="7SCF_cycle.html#SECTION05431000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1265"
+  HREF="7SCF_cycle.html#SECTION05432000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1266"
+  HREF="7SCF_cycle.html#SECTION05433000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1267"
+  HREF="7SCF_cycle.html#SECTION05440000000000000000">4 LAPWSO</A>
+<UL>
+<LI><A NAME="tex2html1268"
+  HREF="7SCF_cycle.html#SECTION05441000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1269"
+  HREF="7SCF_cycle.html#SECTION05442000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1270"
+  HREF="7SCF_cycle.html#SECTION05443000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1271"
+  HREF="7SCF_cycle.html#SECTION05450000000000000000">5 LAPW2</A>
+<UL>
+<LI><A NAME="tex2html1272"
+  HREF="7SCF_cycle.html#SECTION05451000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1273"
+  HREF="7SCF_cycle.html#SECTION05452000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1274"
+  HREF="7SCF_cycle.html#SECTION05453000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1275"
+  HREF="7SCF_cycle.html#SECTION05460000000000000000">6 SUMPARA</A>
+<UL>
+<LI><A NAME="tex2html1276"
+  HREF="7SCF_cycle.html#SECTION05461000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1277"
+  HREF="7SCF_cycle.html#SECTION05462000000000000000">2 Dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1278"
+  HREF="7SCF_cycle.html#SECTION05470000000000000000">7 LAPWDM</A>
+<UL>
+<LI><A NAME="tex2html1279"
+  HREF="7SCF_cycle.html#SECTION05471000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1280"
+  HREF="7SCF_cycle.html#SECTION05472000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1281"
+  HREF="7SCF_cycle.html#SECTION05473000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1282"
+  HREF="7SCF_cycle.html#SECTION05480000000000000000">8 LCORE</A>
+<UL>
+<LI><A NAME="tex2html1283"
+  HREF="7SCF_cycle.html#SECTION05481000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1284"
+  HREF="7SCF_cycle.html#SECTION05482000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1285"
+  HREF="7SCF_cycle.html#SECTION05483000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1286"
+  HREF="7SCF_cycle.html#SECTION05490000000000000000">9 MIXER</A>
+<UL>
+<LI><A NAME="tex2html1287"
+  HREF="7SCF_cycle.html#SECTION05491000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1288"
+  HREF="7SCF_cycle.html#SECTION05492000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1289"
+  HREF="7SCF_cycle.html#SECTION05493000000000000000">3 Input</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05400000000000000000"></A>
+<A NAME="cha:scf-progs"></A>
+<BR>
+7 Programs for running an SCF cycle
+</H1>
+
+<P>
+In sections  <A HREF="#sec:lapw0">7.1</A>-<A HREF="#sec:mixer">7.9</A> we describe the main
+programs to  run an SCF cycle as
+illustrated in figure <A HREF="4Files_Program.html#fig:scf_flow">4.1</A>.
+
+<H1><A NAME="SECTION05410000000000000000"></A>
+<A NAME="sec:lapw0"></A><A NAME="6087"></A>
+<BR>
+1 LAPW0 (generates potential)
+</H1>
+
+<P>
+<TT><B>lapw0</B></TT> computes the total potential <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img160.png"
+ ALT="$V_{tot}$"> as the sum of the Coulomb
+<IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$V_c$"> and the exchange-correlation potential <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V_{xc}$"> using the total
+electron (spin) density as input. It generates the spherical part
+(l=0) as <TT><B>case.vsp</B></TT> and the non-spherical part as
+<TT><B>case.vns</B></TT>.  For spin-polarized systems, the spin-densities
+<TT><B>case.clmup</B></TT> and <TT><B>case.clmdn</B></TT> lead to two pairs of potential
+files. These files are called: <TT><B>case.vspup</B></TT>, <TT><B>case.vnsup</B></TT>
+and <TT><B>case.vspdn</B></TT>, <TT><B>case.vnsdn</B></TT>.
+
+<P>
+The Coulomb potential is calculated by the multipolar Fourier
+expansion introduced by Weinert (81). Utilizing the spatial
+partitioning of the unit cell and the dual representation of the
+charge density [equ. <A HREF="2Basic_concepts.html#eq:potential">2.10</A>], firstly the multipole
+moments inside the spheres are calculated (Q-sp). The Fourier series
+of the charge density in the interstitial also represent SOME density
+inside the spheres, but certainly NOT the correct density there.
+Nevertheless, the multipole moments of this artificial plane-wave
+density inside each sphere are also calculated (Q-pw). By subtracting
+Q-pw from Q-sp one obtains pseudo-multipole moments Q.  Next a new
+plane-wave series is generated which has two properties, namely zero
+density in the interstitial region and a charge distribution inside
+the spheres that reproduces the pseudo-multipole moments Q.  This
+series is added to the original interstitial Fourier series for the
+density to form a new series which has two desirable properties: it
+simultaneously represents the interstitial charge density AND it has
+the same multipole moments inside the spheres as the actual density.
+Using this Fourier series the interstitial Coulomb potential follows
+immediately by dividing the Fourier coefficients by <IMG
+ WIDTH="26" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img163.png"
+ ALT="$K^2$"> (up to a
+constant).
+
+<P>
+Inside the spheres the Coulomb potential is obtained by a
+straightforward classical Green's function method for the solution of
+the boundary value problem.
+
+<P>
+The exchange-correlation potential is computed numerically on a grid.
+Inside the atomic spheres a least squares procedure is used to
+reproduce the potential using a lattice harmonics representation (the
+linear equations are solved with modified LINPACK routines).  In the
+interstitial region a 3-dimensional fast Fourier transformation (FFT)
+is used.
+
+<P>
+The total potential <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img164.png"
+ ALT="$V$"> is obtained by summation of the Coulomb <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img165.png"
+ ALT="$V_C$">
+and exchange-correlation potentials <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V_{xc}$">.
+
+<P>
+In order to find the contribution from the plane wave representation
+to the Hamilton matrix elements we reanalyze the Fourier series in
+such a way that the new series represents a potential which is zero
+inside the spheres but keeps the original value in the interstitial
+region and this series is put into <TT><B>case.vns</B></TT>.
+
+<P>
+The contribution to the total energy which involves integrals of the
+form <IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img166.png"
+ ALT="$\rho*V$"> is calculated according to the formalism of Weinert et
+al (82).
+
+<P>
+The Hellmann-Feynman force contribution to the total force is also
+calculated (Yu et al 91).
+
+<P>
+Finally, the electric field gradient (EFG) is calculated in case you have
+an L=2 term in the density expansion. The EFG tensor is given in both, the 
+``local-rotation-matrix'' coordinate system, and then diagonalized. 
+The resulting eigenvectors of this rotation are given by columns.
+
+<P>
+For surface calculations the total and electrostatic potential at z=0 and z=0.5
+is calculated and can be used as energy-zero for the determination of the 
+workfunction. (It is assumed that the middle of your vacuum region is either 
+at z=0 or z=0.5).
+
+<P>
+
+<H2><A NAME="SECTION05411000000000000000"></A>
+<A NAME="sec:lapw0-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapw0</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>lapw0 lapw0.def</B></TT> or <TT><B>x lapw0</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05412000000000000000"></A>
+<A NAME="sec:lapw0-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used (they are collected in file
+<TT><B>param.inc</B></TT>, but usually need not to be changed:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of lm components in charge density and potential 
+           representation; it must satisfy the following condition:
+           NCOM+3 .gt. <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$\{$">[number of <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$l, m$"> with <IMG
+ WIDTH="47" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img169.png"
+ ALT="$m=0$">] + [2 * number of <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$l, m$"> 
+           with <IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img170.png"
+ ALT="$m&gt;0$">]<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img171.png"
+ ALT="$\}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSTD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>defines the angular grid points used in fitting the xc-potential 
+         inside spheres</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX1D</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>defines the angular grid points used in fitting the xc-potential 
+           inside spheres</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest L in the LM expansion of charge and potential</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05413000000000000000"></A>
+<A NAME="sec:lapw0-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+The input is very simple. It is generated automatically by
+<TT><B>init_lapw</B></TT>, and needs to be changed only if a different
+exchange-correlation potential should be used:
+
+<P>
+<PRE>
+------------------ top of file: case.in0 --------------------
+TOT   13              MULT/COUL/EXCH/POT /TOT ;  VXC-SWITCH
+NR2V      IFFT      (R2V)
+  30  30 108    4.00    min IFFT-parameters, enhancement factor
+0 0.0     (#of FK in E-field expansion, EFELD (Ry)
+
+------------------- bottom of file ---------------------------
+</PRE>
+
+<P>
+Interpretive comments follow:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(A4,I4)
+<BR>
+switch, indxc
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>TOT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>total energy contributions and total potential calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>POT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>total potential is calculated, but not the total energy</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>MULT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>multipole moments calculated only</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>COUL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Coulomb potential calculated only</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>EXCH</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>exchange correlation potential calculated only</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>NOTE: MULT, COUL, and EXCH are for testing only, whereas POT,  
+              saves some CPU time if total energy is not needed</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>indxc</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index to specify type of exchange and correlation 
+             potential. Supported options (for more options see the SRC_lapw0/vxclm2.f
+  subroutine) include:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>5</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Perdew and Wang 92, reparameterization of Ceperly-Alder 
+                 data, the recommended LDA option</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>13</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Generalized Gradient approximation 
+                (Perdew-Burke-Ernzerhof 96)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>11</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Generalized Gradient approximation (Wu-Cohen 2006, Tran et al. 2007)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>12</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Meta GGA (Perdew et al. 1999). You must have a
+  <TT><B>case.inm_vresp</B></TT> file (<TT><B>cp case.inm case.inm_vresp</B></TT> and set
+  <TT><B>NORM = NO</B></TT>) to generate the required input files for this option (run
+  one scf cycle with PBE after you created <TT><B>case.inm_vresp</B></TT>). In addition you must use very large IFFT parameters, but even so it might be numerically unstable.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>27</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Meta GGA (Tao et al. 2003). At present the ``best''
+  meta-GGA. (See also the option above.) Note: Only <IMG
+ WIDTH="38" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img172.png"
+ ALT="$E_{XC}$"> is obtained that
+  way, <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img173.png"
+ ALT="$V_{XC}$"> of standard PBE is used.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>format(A4,2A5)
+<BR>
+IPRINT, H-mod, FFTopt
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>IPRINT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NR2V</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>no additional output</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>R2V</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Exchange-correlation (<TT><B>case.r2v</B></TT>), Coulomb
+  (<TT><B>case.vcoul</B></TT>) and 
+                  total potentials (<TT><B>case.vtotal</B></TT>)
+                  are written as  (<IMG
+ WIDTH="32" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img174.png"
+ ALT="$r^2 V$">) to a file for plotting with 
+                  <TT><B>lapw5</B></TT> (cp <TT><B>case.vtotal</B></TT> <TT><B>case.clmval</B></TT>; use
+  ``VAL'' for normalization in <TT><B>case.in5</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>H-mod</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>EECE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>On-site Hartree-Fock (inside spheres) for selected
+  electrons (see <A HREF="4Files_Program.html#sec:flow_eece">4.5.7</A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>HYBR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>On-site Hybrid functionals (inside spheres) (see <A HREF="4Files_Program.html#sec:flow_eece">4.5.7</A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>FFTopt</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>IFFT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>optional keyword, which lets you define the IFFTx mesh and an enhancement factor in the next line</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format (must be omitted when IFFT is not speified above)
+<BR>
+IFFTx, IFFTy, IFFTz, IFFTfactor
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>IFFTx,y,z</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>FFT-mesh parameters in x,y,z directioni for the calculation of the XC-potential in the interstitial region. Usually set automatically in <TT><B>init_lapw</B></TT> (dstart). The ratio of the 3 numbers should be indirect proportional to the lattice parameters.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>IFFTfactor</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Multiplicative factor to the IFFT grid specified above. It needs to be enlarged for highly accurate GGA or meta-GGA calculations as well as for systems with H atoms with small spheres.</TD>
+</TR>
+</TABLE>
+
+<P>
+The following line is optional and can be omitted. It is used to introduce
+an electric field via a zig-zag potential (see J.Stahn et al. 2001):
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+IFIELD, EFIELD, WFIELD
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>IFIELD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of Fourier coefficients to model the zig-zag
+  potential. Typically use IEFIELD=30; -999 lists available modes (form) of
+ fields, and these modes can be specified by mode=IEFIELD/1000. (default: mode=0)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>EFIELD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>value (amplitude) of the electric field. The electric
+  field (in Ry/bohr) corresponds to EFIELD/c, where c is your c lattice parameter.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>WFIELD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>optional value for lambda (see output of IEFIELD=-999).</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05420000000000000000"></A>
+<A NAME="sec:orb"></A><A NAME="6141"></A><A NAME="6142"></A>
+<BR>
+2 ORB (Calculate orbital dependent potentials)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+   P.Nov\'ak \\
+Inst. of Physics, Acad.Science, Prague, Czeck Republic \\
+   email: novakp@fzu.cz \\
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="138" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+P.Nov\'ak \\
+Inst. of Physics, Acad.Science, P...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+<TT><B>orb</B></TT> calculates the orbital dependent potentials, i.e. potentials which are nonzero in the atomic spheres only and depend
+on the orbital state numbers <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$l, m$">. In the present version the potential
+is assumed to be independent of the radius vector and needs the density matrix calculated
+in <TT><B>lapwdm</B></TT>. Four different potentials
+are implemented in this package:
+
+<UL>
+<LI>LDA+U. There are three variants of this method, two of them are
+ discussed in Nov&#225;k et al. 2001
+ 
+<OL>
+<LI>LDA+U(SIC) - introduced by Anisimov et al. 1993,
+with an approximate correction for the self-interaction correction. This is
+probably best suited for strongly correlated systems and for a full potential
+method we recommend to use an ``effective'' <!-- MATH
+ $U_{eff} = U - J$
+ -->
+<IMG
+ WIDTH="100" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img176.png"
+ ALT="$U_{eff} = U - J $">; setting <IMG
+ WIDTH="44" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img177.png"
+ ALT="$J=0$">.
+</LI>
+<LI>LDA+U(AMF) - introduced by Czyzyk and Sawatzky 1994 as
+'Around the Mean Field' method. (In Nov&#225;k et al. 2001 it is denoted as LDA+U(DFT)).
+This version is (probably) more suitable for metallic or less strongly
+correlated systems.
+</LI>
+<LI>LDA+U(HMF) - in addition  the Hubbard
+model in the mean field approximation, as introduced by Anisimov et al. 1991 is also implemented.
+Note, however, that it is to be used with the LDA (not LSDA) exchange-correlation
+potential in spin polarized calculations!
+</LI>
+</OL>
+All  variants are implemented in the rotationally invariant way (Liechtenstein et al. 1995). 
+ If LDA+U is used in an unrestricted, general way, it introduces an orbital
+field in the calculation (in analogy to the exchange field in spin-polarized calculations,
+ but it interacts with the orbital, instead of spin momentum). The presence of
+such an orbital field may lower the symmetry. In particular the complex
+version of LAPW1 must be used. Care is needed when dealing with the LDA+U
+orbital field. It may be quite large, and without specifying its direction
+it may fluctuate, leading to oscillations of scf procedure or/and to false
+solutions. It is therefore necessary to use it in combination with the
+spin-orbit coupling, preferably running first LSDA+(s-o) and then slowly switching on
+the LDA+U orbital field. If the LDA+U orbital polarization is not
+needed, it is sufficient to run real version of LAPW1, which then automatically puts
+the orbital field equal to zero. For systems without the center of
+inversion, when LAPW1 must be complex, an extra averaging of the LDA+U
+potential is necessary.
+</LI>
+<LI>Orbital polarization. The additional potential has the form (Brooks 1985, Eriksson et al. 1989):
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+V_{OP}= c_{OP}<L_z>l_z
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="149" HEIGHT="58" BORDER="0"
+ SRC="img178.png"
+ ALT="\begin{displaymath}
+V_{OP}= c_{OP}&lt;L_z&gt;l_z
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(11)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img179.png"
+ ALT="$c_{OP}$"> is the orbital polarization parameter, <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img180.png"
+ ALT="$&lt;L_z&gt;$"> is projection of the
+orbital momentum on the magnetization direction and <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$l_z$"> is single electron
+orbital momentum component <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img182.png"
+ ALT="$z$"> parallel to <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img183.png"
+ ALT="$\vec{M}$">.
+</LI>
+<LI>Exact exchange and Hybrid methods: see Tran et al. 2006 and  
+<A HREF="4Files_Program.html#sec:flow_eece">4.5.7</A> 
+
+<P>
+</LI>
+<LI>Interaction with the external magnetic field. In this case the additional
+potential has a simple form:                  
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+V_{Bext}= \mu_B \vec{B}_{ext} (\vec{l} + 2\vec{s}) .
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="165" HEIGHT="64" BORDER="0"
+ SRC="img184.png"
+ ALT="\begin{displaymath}
+V_{Bext}= \mu_B \vec{B}_{ext} (\vec{l} + 2\vec{s}) .
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(12)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The interaction with the electronic spin is taken into account by shifting
+the spin up and spin down exchange correlation potentials in LAPW0 by the energy
+<!-- MATH
+ $+\mu_B B_{ext} -\mu_B B_{ext}$
+ -->
+<IMG
+ WIDTH="139" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$+\mu_B B_{ext} -\mu_B B_{ext}$">, respectively. The interaction of <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$">
+with spin could be as well calculated using the 'Fixed spin moment' method.
+For an interaction with the orbital momentum it is necessary to specify the 
+atoms and
+angular momentum numbers for which this interaction will be considered.
+Caution is needed when considering interaction of the orbital momentum with <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$">
+in metallic or metallic-like systems. For the analysis see the paper by Hirst
+1997
+</LI>
+</UL>
+
+<P>
+In all cases the resulting potential for a given atom and orbital number <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$"> is a
+Hermitian, <IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$(2l+1)$">x<IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$(2l+1)$"> matrix. In general this matrix is complex, but in special
+cases it may be real.  
+
+<P>
+For more information see also section  <A HREF="4Files_Program.html#sec:flow_orb">4.5.6</A>.
+
+<P>
+
+<H2><A NAME="SECTION05421000000000000000"></A>
+<A NAME="sec:orb-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>orb</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x orb [ -up/-dn/-du ]</B></TT> or
+  <TT><B>orb up/dnorb.def </B></TT> 
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05422000000000000000"></A>
+<A NAME="sec:orb-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used (collected in file <TT><B>param.inc</B></TT>):
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LABC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l+1 value of orbital dependent potentials</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05423000000000000000"></A>
+<A NAME="sec:orb-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+Since this program can handle three different cases, examples and descriptions for all
+cases are given below:
+
+<H3><A NAME="SECTION05423100000000000000">
+1 Input for all potentials</A>
+</H3>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+nmod,natorb,ipr
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nmod</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines the type of potential 1...LDA+U, 2...OP, 3...<IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>natorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atoms for which orbital potential <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img187.png"
+ ALT="$V_{orb}$"> is calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ipr</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>printing option, the larger ipr, the longer the output</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>(A5,f8.2)
+<BR>
+mixmod,amix
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>mixmod</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>PRATT or BROYD (should not be changed, see MIXER for more information)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>amix</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>coefficient for the Pratt mixing  of <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img187.png"
+ ALT="$V_{orb}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>This option is now only used for testing. The mixing should be set to PRATT, 1.0</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+iatom(i),nlorb(i),(lorb(li,i),li=1,nlorb(i))
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of atom in struct file</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nlorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of orbital moments for which Vorb shall be applied</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>lorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>orbital numbers (repeated nlorb-times)</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>3rd line repeated natorb-times</STRONG></DT>
+<DD>
+</DD>
+</DL>
+
+<P>
+
+<H3><A NAME="SECTION05423200000000000000">
+2 Input for LDA+U (nmod=1)</A>
+</H3>
+<DL>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nsic</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines 'double counting correction'</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nsic=0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>'AMF method' (Czyzyk et al. 1994)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nsic=1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>'SIC method' (Anisimov et al. 1993, Liechtenstein et al. 1995)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nsic=2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>'HMF method' (Anisimov et al. 1991)</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>U(li,i), J(li,i)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Coulomb and exchange parameters, U and J, for LDA+U in Ry for
+                   atom type i and orbital number li. We recommend to use
+  <IMG
+ WIDTH="37" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img188.png"
+ ALT="$U_{eff}$"> only.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>5th line repeated natorb-times, for each natorb repeated nlorb-times</STRONG></DT>
+<DD>
+</DD>
+</DL>
+
+<P>
+Example of the input file for NiO (LDA+U included for two inequivalent Ni atoms
+that have indexes 1 and 2 in the structure file):
+<PRE>
+1  2  0                        nmod, natorb, ipr
+PRATT,1.0                      mixmod, amix
+1 1 2                          iatom nlorb, lorb
+2 1 2                          iatom nlorb, lorb
+1                              nsic (LDA+U(SIC) used)
+0.52 0.0                       U J
+0.52 0.0                       U J
+</PRE>
+
+<P>
+
+<H3><A NAME="SECTION05423300000000000000">
+3 Input for Orbital Polarization (nmod=2)</A>
+</H3>
+<DL>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>(free format)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nmodop</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines mode of 'OP'</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>average <IMG
+ WIDTH="22" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img189.png"
+ ALT="$L_z$"> taken separately for spin up, spin down</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>average <IMG
+ WIDTH="22" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img189.png"
+ ALT="$L_z$"> is the sum for spin up and spin down</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>(free format)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Ncalc(i)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Orb.pol. parameters are calculated ab-initio</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Orb.pol. parameters are read from input</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>this line is repeated natorb-times</STRONG></DT>
+<DD><P>
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>(free format) (only if Ncalc=0, then repeated nlorb-times) 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>pop(li,i)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>OP parameter in Ry</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>(free format)
+<BR>
+xms(1), xms(2), xms(3)
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>direction of magnetization expressed in terms of lattice vectors</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+Example of the input file for NiO (total <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img180.png"
+ ALT="$&lt;L_z&gt;$"> used in (1),
+OP parameters calculated ab-initio, <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img183.png"
+ ALT="$\vec{M}$"> along [001]):
+<PRE>
+2  2  0                        nmod, natorb, ipr
+PRATT, 1.0                     mixmod, amix
+1 1 2                          iatom nlorb, lorb
+2 1 2                          iatom nlorb, lorb
+0                              nmodop
+1                              Ncalc
+1                              Ncalc
+0. 0. 1.                       direction of M in terms of lattice vectors
+</PRE>
+
+<P>
+
+<H3><A NAME="SECTION05423400000000000000">
+4 Input for interaction with <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$"> (nmod=3)</A>
+</H3>
+<DL>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>(free format)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34><IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$"></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>external field in Tesla</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>(free format)
+<BR>
+xms(1), xms(2), xms(3)
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>direction of magnetization expressed in terms of lattice vectors</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+Example of the input file for NiO,
+(<IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$B_{ext}$">= 4 T, along [001]):
+<PRE>
+3  2  0                        nmod, natorb, ipr
+PRATT, 1.0                     mixmod, amix
+1 1 2                          iatom nlorb, lorb
+2 1 2                          iatom nlorb, lorb
+4.                             Bext in T
+0. 0. 1.                       direction of Bext in terms of lattice vectors
+</PRE>   
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05430000000000000000"></A>
+<A NAME="sec:lapw1"></A><A NAME="6221"></A>
+<BR>
+3 LAPW1 (generates eigenvalues and eigenvectors)
+</H1>
+
+<P>
+<TT><B>lapw1</B></TT> sets up the Hamiltonian and the overlap matrix (Koelling and
+Arbman 75) and finds by diagonalization eigenvalues and eigenvectors
+which are written to <TT><B>case.vector</B></TT>. Besides the standard LAPW basis
+set, also the APW+lo method (see Sj&#246;stedt et al 2000, Madsen et al. 2001) 
+is supported and the basis sets can be mixed for maximal efficiency. If the 
+file <TT><B>case.vns</B></TT>
+exists (i.e. non-spherical terms in the potential), a full-potential
+calculation is performed.
+
+<P>
+For structures without inversion symmetry, where the hamilton and
+overlap matrix elements are complex numbers, the corresponding program
+version <TT><B>lapw1c</B></TT> must be used in connection with <TT><B>lapw2c</B></TT>.
+
+<P>
+Since usually the diagonalization is the most time consuming part of
+the calculations, several options exist here. In <EM>WIEN2k</EM>  we include
+highly optimized modifications of LAPACK routines.  We call all these 
+routines ``full
+diagonalization'', but we also provide an option to do an
+``iterative diagonalization'' using a block-Davidson method (see Singh
+89). This scheme starts from an old eigenvector (previous
+scf-iteration), needs additional memory and produces only approximate
+eigenvalues/vectors, but can be significantly faster than LAPACK, in
+particular if the ratio of matrix size to number of relevant (e.g.
+occupied) eigenvalues is large. In any case, proper
+convergence can most likely NOT be obtained with ``iterative diagonalization''
+alone, thus one needs  a ``full
+diagonalization'' from time to time (typically every 4 - 8th iteration). This
+can be achieved automatically using eg. <TT><B>run_lapw -it 4 -fc 10</B></TT> .
+
+<P>
+Parallel execution (fine grain and on the k-point level) is also possible and is described in detail in Sec. <A HREF="5Shell_scripts.html#sec:parallel">5.5</A>.
+
+<P>
+
+<H2><A NAME="SECTION05431000000000000000"></A>
+<A NAME="sec:lapw1-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapw1</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x lapw1 [-c -up|dn -it -p -nohns  -orb]</B></TT> or
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TT><B>lapw1 lapw1.def</B></TT> or <TT><B>lapw1c lapw1.def</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+In cases without inversion symmetry, the default input filename is
+<TT><B>case.in1c</B></TT>. For semi-core calculations the <TT><B>lapw1s.def</B></TT>
+file uses a <TT><B>case.in1s</B></TT> file and creates the files
+<TT><B>case.output1s</B></TT> and <TT><B>case.vectors</B></TT>.  For the spin-polarized
+case lapw1 is called twice with <TT><B>uplapw1.def</B></TT> and
+<TT><B>dnlapw1.def</B></TT>. To all relevant files the keywords ``<TT><B>up</B></TT>``
+or ``<TT><B>dn</B></TT>`` are appended (see the fcc Ni test case in the <EM>WIEN2k</EM>
+package). The switch <TT><B>-nohns</B></TT> skips the calculation of the
+nonspherical matrix elements inside the sphere.
+This may be used to save computer time during the first scf cycles.
+
+<P>
+
+<H2><A NAME="SECTION05432000000000000000"></A>
+<A NAME="sec:lapw1-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters (collected in file <TT><B>param.inc_r</B></TT>
+or <TT><B>param.inc_c</B></TT>) are used:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>KMAX1START</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>a first guess for the largest h,k,l Fourier components of the potential</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>KMAX2START</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>KMAX3START</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l+1 in basis function inside sphere  (consistent 
+            with input in case.in1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMMX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in potential (should be at least 
+            NCOM-1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l for local orbital basis  (consistent with input 
+            in case.in1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NGAU</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of Gaunt coefficients for the non-spherical contributions 
+            to the matrix elements</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NKPTSTART</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>a starting guess for the total number of k-points in irreducible wedge of Brillouin 
+            zone</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NMATMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>maximum size of H,S-matrix (defines size of program, should be chosen according to the memory of your hardware!)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSLMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l+1 in basis functions for non-muffin-tin matrix 
+            elements (consistent with input in case.in1).If set larger than 5, 
+            parameter MAXDIM (modules.F) and LOMAX=8, P(10,10) (gaunt2.f) 
+            must also be increased.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NUME</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>maximum number of energy eigenvalues per k-point</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NVEC1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>defines the largest triple of integers which define 
+            reciprocal</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NVEC2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>K-vectors when multiplied with the reciprocal Bravais 
+            matrix</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NVEC3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NLOAT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max number of LOs for one <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$">-quantum number</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05433000000000000000"></A>
+<A NAME="sec:lapw1-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+Below a sample input is shown for <IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$"> (rutile), one of the 
+test cases provided in the <EM>WIEN2k</EM> package. The input file is 
+written automatically by LSTART, but was modified to set APW only for Ti-3d 
+and O-2p orbitals. In addition UNIT was changed to 5 and k-points where 
+inserted by hand for bandstructure plotting.
+
+<P>
+<PRE>
+------------------ top of file: case.in1 --------------------
+WFFIL       (WFPRI,WFFIL,SUPWF ; wave fct. print,file,suppress
+  7.500   10    4  (R-mt*K-max; MAX l, max l for hns )
+  0.30    5 0 (global energy parameter E(l), with 5 other choices,   LAPW)
+ 0   -3.00      0.020 CONT 0   ENERGY PARAMETER for s,               LAPW
+ 0    0.30      0.000 CONT 0   ENERGY PARAMETER for s-local orbital, LAPW-LO
+ 1   -1.90      0.020 CONT 0   ENERGY PARAMETER for p                LAPW
+ 1    0.30      0.000 CONT 0   ENERGY PARAMETER for p-local orbitals LAPW-LO
+ 2    0.20      0.020 CONT 1                                         APW   
+  0.20    3 0 (global energy parameter E(l), with 1 other choice,    LAPW)
+ 0   -0.90      0.020 STOP 0                                         LAPW
+ 0    0.30      0.000 CONT 0                                         LAPW-LO
+ 1    0.30      0.000 CONT 1                                         APW
+K-VECTORS FROM UNIT:5   -9.0      1.5          IUNIT, Emin, Emax
+GAMMA         0    0    0    2 1.00 
+              0    0    1   10 2.00
+              0    0    2   10 2.00
+              0    0    3   10 2.00
+              0    0    4   10 2.00
+Z             0    0    5   10 1.00
+END
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments follow:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(A5)
+<BR>
+switch
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>WFFIL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>standard option, writes wave functions to file 
+                <TT><B>case.vector</B></TT> (needed in <TT><B>lapw2</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>SUPWF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>suppresses wave function calculation (faster for testing 
+                eigenvalues only)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>WFPRI</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>prints eigenvectors to <TT><B>case.output1</B></TT> and writes 
+                <TT><B>case.vector</B></TT>   (produces long outputs!)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+rkmax, lmax, lnsmax
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>rkmax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $R_{mt} * K_{max}$
+ -->
+<IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$R_{mt} * K_{max}$"> determines matrix size (convergence), 
+              where Kmax is the plane wave cut-off, Rmt is the 
+              smallest of all atomic sphere radii. Usually this value 
+              should be between 5 and 9 (APW+lo) or 6 - 10. (LAPW-basis) 
+              (<IMG
+ WIDTH="44" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$K_{max}^2$"> would be 
+              the plane wave cut-off parameter in Ry used in
+              pseudopotential calculations.) Note that d (f) wavefunctions
+              converge slower than s and p. For systems including
+              hydrogen with short bondlength and thus a very 
+              small <IMG
+ WIDTH="33" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$R_{mt}$"> (e.g. 0.7 a.u.), RKmax = 3 might already be
+              reasonable, but convergence must be checked for a
+              new type of system.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Note, that the actual matrix size is written on 
+              case.scf1. It is determined by whatever is
+              smaller, the plane wave cut-off (specified with RKmax)
+              or the maximum matrix dimension NMATMAX, (see previous section).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>lmax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>maximum l value for partial waves used inside atomic 
+              spheres (should be between 8 and 12)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>lnsmax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>maximum l value for partial waves used in the
+              computation of non-muffin-tin matrix
+              elements (lnsmax=4 is quite good)</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+Etrial, ndiff, Napw
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Etrial</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>default energy used for all <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> to obtain <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$u_l(r,E_l)$"> as
+              regular solution of the radial Schr&#246;dinger equation
+              [used in equ.<A HREF="2Basic_concepts.html#eq:atomic-basis">2.4</A>,<A HREF="2Basic_concepts.html#eq:LOs">2.7</A>] (see figure
+              <A HREF="#fig:dos_e">7.1</A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ndiff</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of exceptions (specified in the next ndiff lines)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Napw</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>0 ... use LAPW basis, 1 ... use APW-basis for all ``global'' <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$"> 
+              values of this atom. We recommend to use LAPW here.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>format(I2,2F10.5,A4)
+<BR>
+l, El, de, switch, NAPWL
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>l</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>l of partial wave</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>El</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> for L=l</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>de</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy increment</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>de=0: this E(l) overwrites the default energy (from line 3)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>de<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$\ne$"> 0: a search for a resonance energy using this 
+       increment is done. The radial function <IMG
+ WIDTH="57" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$u_l(r,E)$"> up to
+       the muffin-tin radius RMT varies with the energy. A typical 
+       case is schematically shown in  Fig. <A HREF="#fig:dos_e">7.1</A>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>At the bottom of the energy bands u has a zero slope
+       (bonding state), but it has a zero value (antibonding state) 
+       at the top of the bands. One can search up and down in
+       energy starting with <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> using the increment de to find
+       where <IMG
+ WIDTH="86" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$u_l(R_{MT},E)$"> changes sign in value to
+       determine <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> and in slope to specify <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$">.
+       If both are found <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> is taken as the arithmetic mean and
+       replaces the trial energy.  Otherwise <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> keeps the specified
+       value. For <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> and <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> 
+       bounds of +1 and -10 Ry are defined respectively, and
+       if they are not found, they remain at the initial value set to -200.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>used only if de.ne.0</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>CONT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>calculation continues, even if either <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> or <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> are not found</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>STOP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>calculation stops if not both <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> and <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> are found (especially useful for semi-core states)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NAPWL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>0 ... use LAPW basis, 1 ... use APW-basis for this <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$"> 
+              value of this atom. We recommend to use APW+lo when the 
+              corresponding wavefunction is ``localized'' and thus difficult 
+              to converge with standard LAPW (like 3d functions) and/or when 
+              the respective atomic sphere is small compared to the other 
+              spheres in the unit cell.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:dos_e"></A><A NAME="6287"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 7.1:</STRONG>
+Schematic dependence of DOS and <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$u_l(r,E_l)$"> on the energy</CAPTION>
+<TR><TD><IMG
+ WIDTH="541" HEIGHT="257" BORDER="0"
+ SRC="img197.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/dos_e, width=12cm}}
+\end{center} \end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:line 4</STRONG></DT>
+<DD>is repeated ndiff times (see line 3) for each
+  exception. If the same l value is specified twice, local orbitals
+  are added to the (L)APW basis. The first energy (<IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img198.png"
+ ALT="$E_1$">) is used for
+  the usual LAPW's and the second energy (<IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$E_2$">) for the LOs, which
+  are formed according to (see equ. <A HREF="2Basic_concepts.html#eq:LOs">2.7</A>): <!-- MATH
+ $u_{E_1} + \dot
+  u_{E_1} + u_{E_2}$
+ -->
+<IMG
+ WIDTH="119" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img200.png"
+ ALT="$u_{E_1} + \dot
+u_{E_1} + u_{E_2}$">.
+<BR><I>Note: You may change the automatically
+    created input and add d- or f-local orbitals to reduce the
+    linearization error (e.g. in late transition metals you could put
+    <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img201.png"
+ ALT="$E_{3d}$"> at 0.0 and 1.0 Ry) or s, p, d, and/or f-LOs at very high
+  energy (e.g. 2.0 - 3.0 Ry) to better describe unoccupied states. This input 
+is also adapted during scf when -in1new is specified, while the original in1 
+file is saved in <TT><B>case.in1_orig</B></TT>. </I>
+
+<P>
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:lines 3 and 4</STRONG></DT>
+<DD>are repeated for each non equivalent atom
+
+<P>
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>format (20x,i1,2f10.1)
+<BR>
+unit-number, Emin, Emax
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>unit-number</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>file number from which the k-vectors in the 
+    irreducible wedge of the Brillouin zone are read. 5 specifies the input
+    file itself (as shown in the example), default is 4, for which the
+    corresponding information is contained in <TT><B>case.klist</B></TT> 
+    (generated by KGEN).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EMIN, EMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy window in which eigenvalues 
+    shall be searched (overrides setting in <TT><B>case.klist</B></TT>. A small window saves computer time, but it also limits the energy range for the DOS calculation of unoccupied states.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>format (A10,4I5,3F5.2)
+<BR><A NAME="sec:lapw1-klist"></A>  name, ix,iy,iz, idv, weight
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>name</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>name of k-vector (optional)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: the last line must be END !!</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ix,iy,iz, idv</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines the k-vector, where x= ix/idv  etc. We use carthesian coordinates in units 
+    of <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img202.png"
+ ALT="$2\pi/a$">, <IMG
+ WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$2\pi/b$">, <IMG
+ WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img204.png"
+ ALT="$2\pi/c$"> for P,C,F and B cubic, tetragonal and orthorhombic lattices, but internal coordinates for H and monoclinic/triclinic lattices</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>weight</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>of k-vector (order of group of k)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:  line 6</STRONG></DT>
+<DD>is repeated for each k-vector in the IBZ, but 
+     Emin and Emax may be omitted after the first k point. The utility 
+     program <TT><B>kgen</B></TT> (see section <A HREF="6Initialization.html#sec:kgen">6.5</A>) provides a list of 
+     such vectors (on a tetrahedral mesh) in <TT><B>case.klist</B></TT>.
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: the last line</STRONG></DT>
+<DD>must be END
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05440000000000000000"></A>
+<A NAME="sec:spinorbit"></A><A NAME="sec:lapwso"></A><A NAME="6310"></A><A NAME="6311"></A>
+<BR>
+4 LAPWSO (adds spin orbit coupling)
+</H1>
+
+<P>
+<TT><B>lapwso</B></TT> includes spin-orbit (SO) coupling in a second-variational
+procedure and computes eigenvalues and eigenvectors (stored in
+<TT><B>case.vectorso</B></TT>) using the scalar-relativistic wavefunctions from
+<TT><B>lapw1</B></TT>. For reference see Singh 94 and Nov&#225;k 97. The SO
+coupling must be small, as it is diagonalized in the space of the
+scalar relativistic eigenstates.  For large spin orbit effects it
+might be necessary to include many more eigenstates from <TT><B>lapw1</B></TT>
+by increasing EMAX in <TT><B>case.in1</B></TT> (up to 10 Ry!).
+We also provide an additional basisfunction, namely an LO with a <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$"> 
+radial wavefunction, which improves the basis and removes to a large degree 
+the dependency of the results on EMAX and RMT (see Kune&#353; et al. 2001).   
+SO is considered only within the atomic spheres and thus the results may
+depend to some extent on the choice of atomic spheres radii. The nonspherical
+potential is neglected when calculating <IMG
+ WIDTH="25" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img205.png"
+ ALT="$dV\over{dr}$">.
+Orbital dependend potentials (LDA+U, EECE or OP) can be added to the hamiltonian
+in a cheap and simple way.
+
+<P>
+
+<P>
+In spin-polarized calculations the presence of spin-orbit coupling may reduce
+symmetry and even
+split equivalent atoms into non-equivalent ones. 
+It is then necessary to consider a larger
+part of the Brillouin zone and the input for <TT><B>lapw2</B></TT> should also
+be modified since the potential has lower symmetry than in the
+non-relativistic case. The following inputs may change:
+
+<P>
+
+<UL>
+<LI><TT><B>case.struct</B></TT>
+</LI>
+<LI><TT><B>case.klist</B></TT> 
+</LI>
+<LI><TT><B>case.kgen</B></TT>
+</LI>
+<LI><TT><B>case.in2c</B></TT>
+</LI>
+<LI><TT><B>case.in1</B></TT>
+</LI>
+</UL>
+
+<P>
+We recommend to use <TT><B>initso</B></TT> (see Sec.<A HREF="5Shell_scripts.html#sec:init_so">5.2.16</A>) which
+helps you together with <TT><B>symmetso</B></TT> (see Sec.<A HREF="9Utility_Programs.html#sec:symmetso">9.1</A>) to 
+setup spinorbit calculations. 
+
+<P>
+<I>Note: SO eigenvectors are complex and thus <TT><B>lapw2c</B></TT> must be
+  used in a selfconsistent calculation. </I>
+
+<P>
+
+<H2><A NAME="SECTION05441000000000000000"></A>
+<A NAME="sec:lapwso-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapwso</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x lapwso [ -up -p -c -orb]</B></TT> or
+<BR>  <TT><B>lapwso lapwso.def </B></TT> 
+
+</BLOCKQUOTE>
+
+<P>
+where here -up indicates a spin-polarized calculation (no ``-dn'' is
+needed, since spin-orbit will mix spin-up and dn states in one
+calculation).
+
+<P>
+
+<H2><A NAME="SECTION05442000000000000000"></A>
+<A NAME="sec:lapwso-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used (collected in file <TT><B>param.inc</B></TT>):
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>FLMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>constant = 3</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere (consistent with 
+          <TT><B>lapw1</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LABC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere where SO is considered</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max l for local orbital basis</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NLOAT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of local orbitals</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05443000000000000000"></A>
+<A NAME="sec:lapwso-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+A sample input for lapwso is given below. It will be generated
+automatically by <TT><B>initso</B></TT>
+
+<P>
+<PRE>
+------------------ top of file: case.inso --------------------
+WFFIL
+ 4  0  0                      llmax,ipr,kpot 
+ -10.0000   1.5000           Emin, Emax
+     0 0 1                       h,k,l (direction of magnetization)
+   2                             number of atoms with RLO
+ 1    -3.5      0.005 STOP       atom-number, E-param for RLO
+ 3    -4.5      0.005 STOP       atom-number, E-param for RLO
+ 1   2                           number of atoms without SO, atomnumbers
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(A5)
+<BR>
+switch
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>WFFIL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>wavefunctions will also be calculated 
+               for scf-calculation. Otherwise only eigenvalues
+               are calculated.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+LLMAX, IPR, KPOT
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>LLMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>maximum l for wavefunctions</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>IPR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>print switch, larger numbers give additional output.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>KPOT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>V(dn) potential is used for <IMG
+ WIDTH="95" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img206.png"
+ ALT="$&lt;dn\vert V\vert dn&gt;$"> elements, 
+               V(up) for <!-- MATH
+ $\mbox{$<up|V|up>$}$
+ -->
+<IMG
+ WIDTH="94" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img207.png"
+ ALT="$\mbox{$&lt;up\vert V\vert up&gt;$}$"> and [V(dn)+V(up)]/2 for <IMG
+ WIDTH="94" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img208.png"
+ ALT="$&lt;up\vert V\vert dn&gt;$">.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>averaged potential used for all matrix elements.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+Emin, Emax
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Emin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>minimum energy for which the output eigenvectors and
+               eigenenergies  will
+               be printed (Ry)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>Emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>maximum energy</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>h,k,l</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>vector describing the direction of magnetization. For R lattice use h,k,l in rhombohedral coordinates (not in hexagonal)</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nlr</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atoms for which a <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$"> LO should be added</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+nlri, El, de, switch
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nlri</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>atom-number for which RLO should be added</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>El</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> for L=l</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>de</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy increment (see <TT><B>lapw1</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>used only if de.ne.0</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>CONT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>calculation continues, even if either <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> or <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> are not found</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>STOP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>calculation stops if not both <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> and <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> are found (especially useful for semi-core states)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:  line 6</STRONG></DT>
+<DD>must be repeated ``nlr'' times (or should be omitted if nlr=0).
+<BR></DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>free format
+<BR>
+noff, (iatoff(i),i=1,noff)
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>noff</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atoms for which SO is switched off (for ``light'' elements, saves time)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iatoff</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>atom-numbers</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05450000000000000000"></A>
+<A NAME="sec:lapw2"></A><A NAME="6366"></A>
+<BR>
+5 LAPW2 (generates valence charge density expansions)
+</H1>
+
+<P>
+<TT><B>lapw2</B></TT> uses the files <TT><B>case.energy</B></TT> and <TT><B>case.vector</B></TT> and computes the Fermi-energy
+(for a semiconductor <IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$E_F$"> is set to the valence band maximum) 
+and the expansions of the electronic charge densities in a
+representation according to eqn. <A HREF="2Basic_concepts.html#eq:potential">2.10</A> for each occupied
+state and each k-vector; then the corresponding (partial) charges 
+inside the atomic spheres are
+obtained by integration.  The partial charges for each state (energy
+eigenvalue) and each k-vector are written to files <TT><B>case.help031</B></TT>,
+<TT><B>case.help032</B></TT> etc., where the last digit gives the atomic index
+of inequivalent atoms.  Optionally these partial charges are also written to 
+<TT><B>case.qtl</B></TT>. In addition ``Pulay-corrections`` to the
+forces at the nuclei are calculated here. For systems without
+inversion symmetry you have to use the program <TT><B>lapw2c</B></TT> (in
+connection with <TT><B>lapw1c</B></TT>).
+
+<P>
+
+<H2><A NAME="SECTION05451000000000000000"></A>
+<A NAME="sec:lapw2-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapw2</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x lapw2 [-c -up|dn -p -so -qtl -fermi]</B></TT> or
+<BR>  <TT><B>lapw2 lapw2.def [proc#]</B></TT> or <TT><B>lapw2c lapw2.def [proc#]</B></TT> 
+
+</BLOCKQUOTE>
+
+<P>
+where proc# is the i-th processor number in case of parallel
+execution (see Fig. <A HREF="5Shell_scripts.html#fig:lapw2para">5.2</A>). The <TT><B>-so</B></TT> switch sets <TT><B>-c</B></TT>
+automatically. 
+
+<P>
+For complex calculations <TT><FONT SIZE="-1">  case.in2c</FONT></TT> is used, for semi-core calculations <TT><FONT SIZE="-1">  lapw2s.def</FONT></TT> differs from the regular file <TT><B>lapw2.def</B></TT> only in
+few points, namely <TT><B>case.in2</B></TT> must be replaced by <TT><FONT SIZE="-1">  case.in2s</FONT></TT> and <TT><B>case.clmval</B></TT> by <TT><FONT SIZE="-1">case.clmsc</FONT></TT>. For
+a spin-polarized case see the fcc Ni test case in the <EM>WIEN2k</EM> package.
+
+<P>
+
+<H2><A NAME="SECTION05452000000000000000"></A>
+<A NAME="sec:lapw2-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used (collected in file modules.F):
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>IBLCK</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>Blocking parameter (32-255) in <TT><B>fourier.F</B></TT>, 
+            optimize for best performance</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>IBLOCK</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>Blocking parameter (32-255) in <TT><B>l2main.F</B></TT>, 
+            optimize for best performance</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l in wave function inside sphere (smaller
+             than in <TT><B>lapw1</B></TT>, at present must be .le. 8)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max l for local orbital basis</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NGAU</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. number of Gaunt numbers</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LXDOS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>set to 1; only for cross-DOS for TELNES.2 set it to 3</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05453000000000000000"></A>
+<A NAME="sec:lapw2-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+A sample input for <TT><B>lapw2</B></TT> is listed below, it is generated
+automatically by the programs <TT><B>lstart</B></TT> and <TT><B>symmetry</B></TT>.
+
+<P>
+<PRE>
+------------------ top of file: case.in2 --------------------
+TOT                         (TOT,FOR,QTL,EFG)
+-1.2       32.000   0.5  0.05  (EMIN, # of electrons,ESEPERMIN, ESEPER0 )
+TETRA       0.0      (EF-method (ROOT,TEMP,GAUSS,TETRA,ALL),value)
+  0 0  2 0  2 2  4 0  4 2  4 4 
+  0 0  1 0  2 0  2 2  3 0  3 2  4 0  4 2  4 4
+14.0      (GMAX)
+FILE      (NOFILE, optional)
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(A5)
+<BR>
+switch
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TOT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>total valence charge density expansion inside and 
+            outside spheres</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>FOR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>same as TOT, but in addition a ``Pulay'' force contribution 
+            is calculated (this option costs extra computing time and 
+            thus should be performed only at the final scf cycles, 
+            see <TT><B>run_lapw</B></TT> script in sec. <A HREF="5Shell_scripts.html#sec:run_lapw">5.1.3</A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>QTL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>partial charges only (generates file <TT><B>case.qtl</B></TT> for 
+            DOS calculations)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EFG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>computes decomposition of electric field gradient (EFG), 
+            contributions from inside spheres (the total EFG is computed in 
+            <TT><B>lapw0</B></TT>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>CLM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>CLM coefficients only</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>FERMI</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Fermi energy only, this produces weight files for parallel
+            execution and for the <TT><B>optics</B></TT> package.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>TOT and FOR are the standard options, QTL is used
+            for density of states (or energy bandstructure) calculations, 
+            EFG for analysis, while FOURI, CLM are for testing only.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+emin, ne, esepermin, eseper0
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lower energy cut-off for defining the range of occupied states</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ne</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of electrons (per unit cell) in that energy range</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>esepermin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>LAPW2 tries to find the ``mean'' energies for each <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$"> channel,
+               for both the valence and the semicore states. To define 
+               ``valence'' and ``semicore'' it starts at (EF - ``esepermin'') and 
+               searches for a ``gap'' with a width of at least ``eseper0'' and defines 
+               this as separation energy of valence and semicore</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>eseper0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>minimum gap width (see above). The values esepermin and eseper0 will only influence results if the option -in1new is used</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>format(a5,f10.5)
+<BR>
+efmod, eval
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>efmod</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>determines how E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is determined</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ROOT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is calculated and k space integration is done 
+           by root sampling (this can be used for insulators, 
+           but for metals poor convergence is found)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>TEMP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is calculated where each eigenvalue is temperature broadened 
+           using a Fermi function with a broadening parameter of
+           eval Ry. The total energy is corrected corresponding to T=0K.
+           (e.g. eval=0.002 gives good total energy
+           convergence, but has no ``physical`` justification)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>TEMPS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is calculated where each eigenvalue is temperature broadened 
+           using a Fermi function with a broadening parameter of
+           eval Ry. The total energy is corrected by -TS corresponding to the 
+           temperature specified by eval (e.g. eval=0.002 corresponds to about 40 C)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>GAUSS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is calculated as above but a Gaussian smearing method is
+           used with a width of eval Ry. (e.g. eval=0.002 gives 
+           good total energy convergence, but has no ``physical`` 
+           justification).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>TETRA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>E<IMG
+ WIDTH="15" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$_F$"> is calculated and k space integration is done
+           by the modified (if eval is .lt. 100) or standard (eval .gt. 100) 
+           tetrahedron-method (Bl&#246;chl 94). This ``standard'' scheme is 
+           recommended for <TT><B>optic</B></TT>. In this case the
+           file <TT><B>case.kgen</B></TT>, consistent with the k-mesh used in
+           <TT><B>lapw1</B></TT>, must be provided (see Sec. <A HREF="#sec:lapw1">7.3</A>). This 
+           is the recommended option although convergence may be slower
+           than with Gauss- or temperature-smearing.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ALL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>All states up to eval are used. This can be used to 
+           generate charge densities in a specified energy interval.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>eval</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>when efmod is set to TEMP or GAUSS, eval specifies the
+           width of the broadening (in Ry), if efmod is set to ALL, 
+           eval specifies the upper limit of the energy window, 
+           if efmod is set to TETRA, eval .gt. 100 specifies the use of the
+           standard tetrahedron method instead of the modified one 
+           (see above).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>format (121(I3,I2))
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>L,M</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>LM values of lattice harmonics expansion (equ. 2.10), defined according
+            to the point symmetry of the corresponding atom; generated 
+            in SYMMETRY, MUST be consistent with the local rotation 
+            matrix defined in <TT><B>case.struct</B></TT> (details can be found
+            in  Kara and Kurki-Suonio 81). 
+            CAUTION: additional LM terms which do not belong to
+            the lattice harmonics will in general not vanish and
+            thus such terms must be omitted. Automatic termination
+            of the <IMG
+ WIDTH="23" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img119.png"
+ ALT="$lm$"> series occurs when a second 0,0 pair
+            appears within the list. When you change the <IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$l, m$"> list
+            during an SCF calculation the Broyden-Mixing is
+            restarted in MIXER.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">line 4:</STRONG></DT>
+<DD>must be repeated for each inequivalent atom
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="6424"></A>
+<TABLE>
+<CAPTION><STRONG>Table 7.38:</STRONG>
+LM combinations of ``Cubic groups'' (3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">(111)) 
+      direction, requires ``positive atomic index'' in case.struct. Terms that should be combined (Kara and Kurki-Suonio 81) must follow one another.</CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+    <FONT SIZE="-2">    </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2">
+      Symmetry </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> LM combinations</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      23 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 0 0, 4 0, 4 4, 6 0, 6 4,-3 2, 6 2, 6 6,-7 2,-7 6, 8 0, 8 4, 8 8,-9 2,-9 6,-9 4,-9 8,10 0, 10 4,10 8, 10 2, 10 6, 10 10 </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      M3 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 0 0, 4 0, 4 4, 6 0, 6 4, 6 2, 6 6, 8 0, 8 4, 8 8,10 0, 10 4,10 8, 10 2, 10 6, 10 10  </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      432 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 0 0, 4 0, 4 4, 6 0, 6 4, 8 0, 8 4, 8 8,-9 4,-9 8,10 0, 10 4,10 8  </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      -43M </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 0 0, 4 0, 4 4, 6 0, 6 4,-3 2,-7 2,-7 6, 8 0, 8 4, 8 8,-9 2,-9 6,10 0, 10 4,10 8  </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      M3M </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 0 0, 4 0, 4 4, 6 0, 6 4, 8 0, 8 4, 8 8,10 0, 10 4,10 8  </FONT></TD>
+</TR>
+</TABLE>
+    
+    <A NAME="tab:lm-combinations"></A>  
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="6434"></A>
+<TABLE>
+<CAPTION><STRONG>Table 7.39:</STRONG>
+LM combination and local coordinate system of ``non-cubic groups'' (requires ``negative atomic index'' in case.struct)</CAPTION>
+<TR><TD>  <DIV ALIGN="CENTER">
+    <FONT SIZE="-2">    </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2">
+      Symmetry </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> Coordinate axes </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> Indices of <IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img211.png"
+ ALT="$Y_{\pm LM}$"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> crystal system</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      1 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">any </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">ALL (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,m)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">triclinic </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2">  
+      -1</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> any </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">(<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      2  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$"> z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,2m)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> monoclinic</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      M  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,l-2m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      2/M</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,2m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      222 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">y, (2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,2m), (-2l+1,2m) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> orthorhombic</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      MM2 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y, (2<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">(+l,2m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      MMM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 2<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y, 2<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,2m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      4 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,4m) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> tetragonal</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -4 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,4m), (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l+1,4m+2)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      4/M </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,4m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      422 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">y, (2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,4m), (-2l+1,4m) </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      4MM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y, (2<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+l,4m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -42M</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">x (m=xy<IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">yx)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2">(+2l,4m), (-2l+1,4m+2)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      4MMM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 4<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,4m) </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      3   </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,3m) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> rhombohedral</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -3  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,3m) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      32  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">y </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,3m), (-2l+1,3m)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      3M  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+l,3m) </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -3M </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -3<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,3m) </FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      
+      6   </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">l,6m) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> hexagonal </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -6  </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,6m), (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l+1,6m+3)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      6/M </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">2l,6m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      622 </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, 2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">y, (2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,6m), (-2l+1,6m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      6MM </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">y, (m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+l,6m)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      -62M</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> -6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y, (2<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">x) </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,6m), (+2l+1,6m+3)</FONT></TD>
+<TD></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+      6MMM</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> 6<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$">z,  m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">z, m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">y, (m<IMG
+ WIDTH="16" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="$\perp$">x)</FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-2"> (+2l,6m) </FONT></TD>
+<TD></TD>
+</TR>
+</TABLE>
+    
+    <A NAME="tab:lm-combinations2"></A>  
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>GMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>max. G (magnitude of largest vector) in charge density
+            Fourier expansion.
+            For systems with short
+            H bonds larger values (e.g. GMAX up to 25) could be
+            necessary. Calculations using GGA (potential option 13 or 14 
+            in case.in0) should also employ a larger GMAX value
+            (e.g. 14), since the gradients are calculated numerically 
+            on a mesh determined by GMAX. When you change GMAX during
+            an scf calculation the Broyden-Mixing is restarted in 
+            <TT><B>mixer</B></TT>.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>reclist</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>FILE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>writes list of K-vectors into file 
+                      <TT>case.recprlist</TT> or
+                      reuses this list if the file exists. 
+                      The saved list will be 
+                      recalculated whenever GMAX, or a lattice parameter 
+                      has been changed.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NOFILE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>always calculate new list of K-vectors</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05460000000000000000"></A>
+<A NAME="sec:sumpara"></A><A NAME="6444"></A>
+<BR>
+6 SUMPARA (summation of files from parallel execution)
+</H1>
+
+<P>
+<TT><B>sumpara</B></TT> is a small program which (in parallel execution of <EM>WIEN2k</EM>) sums
+up the densities (<TT><B>case.clmval_*</B></TT>) and quantities from the
+<TT><B>case.scf2_*</B></TT> files of the different parallel runs.
+
+<P>
+
+<H2><A NAME="SECTION05461000000000000000"></A>
+<A NAME="sec:sumpara-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>sumpara</B></TT> is executed by invoking the 2 commands as follows:
+<BLOCKQUOTE>
+<TT><B>x sumpara -d [-up/-dn/-du] </B></TT>         and then
+<BR>  <TT><B>sumpara sumpara.def #_of_proc</B></TT> 
+
+</BLOCKQUOTE>
+
+<P>
+where <TT><B>#_of_proc</B></TT> is the numbers of parallel processors used. It is 
+usually called automatically from <TT><B>lapw2para</B></TT> or <TT><B>x lapw2 -p</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05462000000000000000"></A>
+<A NAME="sec:sumpara-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listend in file <TT><B>param.inc</B></TT>, but usually they need not to be modified:
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05470000000000000000"></A>
+<A NAME="sec:lapwdm"></A><A NAME="6467"></A><A NAME="6468"></A>
+<BR>
+7 LAPWDM (calculate density matrix)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+   J.Kune\v{s} and P.Nov\'ak \\
+Inst. of Physics, Acad.Science, Prague, Czeck Republic \\
+   email: novakp@fzu.cz \\
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="138" ALIGN="MIDDLE" BORDER="0"
+ SRC="img214.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+J.Kune\v{s} and P.Nov\'ak \\
+Inst. of Physics,...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+<TT><B>lapwdm</B></TT> calculates the density matrix needed for the orbital 
+dependent potentials
+generated in <TT><B>orb</B></TT>. Optionally it also provides orbital moments, 
+orbital and dipolar contributions to the hyperfine field (only for the 
+specified atoms AND orbitals).
+It calculates the average value of the operator X which behaves in
+the same way as the spin-orbit coupling operator: it must be nonzero
+only within the atomic spheres and can be written as a product of two
+operators - radial and angular:
+
+<P>
+<!-- MATH
+ $X =X_r(r)*X_{ls}(\vec{l},\vec{s})$
+ -->
+<IMG
+ WIDTH="151" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img215.png"
+ ALT="$ X =X_r(r)*X_{ls}(\vec{l},\vec{s})$">
+
+<P>
+<IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img216.png"
+ ALT="$X_r(r)$"> and <!-- MATH
+ $X_{ls}(\vec{l},\vec{s})$
+ -->
+<IMG
+ WIDTH="60" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img217.png"
+ ALT="$X_{ls}(\vec{l},\vec{s})$"> are determined by RINDEX and LSINDEX 
+in the input as described below:
+
+<UL>
+<LI>RINDEX=0 LSINDEX=0: the density matrix is calculated (this is needed for LDA+U calculations)
+</LI>
+<LI>RINDEX=1 LSINDEX=1: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is number of electrons inside the atomic 
+sphere (for
+  test)
+</LI>
+<LI>RINDEX=2 LSINDEX=1: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is the <IMG
+ WIDTH="68" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img219.png"
+ ALT="$&lt;1/r^3&gt;$"> expectation value inside 
+the atomic sphere 
+</LI>
+<LI>RINDEX=1 LSINDEX=2: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is the projection of the electronic spin inside 
+the atomic sphere (must be multiplied by g=2 to get the spin moment)
+</LI>
+<LI>RINDEX=1 LSINDEX=3: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is the projection of the orbital moment 
+inside the atomic sphere (in case of SO-calculations WITHOUT LDA+U)
+</LI>
+<LI>RINDEX=3 LSINDEX=3: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is the orbital part of the hyperfine field 
+at the nucleus (for a converged calculation at the very end)
+</LI>
+<LI>RINDEX=3 LSINDEX=5: <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$&lt;$">X<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$"> is the spin dipolar part of the hyperfine 
+field at the nucleus (for a converged calculation at the very end) 
+</LI>
+</UL>
+
+<P>
+To use the different operators, set the appropriate input. More information
+and  extentions to operators of similar behavior may be obtained directly 
+from P. Nov&#225;k (2006). (RINDEX=3 includes now an approximation to the
+relativistic mass enhancement and LSINDEX=5 includes nondiagonal terms)
+
+<P>
+
+<H2><A NAME="SECTION05471000000000000000"></A>
+<A NAME="sec:lapwdm-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapwdm</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x lapwdm [ -up/dn -p -c -so ]</B></TT> or
+<BR>  <TT><B>lapwdm lapwdm.def </B></TT> 
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05472000000000000000"></A>
+<A NAME="sec:lapwdm-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are used (collected in file <TT><B>param.inc</B></TT>):
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>FLMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>constant = 3</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere (consistent with 
+          <TT><B>lapw1</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LABC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere where SO is considered</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max l for local orbital basis</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05473000000000000000"></A>
+<A NAME="sec:lapwdm-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+A sample input for <TT><B>lapwdm</B></TT> is given below. 
+
+<P>
+<PRE>
+------------------ top of file: case.indm --------------------
+-9.                      Emin cutoff energy
+ 1                       number of atoms for which density matrix is calculated
+ 1  1  2      index of 1st atom, number of L's, L1
+ 0 0          r-index, (l,s)-index
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lower energy cutoff (usually set to very low number).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>natom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atoms for which the density matrix is calculated</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+iatom, nl, l
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of atom for which the density matrix should be calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nl</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of l-values for which the density matrix should be calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>l</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>l-values for which the density matrix should be calculated</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3 is repeated natom times</STRONG></DT>
+<DD>t
+<BR></DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format, optional
+<BR>
+RINDEX, LSINDEX
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>RINDEX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>0-3, as described in the introduction to <TT><B>lapwdm</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>LSINDEX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>0-5, as described in the introduction to <TT><B>lapwdm</B></TT></TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05480000000000000000"></A>
+<A NAME="sec:core"></A><A NAME="6507"></A>
+<BR>
+8 LCORE (generates core states)
+</H1>
+
+<P>
+<TT><B>lcore</B></TT> is a modified version of the Desclaux (69, 75)
+relativistic LSDA atomic code.  It computes the core states
+(relativistically including SO, or non-relativistically if ``NREL'' is
+set in <TT><B>case.struct</B></TT>) for the current spherical part of the
+potential (<TT><B>case.vsp</B></TT>).  It yields core eigenvalues, the file
+<TT><B>case.clmcor</B></TT> with the corresponding core densities, and the
+core contribution to the atomic forces.
+
+<P>
+
+<H2><A NAME="SECTION05481000000000000000"></A>
+<A NAME="sec:lcore-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lcore</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>lcore lcore.def</B></TT> or <TT><B>x lcore  [-up|-dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+For the spin-polarized case see fcc Ni on the distribution tape.
+
+<P>
+
+<H2><A NAME="SECTION05482000000000000000"></A>
+<A NAME="sec:lcore-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameter is listend in file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05483000000000000000"></A>
+<A NAME="sec:lcore-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+Below is a sample input (written automatically by <TT><B>lstart</B></TT>)
+
+<P>
+for <IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$"> (rutile), one of the test cases provided with the <EM>WIEN2k</EM> 
+
+<P>
+package. 
+
+<P>
+<PRE>
+------------------ top of file: case.inc --------------------
+ 4 0.0       # of orbitals,  shift of potential
+ 1,-1,2      n (principal quantum number), kappa, occup. number
+ 2,-1,2      2s
+ 2,-2,4      2p
+ 2, 1,2      2p*
+ 1   0.0          # of orbital of second atom
+ 1,-1,2      1s
+ 0           end switch
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+nrorb, shift 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nrorb</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of core orbitals</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>shift</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>shift of potential for ``positive'' eigenvalues (e.g. for 4f states as core states in lanthanides)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+n, kappa, occup
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>n</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>principle quantum number</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>kappa</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>relativistic quantum number (see Table 
+              <A HREF="6Initialization.html#tab:rel-quant-number">6.6</A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>occup</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>occupation number (including spin), fractial occupations supported</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: line 2</STRONG></DT>
+<DD>is repeated for each orbital (nrorb times; see line 1)
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">: line 1 and 2</STRONG></DT>
+<DD>are repeated for each inequivalent
+  atom. Atoms without core states (e.g. H or Li) must still
+  include a 1s orbital, but with occupation zero.
+
+<P>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>zero indicating end of job</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05490000000000000000"></A>
+<A NAME="sec:mixer"></A><A NAME="6539"></A>
+<BR>
+9 MIXER (adding and mixing of charge densities)
+</H1>
+
+<P>
+In <TT><B>mixer</B></TT> the electron densities of core, semi-core, and valence states
+are added to yield the total new (output) density (in some
+calculations only one or two types will exist).  Proper normalization
+of the densities is checked and enforced (by adding a constant charge
+density in the interstitial). As it is well known, simply taking the
+new densities leads to instabilities in the iterative SCF process. Therefore it
+is necessary to stabilize the SCF cycle. In <EM>WIEN2k</EM> this is done
+by mixing the output density with the (old) input density to obtain
+the new density to be used in the next iteration. Two mixing schemes
+are implemented:
+
+<P>
+
+<OL>
+<LI>straight mixing as originally proposed by Pratt (52) with a
+  mixing factor Q
+  <BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\rho_{new}(r)=(1-Q)\rho_{old}(r)+Q\rho_{output}(r)
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="270" HEIGHT="61" BORDER="0"
+ SRC="img220.png"
+ ALT="\begin{displaymath}\rho_{new}(r)=(1-Q)\rho_{old}(r)+Q\rho_{output}(r)\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+</LI>
+<LI>the Broyden-II mixing scheme (Singh et al., 86), in which all
+  the expansion coefficients of the density from several preceding
+  iterations are utilized to calculate an optimal mixing fraction for
+  each coefficient in each iteration.
+</LI>
+</OL>
+
+<P>
+At the outset of a new calculation (for any changed computational
+parameter such as k-mesh, matrix size, lattice constant etc.), any
+existing <TT><B>case.broydX</B></TT> files must be deleted (since the iterative
+history which they contain refers to a ``different`` incompatible
+calculation). In addition, in some cases better convergence can be
+achieved, if these files are removed every 15-20 iterations. Usually
+the Broyden scheme is much better than Pratt's scheme and thus is
+recommended.
+
+<P>
+After modifications to the <TT><B>case.struct</B></TT> file (lattice
+parameters, atomic positions) a run with mixing factor 0.0 can be used
+to renormalize the <TT><B>case.clmsum_old</B></TT> file from the previous
+case. If the file <TT><B>case.clmsum_old</B></TT> can not be found by <TT><B>mixer</B></TT>, a
+``PRATT-mixing`` with mixing factor 1.0 is done.
+
+<P>
+<I>Note: a <TT><B>case.clmval</B></TT> file must always be present, since the
+  LM values and the K-vectors are read from this file.</I>
+
+<P>
+The total energy and the atomic forces are computed in mixer by
+reading the <TT><B>case.scf</B></TT> file and adding the various contributions
+computed in preceding steps of the last iteration. Therefore <TT><B>case.scf</B></TT> 
+must not contain a certain ``iteration-number'' more than once and the number 
+of iterations in the scf file must not be greater than 99.
+
+<P>
+
+<H2><A NAME="SECTION05491000000000000000"></A>
+<A NAME="sec:mixer-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>mixer</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>mixer mixer.def</B></TT> or <TT><B>x mixer</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+A spin-polarized case will be detected automatically by <TT><B>x</B></TT> due 
+to the presence of a case.clmvalup file. For an example see fccNi 
+(sec. <A HREF="10Examples.html#sec:fccni">10.2</A>) in the <EM>WIEN2k</EM> package.
+
+<P>
+
+<H2><A NAME="SECTION05492000000000000000"></A>
+<A NAME="sec:mixer-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are collected in file <TT><B>param.inc</B></TT>,
+:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05493000000000000000"></A>
+<A NAME="sec:mixer-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+Below a sample input (written automatically by <TT><B>lstart</B></TT>) is provided 
+for <IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$"> (rutile), one of the test cases provided with the <EM>WIEN2k</EM> 
+package.
+
+<P>
+<PRE>
+------------------ top of file: case.inm --------------------
+BROYD 0.d0  YES  (PRATT/BROYD, background charge (+1 for additional e), NORM
+  0.4            MIXING FACTOR
+0.5 1.5          Scaling for PW and CLM coefficients, respectively
+20 999           nbroyd nuse
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>(A5,f8.2,A5)
+<BR>
+switch, bgch, norm
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>BROYD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Broyden's scheme</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>PRATT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Pratt's scheme</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>bgch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Background charge for charged cells (+1 for additional electron,
+                -1 for core hole, if not neutralized by additional valence electron)</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>norm</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>YES</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Charge densities are normalized to sum of Z</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Charge densities are not normalized</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>factor</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>mixing parameter Q  (for Pratt and in the first iteration of 
+              Broyden). In the first iteration using Broyden's 
+              scheme: Q is automatically reduced by the program depending on the
+              average charge distance :DIS and the number of non-equivalent 
+TM (f)-elements. In case that the scf cycle fails 
+due to large charge fluctuations, this factor must be further reduced 
+(sometimes by an order of magnitude) before the calculations can be 
+restarted (see sect.<A HREF="12Trouble_shooting.html#cha:trouble">12</A>)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3 (optional):</STRONG></DT>
+<DD>(free format)
+<BR>
+f_pw, f_clm
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>f_pw</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>scaling factor for PW-coefficients. Should be reduced when
+  charge sloshing (charge oscillations) occurs.</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>f_clm</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>scaling factor for CLM-coefficients. Usually larger than f_pw.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4 (optional):</STRONG></DT>
+<DD>(free format)
+<BR>
+nbroyd, nuse
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nbroyd</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of broyden iterations. After that a PRATT restart is done.</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nuse</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Only nuse step are used during broyden (for test only).</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1249"
+  HREF="8Analysis_Properties.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1245"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1239"
+  HREF="6Initialization.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1247"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1250"
+  HREF="8Analysis_Properties.html">8 Analysis, Properties and</A>
+<B> Up:</B> <A NAME="tex2html1246"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1240"
+  HREF="6Initialization.html">6 Initialization</A>
+ &nbsp; <B>  <A NAME="tex2html1248"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

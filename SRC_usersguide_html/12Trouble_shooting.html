@@ -1,0 +1,553 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>12 Trouble shooting</TITLE>
+<META NAME="description" CONTENT="12 Trouble shooting">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="13References.html">
+<LINK REL="previous" HREF="11Installation_Dimensioning.html">
+<LINK REL="up" HREF="3Installation_WIEN2k.html">
+<LINK REL="next" HREF="13References.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1499"
+  HREF="13References.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1495"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1489"
+  HREF="11Installation_Dimensioning.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1497"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1500"
+  HREF="13References.html">13 References</A>
+<B> Up:</B> <A NAME="tex2html1496"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Previous:</B> <A NAME="tex2html1490"
+  HREF="11Installation_Dimensioning.html">11 Installation and Dimensioning</A>
+ &nbsp; <B>  <A NAME="tex2html1498"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1501"
+  HREF="12Trouble_shooting.html#SECTION06210000000000000000">1 Ghost bands</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION06200000000000000000"></A>
+<A NAME="cha:trouble"></A><A NAME="15280"></A>
+<BR>
+12 Trouble shooting
+</H1>
+
+<P>
+In this chapter hints are given for solving some difficulties that
+have occurred frequently. This chapter is by no means complete and the
+authors would appreciate further suggestions which might be useful for
+other users. Beside the printed version of the users guide, an online
+pdf version is available using <TT><B>help_lapw</B></TT>.  You can search
+for a specific keyword (use <IMG
+ WIDTH="13" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img148.png"
+ ALT="$^{\wedge}$">f keyword) and hopefully find
+some information.
+
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+<P>
+<DIV ALIGN="CENTER"> 
+ 
+  <!-- MATH
+ $\framebox{
+    \parbox[c]{10cm}{
+      There is a mailing list for {\em WIEN2k}\ related questions.  To
+      subscribe to this list send mail to:\\
+      \texttt{majordomo@theochem.tuwien.ac.at} \\
+      with the text ``subscribe wien''.
+      You will then automatically be added to the mailing list\\
+      \texttt{wien@theochem.tuwien.ac.at}\\
+      Please make use of this list!
+      }
+    }$
+ -->
+<IMG
+ WIDTH="480" HEIGHT="158" ALIGN="MIDDLE" BORDER="0"
+ SRC="img310.png"
+ ALT="\framebox{
+\parbox[c]{10cm}{
+There is a mailing list for {\em WIEN2k} related...
+...\\
+\texttt{wien@theochem.tuwien.ac.at}\\
+Please make use of this list!
+}
+}">
+</DIV>
+
+<P>
+If an error occurs in one of the SCF programs, a file program.error is
+created and an error message is printed into these files.  The
+<TT><B>run_lapw</B></TT> script checks for these files and will automatically
+stop if a non-empty error file occurs.
+
+<P>
+Check the files <TT><B>case.dayfile</B></TT> (which is written by
+<TT><B>init_lapw</B></TT> and <TT><B>run_lapw</B></TT>), <TT><B>:log</B></TT> (where a history
+of all commands using <TT><B>x</B></TT> is given) and <TT><B>*.error</B></TT> for
+possible explanations.
+
+<P>
+In several places the dimensions are checked. The programs print 
+a descriptive error message and stop.
+
+<P>
+<DL>
+<DT><STRONG>case.outputnn:</STRONG></DT>
+<DD>This file gives error messages if the atomic
+  spheres overlap. But it should also be used to check the distances
+  between the atoms and the coordination number (same distance). If
+  inconsistencies exists, your <TT><B>case.struct</B></TT> file may contain
+  an error.  A check for overlapping spheres is also included in
+  <TT><B>mixer</B></TT> and <TT><B>lapw1</B></TT>.
+
+<P>
+</DD>
+<DT><STRONG>case.outputd:</STRONG></DT>
+<DD>Possible stops or warnings are: 
+
+<P>
+</DD>
+<DT><STRONG>``NO SYMMETRY OPERATION FOUND IN ROTDEF``:</STRONG></DT>
+<DD>This indicates that
+  in your <TT><B>case.struct</B></TT> file either the positions of equivalent
+  atoms are not specified correctly (only positive coordinates
+  allowed!!) or the symmetry operations are wrong. 
+
+<P>
+</DD>
+<DT><STRONG>case.output1:</STRONG></DT>
+<DD>Possible stops or warnings are:
+  <DL>
+<DT><STRONG>``NO ENERGY LIMITS FOUND IN SELECT``:</STRONG></DT>
+<DD>This indicates that
+    <IMG
+ WIDTH="34" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$E_{top}$"> or <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$E_{bottom}$"> could not be found for some
+    <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$u_l(r,E_l)$">. Check your input if it happens in the zeroth
+    iteration.  Later, (usually in the second to sixth iteration) it
+    may indicate that in your SCF cycle something went wrong and you
+    are using a crazy potential. Usually it means that mixing was too
+    big and large charge fluctuations occured.  Check previous charges
+    for being physically reasonable (grep for labels :NTOxx :CTOxx
+    :DIS). You will probably have to delete <TT><B>case.broy*</B></TT> and
+    <TT><B>case.scf</B></TT>, rerun <TT><B>x dstart</B></TT> and reduce the mixing
+    parameter in <TT><B>case.inm</B></TT>. In very difficult (magnetic) cases a
+    PRATT mixing with 0.01 mixing might be necessary at the
+    beginning!
+
+<P>
+</DD>
+<DT><STRONG>``STOP RDC_22``:</STRONG></DT>
+<DD>This indicates that the overlap matrix is
+    not positive definite.  This usually happens if your
+    <TT><B>case.struct</B></TT> file has some error in the structure or if
+    you have an (almost) linear dependent basis, which can happen for
+    large RKMAX values and/or if you are using very different
+    (extremely small and large) sphere radii <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$R_{MT}$">.
+
+<P>
+</DD>
+<DT><STRONG>``X EIGENVALUES BELOW THE ENERGY emin``:</STRONG></DT>
+<DD>This indicates that
+    X eigenvalues were  found below emin. Emin is set in  <TT><B>case.in1</B></TT> 
+(see sec.
+    <A HREF="7SCF_cycle.html#sec:lapw1-in">7.3.3</A>) or in <TT><B>case.klist</B></TT> generated by KGEN,
+    see <A HREF="6Initialization.html#sec:symmetry">6.3</A>, <A HREF="6Initialization.html#sec:kgen">6.5</A>). It may indicate that your
+    value of emin is too high or the possibility of ghostbands, but it
+    can also be intentional to truncate some of the low lying
+    eigenvalues.
+
+<P>
+</DD>
+<DT></DT>
+<DD>If you don't find enough eigenvalues (e.g.: in a cell with 4
+    oxygens you expect 4 oxygen s bands at roughly -1 Ry) check the
+    energy window (given at the end of the first k-point in
+    <TT><B>case.in1</B></TT> or in <TT><B>case.klist</B></TT>) and make sure your
+    energy parameters are found by subroutine SELECT or set them by
+    hand at a reasonable value.
+  
+</DD>
+</DL>
+
+<P>
+</DD>
+<DT><STRONG>case.output2:</STRONG></DT>
+<DD>Possible stops or warnings are:
+
+<P>
+<DL>
+<DT><STRONG>``CANNOT BE FOUND``:</STRONG></DT>
+<DD>This warning, which could produce a
+    very long output file, indicates that some reciprocal K-vector
+    would be requested (through the k-vector list of lapw1), but was
+    not present in the list of the K generated in lapw2. You may have
+    to increase the NWAV, and/or KMAXx parameters in lapw2 or increase
+    GMAX in <TT><B>case.in2</B></TT>. The problems could also arise from wrong
+    symmetry operations or a wrong structure in <TT><B>case.struct</B></TT>.
+
+<P>
+</DD>
+<DT><STRONG>``QTL-B VALUE``:</STRONG></DT>
+<DD>If larger than a few percent, this
+    indicates the appearance of ghost bands, which are discussed below in
+    section <A HREF="#sec:ghostbands">12.1</A>.
+<BR>
+The few percent message (e.g up to
+    10 %) does not indicate a ghost band, but can happen e.g. in
+    narrow d-bands, where the linearization reaches its limits. In
+    these cases one can add a local orbital to improve the flexibility
+    of the basis set.  (Put one energy near the top and the other near
+    the bottom of the valence band, see section <A HREF="7SCF_cycle.html#sec:lapw1-in">7.3.3</A>).
+
+<P>
+</DD>
+<DT><STRONG>FERMI LEVEL not converged</STRONG></DT>
+<DD>(or similar messages). This can
+    have several reasons: i) Try a different Fermi-Method (change
+    TETRA to GAUSS or TEMP in <TT><B>case.in2</B></TT>). ii) Count  the number 
+of eigenvalues in     <TT><B>case.output1</B></TT> and compare it
+    with the number of valence electrons. If there are too few
+    eigenvalues, either increase EMAX in <TT><B>case.klist</B></TT> (from 1.5 to
+    e.g. 2.5) or check if your scf cycle had large charge oszillations
+    (see <B>SELECT</B> error above)
+
+<P>
+</DD>
+</DL>
+</DD>
+</DL>
+
+<P>
+If the SCF cycle stops somewhere (especially in the first few
+iterations), it is quite possible, that the source of the error is
+actually in a previous part of the cycle or even in a previous (e.g.
+the zeroth) iteration. Check in the <TT><B>case.scf</B></TT> file previous
+charges, eigenvalues, ...whether they are <B>physically
+  reasonable</B> (see <B>SELECT</B> error above).
+
+<P>
+
+<H1><A NAME="SECTION06210000000000000000"></A>
+<A NAME="sec:ghostbands"></A>
+<BR>
+1 Ghost bands
+</H1>
+
+<P>
+Approximate linear dependence of the basis set or the linearization
+of the energy dependence of the radial wave functions (see section
+<A HREF="2Basic_concepts.html#sec:lapw">2.2</A>) can lead to spurious eigenvalues, termed ``ghost
+bands''.
+
+<P>
+The first case may occur in a system which has atoms with very
+different atomic sphere radii. Suppose you calculate a hydroxide with
+very short O-H bonds so that you select small <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$R_{MT}$"> radii for O and
+H such as e.g. 1.0 and 0.6 a.u., respectively.  The cation may be
+large and thus you could choose a large <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$R_{MT}$"> of e.g.  2.4 a.u.
+However, this gives a four time larger effective RKmax for the cation
+than for H, (e.g. 16.0 when you select RKmax=4.0 in
+<TT><B>case.in1</B></TT>). This enormous difference in the convergence may
+lead to unphysical eigenvalues. In such cases choose lmax=12 in
+<TT><B>case.in1</B></TT> (in order to get a very good re-expansion of the
+plane waves) and reduce <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img311.png"
+ ALT="$R_{MT}$"> for the cation to e.g. 1.8 a.u.
+
+<P>
+The second case can occur when you don't 
+use a proper set of local orbitals. In this situation the energy 
+region of interest (valence bands) falls about midway between 
+two states with different principle quantum numbers, but with 
+the same l-value (for one atom).
+
+<P>
+Take for example Ti with its <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$"> states being occupied as (semi-core) 
+states, while the <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$4p$"> states remain mostly unoccupied. In the 
+valence band region neither of those two states (Ti <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$4p$">) should 
+appear.  If one uses 0.2 Ry for the expansion energy E(1) for 
+the <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img312.png"
+ ALT="$p$"> states of Ti, then Ti-p states do appear as ghost bands. 
+Such a run is shown below for <IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$"> (rutile).
+
+<P>
+The lowest six eigenvalues at GAMMA fall between about -1.30 and -1.28
+Ry. They are ghost bands derived from fictitious Ti-p states. The next
+four eigenvalues between -0.94 and -0.78 Ry correspond to states
+derived from O 2s states, which are ok, since there are four O's per
+unit cell, four states are found.
+
+<P>
+The occurrence of such unphysical (indeed, unchemical!)  ghostbands is
+the first warning that something went wrong. A more definite warning
+comes upon running LAPW2, where the corresponding charge densities are
+calculated. If the contribution to the charge density from the energy
+derivative of the basis function [the <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$B_{lm}$"> coefficient in equ.
+<A HREF="2Basic_concepts.html#eq:atomic-basis">2.4</A>,<A HREF="2Basic_concepts.html#eq:LOs">2.7</A>] is significant (i.e. much more
+than 5 per cent) then a warning is issued in LAPW2.
+
+<P>
+In the present example it reads:
+
+<P>
+<BLOCKQUOTE>
+<TT>QTL-B VALUE .EQ.  40.35396 !!!!!!</TT>
+
+</BLOCKQUOTE>
+
+<P>
+This message is found in both the <TT><B>case.scf</B></TT> file and in
+<TT><B>case.output2</B></TT>.
+
+<P>
+When such a message appears, one can also look at the partial 
+charges (QTL), which are printed under these conditions to OUTPUT2, 
+and always appear in the files <TT><B>case.helpXXX</B></TT>, etc., where the last 
+digit refers to the atomic index.
+
+<P>
+In the file below, note the E(1) energy parameter as well as 
+the 6 ghost band energies around -1.29.
+
+<P>
+<PRE>
+--------------- top of file:tio2.scf -----------------------------
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Titanium 
+          OVERALL ENERGY PARAMETER IS     .2000
+          E( 0)=     .2000
+---&gt;      E( 1)=     .2000
+          E( 2)=     .2000   E(BOTTOM)=    -.140   E(TOP)= -200.000
+
+
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Oxygen 
+          OVERALL ENERGY PARAMETER IS     .2000
+          E( 0)=    -.7100   E(BOTTOM)=   -2.090   E(TOP)=     .670
+
+       K=    .00000    .00000    .00000            1
+:RKM  : MATRIX SIZE= 599  RKM= 6.99  WEIGHT= 8.00  PGR:    
+       EIGENVALUES ARE:
+        -1.2970782   -1.2970782   -1.2948747   -1.2897193  -1.2897193
+        -1.2882306    -.9389111    -.8484857    -.7880729   -.7880729
+         -.0484830    -.0162982     .0121181     .0976534    .0976534
+          .1914068     .1914068     .2341991     .3286919    .3477629
+          .3477629     .3809219     .5143729     .5356211    .5550735
+          .5617155     .5617155     .7087550     .7197110    .8736991
+          .8736991     .9428865     .9533619    1.2224570   1.2224570
+         1.4285169
+       ********************************************************
+       NUMBER OF K-POINTS:          1 
+
+:NOE  : NUMBER OF ELECTRONS          =  48.000
+:FER  : F E R M I - ENERGY           =    .53562
+
+:POS01: AT.NR. -1  POSITION =  .00000  .00000  .00000  MULTIPLICITY=  2
+       LMMAX=10
+       LM=  0 0 2 0 2 2 4 0 4 2 4 4 6 0 6 2 6 4 6 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+:CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     8.802166
+:PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,PX,PY,PZ,D-Z2,D-X2Y2,D-XY,D-XZ,D-YZ 
+:QTL01:  .127 6.080 2.518  .067 2.011 2.047 2.022 1.090  .760 .155  .480  .034
+                      VXX         VYY         VZZ       UP TO R
+:VZZ01:            -4.96856     8.48379    -3.51524       2.000
+:POS02: AT.NR. -2  POSITION =  .30500  .30500  .00000  MULTIPLICITY=  4
+       LMMAX=16
+       LM=  0 0 1 0 2 0 2 2 3 0 3 2 4 0 4 2 4 4 5 0 5 2 5 4 6 0 6 2 6 4 6 6 0 0
+:CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     5.486185
+:PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,PX,PY,PZ,D-Z2,D-X2Y2,D-XY,D-XZ,D-YZ 
+:QTL02: 1.559 3.902  .022  .002 1.296 1.306 1.300  .014  .004 .000  .003  .001
+                      VXX         VYY         VZZ       UP TO R
+:VZZ02:              .25199     -.55091      .29892       1.600
+
+:CHA  : TOTAL CHARGE INSIDE CELL =      48.000000
+:SUM  : SUM OF EIGENVALUES =            -15.810906
+
+   QTL-B VALUE .EQ.   40.35396   !!!!!!
+      NBAND in QTL-file:         24 
+----------------end of truncated file tio2.scf----------------------
+</PRE>
+
+<P>
+Next we show <TT><B>tio2.output2</B></TT> for the first of the ghost bands at
+-1.297 Ry.  One sees that it corresponds mainly to a p-like charge,
+which originates from the energy derivative part Q(UE) of the
+Kohn-Sham orbital.  Q(UE) contributes 40.1% compared with 8.5% from
+the main component Q(U).  Q(UE) greater than Q(U) is  a good
+indication for a ghost band.
+
+<P>
+<PRE>
+----------------part of file tio2.output2 --------------------------
+   QTL-B VALUE .EQ.   40.35396   !!!!!!
+  K-POINT:   .0000   .0000   .0000   599  36           1
+  BAND #  1  E= -1.29708  WEIGHT= 2.0000000
+           L= 0     L= 1       PX:      PY:      PZ:    L= 2    DZ2:   DX2Y2:     DXY:     DXZ:     DYZ:    L= 3  
+ QINSID:    .0000  48.6035  35.0996  13.5039    .0000    .0000    .0000    .0000    .0000    .0000    .0000    .0030
+ Q(U)  :    .0000   8.4902   6.0125   2.4777    .0000    .0000    .0000    .0000    .0000    .0000    .0000    .0026
+ Q(UE) :    .0000  40.1132  29.0871  11.0261    .0000    .0000    .0000    .0000    .0000    .0000    .0000    .0005
+           L= 0     L= 1       PX:      PY:      PZ:    L= 2      DZ2:   DX2Y2:     DXY:     DXZ:     DYZ:    L= 3  
+ QINSID:    .1294    .0707    .0000    .0055    .0653    .0088    .0038    .0049    .0000    .0000    .0000    .0022
+ Q(U)  :    .1279    .0627    .0000    .0052    .0575    .0087    .0038    .0049    .0000    .0000    .0000    .0020
+ Q(UE) :    .0016    .0081    .0000    .0003    .0077    .0001    .0000    .0000    .0000    .0000    .0000    .0002
+ QOUT  : 1.9265
+----------------------bottom of truncated file ----------------------
+</PRE>
+
+<P>
+Another file in which the same information can be found is
+<TT><B>tio2.help031</B></TT>, since the ghost band is caused by a bad choice for
+the Ti-p energy parameter:
+
+<P>
+<PRE>
+----------------------Top of file tio2.help031 ---------------------
+  K-POINT:   .0000   .0000   .0000   599  36           1
+  BAND #  1  E= -1.29708  WEIGHT= 2.0000000
+  L= 0     .00000      .00000    .00000    .00000    .00000    .00000
+  L= 1   48.60346     8.49022  40.11324    .00000    .00000    .00000
+    PX:  35.09960     6.01247  29.08712    .00000    .00000    .00000
+    PY:  13.50386     2.47774  11.02612    .00000    .00000    .00000
+    PZ:    .00000      .00000    .00000    .00000    .00000    .00000
+  L= 2     .00000      .00000    .00000    .00000    .00000    .00000
+   DZ2:    .00000      .00000    .00000    .00000    .00000    .00000
+ DX2Y2:    .00000      .00000    .00000    .00000    .00000    .00000
+   DXY:    .00000      .00000    .00000    .00000    .00000    .00000
+   DXZ:    .00000      .00000    .00000    .00000    .00000    .00000
+   DYZ:    .00000      .00000    .00000    .00000    .00000    .00000
+  L= 3     .00304      .00255    .00050    .00000    .00000    .00000
+  L= 4     .00000      .00000    .00000    .00000    .00000    .00000
+  L= 5     .00096      .00082    .00014    .00000    .00000    .00000
+  L= 6     .00000      .00000    .00000    .00000    .00000    .00000
+-------------------bottom of truncated file--------------------------
+</PRE>
+
+<P>
+Note again for L=1 the percentage of charge associated with the 
+primary (APW) basis functions ul (8.5%) versus that coming 
+from the energy derivative component (40.1%).
+
+<P>
+If a ghost band appears, one should first analyze its origin 
+as indicated above, then use appropriate local orbitals to improve 
+the calculation and get rid of these unphysical states.
+
+<P>
+<B>Do not perform calculations with ``ghost-bands'', even when
+  the calculation converges.</B>
+
+<P>
+
+<P><P>
+<BR>
+
+<P>
+<DIV ALIGN="CENTER">
+<DIV ALIGN="CENTER">
+<FONT SIZE="+4">Good luck !</FONT>
+  
+</DIV>
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1499"
+  HREF="13References.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1495"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1489"
+  HREF="11Installation_Dimensioning.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1497"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1500"
+  HREF="13References.html">13 References</A>
+<B> Up:</B> <A NAME="tex2html1496"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Previous:</B> <A NAME="tex2html1490"
+  HREF="11Installation_Dimensioning.html">11 Installation and Dimensioning</A>
+ &nbsp; <B>  <A NAME="tex2html1498"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

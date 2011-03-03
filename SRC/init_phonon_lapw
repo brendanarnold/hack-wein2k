@@ -1,0 +1,224 @@
+#!/bin/csh -f
+#
+# init_phonon phonon-file
+#
+#
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+
+#if($#argv != 1) then
+#echo ' '
+#echo Usage:   init_phonon   Phonon-file.d45
+#exit 1
+#endif
+
+#if (! -e $1 ) then
+if (! -e $file.d45 ) then
+echo $file.d45 is required but does not exist 
+exit 1
+endif
+
+phonon2wien2k_sym <<EOF
+$file.d45
+EOF
+
+set c=(`grep 'Number of Atomic Displacements' $file.d45 `) 
+set cases=$c[1]
+
+set nat=`head -2 case_1.struct |tail -1 |cut -c29-30` 
+set j=1
+set rmt2
+while ($j <= $nat)
+set rmt2=($rmt2 2.0)
+@ j ++
+end 
+
+cp case_1.struct $file.struct
+echo nn is executed next and you must then select proper RMT. 
+echo "(Ignore at the moment any error messages about equivalent atoms)."
+x nn
+$EDITOR $file.outputnn
+
+echo select RMT radii for atoms with RMT different from 2.0: 
+set a
+loop:
+echo 'Enter: RMT and ONE atom-number range (e.g. 2.25 1-6, exit with ENTER-key only) ' 
+set a=($<)
+if ($#a == 0) goto endloop
+#if ($#a != 2) goto loop 
+if ($#a < 2) goto loop 
+#if ($a[1] < 1) goto loop
+#if ($a[1] > $nat) goto loop
+#set rmt2[$a[1]]=$a[2]
+# expand  input like atoms 1-4, must be at position 2
+set j=2
+  set test1=`echo $a[$j] | cut -d- -f 1`
+  if( $test1 == $a[$j] ) goto l1
+  set test2=`echo $a[$j] | cut -d- -f 2`
+#@ nat1 = $test2 - $test1 
+#@ nat1 ++
+
+set a=$a[1]
+while ($test1 <= $test2 )
+set a=($a $test1 )
+@ test1 ++
+end
+#echo $a
+
+l1:
+set nat1=$#a
+set j=2
+while ($j <= $nat1 )
+  if ($a[$j] < 1) then
+  echo Neglecting atom $a[$j] which does not exist.
+  goto loop1
+  endif
+  if ($a[$j] > $nat) then
+  echo Neglecting atom $a[$j] which does not exist.
+  goto loop1
+  endif
+set rmt2[$a[$j]]=$a[1]
+loop1:
+@ j ++
+end 
+goto loop
+endloop:
+echo You selected the following RMT: $rmt2. 'OK (Y/n)'
+set a=($<)
+if ($a == n) goto loop
+
+set j=1
+set rmt
+while ($j <= $nat)
+set rmt=($rmt `echo $rmt2[$j]00000 |cut -c1-6`)
+@ j ++
+end 
+
+set i=0
+set structfiles_ind
+
+top:
+if(! -d case_$i ) then
+  mkdir case_$i
+endif
+set structfiles_ind=($structfiles_ind $i)
+set j=1
+set k=7
+while ($j <= $nat)
+ sed "${k}s/RMT=    2.0000/RMT=    $rmt[$j]/" case_$i.struct > new.struct
+ mv new.struct case_$i.struct
+ @ j ++
+ @ k += 6
+end 
+cp case_$i.struct case_$i
+cd case_$i
+cd ..
+@ i ++
+if($i <= $cases) goto top
+
+echo RMTs set in all   case_i.struct    files and  case_i directories generated
+
+
+#instgen_lapw
+
+echo "Do you want to run   init_lapw (Y/n .. if already done before)"
+echo "(Take equiv.atoms from nn into account, but ignore changes suggested by sgroup)" 
+set a=($<)
+if ($a != 'n' ) then
+ set i=1
+ set a=y
+while ($i <= $cases)
+cd case_$i
+ if ($a == 'y' ) then
+   instgen_lapw
+   init_lapw
+   cp $WIENROOT/SRC_templates/.machines .
+   $EDITOR .machines
+ else
+   cp ../case_1/*.in* .
+   cp ../case_1/case_1.clm* .
+   cp ../case_1/case_1.klist .
+   cp ../case_1/case_1.kgen .
+   cp ../case_1/.machines .
+   rename_files_lapw case_1. case_$i.
+   sed "/NUMBER/s/0/1/" case_$i.struct >new.struct
+   mv new.struct case_$i.struct
+ endif
+cd ..
+ @ i ++
+
+if( $i == 2 ) then
+ echo " "
+ echo "Do you want to run   init_lapw   for all cases ? (Y/n)"
+ echo "No, if you have only the identity-symmetry in all cases, than the setup  copies and renames the files from case_1)"
+ set a=($<)
+ if ($a != 'n' ) then
+  set a=y
+ endif
+endif
+
+end 
+
+else
+
+ set i=1
+ while ($i <= $cases)
+  cd case_$i
+  sed "/NUMBER/s/0/1/" case_$i.struct >new.struct
+  mv new.struct case_$i.struct
+  cd ..
+  @ i ++
+ end
+endif
+
+set klist=k
+set rkmax=rkm
+set pot=lda
+if (-e case_1/case_1.klist) then
+   set k=(`head -1 case_1/case_1.klist`)
+   set klist=${k[9]}k
+endif
+if (-e case_1/case_1.in1c) then
+   set k=(`head -2 case_1/case_1.in1c |tail -1`)
+   set rkmax=rkm$k[1]
+endif
+if (-e case_1/case_1.in0) then
+   set k=(`head -1 case_1/case_1.in0`)
+   if($k[2] == 13 ) then
+     set pot=gga
+   endif
+endif
+
+echo '#\!/bin/csh -f ' > run_phonon
+echo '#' >> run_phonon
+echo set file=$file >> run_phonon
+echo '#' >> run_phonon
+echo 'foreach i ( \\' >> run_phonon
+set i=2
+while ($i <= $#structfiles_ind)  
+echo "       $structfiles_ind[$i] " ' \\' >> run_phonon
+@ i ++
+end
+echo "  )" >> run_phonon
+echo ' cd case_$i ' >> run_phonon
+echo ' echo running case_$i ' >> run_phonon
+echo '# ' >> run_phonon
+echo '# select other options if necessary ' >> run_phonon
+echo '  run_lapw -I -i 40 -p -fc 0.1' >> run_phonon
+echo '# ' >> run_phonon
+echo '# select other save-name if necessary ' >> run_phonon
+echo '  save_lapw case_${i}'"_${pot}_${rkmax}_${klist} " >> run_phonon
+echo '  cd ..' >> run_phonon
+echo end >> run_phonon
+
+chmod +x run_phonon
+
+echo "Edit run_phonon (set options in run_lapw, ....)"
+ 
+$EDITOR run_phonon
+echo ' '
+echo Execute    ./run_phonon         and when the job has finished create 
+echo "case.dat (Phonon-HF-force file) with     analyse_phonon_lapw $file.d45 "
+
+exit 0
+

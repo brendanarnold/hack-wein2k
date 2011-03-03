@@ -1,0 +1,26 @@
+ 2,'tetra.nsh',    'unknown','formatted',0
+ 3,'tetra.in1',   'unknown','formatted',0
+ 4,'tetra.inso',           'unknown','formatted',0
+ 5,'tetra.in2',   'old',    'formatted',0
+ 6,'tetra.output2_3','unknown','formatted',0
+ 8,'tetra.clmval_3','unknown','formatted',0
+ 9,'./tetra.vectordn_3', 'unknown','unformatted',9000
+10,'./tetra.vector_3', 'unknown','unformatted',9000
+11,'tetra.weight',    'unknown','formatted',0
+13,'tetra.recprlist',      'unknown','unformatted',9000
+14,'tetra.kgen',        'unknown','formatted',0
+15,'tetra.tmp',       'unknown','formatted',0
+16,'tetra.qtl',       'unknown','formatted',0
+17,'tetra.weightaver','unknown','formatted',0
+18,'tetra.vsp',       'old',    'formatted',0
+19,'tetra.vns',       'unknown','formatted',0
+20,'tetra.struct',         'old',    'formatted',0
+21,'tetra.scf2_3',   'unknown','formatted',0
+22,'tetra.rotlm',   'unknown',    'formatted',0
+23,'tetra.radwf',   'unknown',    'formatted',0
+24,'tetra.almblm',   'unknown',    'formatted',0
+26,'tetra.weigh_3',   'unknown','unformatted',0
+27,'tetra.weighdn_3',   'unknown','unformatted',0
+28,'tetra.vrespval_3',   'unknown','formatted',0
+31,'./tetra.help31_3','unknown','formatted',0
+32,'./tetra.help32_3','unknown','formatted',0

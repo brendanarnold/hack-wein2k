@@ -1,0 +1,30 @@
+      INTEGER FUNCTION I7MDCN(K)
+      implicit real*8 (a-h,o-z)
+!
+      INTEGER K
+!
+!  ***  RETURN INTEGER MACHINE-DEPENDENT CONSTANTS  ***
+!
+!     ***  K = 1 MEANS RETURN STANDARD OUTPUT UNIT NUMBER.   ***
+!     ***  K = 2 MEANS RETURN ALTERNATE OUTPUT UNIT NUMBER.  ***
+!     ***  K = 3 MEANS RETURN  INPUT UNIT NUMBER.            ***
+!          (NOTE -- K = 2, 3 ARE USED ONLY BY TEST PROGRAMS.)
+!
+!  +++  PORT VERSION FOLLOWS...
+!      EXTERNAL I1MACH
+!      INTEGER I1MACH
+!      INTEGER MDPERM(3)
+!      DATA MDPERM(1)/2/, MDPERM(2)/4/, MDPERM(3)/1/
+!      I7MDCN = I1MACH(MDPERM(K))
+!  +++  END OF PORT VERSION  +++
+!
+!  +++  NON-PORT VERSION FOLLOWS...
+      INTEGER MDCON(3)
+      save mdcon
+      DATA MDCON(1)/6/, MDCON(2)/8/, MDCON(3)/5/
+      I7MDCN = MDCON(K)
+!  +++  END OF NON-PORT VERSION  +++
+!
+ 999  RETURN
+!  ***  LAST CARD OF I7MDCN FOLLOWS  ***
+      END

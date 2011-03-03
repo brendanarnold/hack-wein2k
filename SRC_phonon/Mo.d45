@@ -1,0 +1,43 @@
+# For SIESTA, System=          Mo
+# Crystallographic data from Phonon
+# Include it into *.fdf file
+ 
+%block ChemicalSpeciesLabel
+           1  42   Mo
+%endblock ChemicalSpeciesLabel
+ 
+%block PhononLabels
+           1   A   Mo
+%endblock PhononLabels
+ 
+NumberOfSpecies     1
+NumberOfAtoms       8
+ 
+# Number of atoms of each species:
+#    8
+ 
+LatticeConstant 1.0 Ang
+#LatticeParameters use default
+ 
+%block LatticeVectors
+     3.14000000 -3.14000000  3.14000000
+     3.14000000  3.14000000 -3.14000000
+    -3.14000000  3.14000000  3.14000000
+%endblock LatticeVectors
+ 
+AtomicCoordinatesFormat  Fractional
+%block AtomicCoordinatesAndAtomicSpecies
+    0.0000000000  0.0000000000  0.0000000000    1  A      1
+    0.0000000000  0.0000000000  0.5000000000    1  A      2
+    0.5000000000  0.0000000000  0.0000000000    1  A      3
+    0.5000000000  0.0000000000  0.5000000000    1  A      4
+    0.0000000000  0.5000000000  0.0000000000    1  A      5
+    0.0000000000  0.5000000000  0.5000000000    1  A      6
+    0.5000000000  0.5000000000  0.0000000000    1  A      7
+    0.5000000000  0.5000000000  0.5000000000    1  A      8
+%endblock AtomicCoordinatesAndAtomicSpecies
+ 
+%block MD.ATforPhonon
+      0.004777   0.004777   0.000000  A     1
+%endblock MD.ATforPhonon
+ 

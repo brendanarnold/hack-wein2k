@@ -1,0 +1,2 @@
+setenv USE_REMOTE 0
+setenv WIEN_GRANULARITY 1

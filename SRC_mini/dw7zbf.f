@@ -1,0 +1,92 @@
+      SUBROUTINE DW7ZBF (L, N, S, W, Y, Z)
+      IMPLICIT REAL*8 (a-h,o-z)
+!
+!  ***  COMPUTE  Y  AND  Z  FOR  DL7UPD  CORRESPONDING TO BFGS UPDATE.
+!
+      INTEGER N
+      DOUBLE PRECISION L(1), S(N), W(N), Y(N), Z(N)
+!     DIMENSION L(N*(N+1)/2)
+!
+!--------------------------  PARAMETER USAGE  --------------------------
+!
+! L (I/O) CHOLESKY FACTOR OF HESSIAN, A LOWER TRIANG. MATRIX STORED
+!             COMPACTLY BY ROWS.
+! N (INPUT) ORDER OF  L  AND LENGTH OF  S,  W,  Y,  Z.
+! S (INPUT) THE STEP JUST TAKEN.
+! W (OUTPUT) RIGHT SINGULAR VECTOR OF RANK 1 CORRECTION TO L.
+! Y (INPUT) CHANGE IN GRADIENTS CORRESPONDING TO S.
+! Z (OUTPUT) LEFT SINGULAR VECTOR OF RANK 1 CORRECTION TO L.
+!
+!-------------------------------  NOTES  -------------------------------
+!
+!  ***  ALGORITHM NOTES  ***
+!
+!        WHEN  S  IS COMPUTED IN CERTAIN WAYS, E.G. BY  GQTSTP  OR
+!     DBLDOG,  IT IS POSSIBLE TO SAVE N**2/2 OPERATIONS SINCE  (L**T)*S
+!     OR  L*(L**T)*S IS THEN KNOWN.
+!        IF THE BFGS UPDATE TO L*(L**T) WOULD REDUCE ITS DETERMINANT TO
+!     LESS THAN EPS TIMES ITS OLD VALUE, THEN THIS ROUTINE IN EFFECT
+!     REPLACES  Y  BY  THETA*Y + (1 - THETA)*L*(L**T)*S,  WHERE  THETA
+!     (BETWEEN 0 AND 1) IS CHOSEN TO MAKE THE REDUCTION FACTOR = EPS.
+!
+!  ***  GENERAL  ***
+!
+!     CODED BY DAVID M. GAY (FALL 1979).
+!     THIS SUBROUTINE WAS WRITTEN IN CONNECTION WITH RESEARCH SUPPORTED
+!     BY THE NATIONAL SCIENCE FOUNDATION UNDER GRANTS MCS-7600324 AND
+!     MCS-7906671.
+!
+!------------------------  EXTERNAL QUANTITIES  ------------------------
+!
+!  ***  FUNCTIONS AND SUBROUTINES CALLED  ***
+!
+      EXTERNAL DD7TPR, DL7IVM, DL7TVM
+      DOUBLE PRECISION DD7TPR
+! DD7TPR RETURNS INNER PRODUCT OF TWO VECTORS.
+! DL7IVM MULTIPLIES L**-1 TIMES A VECTOR.
+! DL7TVM MULTIPLIES L**T TIMES A VECTOR.
+!
+!  ***  INTRINSIC FUNCTIONS  ***
+!/+
+      DOUBLE PRECISION DSQRT
+!/
+!--------------------------  LOCAL VARIABLES  --------------------------
+!
+      INTEGER I
+      DOUBLE PRECISION CS, CY, EPS, EPSRT, ONE, SHS, YS, THETA
+!
+!  ***  DATA INITIALIZATIONS  ***
+!
+!/6
+!     DATA EPS/0.1D+0/, ONE/1.D+0/
+!/7
+!      PARAMETER (EPS=0.1D+0, ONE=1.D+0)
+      PARAMETER (EPS=0.2D+0, ONE=1.D+0)
+!/
+!
+!+++++++++++++++++++++++++++++++  BODY  ++++++++++++++++++++++++++++++++
+!
+      CALL DL7TVM(N, W, L, S)
+      SHS = DD7TPR(N, W, W)
+      YS = DD7TPR(N, Y, S)
+      IF(YS.LT.1D-8)then
+        write(6,*)':WARNING, CURVATURE CONDITION FAILED'
+        write(6,*)':WARNING, S.Y WAS',YS
+!        write(6,*)':WARNING, MIMIMIZATION MAY BE IN TROUBLE'
+      endif
+      IF (YS .GE. EPS*SHS) GO TO 10
+         THETA = (ONE - EPS) * SHS / (SHS - YS)
+         EPSRT = DSQRT(EPS)
+         CY = THETA / (SHS * EPSRT)
+         CS = (ONE + (THETA-ONE)/EPSRT) / SHS
+         WRITE(6,*)':Warning: BFGS Theta reduced to',theta
+         GO TO 20
+ 10   CY = ONE / (DSQRT(YS) * DSQRT(SHS))
+      CS = ONE / SHS
+ 20   CALL DL7IVM(N, Z, L, Y)
+      DO 30 I = 1, N
+ 30      Z(I) = CY * Z(I)  -  CS * W(I)
+!
+ 999  RETURN
+!  ***  LAST CARD OF DW7ZBF FOLLOWS  ***
+      END

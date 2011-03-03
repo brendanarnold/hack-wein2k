@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>A. Local rotation matrices</TITLE>
+<META NAME="description" CONTENT="A. Local rotation matrices">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="B_Periodic_Table.html">
+<LINK REL="previous" HREF="4Appendix.html">
+<LINK REL="up" HREF="4Appendix.html">
+<LINK REL="next" HREF="B_Periodic_Table.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1537"
+  HREF="B_Periodic_Table.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1533"
+  HREF="4Appendix.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1527"
+  HREF="4Appendix.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1535"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1538"
+  HREF="B_Periodic_Table.html">B. Periodic Table</A>
+<B> Up:</B> <A NAME="tex2html1534"
+  HREF="4Appendix.html">4 Appendix</A>
+<B> Previous:</B> <A NAME="tex2html1528"
+  HREF="4Appendix.html">4 Appendix</A>
+ &nbsp; <B>  <A NAME="tex2html1536"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1539"
+  HREF="A_Local_rotation.html#SECTION07110000000000000000">1 Rutile (<IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$">)</A>
+<LI><A NAME="tex2html1540"
+  HREF="A_Local_rotation.html#SECTION07120000000000000000">2 Si <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$\Gamma$">-phonon</A>
+<LI><A NAME="tex2html1541"
+  HREF="A_Local_rotation.html#SECTION07130000000000000000">3 Trigonal Selenium</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION07100000000000000000"></A>
+<A NAME="sec:loc-rot"></A>
+<BR>
+A. Local rotation matrices
+</H1>
+
+<P>
+
+
+<P>
+Local rotation matrices are used to rotate the global coordinate 
+system (given by the definition of the Bravais matrix) to a local 
+coordinate system for each atomic site. They are used in the 
+program for two reasons:
+
+<P>
+
+<UL>
+<LI>to minimize the number of LM combinations in the lattice
+  harmonics expansion (of potential and charge density according to
+  equ. <A HREF="2Basic_concepts.html#eq:potential">2.10</A>).  For example for point group mm2 one needs
+  for L=1 just LM=1,0 if the coordinate system is chosen such that the
+  z-axis coincides with the 2-fold rotation axis, while in an
+  arbitrary coordinate system the three terms 1,0; 1,1 and -1,1 are
+  needed (and so on for higher L).
+
+<P>
+</LI>
+<LI>The interpretation e.g. of the partial charges requires a proper
+  orientation of the coordinate system. In the example given above,
+  the p orbitals split into 2 irreducible representations, but they
+  can be attributed to <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$p_z$"> and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img314.png"
+ ALT="$p_x$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img315.png"
+ ALT="$p_y$"> only if the z-axis is the
+  2-fold rotation axis.
+</LI>
+</UL>
+
+<P>
+It is of course possible to perform calculations without ``local
+rotation matrices``, but in such a case the LM combinations given  in
+Table <A HREF="7SCF_cycle.html#tab:lm-combinations2">7.39</A> (and by SYMMETRY) may not be
+correct. (A program SYM written  by G. Vielsack determines the LM
+values for arbitrary orientations.)
+
+<P>
+Fortunately, the ``local rotation matrices`` are usually fairly simple
+and are now <B>automatically inserted</B> into your
+<TT><B>case.struct</B></TT> file. Nevertheless we recommend to check them in
+order to be sure.
+
+<P>
+The most common coordinate transformations are 
+
+<P>
+
+<UL>
+<LI>interchanging of two axes (e.g. x and z)
+</LI>
+<LI>rotation by <IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img316.png"
+ ALT="$45^\circ$"> (e.g. in the xy-plane)
+</LI>
+<LI>rotation of z into the (111) direction
+</LI>
+</UL>
+
+<P>
+Inspection of the output of SYMMETRY tells you if the local rotation 
+matrix is the unit matrix or it gives you a clear indication 
+how to find the proper matrix. 
+
+<P>
+The local rotation matrix <IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img317.png"
+ ALT="$\mathbf R$"> , which transforms the global coordinates 
+<IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img318.png"
+ ALT="$r$"> to the rotated ones <IMG
+ WIDTH="16" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img319.png"
+ ALT="$r'$">, is defined by <!-- MATH
+ $\mathbf R  r = r'$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="img320.png"
+ ALT="$\mathbf R r = r' $">.
+
+<P>
+There are two simple ways to check the local rotation matrixes 
+together with the selected LM combinations:
+
+<P>
+
+<UL>
+<LI>charge density plots generated with LAPW5 must be continuous
+  across the atomic sphere boundary (especially valence or difference
+  density plots are very sensitive, see <A HREF="8Analysis_Properties.html#sec:lapw5">8.6</A>)
+
+<P>
+</LI>
+<LI>Perform a run of LAPW1 and LAPW2 using the GAMMA-point only
+  (or a complete star of another k point). In such a case, ``wrong``
+  LM combinations must vanish. Note that the latter is true only
+  in this case. For a k mesh in the IBZ ``wrong`` LM combinations
+  do not vanish and thus must be omitted!!
+</LI>
+</UL>
+
+<P>
+A first example for ``local rotation matrices`` is given for 
+the rutile TiO2, which has already been described as an example
+in section <A HREF="10Examples.html#sec:tio2">10.3</A>. Also two other examples will be given 
+(see below).
+
+<P>
+
+<H1><A NAME="SECTION07110000000000000000"></A>
+<A NAME="sec:tio2-locrot"></A>
+<BR>
+1 Rutile (<IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$">)
+</H1>
+
+<P>
+Examine the output from symmetry. It should be obvious that you 
+need local rotation matrices for both, Ti and O:
+
+<P>
+<PRE>
+   ....
+   Titanium   operation #  1     1                   
+   Titanium   operation #  2     -1                  
+   Titanium   operation #  5     2 || z              
+   Titanium   operation #  6     m n z             
+   Titanium   operation # 12     m n 110             
+   Titanium   operation # 13     m n -110            
+   Titanium   operation # 18     2 || 110            
+   Titanium   operation # 19     2 || -110           
+     pointgroup is mmm (neg. iatnr!!)
+     axes should be: m n z, m n y, m n x
+</PRE>
+
+<P>
+This output tells you, that for Ti a mirror plan normal to z  is
+present, but the mirror planes normal to x and y are missing.
+Instead, they are normal to the (110) plane and thus you need  to
+rotate x, y by <IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img316.png"
+ ALT="$45^\circ$"> around the z axis. (The required choice  of the
+coordinate system for mmm symmetry is also given in  Table
+<A HREF="7SCF_cycle.html#tab:lm-combinations2">7.39</A>)
+
+<P>
+<PRE>
+   ....
+   Oxygen     operation #  1     1                   
+   Oxygen     operation #  6     m n z             
+   Oxygen     operation # 13     m n -110            
+   Oxygen     operation # 18     2 || 110            
+     pointgroup is mm2 (neg. iatnr!!)
+     axes should be: 2 || z, m n y
+</PRE>
+
+<P>
+For O the 2-fold symmetry axes points into the (110) direction 
+instead of z. The appropriate rotation matrices for Ti and O are:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left ( 
+    \begin{array}{ccc}
+        \frac{1}{\sqrt 2} & \frac {1}{\sqrt 2} & 0\\
+        \frac{-1}{\sqrt 2} & \frac{1}{\sqrt 2} & 0\\
+        0 &  0 & 1
+    \end{array}
+  \right )
+  \qquad
+  \left (
+    \begin{array}{ccc}
+      0 & \frac{-1}{\sqrt 2} & \frac {1}{\sqrt 2}\\
+      0 & \frac {1}{\sqrt 2} & \frac {1}{\sqrt 2}\\
+      1 & 0 & 0 
+    \end{array}
+  \right )
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="274" HEIGHT="108" BORDER="0"
+ SRC="img321.png"
+ ALT="\begin{displaymath}
+\left (
+\begin{array}{ccc}
+\frac{1}{\sqrt 2} &amp; \frac {1}...
+...t 2} &amp; \frac {1}{\sqrt 2}\\
+1 &amp; 0 &amp; 0
+\end{array} \right )
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+
+<H1><A NAME="SECTION07120000000000000000">
+2 Si <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$\Gamma$">-phonon</A>
+</H1>
+
+<P>
+Si possesses a face-centered cubic structure with two equivalent 
+atoms per unit cell, at (<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">0.125, <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">0.125, <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$\pm$">0.125). 
+The site symmetry is -43m. For the  <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$\Gamma$">-phnon the two atoms 
+are displaced in opposite direction along the (111) direction 
+and cubic symmetry is lost. The output of SYMMETRY gives the 
+following information:
+
+<P>
+<PRE>
+Si         operation #  1     1                   
+Si         operation # 13     m n -110            
+Si         operation # 16     m n -101            
+Si         operation # 17     m n 0-11            
+Si         operation # 24     3 || 111            
+Si         operation # 38     3 || 111            
+  pointgroup is 3m (neg. iatnr!!)
+     axis should be: 3 || z, m n y
+lm: 0 0  1 0  2 0  3 0  3 3  4 0  4 3  5 0  5 3  6 0  6 3  6
+</PRE>
+
+<P>
+Therefore the required local rotation matrix should rotate z 
+into the (111) direction and thus the matrix in the ``struct`` 
+file should be:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><TT><FONT SIZE="-1">0.4082483 -.7071068 0.5773503</FONT></TT></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 6}{6}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img322.png"
+ ALT="$\frac{\sqrt 6}{6}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $-\frac{\sqrt 2}{2}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img323.png"
+ ALT="$-\frac{\sqrt 2}{2}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 3}{3}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img324.png"
+ ALT="$\frac{\sqrt 3}{3}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT><FONT SIZE="-1">0.4082483 0.7071068 0.5773503</FONT></TT></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 6}{6}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img322.png"
+ ALT="$\frac{\sqrt 6}{6}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 2}{2}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img325.png"
+ ALT="$\frac{\sqrt 2}{2}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 3}{3}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img324.png"
+ ALT="$\frac{\sqrt 3}{3}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT><FONT SIZE="-1">-.8164966 0.0000000 0.5773503</FONT></TT></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $-2\frac{\sqrt 6}{6}$
+ -->
+<IMG
+ WIDTH="45" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img326.png"
+ ALT="$-2\frac{\sqrt 6}{6}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 2}{2}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img325.png"
+ ALT="$\frac{\sqrt 2}{2}$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\frac{\sqrt 3}{3}$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="42" ALIGN="MIDDLE" BORDER="0"
+ SRC="img324.png"
+ ALT="$\frac{\sqrt 3}{3}$"></TD>
+</TR>
+</TABLE>    
+
+<P>
+
+<H1><A NAME="SECTION07130000000000000000">
+3 Trigonal Selenium</A>
+</H1>
+
+<P>
+Selenium possesses space group P3121 with the following struct 
+file: 
+
+<P>
+<PRE>
+H    LATTICE,NONEQUIV.ATOMS: 1
+MODE OF CALC=RELA  POINTGROUP:32      
+ 8.2500000 8.2500000  9.369000
+ATOM= -1: X= .7746000  Y= .7746000  Z= 0.0000000
+          MULT= 3          ISPLIT= 8
+ATOM= -1: X= .2254000  Y= .0000000  Z= 0.3333333
+ATOM= -1: X= .0000000  Y= .2254000  Z= 0.6666667
+Se         NPT=  381  R0=.000100000 RMT=2.100000000  Z:34.0
+LOCAL ROT.MATRIX:    0.0       0.5000000 0.8660254
+                     0.0000000 -.8660254 0.5000000
+                     1.0000000 0.0000000 0.0
+   6    IORD OF GROUP G0
+......
+</PRE>
+
+<P>
+The output of SYMMETRY reads:
+
+<P>
+<PRE>
+Se         operation #  1     1                   
+Se         operation #  9     2 $|$$|$ 110            
+  pointgroup is 2 (neg. iatnr!!)
+  axis should be: 2 || z
+lm: 0 0  1 0  2 0  2 2 -2 2  3 0  3 2 -3 2  4 0  4 2 -4 2 ......
+</PRE>
+
+<P>
+Point group 2 should have its 2-fold rotation axis along z, so the
+local rotation matrix can be constructed in two steps: firstly
+interchange x and z (that leads to z <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$\parallel$"> (011) ) and secondly
+rotate from (011) into (001) (see the struct file given above).  Since
+this is a hexagonal lattice, SYMMETRY uses the hexagonal axes, but the
+local rotation matrix must be given in cartesian coordinates.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1537"
+  HREF="B_Periodic_Table.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1533"
+  HREF="4Appendix.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1527"
+  HREF="4Appendix.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1535"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1538"
+  HREF="B_Periodic_Table.html">B. Periodic Table</A>
+<B> Up:</B> <A NAME="tex2html1534"
+  HREF="4Appendix.html">4 Appendix</A>
+<B> Previous:</B> <A NAME="tex2html1528"
+  HREF="4Appendix.html">4 Appendix</A>
+ &nbsp; <B>  <A NAME="tex2html1536"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,6 @@
+14, 'cuoaf.outputafminput',  'unknown','formatted', 0
+15, 'cuoaf.inclmcopy_st',    'unknown','formatted', 0
+16,'cuoaf.clmup',            'old',    'formatted', 0
+17,'cuoaf.clmdn',            'old',    'formatted', 0
+20,'cuoaf.struct',           'old',    'formatted', 0
+21,'cuoaf.struct_supergroup','unknown','formatted', 0

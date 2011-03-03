@@ -1,0 +1,283 @@
+#!/bin/csh -f
+unalias rm
+
+set name	= $0
+set bin		= $name:h
+if !(-d $bin) set bin = .
+set name	= $name:t
+set logfile	= :log
+set tmp		= (:$name)
+
+#---> functions & subroutines
+alias ERROR	'echo ">>> ($name) \!* -> exit"|tee -a $logfile;'\
+		'goto ERROR'
+alias   total_exec      'output \!:*;'\
+                        'exec \!:*;'\
+                        'testerror \!:1;'\
+                        'teststop \!:1'
+
+alias   exec            '($bin/x -f $file  \!:*) >> $dayfile;'\
+                        'teststatus'
+
+alias   output          'set date = `date +"(%T)"`;'\
+                        'printf ">   %s\t%s " "\!:*" "$date" >> $dayfile'
+
+alias   testerror       'if (! -z \!:1.error) goto error'
+alias   teststop        'if (\!:1 == $stopafter ) goto stop;'\
+                        'if (-e stop) goto stop'
+alias   teststatus      'if ($status) goto error'
+
+#---> default parameters
+set imax	= 50				#max. of geometry steps
+set itersavepar = 1				#after i iteration save
+set jobdef	= 'run_lapw -I -fc 1. -i 40'		#default job
+set jobdefsp	= 'runsp_lapw -I -fc 1. -i 40'		#default job
+set stopafter                                   #stop after $stopafter
+set test
+set parallel
+unset nohess
+unset sp
+
+#---> default flags
+unset help	#set -> help output
+set init	#set -> initialization
+unset ERROR
+
+#---> handling of input options
+echo ">   ($name) options: $argv"	>> $logfile
+alias sb 'shift; breaksw'	#definition used in switch
+while ($#argv)
+  switch ($1)
+  case -[hH]:
+    set help; sb
+  case -s:
+    shift; set itersavepar = $1; sb
+  case -i:
+    shift; set imax = $1; sb
+  case -j:
+    shift; set job  = "$1"; sb
+    echo $job
+  case -nohess:
+    set nohess; sb
+  case -p:
+    set parallel = "-p"; sb
+  case -sp:
+    set sp; sb
+  case -I:
+    set init; sb
+  case -NI:
+    unset init; sb
+  case -m:
+    unset init; set test = mini; sb
+  case -mo:
+    unset init; set test = mini_only; sb
+  default:
+    set ERROR = $1; sb
+  endsw
+end
+if ($?help) goto help
+if ($?ERROR) then 
+  ERROR option $ERROR does not exist
+endif
+
+#---> path- and file-names
+set file    = `pwd`
+set file    = $file:t           #tail of file-names
+set dayfile = $file.dayfile     #main output-file
+
+
+#---> job handling
+if ($?job) then
+#  if !(-e $job) then
+#    ERROR job $job does not exist
+#  else
+#    chmod 744 $job
+#  endif
+else
+  if ($?sp) then
+    set job = ( $jobdefsp $parallel )
+  else
+    set job = ( $jobdef $parallel )
+  endif
+endif
+
+if ($?help) goto help
+
+#check existence of case.inM. If not present, cp default and put proper lines
+if (! -e $file.inM ) then
+      cp $bin/SRC_templates/case.inM $file.inM
+      set natom=`head -2 $file.struct |tail -1 |cut -c28-30`
+      set lines=`cat $file.inM |wc -l`
+emptyline:
+      set test1=`head -$lines $file.inM |tail -1 |cut -c1-16`
+      if ("$test1" == '') then
+        @ lines --
+        goto emptyline
+      endif
+      head -$lines $file.inM > $file.inM1
+      mv $file.inM1 $file.inM
+      @ lines --
+      @ lines = $natom - $lines
+      while ( $lines > 0 ) 
+        head -2 $file.inM | tail -1|cut -c1-16 >> $file.inM
+        @ lines --
+      end
+      echo $file.inM  has been created automatically >>$logfile
+      echo $file.inM  has been created automatically >>$dayfile
+endif
+
+#---> clean up before minimization
+if ($?init) then
+  touch stop      
+  foreach i ($file.tmpM $file.broyd* $file.struct1 $file.finM $file.clmhist $file.clmsum_inter $file.clmup_inter $file.clmdn_inter stop*)
+    if (-e $i) rm $i
+  end
+  if (-e .min_hess) then
+    cp .min_hess .minrestart
+  endif
+endif
+# check for scf file WITH valence forces
+  if (-e $file.scf ) then
+    set a=`grep :FVA $file.scf`
+    if ( $#a != 0 ) then
+      set test = mini_cont
+    endif
+  endif
+
+if($?nohess) then
+   rm .minrestart
+endif
+
+set cont
+set itersave = $itersavepar
+@ itersave --
+
+while ($?cont)
+  
+  if ($test == 'mini' ) goto mini
+  if ($test == 'mini_only' ) goto mini
+  if ($test == 'mini_cont' ) goto mini
+
+  echo ">   ($name) recover inm-file & call job $job"	>> $logfile
+  
+  $job
+  set stat = $status
+ 
+  if ($stat) then
+    ERROR status after $job\: $stat
+  endif
+
+mini:
+  grep :ENE $file.scf | tail -1 | cut -c46-60 > $file.finM
+  set natom=`head -2 $file.struct |tail -1 |cut -c28-30`
+#  set natom = `grep UNITCELL $file.output0 |awk '{print $NF}'`
+  grep :FGL $file.scf | tail -$natom | cut -c29-91 >> $file.finM
+#kew  grep :FOR $file.scf | tail -$natom | cut -c34-90 >> $file.finM
+# mini call
+#  total_exec mini 
+    output mini
+    exec   mini
+    grep :WARN  $file.outputM >> $dayfile
+    grep :WARN  $file.outputM >> $file.scf_mini1
+    grep :WARN  $file.outputM 
+
+    set mtest=`grep small mini.error`
+    if($#mtest != 0 ) then
+      cat $file.scf_mini1 >> $file.scf_mini
+      printf "\n>   stop forces small, minimization stopped\n"   >> $dayfile
+      printf "\n>   relaxation steps summarized in $file.scf_mini\n"   >> $dayfile
+      printf "\n>   relaxed structure and results in $file.struct, scf, clmsum\n"   >> $dayfile
+      printf "\n>   please use   save_lapw save_file_name   to save the results\n"   >> $dayfile
+      exit 0
+    endif
+    testerror mini
+    teststop mini
+
+    rm $file.clm*_inter $file.clmhist
+
+  if ($test == 'mini_only' ) exit 0
+  cp $file.tmpM1 $file.tmpM
+  cat $file.scf_mini1 >> $file.scf_mini
+  if ($test == 'mini' ) exit 0
+
+  @ itersave ++
+  @ imax --
+  if !($imax) unset cont
+
+#---> struct1-file empty; end of minimization
+
+  if ($?cont) then
+     set iterdir = ` grep '           ' $file.tmpM | tail -2 | cut -c26-33 | head -1`
+     if ($itersave == $itersavepar) then
+        save_lapw $file'_'$iterdir
+        set itersave = 0
+        if (-e $file.broyd1) rm $file.broyd*
+     else
+        if (-e $file.broyd1) rm $file.broyd*
+        if (-e $file.scf) rm $file.scf
+     endif
+     if (-e $file.clmup &&  ! -z $file.clmup) then
+        if (! -z $file.clmsum_inter) then
+#	   cp $file.clmsum_inter $file.clmsum
+#	   cp $file.clmup_inter $file.clmup
+#	   cp $file.clmdn_inter $file.clmdn
+        endif
+     else
+        if (! -z $file.clmsum_inter) then
+#	   cp $file.clmsum_inter $file.clmsum
+        endif
+     endif
+     if (-e $file.struct1 &&  ! -z $file.struct1) mv $file.struct $file.struct_last_min
+     cp $file.struct1 $file.struct
+  endif
+
+if (-e .minstop) goto stop1
+set test
+
+end
+
+echo ">>  ($name) o.k. exit"				>> $logfile
+exit 0
+
+stop1:					#normal exit
+printf "\n>   stop due to .minstop file\n"			>> $dayfile
+rm .minstop
+exit 0 
+
+help:
+if !($?job) set job = ($jobdef)
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	Performs energy minimization by optimization of internal coordinates (or MD)
+                with a series of $job / mini "geometry steps" 
+USAGE:          min [OPTIONS]
+
+OPTIONS:
+-j "JOB" ->	specifies JOB instead of default ($job)
+-p -> 		adds -p (parallel) switch to $job
+-sp -> 		without -j it will run spin-polarized default  ($jobdefsp)
+-nohess -> 	removes .minrestart (initial Hessian for PORT option)
+-m -> 		extract force-input and execute mini (without JOB) and exit
+-mo ->          like -m but without copying of case.tmpM1 to case.tmpM
+-h/-H ->	help
+-NI ->		without initialization of minimization (eg. continue after a crash) 
+-i NUMBER -> 	max. NUMBER ($imax) of structure changes
+-s NUMBER ->	save_lapw after NUMBER of structure changes
+
+CONTROL FILES:
+.minstop	stop after next structure change
+
+theend
+exit 1
+
+ERROR:
+if !($?stat) set stat = 1
+exit $stat
+
+error:                                  #error exit
+printf "\n>   stop error\n"             >> $dayfile
+exit 1
+
+

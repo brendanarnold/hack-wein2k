@@ -1,0 +1,3056 @@
+%!PS-Adobe
+/wpdict	120 dict def
+wpdict	begin
+/bdef	{bind def} bind def
+
+/bflg	false def
+/Bfont	0 def
+/bon	false def
+
+/psz	0 def
+/_S	/show load def
+/_t	{0 rmoveto} bdef
+
+/_pixelsnap
+	{transform .25 sub round .25 add
+	 exch .25 sub round .25 add exch itransform
+	} bdef
+/_pixeldsnap
+	{ dtransform round exch round exch idtransform } bdef
+
+/_lt	{_pixelsnap lineto} bdef
+/_rlt	{_pixeldsnap rlineto} bdef
+/_mt	{_pixelsnap moveto} bdef
+/_rmt	{_pixeldsnap rmoveto} bdef
+
+/bshow	{gsave psz 30 div 0 _rmt dup show grestore show} bdef
+
+/DUx	0 def
+/DUy	0 def
+/hscl	0 def
+
+/M	{_mt
+	 2 mul -2 2
+	 { -2 roll 0 _rmt _S } for
+	} bdef
+
+/makeoutl
+	{ dup /OutlineFlag known not
+	  { dup dup length 2 add dict begin
+	    {1 index /FID ne { def }{ pop pop } ifelse } forall
+	    /UniqueID known {/UniqueID UniqueID 10000 add def} if
+	    /PaintType PaintType 0 eq { 2 }{ PaintType } ifelse def
+	    /StrokeWidth 15 def
+	    /OutlineFlag true def
+	    /OutlineFont currentdict end definefont
+	  } if
+	} bdef
+
+/nbuff	50 string def
+/orntsv	0 def
+/plen	0 def
+/pwid	0 def
+/picstr	1 string def
+
+/WPencoding StandardEncoding 256 array copy def 0
+ [ 127/Aacute/Acircumflex/Adieresis/Agrave/Aring/Atilde/Ccedilla
+  /Delta/Eacute/Ecircumflex/Edieresis/Egrave/Eth/Gamma/Iacute
+  /Icircumflex/Idieresis/Igrave/Lambda/Ntilde/Oacute
+  /Ocircumflex/Odieresis/Ograve/Omega/Otilde/Phi/Pi/Psi
+  /Scaron/Sigma/TeXtext32/Theta/Thorn
+  209/Uacute/Ucircumflex/Udieresis/Ugrave/Upsilon/Xi/Yacute
+  /Ydieresis/Zcaron/aacute/acircumflex/adieresis/agrave
+  /aring/atilde/brokenbar
+  228/ccedilla/copyright/degree/divide
+  236/dotlessj/eacute/ecircumflex/edieresis/egrave
+  242/eth/ff/ffi
+  246/ffl/iacute
+  252/icircumflex/idieresis/igrave/logicalnot
+  1/minus/mu/multiply/ntilde/oacute/ocircumflex/odieresis
+  /ograve/onehalf/onequarter/onesuperior/otilde/plusminus
+  /registered/scaron/thorn/threequarters/threesuperior
+  /trademark/twosuperior/uacute/ucircumflex/udieresis
+  /ugrave/yacute/ydieresis/zcaron
+]
+{ dup type /nametype eq
+  { WPencoding 2 index 2 index put pop 1 add }
+  { exch pop } ifelse
+} forall pop
+
+/reencode
+{ dup FontDirectory exch known
+   { findfont }
+   {  dup nbuff cvs dup length 1 sub get 82 eq
+   {dup nbuff cvs dup length 1 sub 0 exch getinterval
+   findfont begin
+   currentdict dup length dict begin
+{ 1 index /FID ne {def} {pop pop} ifelse } forall
+/FontName exch def
+
+/Encoding WPencoding def
+currentdict dup end end
+/FontName get exch definefont
+     }
+     { findfont } ifelse
+  } ifelse
+} bdef
+
+/WPDLencoding StandardEncoding 256 array copy def 0
+[ 127     /SA420000/SD630000/SF010000/SF020000/SF030000
+/SF040000/SF050000/SF060000/SF070000/SF080000/SF090000
+/SF100000/SF110000/SF140000/SF150000/SF160000/SF190000
+/SF200000/SF210000/SF220000/SF230000/SF240000/SF250000/SF260000
+/SF270000/SF280000/SF360000/SF370000/SF380000/SF390000/SF400000
+/SF410000/SF420000/SF430000
+209 /SF440000/SF450000/SF460000/SF470000/SF480000
+/SF490000/SF500000/SF510000/SF520000/SF530000/SF540000
+/SF570000/SF580000/SF590000/SF600000/SF610000
+228 /SM570001/SM590000/SM600000/SM630000
+236 /SM680000/SM690000/SM700000/SM750000/SM750002
+242 /SM770000/SM790000/SP320000
+246 /SS000000/SS010000
+252 /SS260000/SS270000/SV040000/apostrophereverse
+1/arrowboth/arrowdown/arrowleft/arrowright/arrowup/club
+/deutschmark/diamond/diamondopen/exclamdbl/female
+/fiveeighths/franc/heart/male/musicalnote/musicalnotedbl
+/napostrophe/nsuperior/oneeighths/seveneighths/spade
+/threeeights/underscoredbl/SM760000
+]
+{ dup type /nametype eq
+  { WPDLencoding 2 index 2 index put pop 1 add }
+  { exch pop } ifelse
+} forall pop
+
+/reencodeL
+    { dup FontDirectory exch known
+      { findfont }
+      {  dup nbuff cvs dup length 1 sub get 76 eq
+         {    dup nbuff cvs dup length 1 sub 0 exch getinterval
+         findfont begin
+         currentdict dup length dict begin
+         { 1 index /FID ne {def} {pop pop} ifelse } forall
+         /FontName exch def
+         /Encoding WPDLencoding def
+         currentdict dup end end
+         /FontName get exch definefont
+         }
+         { findfont } ifelse
+      } ifelse
+    } bdef
+
+/ron	false def
+/sflg	false def
+/slan	0 def
+/sp	32 def
+
+/sshow
+	{ save exch
+	   gsave
+	    psz 20 div dup neg _rmt dup show
+	   grestore
+	   dup
+	   save exch
+	    Bfont setfont
+	    1 setgray show
+	   restore
+	   currentfont makeoutl setfont show
+	   currentpoint 3 -1 roll
+	  restore _mt
+	} bdef
+
+/Sx	0 def
+/Sy	0 def
+/Ux	0 def
+/Uy	0 def
+/W	/widthshow load def
+
+/_B	{/bflg true def
+	 sflg not {/_S /bshow load def /bon true def} if
+	} bdef
+/_b	{/bflg false def
+	 bon {/_S /show load def /bon false def} if
+	} bdef
+/_bd	{save} bdef
+/_bp	{save 2 setmiterlimit .06 .06 scale 0 0 _mt} bdef
+/_ccprocs
+	{/proc2 exch cvlit def
+	 /proc1 exch cvlit def
+	 /newproc proc1 length proc2 length add
+	 array def
+	 newproc 0 proc1 putinterval
+	 newproc proc1 length proc2 putinterval
+	 newproc cvx
+	} def
+/_clr	{3 {255 div 3 1 roll} repeat
+	 ron {6 3 roll pop pop pop} {setrgbcolor} ifelse
+	} bdef
+/_cp	/closepath load def
+/_cw	{stroke initclip _mt 0 2 index
+	 _rlt 0 _rlt 0 exch neg
+	 _rlt clip newpath
+	} bdef
+/_d	/setdash load def
+/_DU	{currentpoint /DUy exch def /DUx exch def} bdef
+/_du	{gsave
+	  save
+	  8 setlinewidth
+      currentpoint -30 add _mt
+      DUx DUy -30 add _lt stroke
+	  restore
+	  8 setlinewidth
+	  currentpoint -50 add _mt
+	  DUx DUy -50 add _lt stroke
+	 grestore
+	} bdef
+/_ed	{restore} bdef
+/_ep	{restore showpage 0 0 _mt} bdef
+/_f	/eofill load def
+/_ff	{ exch reencode exch
+	  3 div dup /psz exch def
+	  scalefont dup /Bfont exch def setfont
+	} bdef
+/_ffs	{ /slan exch 10 div def /hscl exch 1000 div def
+	  /psz exch 3 div def
+	  [ psz hscl mul 0 slan dup sin exch cos div psz mul psz 0 0 ]
+	  exch reencode exch makefont dup /Bfont exch def setfont
+	} bdef
+/_g	/setgray load def
+/_gs	{neg 100 add 100 div setgray} bdef
+/_i	{gsave
+	  dup /picstr exch 7 add 8 idiv string def
+	  3 1 roll translate dup 1 scale
+	  dup 1 1 [5 -1 roll 0 0 1 0 0]
+	  {currentfile picstr readhexstring pop} image
+         grestore
+        } bdef
+/_is	{save 4 1 roll
+	  dup /picstr exch 7 add 8 idiv string def
+	  3 1 roll translate dup 1 scale
+	  dup 1 1 [5 -1 roll 0 0 1 0 0]
+	  {currentfile picstr readhexstring pop} image
+	 restore
+	} bdef
+/_ie	{1 eq { {1 exch sub} currenttransfer _ccprocs settransfer} if
+	 /_isx exch def /_isy exch def
+	 _isx mul exch _isy mul translate
+	 add 2 div /_txc exch def
+	 add 2 div /_tyc exch def
+	 _txc _isx mul _tyc _isy mul translate
+	 360 exch sub rotate
+	 1 eq { _isx neg _isy scale }
+	 { _isx _isy scale }
+	 ifelse _txc neg _tyc neg translate
+	} bdef
+/_irms	{save
+	  12 1 roll
+	  1 eq {{1 exch sub} currenttransfer _ccprocs settransfer} if
+	  /picstr exch string def translate
+	  2 index 6 index sub 2 div 2 index 6 index sub 2 div neg
+	  translate
+	  5 index 5 index 2 div neg exch 2 div exch
+	  2 copy neg exch neg exch 5 2 roll translate
+	  360 exch sub rotate
+	  3 index 3 index 7 index div exch 8 index div exch scale
+	  translate pop pop 2 index 2 index scale
+	  3 index 0 eq
+	  { [ 3 index 0 0 5 index neg 0 0 ] }
+	  { 3 index 1 eq
+      { [ 3 index 0 0 5 index 0 7 index ] }
+      { 3 index 128 eq
+	  { [ 3 index neg 0 0 5 index neg 7 index 0 ] }
+	  { [ 3 index neg 0 0 5 index 7 index 7 index ] } ifelse
+	    } ifelse
+	  } ifelse
+          {currentfile picstr readhexstring pop} image
+          pop
+	 restore
+	} bdef
+
+/_l	{_lt} bdef
+/_lr	{_rlt} bdef
+/_m	{_mt} bdef
+/_O	{currentfont makeoutl setfont} bdef
+/_o	{Bfont setfont} bdef
+/_ornt	{/pwid exch def /plen exch def
+	 orntsv 1 eq {0 pwid translate -90 rotate} if
+	 orntsv 2 eq {pwid plen translate 180 rotate} if
+	 orntsv 3 eq {plen 0 translate 90 rotate} if
+	 dup 1 eq {pwid 0 translate 90 rotate} if
+	 dup 2 eq {pwid plen translate 180 rotate} if
+	 dup 3 eq {0 plen translate -90 rotate} if
+	 /orntsv exch def
+	} bdef
+/_lod1	{currentpoint orntsv plen pwid 6 -1 roll restore save} bdef
+/_lod2	{_bp 7 2 roll _ornt _mt} bdef
+/_unlod	{currentpoint orntsv plen pwid 7 -2 roll restore restore
+	 _bp 6 1 roll _ornt _mt
+	} bdef
+/_p	{2 copy _mt 1 0 _rlt _mt} bdef
+/_pl	{{_lt} repeat} bdef
+/_R      { /ron true def /_S /_rshow load def /_t /_red load def} bdef
+/_rshow	 { save exch
+	   currentpoint
+	   /RSy exch def /RSx exch def
+	   ron {
+		 sflg
+		 {	currentpoint
+			/Ry exch def /Rx exch def
+			dup stringwidth pop Rx Ry psz 4 div add _mt
+			Rx psz 15 add setlinewidth .95 setgray 0 setlinecap
+			add Ry psz 4 div add _lt stroke Rx Ry _mt 0 0 0 setrgbcolor
+			dup show Rx Ry _mt
+			sshow
+		 }
+		 { _redshow
+		 }ifelse
+	   }
+	   {	 sflg {sshow} if
+	   }ifelse
+	   currentpoint 3 -1 roll
+	   restore _mt
+	 } bdef
+/_red	{ gsave dup
+         currentpoint /Ry exch def /Rx exch def
+         Rx Ry psz 4 div add _mt
+         Rx psz 15 add setlinewidth .95 setgray 0 setlinecap
+         add Ry psz 4 div add _lt stroke
+         Rx Ry _mt
+         grestore
+         0 rmoveto
+    }bdef
+/_redshow {currentpoint
+         /Ry exch def /Rx exch def
+         dup stringwidth pop Rx Ry psz 4 div add _mt
+         Rx psz 15 add setlinewidth .95 setgray 0 setlinecap
+         add Ry psz 4 div add _lt stroke Rx Ry _mt 0 0 0 setrgbcolor
+         show currentpoint _mt
+    }bdef
+/_rmxy	{_rmt} bdef
+/_s	/stroke load def
+/_SH	bon {/bon false def} if
+	{/sflg true def /_S /_rshow load def
+	} bdef
+/_sh	{ ron 	{/sflg false def bflg {_B} if}
+		{/_S /show load def /sflg false def bflg {_B} if}ifelse
+	}bdef
+/_sp	{ gsave stroke grestore } bdef
+/_ST     {currentpoint /Sy exch def /Sx exch def} bdef
+/_st     {gsave
+          currentpoint
+          psz 4 div add _mt
+          Sx Sy psz 4 div add _lt
+          10 setlinewidth
+          stroke
+          grestore
+          } bdef
+/_U	{currentpoint /Uy exch def /Ux exch def} bdef
+/_u	{gsave
+	  currentpoint
+	  -30 add _mt
+	  Ux Uy -30 add _lt
+	  12 setlinewidth
+	  stroke
+	 grestore
+	} bdef
+/_w	/setlinewidth load def
+end
+/#copies 1 def /wpdict2 100 dict def
+wpdict begin wpdict2 begin
+_bd
+/_rhs{readhexstring}bdef/_tr{translate}bdef
+/_ix{index}bdef/_mx{matrix}bdef
+/ife{ifelse}bdef/_x{exch}bdef
+/_is{save 4 1 roll
+dup/picstr _x 7 add 8 idiv string def
+3 1 roll _tr dup 1 scale
+dup 1 1[5 -1 roll 0 0 1 0 0]
+{currentfile picstr _rhs pop}image restore}bdef
+/_epsi{1 eq{{1 _x sub}currenttransfer _ccprocs settransfer}if
+/yp _x def/xp _x def/dhgt _x def/dwid _x def
+4 copy sub/swid _x def
+sub/shgt _x def
+add 2 div/icx _x def add 2 div/icy _x def
+xp dwid 2 div add icx sub yp dhgt 2 div sub
+icy sub _tr icx icy _tr
+360 _x sub rotate
+dwid swid div/xsc _x def _x
+dhgt shgt div/ysc _x def _x
+dup 1 eq{xsc neg/xsc _x def pop}
+{dup 2 eq{ysc neg /ysc _x def pop}
+{3 eq{ysc neg/ysc _x def xsc neg/xsc _x def}
+{}ife}ife}ife
+xsc ysc scale
+100 div _x 100 div _x scale
+icx neg icy neg _tr}bdef
+/_c{3{255 div 3 1 roll}repeat setrgbcolor}bdef
+/eq3{3 copy 2 _ix eq{eq{true}{false}ife}{pop
+pop false}ife}bdef
+/g{255 div setgray}bdef
+/_clr{ron{6 3 roll pop pop pop}{eq3{pop
+pop g}{_c}ife}ife}bdef
+/_r{/ron false def eq3{1 sub neg g pop
+pop}{setrgbcolor}ife}bdef
+/_ircms{save 15 1 roll
+1 eq{{1 exch sub}currenttransfer _ccprocs settransfer}if
+/pstr _x string def _tr
+/Cli _x def/USy _x def/USx _x def/Rot _x def/HTd _x def
+/WDd _x def/Bdep _x def/HTs _x def/WDs _x def/MIR _x def
+USx 100 div USy 100 div scale
+WDd WDs sub 2 div HTd HTs sub 2 div neg _tr
+WDs HTs 2 div neg _x 2 div _x _tr
+Rot 360 _x sub rotate WDd HTd HTs div _x WDs div _x scale
+WDs 2 div neg HTs 2 div _tr
+WDs HTs scale WDs HTs Bdep MIR 0
+eq{[WDs 0 0 HTs neg 0 0]}{MIR 1 eq{[WDs 0 0 HTs 0 HTs]}
+{MIR 128 eq{[WDs neg 0 0 HTs neg WDs 0]}
+{[WDs neg 0 0 HTs WDs HTs]}ife}ife}ife
+{currentfile pstr _rhs pop}Cli
+0 eq{image}{false 3 colorimage}ife
+restore}bdef
+/_bp{save 2 setlinecap 2 setmiterlimit
+.06 .06 scale 0 0 moveto}bdef
+/tctm _mx def/trot _mx def/tscale _mx def/rmtx _mx def
+/fr{72 0 rmtx defaultmatrix dtransform
+/yres _x def/xres _x def
+xres dup mul yres dup mul add sqrt}bdef
+/sus{/spotf _x def/sang _x def/csz _x def
+/m tctm currentmatrix def/rm sang trot rotate def
+/sm csz dup tscale scale def
+sm rm m m concatmatrix m concatmatrix pop
+1 0 m dtransform /y1 _x def/x1 _x def
+/veclength x1 dup mul y1 dup mul add sqrt def
+/frcy fr veclength div def /nsang y1 x1 atan def
+frcy nsang/spotf load setscreen}bdef
+/bitis{/ybit _x def /xbit _x def
+/bval bstring ybit bwidth mul xbit 8 idiv add get def
+/mask 1 7 xbit 8 mod sub bitshift def
+bval mask and 0 ne}bdef
+/bps{/y _x def /x _x def
+/xndx x 1 add 2 div bpside mul cvi def
+/yndx y 1 add 2 div bpside mul cvi def
+xndx yndx bitis
+{/onb onb 1 add def 1}{/ofb ofb 1 add def 0}ife}bdef
+/stpatt{/csz _x def /angle _x def /bwidth _x def
+/bpside _x def /bstring _x def
+/onb 0 def /ofb 0 def
+csz angle /bps load
+sus{}settransfer
+ofb ofb onb add div _g}bdef
+/_fp{8 1 0 cpi stpatt}bdef
+/_pf{gsave eofill grestore}bdef
+/_np{newpath}bdef/_lc{setlinecap}bdef
+/_sr{/cpi _x def}bdef
+/nbuff 50 string def
+/_ieq	{gsave
+	dup /picstr exch 7 add 8 idiv string def
+	3 1 roll translate dup 1 scale
+	dup 1 false [5 -1 roll 0 0 1 0 0]
+	{currentfile picstr readhexstring pop} imagemask
+	grestore} bdef
+a4 _bp 1 14032 9922 _ornt /Times-RomanR 500 _ff
+1 14032 9922 _ornt 
+/_r      { sflg {/_t {0 rmoveto}bdef /ron false def}
+         { /_S /show load def /_t {0 rmoveto}bdef /ron false def}ifelse
+     }bdef
+5336 8540 _m
+/Times-BoldR 750 _ff
+(Periodic)_S 83 _t
+(Table)_S 83 _t
+(of)_S 83 _t
+(the)_S 83 _t
+(Elements)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 300 2070 _m
+_sp 449 2070 449 2073 300 2073 3 _pl _pf _np _s _s 300 1939 _m
+_sp 303 1939 303 2073 300 2073 3 _pl _pf _np _s _s 308 2062 _m
+_sp 449 2062 449 2065 308 2065 3 _pl _pf _np _s _s 308 1939 _m
+_sp 311 1939 311 2065 308 2065 3 _pl _pf _np 
+_s 0 g 122 137 312 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1410 7985 _m
+/Times-RomanR 400 _ff
+(1)_S /Times-BoldR 600 _ff
+(H)_S /Times-RomanR 500 _ff
+1477 7825 _m
+/Times-RomanR 300 _ff
+(1s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 2070 _m
+_sp 603 2070 603 2073 448 2073 3 _pl _pf _np _s _s 448 1939 _m
+_sp 451 1939 451 2065 448 2065 3 _pl _pf _np _s _s 448 2062 _m
+_sp 603 2062 603 2065 448 2065 3 _pl _pf _np 
+_s 0 g 122 151 452 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 2070 _m
+_sp 756 2070 756 2073 602 2073 3 _pl _pf _np _s _s 602 2062 _m
+_sp 756 2062 756 2065 602 2065 3 _pl _pf _np 
+_s 0 g 122 154 602 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 755 2070 _m
+_sp 910 2070 910 2073 755 2073 3 _pl _pf _np _s _s 755 2062 _m
+_sp 910 2062 910 2065 755 2065 3 _pl _pf _np 
+_s 0 g 122 155 755 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 909 2070 _m
+_sp 1063 2070 1063 2073 909 2073 3 _pl _pf _np _s _s 909 2062 _m
+_sp 1063 2062 1063 2065 909 2065 3 _pl _pf _np 
+_s 0 g 122 154 909 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1062 2070 _m
+_sp 1217 2070 1217 2073 1062 2073 3 _pl _pf _np _s _s 1062 2062 _m
+_sp 1217 2062 1217 2065 1062 2065 3 _pl _pf _np 
+_s 0 g 122 155 1062 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1216 2070 _m
+_sp 1370 2070 1370 2073 1216 2073 3 _pl _pf _np _s _s 1216 2062 _m
+_sp 1370 2062 1370 2065 1216 2065 3 _pl _pf _np 
+_s 0 g 122 154 1216 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1370 2070 _m
+_sp 1524 2070 1524 2073 1370 2073 3 _pl _pf _np _s _s 1370 2062 _m
+_sp 1524 2062 1524 2065 1370 2065 3 _pl _pf _np 
+_s 0 g 122 154 1370 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1523 2070 _m
+_sp 1677 2070 1677 2073 1523 2073 3 _pl _pf _np _s _s 1523 2062 _m
+_sp 1677 2062 1677 2065 1523 2065 3 _pl _pf _np 
+_s 0 g 122 154 1523 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1677 2070 _m
+_sp 1831 2070 1831 2073 1677 2073 3 _pl _pf _np _s _s 1677 2062 _m
+_sp 1831 2062 1831 2065 1677 2065 3 _pl _pf _np 
+_s 0 g 122 154 1677 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1830 2070 _m
+_sp 1984 2070 1984 2073 1830 2073 3 _pl _pf _np _s _s 1830 2062 _m
+_sp 1984 2062 1984 2065 1830 2065 3 _pl _pf _np 
+_s 0 g 122 154 1830 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1984 2070 _m
+_sp 2138 2070 2138 2073 1984 2073 3 _pl _pf _np _s _s 1984 2062 _m
+_sp 2138 2062 2138 2065 1984 2065 3 _pl _pf _np 
+_s 0 g 122 154 1984 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 2070 _m
+_sp 2315 2070 2315 2073 2137 2073 3 _pl _pf _np _s _s 2137 2062 _m
+_sp 2315 2062 2315 2065 2137 2065 3 _pl _pf _np 
+_s 0 g 122 178 2137 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 2070 _m
+_sp 2504 2070 2504 2073 2314 2073 3 _pl _pf _np _s _s 2314 2062 _m
+_sp 2504 2062 2504 2065 2314 2065 3 _pl _pf _np 
+_s 0 g 122 190 2314 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 2070 _m
+_sp 2693 2070 2693 2073 2503 2073 3 _pl _pf _np _s _s 2503 2062 _m
+_sp 2693 2062 2693 2065 2503 2065 3 _pl _pf _np 
+_s 0 g 122 190 2503 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 2070 _m
+_sp 2882 2070 2882 2073 2692 2073 3 _pl _pf _np _s _s 2692 2062 _m
+_sp 2882 2062 2882 2065 2692 2065 3 _pl _pf _np 
+_s 0 g 122 190 2692 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 2070 _m
+_sp 3071 2070 3071 2073 2881 2073 3 _pl _pf _np _s _s 2881 2062 _m
+_sp 3071 2062 3071 2065 2881 2065 3 _pl _pf _np 
+_s 0 g 122 190 2881 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1939 _m
+_sp 3272 1939 3272 2073 3269 2073 3 _pl _pf _np _s _s 3070 2070 _m
+_sp 3272 2070 3272 2073 3070 2073 3 _pl _pf _np _s _s 3070 1939 _m
+_sp 3073 1939 3073 2065 3070 2065 3 _pl _pf _np _s _s 3261 1939 _m
+_sp 3264 1939 3264 2065 3261 2065 3 _pl _pf _np _s _s 3070 2062 _m
+_sp 3264 2062 3264 2065 3070 2065 3 _pl _pf _np 
+_s 0 g 122 186 3074 1939 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12513 7985 _m
+/Times-RomanR 400 _ff
+(2)_S /Times-BoldR 600 _ff
+(He)_S /Times-RomanR 500 _ff
+12609 7825 _m
+/Times-RomanR 300 _ff
+(1s)_S /Times-RomanR 180 _ff
+12697 7825 _m
+12697 7866 _m
+(2)_S 12727 7866 _m
+/Times-RomanR 500 _ff
+12727 7825 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 308 1937 _m
+_sp 449 1937 449 1940 308 1940 3 _pl _pf _np _s _s 300 1814 _m
+_sp 303 1814 303 1940 300 1940 3 _pl _pf _np _s _s 308 1814 _m
+_sp 311 1814 311 1940 308 1940 3 _pl _pf _np 
+_s 0 g 122 137 312 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1393 7483 _m
+/Times-RomanR 400 _ff
+(3)_S /Times-BoldR 600 _ff
+(Li)_S /Times-RomanR 500 _ff
+1418 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1937 _m
+_sp 603 1937 603 1940 448 1940 3 _pl _pf _np _s _s 448 1814 _m
+_sp 451 1814 451 1940 448 1940 3 _pl _pf _np 
+_s 0 g 122 151 452 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1966 7483 _m
+/Times-RomanR 400 _ff
+(4)_S /Times-BoldR 600 _ff
+(Be)_S /Times-RomanR 300 _ff
+1992 7323 _m
+(He2s)_S /Times-RomanR 180 _ff
+2198 7323 _m
+2198 7364 _m
+(2)_S 2228 7364 _m
+/Times-RomanR 500 _ff
+2228 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1814 _m
+_sp 605 1814 605 1940 602 1940 3 _pl _pf _np 
+_s 0 g 126 150 606 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1937 _m
+_sp 2315 1937 2315 1940 2137 1940 3 _pl _pf _np _s _s 2137 1814 _m
+_sp 2140 1814 2140 1940 2137 1940 3 _pl _pf _np 
+_s 0 g 122 174 2141 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8813 7483 _m
+/Times-RomanR 400 _ff
+(5)_S /Times-BoldR 600 _ff
+(B)_S /Times-RomanR 500 _ff
+8745 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+8951 7323 _m
+8951 7364 _m
+(2)_S 8981 7364 _m
+/Times-RomanR 300 _ff
+8981 7323 _m
+(2p)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1937 _m
+_sp 2504 1937 2504 1940 2314 1940 3 _pl _pf _np _s _s 2314 1814 _m
+_sp 2317 1814 2317 1940 2314 1940 3 _pl _pf _np 
+_s 0 g 122 186 2318 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9540 7483 _m
+/Times-RomanR 400 _ff
+(6)_S /Times-BoldR 600 _ff
+(C)_S /Times-RomanR 500 _ff
+9462 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+9668 7323 _m
+9668 7364 _m
+(2)_S 9698 7364 _m
+/Times-RomanR 300 _ff
+9698 7323 _m
+(2p)_S /Times-RomanR 180 _ff
+9798 7323 _m
+9798 7364 _m
+(2)_S 9828 7364 _m
+/Times-RomanR 500 _ff
+9828 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1937 _m
+_sp 2693 1937 2693 1940 2503 1940 3 _pl _pf _np _s _s 2503 1814 _m
+_sp 2506 1814 2506 1940 2503 1940 3 _pl _pf _np 
+_s 0 g 122 186 2507 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10296 7483 _m
+/Times-RomanR 400 _ff
+(7)_S /Times-BoldR 600 _ff
+(N)_S /Times-RomanR 500 _ff
+10218 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+10424 7323 _m
+10424 7364 _m
+(2)_S 10454 7364 _m
+/Times-RomanR 300 _ff
+10454 7323 _m
+(2p)_S /Times-RomanR 180 _ff
+10554 7323 _m
+10554 7364 _m
+(3)_S 10584 7364 _m
+/Times-RomanR 500 _ff
+10584 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1937 _m
+_sp 2882 1937 2882 1940 2692 1940 3 _pl _pf _np _s _s 2692 1814 _m
+_sp 2695 1814 2695 1940 2692 1940 3 _pl _pf _np 
+_s 0 g 122 186 2696 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11046 7483 _m
+/Times-RomanR 400 _ff
+(8)_S /Times-BoldR 600 _ff
+(O)_S /Times-RomanR 500 _ff
+10974 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+11180 7323 _m
+11180 7364 _m
+(2)_S 11210 7364 _m
+/Times-RomanR 300 _ff
+11210 7323 _m
+(2p)_S /Times-RomanR 180 _ff
+11310 7323 _m
+11310 7364 _m
+(4)_S 11340 7364 _m
+/Times-RomanR 500 _ff
+11340 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1937 _m
+_sp 3071 1937 3071 1940 2881 1940 3 _pl _pf _np _s _s 2881 1814 _m
+_sp 2884 1814 2884 1940 2881 1940 3 _pl _pf _np 
+_s 0 g 122 186 2885 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11819 7483 _m
+/Times-RomanR 400 _ff
+(9)_S /Times-BoldR 600 _ff
+(F)_S /Times-RomanR 500 _ff
+11730 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+11936 7323 _m
+11936 7364 _m
+(2)_S 11966 7364 _m
+/Times-RomanR 300 _ff
+11966 7323 _m
+(2p)_S /Times-RomanR 180 _ff
+12066 7323 _m
+12066 7364 _m
+(5)_S 12096 7364 _m
+/Times-RomanR 500 _ff
+12096 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1814 _m
+_sp 3272 1814 3272 1940 3269 1940 3 _pl _pf _np _s _s 3070 1937 _m
+_sp 3264 1937 3264 1940 3070 1940 3 _pl _pf _np _s _s 3070 1814 _m
+_sp 3073 1814 3073 1940 3070 1940 3 _pl _pf _np _s _s 3261 1814 _m
+_sp 3264 1814 3264 1940 3261 1940 3 _pl _pf _np 
+_s 0 g 122 186 3074 1814 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12485 7483 _m
+/Times-RomanR 400 _ff
+(10)_S /Times-BoldR 600 _ff
+(Ne)_S /Times-RomanR 500 _ff
+12485 7323 _m
+/Times-RomanR 300 _ff
+(He2s)_S /Times-RomanR 180 _ff
+12691 7323 _m
+12691 7364 _m
+(2)_S 12721 7364 _m
+/Times-RomanR 300 _ff
+12721 7323 _m
+(2p)_S /Times-RomanR 180 _ff
+12821 7323 _m
+12821 7364 _m
+(6)_S 12851 7364 _m
+/Times-RomanR 500 _ff
+12851 7323 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 308 1811 _m
+_sp 449 1811 449 1814 308 1814 3 _pl _pf _np _s _s 300 1688 _m
+_sp 303 1688 303 1814 300 1814 3 _pl _pf _np _s _s 308 1688 _m
+_sp 311 1688 311 1814 308 1814 3 _pl _pf _np 
+_s 0 g 122 137 312 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1332 6981 _m
+/Times-RomanR 400 _ff
+(11)_S /Times-BoldR 600 _ff
+(Na)_S /Times-RomanR 500 _ff
+1418 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1811 _m
+_sp 603 1811 603 1814 448 1814 3 _pl _pf _np _s _s 448 1688 _m
+_sp 451 1688 451 1814 448 1814 3 _pl _pf _np 
+_s 0 g 122 151 452 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1899 6981 _m
+/Times-RomanR 400 _ff
+(12)_S /Times-BoldR 600 _ff
+(Mg)_S /Times-RomanR 500 _ff
+1992 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+2198 6821 _m
+2198 6862 _m
+(2)_S 2228 6862 _m
+/Times-RomanR 500 _ff
+2228 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1688 _m
+_sp 605 1688 605 1814 602 1814 3 _pl _pf _np 
+_s 0 g 126 150 606 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1811 _m
+_sp 2315 1811 2315 1814 2137 1814 3 _pl _pf _np _s _s 2137 1688 _m
+_sp 2140 1688 2140 1814 2137 1814 3 _pl _pf _np 
+_s 0 g 122 174 2141 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8746 6981 _m
+/Times-RomanR 400 _ff
+(13)_S /Times-BoldR 600 _ff
+(Al)_S /Times-RomanR 500 _ff
+8745 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+8951 6821 _m
+8951 6862 _m
+(2)_S 8981 6862 _m
+/Times-RomanR 300 _ff
+8981 6821 _m
+(3p)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1811 _m
+_sp 2504 1811 2504 1814 2314 1814 3 _pl _pf _np _s _s 2314 1688 _m
+_sp 2317 1688 2317 1814 2314 1814 3 _pl _pf _np 
+_s 0 g 122 186 2318 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9495 6981 _m
+/Times-RomanR 400 _ff
+(14)_S /Times-BoldR 600 _ff
+(Si)_S /Times-RomanR 500 _ff
+9462 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+9668 6821 _m
+9668 6862 _m
+(2)_S 9698 6862 _m
+/Times-RomanR 300 _ff
+9698 6821 _m
+(3p)_S /Times-RomanR 180 _ff
+9798 6821 _m
+9798 6862 _m
+(2)_S 9828 6862 _m
+/Times-RomanR 500 _ff
+9828 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1811 _m
+_sp 2693 1811 2693 1814 2503 1814 3 _pl _pf _np _s _s 2503 1688 _m
+_sp 2506 1688 2506 1814 2503 1814 3 _pl _pf _np 
+_s 0 g 122 186 2507 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10273 6981 _m
+/Times-RomanR 400 _ff
+(15)_S /Times-BoldR 600 _ff
+(P)_S /Times-RomanR 500 _ff
+10218 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+10424 6821 _m
+10424 6862 _m
+(2)_S 10454 6862 _m
+/Times-RomanR 300 _ff
+10454 6821 _m
+(3p)_S /Times-RomanR 180 _ff
+10554 6821 _m
+10554 6862 _m
+(3)_S 10584 6862 _m
+/Times-RomanR 500 _ff
+10584 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1811 _m
+_sp 2882 1811 2882 1814 2692 1814 3 _pl _pf _np _s _s 2692 1688 _m
+_sp 2695 1688 2695 1814 2692 1814 3 _pl _pf _np 
+_s 0 g 122 186 2696 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11035 6981 _m
+/Times-RomanR 400 _ff
+(16)_S /Times-BoldR 600 _ff
+(S)_S /Times-RomanR 500 _ff
+10974 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+11180 6821 _m
+11180 6862 _m
+(2)_S 11210 6862 _m
+/Times-RomanR 300 _ff
+11210 6821 _m
+(3p)_S /Times-RomanR 180 _ff
+11310 6821 _m
+11310 6862 _m
+(4)_S 11340 6862 _m
+/Times-RomanR 500 _ff
+11340 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1811 _m
+_sp 3071 1811 3071 1814 2881 1814 3 _pl _pf _np _s _s 2881 1688 _m
+_sp 2884 1688 2884 1814 2881 1814 3 _pl _pf _np 
+_s 0 g 122 186 2885 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11746 6981 _m
+/Times-RomanR 400 _ff
+(17)_S /Times-BoldR 600 _ff
+(Cl)_S /Times-RomanR 500 _ff
+11730 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+11936 6821 _m
+11936 6862 _m
+(2)_S 11966 6862 _m
+/Times-RomanR 300 _ff
+11966 6821 _m
+(3p)_S /Times-RomanR 180 _ff
+12066 6821 _m
+12066 6862 _m
+(5)_S 12096 6862 _m
+/Times-RomanR 500 _ff
+12096 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1688 _m
+_sp 3272 1688 3272 1814 3269 1814 3 _pl _pf _np _s _s 3070 1811 _m
+_sp 3264 1811 3264 1814 3070 1814 3 _pl _pf _np _s _s 3070 1688 _m
+_sp 3073 1688 3073 1814 3070 1814 3 _pl _pf _np _s _s 3261 1688 _m
+_sp 3264 1688 3264 1814 3261 1814 3 _pl _pf _np 
+_s 0 g 122 186 3074 1688 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12485 6981 _m
+/Times-RomanR 400 _ff
+(18)_S /Times-BoldR 600 _ff
+(Ar)_S /Times-RomanR 500 _ff
+12485 6821 _m
+/Times-RomanR 300 _ff
+(Ne3s)_S /Times-RomanR 180 _ff
+12691 6821 _m
+12691 6862 _m
+(2)_S 12721 6862 _m
+/Times-RomanR 300 _ff
+12721 6821 _m
+(3p)_S /Times-RomanR 180 _ff
+12821 6821 _m
+12821 6862 _m
+(6)_S 12851 6862 _m
+/Times-RomanR 500 _ff
+12851 6821 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 308 1686 _m
+_sp 449 1686 449 1689 308 1689 3 _pl _pf _np _s _s 300 1563 _m
+_sp 303 1563 303 1689 300 1689 3 _pl _pf _np _s _s 308 1563 _m
+_sp 311 1563 311 1689 308 1689 3 _pl _pf _np 
+_s 0 g 122 137 312 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1377 6479 _m
+/Times-RomanR 400 _ff
+(19)_S /Times-BoldR 600 _ff
+(K)_S /Times-RomanR 500 _ff
+1424 6319 _m
+/Times-RomanR 300 _ff
+(Ar4s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1686 _m
+_sp 603 1686 603 1689 448 1689 3 _pl _pf _np _s _s 448 1563 _m
+_sp 451 1563 451 1689 448 1689 3 _pl _pf _np 
+_s 0 g 122 151 452 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1921 6479 _m
+/Times-RomanR 400 _ff
+(20)_S /Times-BoldR 600 _ff
+(Ca)_S /Times-RomanR 500 _ff
+1998 6319 _m
+/Times-RomanR 300 _ff
+(Ar4s)_S /Times-RomanR 180 _ff
+2192 6319 _m
+2192 6360 _m
+(2)_S 2222 6360 _m
+/Times-RomanR 500 _ff
+2222 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1686 _m
+_sp 756 1686 756 1689 602 1689 3 _pl _pf _np _s _s 602 1563 _m
+_sp 605 1563 605 1689 602 1689 3 _pl _pf _np 
+_s 0 g 122 150 606 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2557 6479 _m
+/Times-RomanR 400 _ff
+(21)_S /Times-BoldR 600 _ff
+(Sc)_S /Times-RomanR 500 _ff
+2547 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+2752 6319 _m
+2752 6360 _m
+(1)_S 2782 6360 _m
+/Times-RomanR 300 _ff
+2782 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+2871 6319 _m
+2871 6360 _m
+(2)_S 2901 6360 _m
+/Times-RomanR 500 _ff
+2901 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 755 1686 _m
+_sp 910 1686 910 1689 755 1689 3 _pl _pf _np _s _s 755 1563 _m
+_sp 758 1563 758 1689 755 1689 3 _pl _pf _np 
+_s 0 g 122 151 759 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3177 6479 _m
+/Times-RomanR 400 _ff
+(22)_S /Times-BoldR 600 _ff
+(Ti)_S /Times-RomanR 500 _ff
+3161 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+3366 6319 _m
+3366 6360 _m
+(2)_S 3396 6360 _m
+/Times-RomanR 300 _ff
+3396 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+3485 6319 _m
+3485 6360 _m
+(2)_S 3515 6360 _m
+/Times-RomanR 500 _ff
+3515 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 909 1686 _m
+_sp 1063 1686 1063 1689 909 1689 3 _pl _pf _np _s _s 909 1563 _m
+_sp 912 1563 912 1689 909 1689 3 _pl _pf _np 
+_s 0 g 122 150 913 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3813 6479 _m
+/Times-RomanR 400 _ff
+(23)_S /Times-BoldR 600 _ff
+(V)_S /Times-RomanR 500 _ff
+3775 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+3980 6319 _m
+3980 6360 _m
+(3)_S 4010 6360 _m
+/Times-RomanR 300 _ff
+4010 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+4099 6319 _m
+4099 6360 _m
+(2)_S 4129 6360 _m
+/Times-RomanR 500 _ff
+4129 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1062 1686 _m
+_sp 1217 1686 1217 1689 1062 1689 3 _pl _pf _np _s _s 1062 1563 _m
+_sp 1065 1563 1065 1689 1062 1689 3 _pl _pf _np 
+_s 0 g 122 151 1066 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4383 6479 _m
+/Times-RomanR 400 _ff
+(24)_S /Times-BoldR 600 _ff
+(Cr)_S /Times-RomanR 500 _ff
+4389 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+4594 6319 _m
+4594 6360 _m
+(5)_S 4624 6360 _m
+/Times-RomanR 300 _ff
+4624 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+4713 6319 _m
+4713 6360 _m
+(1)_S 4743 6360 _m
+/Times-RomanR 500 _ff
+4743 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1216 1686 _m
+_sp 1370 1686 1370 1689 1216 1689 3 _pl _pf _np _s _s 1216 1563 _m
+_sp 1219 1563 1219 1689 1216 1689 3 _pl _pf _np 
+_s 0 g 122 150 1220 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4964 6479 _m
+/Times-RomanR 400 _ff
+(25)_S /Times-BoldR 600 _ff
+(Mn)_S /Times-RomanR 500 _ff
+5004 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+5209 6319 _m
+5209 6360 _m
+(5)_S 5239 6360 _m
+/Times-RomanR 300 _ff
+5239 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+5328 6319 _m
+5328 6360 _m
+(2)_S 5358 6360 _m
+/Times-RomanR 500 _ff
+5358 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1370 1686 _m
+_sp 1524 1686 1524 1689 1370 1689 3 _pl _pf _np _s _s 1370 1563 _m
+_sp 1373 1563 1373 1689 1370 1689 3 _pl _pf _np 
+_s 0 g 122 150 1374 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 5623 6479 _m
+/Times-RomanR 400 _ff
+(26)_S /Times-BoldR 600 _ff
+(Fe)_S /Times-RomanR 500 _ff
+5618 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+5823 6319 _m
+5823 6360 _m
+(6)_S 5853 6360 _m
+/Times-RomanR 300 _ff
+5853 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+5942 6319 _m
+5942 6360 _m
+(2)_S 5972 6360 _m
+/Times-RomanR 500 _ff
+5972 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1523 1686 _m
+_sp 1677 1686 1677 1689 1523 1689 3 _pl _pf _np _s _s 1523 1563 _m
+_sp 1526 1563 1526 1689 1523 1689 3 _pl _pf _np 
+_s 0 g 122 150 1527 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6220 6479 _m
+/Times-RomanR 400 _ff
+(27)_S /Times-BoldR 600 _ff
+(Co)_S /Times-RomanR 500 _ff
+6232 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+6437 6319 _m
+6437 6360 _m
+(7)_S 6467 6360 _m
+/Times-RomanR 300 _ff
+6467 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+6556 6319 _m
+6556 6360 _m
+(2)_S 6586 6360 _m
+/Times-RomanR 500 _ff
+6586 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1677 1686 _m
+_sp 1831 1686 1831 1689 1677 1689 3 _pl _pf _np _s _s 1677 1563 _m
+_sp 1680 1563 1680 1689 1677 1689 3 _pl _pf _np 
+_s 0 g 122 150 1681 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6856 6479 _m
+/Times-RomanR 400 _ff
+(28)_S /Times-BoldR 600 _ff
+(Ni)_S /Times-RomanR 500 _ff
+6846 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+7051 6319 _m
+7051 6360 _m
+(8)_S 7081 6360 _m
+/Times-RomanR 300 _ff
+7081 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+7170 6319 _m
+7170 6360 _m
+(2)_S 7200 6360 _m
+/Times-RomanR 500 _ff
+7200 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1830 1686 _m
+_sp 1984 1686 1984 1689 1830 1689 3 _pl _pf _np _s _s 1830 1563 _m
+_sp 1833 1563 1833 1689 1830 1689 3 _pl _pf _np 
+_s 0 g 122 150 1834 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 7443 6479 _m
+/Times-RomanR 400 _ff
+(29)_S /Times-BoldR 600 _ff
+(Cu)_S /Times-RomanR 500 _ff
+7460 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+7665 6319 _m
+7665 6360 _m
+(9)_S 7695 6360 _m
+/Times-RomanR 300 _ff
+7695 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+7784 6319 _m
+7784 6360 _m
+(2)_S 7814 6360 _m
+/Times-RomanR 500 _ff
+7814 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1984 1686 _m
+_sp 2138 1686 2138 1689 1984 1689 3 _pl _pf _np _s _s 1984 1563 _m
+_sp 1987 1563 1987 1689 1984 1689 3 _pl _pf _np 
+_s 0 g 122 150 1988 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8062 6479 _m
+/Times-RomanR 400 _ff
+(30)_S /Times-BoldR 600 _ff
+(Zn)_S /Times-RomanR 500 _ff
+8059 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+8264 6319 _m
+8264 6360 _m
+(10)_S 8324 6360 _m
+/Times-RomanR 300 _ff
+8324 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+8413 6319 _m
+8413 6360 _m
+(2)_S 8443 6360 _m
+/Times-RomanR 500 _ff
+8443 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1686 _m
+_sp 2315 1686 2315 1689 2137 1689 3 _pl _pf _np _s _s 2137 1563 _m
+_sp 2140 1563 2140 1689 2137 1689 3 _pl _pf _np 
+_s 0 g 122 174 2141 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8719 6479 _m
+/Times-RomanR 400 _ff
+(31)_S /Times-BoldR 600 _ff
+(Ga)_S /Times-RomanR 500 _ff
+8671 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+8876 6319 _m
+8876 6360 _m
+(10)_S 8936 6360 _m
+/Times-RomanR 300 _ff
+8936 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+9025 6319 _m
+9025 6360 _m
+(2)_S 9055 6360 _m
+/Times-RomanR 300 _ff
+9055 6319 _m
+(4p)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1686 _m
+_sp 2504 1686 2504 1689 2314 1689 3 _pl _pf _np _s _s 2314 1563 _m
+_sp 2317 1563 2317 1689 2314 1689 3 _pl _pf _np 
+_s 0 g 122 186 2318 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9456 6479 _m
+/Times-RomanR 400 _ff
+(32)_S /Times-BoldR 600 _ff
+(Ge)_S /Times-RomanR 500 _ff
+9388 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+9593 6319 _m
+9593 6360 _m
+(10)_S 9653 6360 _m
+/Times-RomanR 300 _ff
+9653 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+9742 6319 _m
+9742 6360 _m
+(2)_S 9772 6360 _m
+/Times-RomanR 300 _ff
+9772 6319 _m
+(4p)_S /Times-RomanR 180 _ff
+9872 6319 _m
+9872 6360 _m
+(2)_S 9902 6360 _m
+/Times-RomanR 500 _ff
+9902 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1686 _m
+_sp 2693 1686 2693 1689 2503 1689 3 _pl _pf _np _s _s 2503 1563 _m
+_sp 2506 1563 2506 1689 2503 1689 3 _pl _pf _np 
+_s 0 g 122 186 2507 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10223 6479 _m
+/Times-RomanR 400 _ff
+(33)_S /Times-BoldR 600 _ff
+(As)_S /Times-RomanR 500 _ff
+10144 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+10349 6319 _m
+10349 6360 _m
+(10)_S 10409 6360 _m
+/Times-RomanR 300 _ff
+10409 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+10498 6319 _m
+10498 6360 _m
+(2)_S 10528 6360 _m
+/Times-RomanR 300 _ff
+10528 6319 _m
+(4p)_S /Times-RomanR 180 _ff
+10628 6319 _m
+10628 6360 _m
+(3)_S 10658 6360 _m
+/Times-RomanR 500 _ff
+10658 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1686 _m
+_sp 2882 1686 2882 1689 2692 1689 3 _pl _pf _np _s _s 2692 1563 _m
+_sp 2695 1563 2695 1689 2692 1689 3 _pl _pf _np 
+_s 0 g 122 186 2696 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10990 6479 _m
+/Times-RomanR 400 _ff
+(34)_S /Times-BoldR 600 _ff
+(Se)_S /Times-RomanR 500 _ff
+10900 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+11105 6319 _m
+11105 6360 _m
+(10)_S 11165 6360 _m
+/Times-RomanR 300 _ff
+11165 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+11254 6319 _m
+11254 6360 _m
+(2)_S 11284 6360 _m
+/Times-RomanR 300 _ff
+11284 6319 _m
+(4p)_S /Times-RomanR 180 _ff
+11384 6319 _m
+11384 6360 _m
+(4)_S 11414 6360 _m
+/Times-RomanR 500 _ff
+11414 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1686 _m
+_sp 3071 1686 3071 1689 2881 1689 3 _pl _pf _np _s _s 2881 1563 _m
+_sp 2884 1563 2884 1689 2881 1689 3 _pl _pf _np 
+_s 0 g 122 186 2885 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11735 6479 _m
+/Times-RomanR 400 _ff
+(35)_S /Times-BoldR 600 _ff
+(Br)_S /Times-RomanR 500 _ff
+11656 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+11861 6319 _m
+11861 6360 _m
+(10)_S 11921 6360 _m
+/Times-RomanR 300 _ff
+11921 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+12010 6319 _m
+12010 6360 _m
+(2)_S 12040 6360 _m
+/Times-RomanR 300 _ff
+12040 6319 _m
+(4p)_S /Times-RomanR 180 _ff
+12140 6319 _m
+12140 6360 _m
+(5)_S 12170 6360 _m
+/Times-RomanR 500 _ff
+12170 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1563 _m
+_sp 3272 1563 3272 1689 3269 1689 3 _pl _pf _np _s _s 3070 1686 _m
+_sp 3264 1686 3264 1689 3070 1689 3 _pl _pf _np _s _s 3070 1563 _m
+_sp 3073 1563 3073 1689 3070 1689 3 _pl _pf _np _s _s 3261 1563 _m
+_sp 3264 1563 3264 1689 3261 1689 3 _pl _pf _np 
+_s 0 g 122 186 3074 1563 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12479 6479 _m
+/Times-RomanR 400 _ff
+(36)_S /Times-BoldR 600 _ff
+(Kr)_S /Times-RomanR 500 _ff
+12411 6319 _m
+/Times-RomanR 300 _ff
+(Ar3d)_S /Times-RomanR 180 _ff
+12616 6319 _m
+12616 6360 _m
+(10)_S 12676 6360 _m
+/Times-RomanR 300 _ff
+12676 6319 _m
+(4s)_S /Times-RomanR 180 _ff
+12765 6319 _m
+12765 6360 _m
+(2)_S 12795 6360 _m
+/Times-RomanR 300 _ff
+12795 6319 _m
+(4p)_S /Times-RomanR 180 _ff
+12895 6319 _m
+12895 6360 _m
+(6)_S 12925 6360 _m
+/Times-RomanR 500 _ff
+12925 6319 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 308 1560 _m
+_sp 449 1560 449 1563 308 1563 3 _pl _pf _np _s _s 300 1437 _m
+_sp 303 1437 303 1563 300 1563 3 _pl _pf _np _s _s 308 1437 _m
+_sp 311 1437 311 1563 308 1563 3 _pl _pf _np 
+_s 0 g 122 137 312 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1327 5977 _m
+/Times-RomanR 400 _ff
+(37)_S /Times-BoldR 600 _ff
+(Rb)_S /Times-RomanR 500 _ff
+1424 5817 _m
+/Times-RomanR 300 _ff
+(Kr5s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1560 _m
+_sp 603 1560 603 1563 448 1563 3 _pl _pf _np _s _s 448 1437 _m
+_sp 451 1437 451 1563 448 1563 3 _pl _pf _np 
+_s 0 g 122 151 452 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1943 5977 _m
+/Times-RomanR 400 _ff
+(38)_S /Times-BoldR 600 _ff
+(Sr)_S /Times-RomanR 500 _ff
+1998 5817 _m
+/Times-RomanR 300 _ff
+(Kr5s)_S /Times-RomanR 180 _ff
+2192 5817 _m
+2192 5858 _m
+(2)_S 2222 5858 _m
+/Times-RomanR 500 _ff
+2222 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1560 _m
+_sp 756 1560 756 1563 602 1563 3 _pl _pf _np _s _s 602 1437 _m
+_sp 605 1437 605 1563 602 1563 3 _pl _pf _np 
+_s 0 g 122 150 606 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2585 5977 _m
+/Times-RomanR 400 _ff
+(39)_S /Times-BoldR 600 _ff
+(Y)_S /Times-RomanR 500 _ff
+2547 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+2752 5817 _m
+2752 5858 _m
+(1)_S 2782 5858 _m
+/Times-RomanR 300 _ff
+2782 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+2871 5817 _m
+2871 5858 _m
+(2)_S 2901 5858 _m
+/Times-RomanR 500 _ff
+2901 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 755 1560 _m
+_sp 910 1560 910 1563 755 1563 3 _pl _pf _np _s _s 755 1437 _m
+_sp 758 1437 758 1563 755 1563 3 _pl _pf _np 
+_s 0 g 122 151 759 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3160 5977 _m
+/Times-RomanR 400 _ff
+(40)_S /Times-BoldR 600 _ff
+(Zr)_S /Times-RomanR 500 _ff
+3161 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+3366 5817 _m
+3366 5858 _m
+(2)_S 3396 5858 _m
+/Times-RomanR 300 _ff
+3396 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+3485 5817 _m
+3485 5858 _m
+(2)_S 3515 5858 _m
+/Times-RomanR 500 _ff
+3515 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 909 1560 _m
+_sp 1063 1560 1063 1563 909 1563 3 _pl _pf _np _s _s 909 1437 _m
+_sp 912 1437 912 1563 909 1563 3 _pl _pf _np 
+_s 0 g 122 150 913 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3758 5977 _m
+/Times-RomanR 400 _ff
+(41)_S /Times-BoldR 600 _ff
+(Nb)_S /Times-RomanR 500 _ff
+3775 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+3980 5817 _m
+3980 5858 _m
+(3)_S 4010 5858 _m
+/Times-RomanR 300 _ff
+4010 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+4099 5817 _m
+4099 5858 _m
+(2)_S 4129 5858 _m
+/Times-RomanR 500 _ff
+4129 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1062 1560 _m
+_sp 1217 1560 1217 1563 1062 1563 3 _pl _pf _np _s _s 1062 1437 _m
+_sp 1065 1437 1065 1563 1062 1563 3 _pl _pf _np 
+_s 0 g 122 151 1066 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4355 5977 _m
+/Times-RomanR 400 _ff
+(42)_S /Times-BoldR 600 _ff
+(Mo)_S /Times-RomanR 500 _ff
+4389 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+4594 5817 _m
+4594 5858 _m
+(5)_S 4624 5858 _m
+/Times-RomanR 300 _ff
+4624 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+4713 5817 _m
+4713 5858 _m
+(1)_S 4743 5858 _m
+/Times-RomanR 500 _ff
+4743 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1216 1560 _m
+_sp 1370 1560 1370 1563 1216 1563 3 _pl _pf _np _s _s 1216 1437 _m
+_sp 1219 1437 1219 1563 1216 1563 3 _pl _pf _np 
+_s 0 g 122 150 1220 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 5003 5977 _m
+/Times-RomanR 400 _ff
+(43)_S /Times-BoldR 600 _ff
+(Tc)_S /Times-RomanR 500 _ff
+5004 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+5209 5817 _m
+5209 5858 _m
+(5)_S 5239 5858 _m
+/Times-RomanR 300 _ff
+5239 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+5328 5817 _m
+5328 5858 _m
+(2)_S 5358 5858 _m
+/Times-RomanR 500 _ff
+5358 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1370 1560 _m
+_sp 1524 1560 1524 1563 1370 1563 3 _pl _pf _np _s _s 1370 1437 _m
+_sp 1373 1437 1373 1563 1370 1563 3 _pl _pf _np 
+_s 0 g 122 150 1374 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 5601 5977 _m
+/Times-RomanR 400 _ff
+(44)_S /Times-BoldR 600 _ff
+(Ru)_S /Times-RomanR 500 _ff
+5618 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+5823 5817 _m
+5823 5858 _m
+(6)_S 5853 5858 _m
+/Times-RomanR 300 _ff
+5853 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+5942 5817 _m
+5942 5858 _m
+(2)_S 5972 5858 _m
+/Times-RomanR 500 _ff
+5972 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1523 1560 _m
+_sp 1677 1560 1677 1563 1523 1563 3 _pl _pf _np _s _s 1523 1437 _m
+_sp 1526 1437 1526 1563 1523 1563 3 _pl _pf _np 
+_s 0 g 122 150 1527 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6215 5977 _m
+/Times-RomanR 400 _ff
+(45)_S /Times-BoldR 600 _ff
+(Rh)_S /Times-RomanR 500 _ff
+6232 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+6437 5817 _m
+6437 5858 _m
+(7)_S 6467 5858 _m
+/Times-RomanR 300 _ff
+6467 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+6556 5817 _m
+6556 5858 _m
+(2)_S 6586 5858 _m
+/Times-RomanR 500 _ff
+6586 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1677 1560 _m
+_sp 1831 1560 1831 1563 1677 1563 3 _pl _pf _np _s _s 1677 1437 _m
+_sp 1680 1437 1680 1563 1677 1563 3 _pl _pf _np 
+_s 0 g 122 150 1681 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6840 5977 _m
+/Times-RomanR 400 _ff
+(46)_S /Times-BoldR 600 _ff
+(Pd)_S /Times-RomanR 500 _ff
+6846 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+7051 5817 _m
+7051 5858 _m
+(8)_S 7081 5858 _m
+/Times-RomanR 300 _ff
+7081 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+7170 5817 _m
+7170 5858 _m
+(2)_S 7200 5858 _m
+/Times-RomanR 500 _ff
+7200 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1830 1560 _m
+_sp 1984 1560 1984 1563 1830 1563 3 _pl _pf _np _s _s 1830 1437 _m
+_sp 1833 1437 1833 1563 1830 1563 3 _pl _pf _np 
+_s 0 g 122 150 1834 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 7448 5977 _m
+/Times-RomanR 400 _ff
+(47)_S /Times-BoldR 600 _ff
+(Ag)_S /Times-RomanR 500 _ff
+7445 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+7650 5817 _m
+7650 5858 _m
+(10)_S 7710 5858 _m
+/Times-RomanR 300 _ff
+7710 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+7799 5817 _m
+7799 5858 _m
+(1)_S 7829 5858 _m
+/Times-RomanR 500 _ff
+7829 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1984 1560 _m
+_sp 2138 1560 2138 1563 1984 1563 3 _pl _pf _np _s _s 1984 1437 _m
+_sp 1987 1437 1987 1563 1984 1563 3 _pl _pf _np 
+_s 0 g 122 150 1988 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8057 5977 _m
+/Times-RomanR 400 _ff
+(48)_S /Times-BoldR 600 _ff
+(Cd)_S /Times-RomanR 500 _ff
+8059 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+8264 5817 _m
+8264 5858 _m
+(10)_S 8324 5858 _m
+/Times-RomanR 300 _ff
+8324 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+8413 5817 _m
+8413 5858 _m
+(2)_S 8443 5858 _m
+/Times-RomanR 500 _ff
+8443 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1560 _m
+_sp 2315 1560 2315 1563 2137 1563 3 _pl _pf _np _s _s 2137 1437 _m
+_sp 2140 1437 2140 1563 2137 1563 3 _pl _pf _np 
+_s 0 g 122 174 2141 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8752 5977 _m
+/Times-RomanR 400 _ff
+(49)_S /Times-BoldR 600 _ff
+(In)_S /Times-RomanR 500 _ff
+8671 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+8876 5817 _m
+8876 5858 _m
+(10)_S 8936 5858 _m
+/Times-RomanR 300 _ff
+8936 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+9025 5817 _m
+9025 5858 _m
+(2)_S 9055 5858 _m
+/Times-RomanR 300 _ff
+9055 5817 _m
+(5p)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1560 _m
+_sp 2504 1560 2504 1563 2314 1563 3 _pl _pf _np _s _s 2314 1437 _m
+_sp 2317 1437 2317 1563 2314 1563 3 _pl _pf _np 
+_s 0 g 122 186 2318 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9467 5977 _m
+/Times-RomanR 400 _ff
+(50)_S /Times-BoldR 600 _ff
+(Sn)_S /Times-RomanR 500 _ff
+9388 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+9593 5817 _m
+9593 5858 _m
+(10)_S 9653 5858 _m
+/Times-RomanR 300 _ff
+9653 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+9742 5817 _m
+9742 5858 _m
+(2)_S 9772 5858 _m
+/Times-RomanR 300 _ff
+9772 5817 _m
+(5p)_S /Times-RomanR 180 _ff
+9872 5817 _m
+9872 5858 _m
+(2)_S 9902 5858 _m
+/Times-RomanR 500 _ff
+9902 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1560 _m
+_sp 2693 1560 2693 1563 2503 1563 3 _pl _pf _np _s _s 2503 1437 _m
+_sp 2506 1437 2506 1563 2503 1563 3 _pl _pf _np 
+_s 0 g 122 186 2507 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10223 5977 _m
+/Times-RomanR 400 _ff
+(51)_S /Times-BoldR 600 _ff
+(Sb)_S /Times-RomanR 500 _ff
+10144 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+10349 5817 _m
+10349 5858 _m
+(10)_S 10409 5858 _m
+/Times-RomanR 300 _ff
+10409 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+10498 5817 _m
+10498 5858 _m
+(2)_S 10528 5858 _m
+/Times-RomanR 300 _ff
+10528 5817 _m
+(5p)_S /Times-RomanR 180 _ff
+10628 5817 _m
+10628 5858 _m
+(3)_S 10658 5858 _m
+/Times-RomanR 500 _ff
+10658 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1560 _m
+_sp 2882 1560 2882 1563 2692 1563 3 _pl _pf _np _s _s 2692 1437 _m
+_sp 2695 1437 2695 1563 2692 1563 3 _pl _pf _np 
+_s 0 g 122 186 2696 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10979 5977 _m
+/Times-RomanR 400 _ff
+(52)_S /Times-BoldR 600 _ff
+(Te)_S /Times-RomanR 500 _ff
+10900 5817 _m
+/Times-RomanR 300 _ff
+(Kr3d)_S /Times-RomanR 180 _ff
+11105 5817 _m
+11105 5858 _m
+(10)_S 11165 5858 _m
+/Times-RomanR 300 _ff
+11165 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+11254 5817 _m
+11254 5858 _m
+(2)_S 11284 5858 _m
+/Times-RomanR 300 _ff
+11284 5817 _m
+(5p)_S /Times-RomanR 180 _ff
+11384 5817 _m
+11384 5858 _m
+(4)_S 11414 5858 _m
+/Times-RomanR 500 _ff
+11414 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1560 _m
+_sp 3071 1560 3071 1563 2881 1563 3 _pl _pf _np _s _s 2881 1437 _m
+_sp 2884 1437 2884 1563 2881 1563 3 _pl _pf _np 
+_s 0 g 122 186 2885 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11807 5977 _m
+/Times-RomanR 400 _ff
+(53)_S /Times-BoldR 600 _ff
+(I)_S /Times-RomanR 500 _ff
+11656 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+11861 5817 _m
+11861 5858 _m
+(10)_S 11921 5858 _m
+/Times-RomanR 300 _ff
+11921 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+12010 5817 _m
+12010 5858 _m
+(2)_S 12040 5858 _m
+/Times-RomanR 300 _ff
+12040 5817 _m
+(5p)_S /Times-RomanR 180 _ff
+12140 5817 _m
+12140 5858 _m
+(5)_S 12170 5858 _m
+/Times-RomanR 500 _ff
+12170 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1437 _m
+_sp 3272 1437 3272 1563 3269 1563 3 _pl _pf _np _s _s 3070 1560 _m
+_sp 3264 1560 3264 1563 3070 1563 3 _pl _pf _np _s _s 3070 1437 _m
+_sp 3073 1437 3073 1563 3070 1563 3 _pl _pf _np _s _s 3261 1437 _m
+_sp 3264 1437 3264 1563 3261 1563 3 _pl _pf _np 
+_s 0 g 122 186 3074 1437 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12485 5977 _m
+/Times-RomanR 400 _ff
+(54)_S /Times-BoldR 600 _ff
+(Xe)_S /Times-RomanR 500 _ff
+12411 5817 _m
+/Times-RomanR 300 _ff
+(Kr4d)_S /Times-RomanR 180 _ff
+12616 5817 _m
+12616 5858 _m
+(10)_S 12676 5858 _m
+/Times-RomanR 300 _ff
+12676 5817 _m
+(5s)_S /Times-RomanR 180 _ff
+12765 5817 _m
+12765 5858 _m
+(2)_S 12795 5858 _m
+/Times-RomanR 300 _ff
+12795 5817 _m
+(5p)_S /Times-RomanR 180 _ff
+12895 5817 _m
+12895 5858 _m
+(6)_S 12925 5858 _m
+/Times-RomanR 500 _ff
+12925 5817 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 308 1435 _m
+_sp 449 1435 449 1438 308 1438 3 _pl _pf _np _s _s 300 1303 _m
+_sp 303 1303 303 1438 300 1438 3 _pl _pf _np _s _s 308 1303 _m
+_sp 311 1303 311 1438 308 1438 3 _pl _pf _np 
+_s 0 g 131 137 312 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1343 5475 _m
+/Times-RomanR 400 _ff
+(55)_S /Times-BoldR 600 _ff
+(Cs)_S /Times-RomanR 500 _ff
+1418 5315 _m
+/Times-RomanR 300 _ff
+(Xe6s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1435 _m
+_sp 603 1435 603 1438 448 1438 3 _pl _pf _np _s _s 448 1303 _m
+_sp 451 1303 451 1438 448 1438 3 _pl _pf _np 
+_s 0 g 131 151 452 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1927 5475 _m
+/Times-RomanR 400 _ff
+(56)_S /Times-BoldR 600 _ff
+(Ba)_S /Times-RomanR 500 _ff
+1992 5315 _m
+/Times-RomanR 300 _ff
+(Xe6s)_S /Times-RomanR 180 _ff
+2198 5315 _m
+2198 5356 _m
+(2)_S 2228 5356 _m
+/Times-RomanR 500 _ff
+2228 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1435 _m
+_sp 756 1435 756 1438 602 1438 3 _pl _pf _np _s _s 602 1303 _m
+_sp 605 1303 605 1438 602 1438 3 _pl _pf _np 
+_s 0 g 131 150 606 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2569 5523 _m
+/Times-RomanR 400 _ff
+(57-71)_S 2452 5309 _m
+/Times-BoldR 600 _ff
+(La-Lu)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 755 1435 _m
+_sp 910 1435 910 1438 755 1438 3 _pl _pf _np _s _s 755 1303 _m
+_sp 758 1303 758 1438 755 1438 3 _pl _pf _np 
+_s 0 g 131 151 759 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3160 5475 _m
+/Times-RomanR 400 _ff
+(72)_S /Times-BoldR 600 _ff
+(Hf)_S /Times-RomanR 500 _ff
+3084 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+3284 5315 _m
+3284 5356 _m
+(14)_S 3344 5356 _m
+/Times-RomanR 300 _ff
+3344 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+3444 5315 _m
+3444 5356 _m
+(2)_S 3474 5356 _m
+/Times-RomanR 300 _ff
+3474 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+3562 5315 _m
+3562 5356 _m
+(2)_S 3592 5356 _m
+/Times-RomanR 500 _ff
+3592 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 909 1435 _m
+_sp 1063 1435 1063 1438 909 1438 3 _pl _pf _np _s _s 909 1303 _m
+_sp 912 1303 912 1438 909 1438 3 _pl _pf _np 
+_s 0 g 131 150 913 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3769 5475 _m
+/Times-RomanR 400 _ff
+(73)_S /Times-BoldR 600 _ff
+(Ta)_S /Times-RomanR 500 _ff
+3698 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+3898 5315 _m
+3898 5356 _m
+(14)_S 3958 5356 _m
+/Times-RomanR 300 _ff
+3958 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+4058 5315 _m
+4058 5356 _m
+(3)_S 4088 5356 _m
+/Times-RomanR 300 _ff
+4088 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+4176 5315 _m
+4176 5356 _m
+(2)_S 4206 5356 _m
+/Times-RomanR 500 _ff
+4206 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1062 1435 _m
+_sp 1217 1435 1217 1438 1062 1438 3 _pl _pf _np _s _s 1062 1303 _m
+_sp 1065 1303 1065 1438 1062 1438 3 _pl _pf _np 
+_s 0 g 131 151 1066 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4399 5475 _m
+/Times-RomanR 400 _ff
+(74)_S /Times-BoldR 600 _ff
+(W)_S /Times-RomanR 500 _ff
+4312 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+4512 5315 _m
+4512 5356 _m
+(14)_S 4572 5356 _m
+/Times-RomanR 300 _ff
+4572 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+4672 5315 _m
+4672 5356 _m
+(5)_S 4702 5356 _m
+/Times-RomanR 300 _ff
+4702 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+4790 5315 _m
+4790 5356 _m
+(1)_S 4820 5356 _m
+/Times-RomanR 500 _ff
+4820 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1216 1435 _m
+_sp 1370 1435 1370 1438 1216 1438 3 _pl _pf _np _s _s 1216 1303 _m
+_sp 1219 1303 1219 1438 1216 1438 3 _pl _pf _np 
+_s 0 g 131 150 1220 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4998 5475 _m
+/Times-RomanR 400 _ff
+(75)_S /Times-BoldR 600 _ff
+(Re)_S /Times-RomanR 500 _ff
+4927 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+5127 5315 _m
+5127 5356 _m
+(14)_S 5187 5356 _m
+/Times-RomanR 300 _ff
+5187 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+5287 5315 _m
+5287 5356 _m
+(5)_S 5317 5356 _m
+/Times-RomanR 300 _ff
+5317 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+5405 5315 _m
+5405 5356 _m
+(2)_S 5435 5356 _m
+/Times-RomanR 500 _ff
+5435 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1370 1435 _m
+_sp 1524 1435 1524 1438 1370 1438 3 _pl _pf _np _s _s 1370 1303 _m
+_sp 1373 1303 1373 1438 1370 1438 3 _pl _pf _np 
+_s 0 g 131 150 1374 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 5612 5475 _m
+/Times-RomanR 400 _ff
+(76)_S /Times-BoldR 600 _ff
+(Os)_S /Times-RomanR 500 _ff
+5541 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+5741 5315 _m
+5741 5356 _m
+(14)_S 5801 5356 _m
+/Times-RomanR 300 _ff
+5801 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+5901 5315 _m
+5901 5356 _m
+(6)_S 5931 5356 _m
+/Times-RomanR 300 _ff
+5931 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+6019 5315 _m
+6019 5356 _m
+(2)_S 6049 5356 _m
+/Times-RomanR 500 _ff
+6049 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1523 1435 _m
+_sp 1677 1435 1677 1438 1523 1438 3 _pl _pf _np _s _s 1523 1303 _m
+_sp 1526 1303 1526 1438 1523 1438 3 _pl _pf _np 
+_s 0 g 131 150 1527 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6259 5475 _m
+/Times-RomanR 400 _ff
+(77)_S /Times-BoldR 600 _ff
+(Ir)_S /Times-RomanR 500 _ff
+6155 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+6355 5315 _m
+6355 5356 _m
+(14)_S 6415 5356 _m
+/Times-RomanR 300 _ff
+6415 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+6515 5315 _m
+6515 5356 _m
+(7)_S 6545 5356 _m
+/Times-RomanR 300 _ff
+6545 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+6633 5315 _m
+6633 5356 _m
+(2)_S 6663 5356 _m
+/Times-RomanR 300 _ff
+6663 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1677 1435 _m
+_sp 1831 1435 1831 1438 1677 1438 3 _pl _pf _np _s _s 1677 1303 _m
+_sp 1680 1303 1680 1438 1677 1438 3 _pl _pf _np 
+_s 0 g 131 150 1681 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6862 5475 _m
+/Times-RomanR 400 _ff
+(78)_S /Times-BoldR 600 _ff
+(Pt)_S /Times-RomanR 300 _ff
+6769 5315 _m
+(Xe4f)_S /Times-RomanR 180 _ff
+6969 5315 _m
+6969 5356 _m
+(14)_S 7029 5356 _m
+/Times-RomanR 300 _ff
+7029 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+7129 5315 _m
+7129 5356 _m
+(8)_S 7159 5356 _m
+/Times-RomanR 300 _ff
+7159 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+7247 5315 _m
+7247 5356 _m
+(2)_S 7277 5356 _m
+/Times-RomanR 300 _ff
+7277 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1830 1435 _m
+_sp 1984 1435 1984 1438 1830 1438 3 _pl _pf _np _s _s 1830 1303 _m
+_sp 1833 1303 1833 1438 1830 1438 3 _pl _pf _np 
+_s 0 g 131 150 1834 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 7443 5475 _m
+/Times-RomanR 400 _ff
+(79)_S /Times-BoldR 600 _ff
+(Au)_S /Times-RomanR 300 _ff
+7368 5315 _m
+(Xe4f)_S /Times-RomanR 180 _ff
+7568 5315 _m
+7568 5356 _m
+(14)_S 7628 5356 _m
+/Times-RomanR 300 _ff
+7628 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+7728 5315 _m
+7728 5356 _m
+(10)_S 7788 5356 _m
+/Times-RomanR 300 _ff
+7788 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+7876 5315 _m
+7876 5356 _m
+(1)_S 7906 5356 _m
+/Times-RomanR 500 _ff
+7906 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1984 1435 _m
+_sp 2138 1435 2138 1438 1984 1438 3 _pl _pf _np _s _s 1984 1303 _m
+_sp 1987 1303 1987 1438 1984 1438 3 _pl _pf _np 
+_s 0 g 131 150 1988 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8057 5475 _m
+/Times-RomanR 400 _ff
+(80)_S /Times-BoldR 600 _ff
+(Hg)_S /Times-RomanR 500 _ff
+7982 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+8182 5315 _m
+8182 5356 _m
+(14)_S 8242 5356 _m
+/Times-RomanR 300 _ff
+8242 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+8342 5315 _m
+8342 5356 _m
+(10)_S 8402 5356 _m
+/Times-RomanR 300 _ff
+8402 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+8490 5315 _m
+8490 5356 _m
+(2)_S 8520 5356 _m
+/Times-RomanR 500 _ff
+8520 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1435 _m
+_sp 2315 1435 2315 1438 2137 1438 3 _pl _pf _np _s _s 2137 1303 _m
+_sp 2140 1303 2140 1438 2137 1438 3 _pl _pf _np 
+_s 0 g 131 174 2141 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8752 5475 _m
+/Times-RomanR 400 _ff
+(81)_S /Times-BoldR 600 _ff
+(Tl)_S /Times-RomanR 500 _ff
+8594 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+8794 5315 _m
+8794 5356 _m
+(14)_S 8854 5356 _m
+/Times-RomanR 300 _ff
+8854 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+8954 5315 _m
+8954 5356 _m
+(10)_S 9014 5356 _m
+/Times-RomanR 300 _ff
+9014 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+9102 5315 _m
+9102 5356 _m
+(2)_S 9132 5356 _m
+/Times-RomanR 300 _ff
+9132 5315 _m
+(6p)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1435 _m
+_sp 2504 1435 2504 1438 2314 1438 3 _pl _pf _np _s _s 2314 1303 _m
+_sp 2317 1303 2317 1438 2314 1438 3 _pl _pf _np 
+_s 0 g 131 186 2318 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9462 5475 _m
+/Times-RomanR 400 _ff
+(82)_S /Times-BoldR 600 _ff
+(Pb)_S /Times-RomanR 500 _ff
+9311 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+9511 5315 _m
+9511 5356 _m
+(14)_S 9571 5356 _m
+/Times-RomanR 300 _ff
+9571 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+9671 5315 _m
+9671 5356 _m
+(10)_S 9731 5356 _m
+/Times-RomanR 300 _ff
+9731 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+9819 5315 _m
+9819 5356 _m
+(2)_S 9849 5356 _m
+/Times-RomanR 300 _ff
+9849 5315 _m
+(6p)_S /Times-RomanR 180 _ff
+9949 5315 _m
+9949 5356 _m
+(2)_S 9979 5356 _m
+/Times-RomanR 500 _ff
+9979 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1435 _m
+_sp 2693 1435 2693 1438 2503 1438 3 _pl _pf _np _s _s 2503 1303 _m
+_sp 2506 1303 2506 1438 2503 1438 3 _pl _pf _np 
+_s 0 g 131 186 2507 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10240 5475 _m
+/Times-RomanR 400 _ff
+(83)_S /Times-BoldR 600 _ff
+(Bi)_S /Times-RomanR 500 _ff
+10067 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+10267 5315 _m
+10267 5356 _m
+(14)_S 10327 5356 _m
+/Times-RomanR 300 _ff
+10327 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+10427 5315 _m
+10427 5356 _m
+(10)_S 10487 5356 _m
+/Times-RomanR 300 _ff
+10487 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+10575 5315 _m
+10575 5356 _m
+(2)_S 10605 5356 _m
+/Times-RomanR 300 _ff
+10605 5315 _m
+(6p)_S /Times-RomanR 180 _ff
+10705 5315 _m
+10705 5356 _m
+(3)_S 10735 5356 _m
+/Times-RomanR 500 _ff
+10735 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1435 _m
+_sp 2882 1435 2882 1438 2692 1438 3 _pl _pf _np _s _s 2692 1303 _m
+_sp 2695 1303 2695 1438 2692 1438 3 _pl _pf _np 
+_s 0 g 131 186 2696 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10979 5475 _m
+/Times-RomanR 400 _ff
+(84)_S /Times-BoldR 600 _ff
+(Po)_S /Times-RomanR 500 _ff
+10823 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+11023 5315 _m
+11023 5356 _m
+(14)_S 11083 5356 _m
+/Times-RomanR 300 _ff
+11083 5315 _m
+(3d)_S /Times-RomanR 180 _ff
+11183 5315 _m
+11183 5356 _m
+(10)_S 11243 5356 _m
+/Times-RomanR 300 _ff
+11243 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+11331 5315 _m
+11331 5356 _m
+(2)_S 11361 5356 _m
+/Times-RomanR 300 _ff
+11361 5315 _m
+(6p)_S /Times-RomanR 180 _ff
+11461 5315 _m
+11461 5356 _m
+(4)_S 11491 5356 _m
+/Times-RomanR 500 _ff
+11491 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1435 _m
+_sp 3071 1435 3071 1438 2881 1438 3 _pl _pf _np _s _s 2881 1303 _m
+_sp 2884 1303 2884 1438 2881 1438 3 _pl _pf _np 
+_s 0 g 131 186 2885 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11741 5475 _m
+/Times-RomanR 400 _ff
+(85)_S /Times-BoldR 600 _ff
+(At)_S /Times-RomanR 500 _ff
+11579 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+11779 5315 _m
+11779 5356 _m
+(14)_S 11839 5356 _m
+/Times-RomanR 300 _ff
+11839 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+11939 5315 _m
+11939 5356 _m
+(10)_S 11999 5356 _m
+/Times-RomanR 300 _ff
+11999 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+12087 5315 _m
+12087 5356 _m
+(2)_S 12117 5356 _m
+/Times-RomanR 300 _ff
+12117 5315 _m
+(6p)_S /Times-RomanR 180 _ff
+12217 5315 _m
+12217 5356 _m
+(5)_S 12247 5356 _m
+/Times-RomanR 500 _ff
+12247 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3269 1303 _m
+_sp 3272 1303 3272 1438 3269 1438 3 _pl _pf _np _s _s 3070 1435 _m
+_sp 3264 1435 3264 1438 3070 1438 3 _pl _pf _np _s _s 3070 1303 _m
+_sp 3073 1303 3073 1438 3070 1438 3 _pl _pf _np _s _s 3261 1303 _m
+_sp 3264 1303 3264 1438 3261 1438 3 _pl _pf _np 
+_s 0 g 131 186 3074 1303 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12474 5475 _m
+/Times-RomanR 400 _ff
+(86)_S /Times-BoldR 600 _ff
+(Rn)_S /Times-RomanR 500 _ff
+12334 5315 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+12534 5315 _m
+12534 5356 _m
+(14)_S 12594 5356 _m
+/Times-RomanR 300 _ff
+12594 5315 _m
+(5d)_S /Times-RomanR 180 _ff
+12694 5315 _m
+12694 5356 _m
+(10)_S 12754 5356 _m
+/Times-RomanR 300 _ff
+12754 5315 _m
+(6s)_S /Times-RomanR 180 _ff
+12842 5315 _m
+12842 5356 _m
+(2)_S 12872 5356 _m
+/Times-RomanR 300 _ff
+12872 5315 _m
+(6p)_S /Times-RomanR 180 _ff
+12972 5315 _m
+12972 5356 _m
+(6)_S 13002 5356 _m
+/Times-RomanR 500 _ff
+13002 5315 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 300 1158 _m
+_sp 449 1158 449 1161 300 1161 3 _pl _pf _np _s _s 308 1301 _m
+_sp 449 1301 449 1304 308 1304 3 _pl _pf _np _s _s 300 1158 _m
+_sp 303 1158 303 1304 300 1304 3 _pl _pf _np _s _s 308 1166 _m
+_sp 449 1166 449 1169 308 1169 3 _pl _pf _np _s _s 308 1166 _m
+_sp 311 1166 311 1304 308 1304 3 _pl _pf _np 
+_s 0 g 130 137 312 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1349 4940 _m
+/Times-RomanR 400 _ff
+(87)_S /Times-BoldR 600 _ff
+(Fr)_S /Times-RomanR 500 _ff
+1418 4780 _m
+/Times-RomanR 300 _ff
+(Rn7s)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 448 1158 _m
+_sp 603 1158 603 1161 448 1161 3 _pl _pf _np _s _s 448 1301 _m
+_sp 603 1301 603 1304 448 1304 3 _pl _pf _np _s _s 448 1166 _m
+_sp 451 1166 451 1304 448 1304 3 _pl _pf _np _s _s 448 1166 _m
+_sp 603 1166 603 1169 448 1169 3 _pl _pf _np 
+_s 0 g 130 151 452 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1921 4940 _m
+/Times-RomanR 400 _ff
+(88)_S /Times-BoldR 600 _ff
+(Ra)_S /Times-RomanR 500 _ff
+1992 4780 _m
+/Times-RomanR 300 _ff
+(Rn7s)_S /Times-RomanR 180 _ff
+2198 4780 _m
+2198 4821 _m
+(2)_S 2228 4821 _m
+/Times-RomanR 500 _ff
+2228 4780 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 602 1158 _m
+_sp 756 1158 756 1161 602 1161 3 _pl _pf _np _s _s 602 1301 _m
+_sp 756 1301 756 1304 602 1304 3 _pl _pf _np _s _s 602 1166 _m
+_sp 605 1166 605 1304 602 1304 3 _pl _pf _np _s _s 602 1166 _m
+_sp 756 1166 756 1169 602 1169 3 _pl _pf _np 
+_s 0 g 130 150 606 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2535 4988 _m
+/Times-RomanR 400 _ff
+(89-103)_S 2463 4774 _m
+/Times-BoldR 600 _ff
+(Ac-Lr)_S /Times-RomanR 500 _ff
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 755 1158 _m
+_sp 910 1158 910 1161 755 1161 3 _pl _pf _np _s _s 755 1301 _m
+_sp 910 1301 910 1304 755 1304 3 _pl _pf _np _s _s 755 1166 _m
+_sp 758 1166 758 1304 755 1304 3 _pl _pf _np _s _s 755 1166 _m
+_sp 910 1166 910 1169 755 1169 3 _pl _pf _np 
+_s 0 g 130 151 759 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 909 1158 _m
+_sp 1063 1158 1063 1161 909 1161 3 _pl _pf _np _s _s 909 1301 _m
+_sp 1063 1301 1063 1304 909 1304 3 _pl _pf _np _s _s 909 1166 _m
+_sp 1063 1166 1063 1169 909 1169 3 _pl _pf _np 
+_s 0 g 130 154 909 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1062 1158 _m
+_sp 1217 1158 1217 1161 1062 1161 3 _pl _pf _np _s _s 1062 1301 _m
+_sp 1217 1301 1217 1304 1062 1304 3 _pl _pf _np _s _s 1062 1166 _m
+_sp 1217 1166 1217 1169 1062 1169 3 _pl _pf _np 
+_s 0 g 130 155 1062 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1216 1158 _m
+_sp 1370 1158 1370 1161 1216 1161 3 _pl _pf _np _s _s 1216 1301 _m
+_sp 1370 1301 1370 1304 1216 1304 3 _pl _pf _np _s _s 1216 1166 _m
+_sp 1370 1166 1370 1169 1216 1169 3 _pl _pf _np 
+_s 0 g 130 154 1216 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1370 1158 _m
+_sp 1524 1158 1524 1161 1370 1161 3 _pl _pf _np _s _s 1370 1301 _m
+_sp 1524 1301 1524 1304 1370 1304 3 _pl _pf _np _s _s 1370 1166 _m
+_sp 1524 1166 1524 1169 1370 1169 3 _pl _pf _np 
+_s 0 g 130 154 1370 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1523 1158 _m
+_sp 1677 1158 1677 1161 1523 1161 3 _pl _pf _np _s _s 1523 1301 _m
+_sp 1677 1301 1677 1304 1523 1304 3 _pl _pf _np _s _s 1523 1166 _m
+_sp 1677 1166 1677 1169 1523 1169 3 _pl _pf _np 
+_s 0 g 130 154 1523 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1677 1158 _m
+_sp 1831 1158 1831 1161 1677 1161 3 _pl _pf _np _s _s 1677 1301 _m
+_sp 1831 1301 1831 1304 1677 1304 3 _pl _pf _np _s _s 1677 1166 _m
+_sp 1831 1166 1831 1169 1677 1169 3 _pl _pf _np 
+_s 0 g 130 154 1677 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1830 1158 _m
+_sp 1984 1158 1984 1161 1830 1161 3 _pl _pf _np _s _s 1830 1301 _m
+_sp 1984 1301 1984 1304 1830 1304 3 _pl _pf _np _s _s 1830 1166 _m
+_sp 1984 1166 1984 1169 1830 1169 3 _pl _pf _np 
+_s 0 g 130 154 1830 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1984 1158 _m
+_sp 2138 1158 2138 1161 1984 1161 3 _pl _pf _np _s _s 1984 1301 _m
+_sp 2138 1301 2138 1304 1984 1304 3 _pl _pf _np _s _s 1984 1166 _m
+_sp 2138 1166 2138 1169 1984 1169 3 _pl _pf _np 
+_s 0 g 130 154 1984 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2137 1158 _m
+_sp 2315 1158 2315 1161 2137 1161 3 _pl _pf _np _s _s 2137 1301 _m
+_sp 2315 1301 2315 1304 2137 1304 3 _pl _pf _np _s _s 2137 1166 _m
+_sp 2315 1166 2315 1169 2137 1169 3 _pl _pf _np 
+_s 0 g 130 178 2137 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2314 1158 _m
+_sp 2504 1158 2504 1161 2314 1161 3 _pl _pf _np _s _s 2314 1301 _m
+_sp 2504 1301 2504 1304 2314 1304 3 _pl _pf _np _s _s 2314 1166 _m
+_sp 2504 1166 2504 1169 2314 1169 3 _pl _pf _np 
+_s 0 g 130 190 2314 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2503 1158 _m
+_sp 2693 1158 2693 1161 2503 1161 3 _pl _pf _np _s _s 2503 1301 _m
+_sp 2693 1301 2693 1304 2503 1304 3 _pl _pf _np _s _s 2503 1166 _m
+_sp 2693 1166 2693 1169 2503 1169 3 _pl _pf _np 
+_s 0 g 130 190 2503 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2692 1158 _m
+_sp 2882 1158 2882 1161 2692 1161 3 _pl _pf _np _s _s 2692 1301 _m
+_sp 2882 1301 2882 1304 2692 1304 3 _pl _pf _np _s _s 2692 1166 _m
+_sp 2882 1166 2882 1169 2692 1169 3 _pl _pf _np 
+_s 0 g 130 190 2692 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2881 1158 _m
+_sp 3071 1158 3071 1161 2881 1161 3 _pl _pf _np _s _s 2881 1301 _m
+_sp 3071 1301 3071 1304 2881 1304 3 _pl _pf _np _s _s 2881 1166 _m
+_sp 3071 1166 3071 1169 2881 1169 3 _pl _pf _np 
+_s 0 g 130 190 2881 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3070 1158 _m
+_sp 3272 1158 3272 1161 3070 1161 3 _pl _pf _np _s _s 3269 1158 _m
+_sp 3272 1158 3272 1304 3269 1304 3 _pl _pf _np _s _s 3070 1301 _m
+_sp 3264 1301 3264 1304 3070 1304 3 _pl _pf _np _s _s 3070 1166 _m
+_sp 3264 1166 3264 1169 3070 1169 3 _pl _pf _np _s _s 3261 1166 _m
+_sp 3264 1166 3264 1304 3261 1304 3 _pl _pf _np 
+_s 0 g 130 190 3070 1170 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 300 962 _m
+_sp 494 962 494 965 300 965 3 _pl _pf _np _s _s 300 1105 _m
+_sp 494 1105 494 1108 300 1108 3 _pl _pf _np _s _s 300 962 _m
+_sp 303 962 303 1108 300 1108 3 _pl _pf _np _s _s 308 970 _m
+_sp 494 970 494 973 308 973 3 _pl _pf _np _s _s 308 1097 _m
+_sp 494 1097 494 1100 308 1100 3 _pl _pf _np _s _s 308 970 _m
+_sp 311 970 311 1100 308 1100 3 _pl _pf _np 
+_s 0 g 122 182 312 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 1428 4125 _m
+/Times-RomanR 400 _ff
+(57)_S /Times-BoldR 600 _ff
+(La)_S /Times-RomanR 500 _ff
+1443 3965 _m
+/Times-RomanR 300 _ff
+(Xe5d6s)_S /Times-RomanR 180 _ff
+1749 3965 _m
+1749 4006 _m
+(2)_S 1779 4006 _m
+/Times-RomanR 500 _ff
+1779 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 493 962 _m
+_sp 688 962 688 965 493 965 3 _pl _pf _np _s _s 493 1105 _m
+_sp 688 1105 688 1108 493 1108 3 _pl _pf _np _s _s 493 970 _m
+_sp 496 970 496 1100 493 1100 3 _pl _pf _np _s _s 493 970 _m
+_sp 688 970 688 973 493 973 3 _pl _pf _np _s _s 493 1097 _m
+_sp 688 1097 688 1100 493 1100 3 _pl _pf _np 
+_s 0 g 122 191 497 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2187 4125 _m
+/Times-RomanR 400 _ff
+(58)_S /Times-BoldR 600 _ff
+(Ce)_S /Times-RomanR 500 _ff
+2196 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+2396 3965 _m
+2396 4006 _m
+(2)_S 2426 4006 _m
+/Times-RomanR 300 _ff
+2426 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+2514 3965 _m
+2514 4006 _m
+(2)_S 2544 4006 _m
+/Times-RomanR 500 _ff
+2544 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 687 962 _m
+_sp 882 962 882 965 687 965 3 _pl _pf _np _s _s 687 1105 _m
+_sp 882 1105 882 1108 687 1108 3 _pl _pf _np _s _s 687 970 _m
+_sp 690 970 690 1100 687 1100 3 _pl _pf _np _s _s 687 970 _m
+_sp 882 970 882 973 687 973 3 _pl _pf _np _s _s 687 1097 _m
+_sp 882 1097 882 1100 687 1100 3 _pl _pf _np 
+_s 0 g 122 191 691 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 2973 4125 _m
+/Times-RomanR 400 _ff
+(59)_S /Times-BoldR 600 _ff
+(Pr)_S /Times-RomanR 500 _ff
+2971 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+3171 3965 _m
+3171 4006 _m
+(3)_S 3201 4006 _m
+/Times-RomanR 300 _ff
+3201 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+3289 3965 _m
+3289 4006 _m
+(2)_S 3319 4006 _m
+/Times-RomanR 500 _ff
+3319 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 881 962 _m
+_sp 1075 962 1075 965 881 965 3 _pl _pf _np _s _s 881 1105 _m
+_sp 1075 1105 1075 1108 881 1108 3 _pl _pf _np _s _s 881 970 _m
+_sp 884 970 884 1100 881 1100 3 _pl _pf _np _s _s 881 970 _m
+_sp 1075 970 1075 973 881 973 3 _pl _pf _np _s _s 881 1097 _m
+_sp 1075 1097 1075 1100 881 1100 3 _pl _pf _np 
+_s 0 g 122 190 885 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 3726 4125 _m
+/Times-RomanR 400 _ff
+(60)_S /Times-BoldR 600 _ff
+(Nd)_S /Times-RomanR 500 _ff
+3746 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+3946 3965 _m
+3946 4006 _m
+(4)_S 3976 4006 _m
+/Times-RomanR 300 _ff
+3976 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+4064 3965 _m
+4064 4006 _m
+(2)_S 4094 4006 _m
+/Times-RomanR 500 _ff
+4094 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1075 962 _m
+_sp 1269 962 1269 965 1075 965 3 _pl _pf _np _s _s 1075 1105 _m
+_sp 1269 1105 1269 1108 1075 1108 3 _pl _pf _np _s _s 1075 970 _m
+_sp 1078 970 1078 1100 1075 1100 3 _pl _pf _np _s _s 1075 970 _m
+_sp 1269 970 1269 973 1075 973 3 _pl _pf _np _s _s 1075 1097 _m
+_sp 1269 1097 1269 1100 1075 1100 3 _pl _pf _np 
+_s 0 g 122 190 1079 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 4484 4125 _m
+/Times-RomanR 400 _ff
+(61)_S /Times-BoldR 600 _ff
+(Pm)_S /Times-RomanR 500 _ff
+4521 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+4721 3965 _m
+4721 4006 _m
+(5)_S 4751 4006 _m
+/Times-RomanR 300 _ff
+4751 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+4839 3965 _m
+4839 4006 _m
+(2)_S 4869 4006 _m
+/Times-RomanR 500 _ff
+4869 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1268 962 _m
+_sp 1463 962 1463 965 1268 965 3 _pl _pf _np _s _s 1268 1105 _m
+_sp 1463 1105 1463 1108 1268 1108 3 _pl _pf _np _s _s 1268 970 _m
+_sp 1271 970 1271 1100 1268 1100 3 _pl _pf _np _s _s 1268 970 _m
+_sp 1463 970 1463 973 1268 973 3 _pl _pf _np _s _s 1268 1097 _m
+_sp 1463 1097 1463 1100 1268 1100 3 _pl _pf _np 
+_s 0 g 122 191 1272 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 5264 4125 _m
+/Times-RomanR 400 _ff
+(62)_S /Times-BoldR 600 _ff
+(Sm)_S /Times-RomanR 500 _ff
+5296 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+5496 3965 _m
+5496 4006 _m
+(6)_S 5526 4006 _m
+/Times-RomanR 300 _ff
+5526 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+5614 3965 _m
+5614 4006 _m
+(2)_S 5644 4006 _m
+/Times-RomanR 500 _ff
+5644 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1462 962 _m
+_sp 1657 962 1657 965 1462 965 3 _pl _pf _np _s _s 1462 1105 _m
+_sp 1657 1105 1657 1108 1462 1108 3 _pl _pf _np _s _s 1462 970 _m
+_sp 1465 970 1465 1100 1462 1100 3 _pl _pf _np _s _s 1462 970 _m
+_sp 1657 970 1657 973 1462 973 3 _pl _pf _np _s _s 1462 1097 _m
+_sp 1657 1097 1657 1100 1462 1100 3 _pl _pf _np 
+_s 0 g 122 191 1466 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6056 4125 _m
+/Times-RomanR 400 _ff
+(63)_S /Times-BoldR 600 _ff
+(Eu)_S /Times-RomanR 500 _ff
+6071 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+6271 3965 _m
+6271 4006 _m
+(7)_S 6301 4006 _m
+/Times-RomanR 300 _ff
+6301 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+6389 3965 _m
+6389 4006 _m
+(2)_S 6419 4006 _m
+/Times-RomanR 500 _ff
+6419 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1656 962 _m
+_sp 1850 962 1850 965 1656 965 3 _pl _pf _np _s _s 1656 1105 _m
+_sp 1850 1105 1850 1108 1656 1108 3 _pl _pf _np _s _s 1656 970 _m
+_sp 1659 970 1659 1100 1656 1100 3 _pl _pf _np _s _s 1656 970 _m
+_sp 1850 970 1850 973 1656 973 3 _pl _pf _np _s _s 1656 1097 _m
+_sp 1850 1097 1850 1100 1656 1100 3 _pl _pf _np 
+_s 0 g 122 190 1660 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 6820 4125 _m
+/Times-RomanR 400 _ff
+(64)_S /Times-BoldR 600 _ff
+(Gd)_S /Times-RomanR 500 _ff
+6796 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+6996 3965 _m
+6996 4006 _m
+(7)_S 7026 4006 _m
+/Times-RomanR 300 _ff
+7026 3965 _m
+(5d6s)_S /Times-RomanR 180 _ff
+7214 3965 _m
+7214 4006 _m
+(2)_S 7244 4006 _m
+/Times-RomanR 500 _ff
+7244 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 1850 962 _m
+_sp 2044 962 2044 965 1850 965 3 _pl _pf _np _s _s 1850 1105 _m
+_sp 2044 1105 2044 1108 1850 1108 3 _pl _pf _np _s _s 1850 970 _m
+_sp 1853 970 1853 1100 1850 1100 3 _pl _pf _np _s _s 1850 970 _m
+_sp 2044 970 2044 973 1850 973 3 _pl _pf _np _s _s 1850 1097 _m
+_sp 2044 1097 2044 1100 1850 1100 3 _pl _pf _np 
+_s 0 g 122 190 1854 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 7606 4125 _m
+/Times-RomanR 400 _ff
+(65)_S /Times-BoldR 600 _ff
+(Tb)_S /Times-RomanR 500 _ff
+7621 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+7821 3965 _m
+7821 4006 _m
+(9)_S 7851 4006 _m
+/Times-RomanR 300 _ff
+7851 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+7939 3965 _m
+7939 4006 _m
+(2)_S 7969 4006 _m
+/Times-RomanR 500 _ff
+7969 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2043 962 _m
+_sp 2238 962 2238 965 2043 965 3 _pl _pf _np _s _s 2043 1105 _m
+_sp 2238 1105 2238 1108 2043 1108 3 _pl _pf _np _s _s 2043 970 _m
+_sp 2046 970 2046 1100 2043 1100 3 _pl _pf _np _s _s 2043 970 _m
+_sp 2238 970 2238 973 2043 973 3 _pl _pf _np _s _s 2043 1097 _m
+_sp 2238 1097 2238 1100 2043 1100 3 _pl _pf _np 
+_s 0 g 122 191 2047 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 8381 4125 _m
+/Times-RomanR 400 _ff
+(66)_S /Times-BoldR 600 _ff
+(Dy)_S /Times-RomanR 500 _ff
+8381 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+8581 3965 _m
+8581 4006 _m
+(10)_S 8641 4006 _m
+/Times-RomanR 300 _ff
+8641 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+8729 3965 _m
+8729 4006 _m
+(2)_S 8759 4006 _m
+/Times-RomanR 500 _ff
+8759 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2237 962 _m
+_sp 2432 962 2432 965 2237 965 3 _pl _pf _np _s _s 2237 1105 _m
+_sp 2432 1105 2432 1108 2237 1108 3 _pl _pf _np _s _s 2237 970 _m
+_sp 2240 970 2240 1100 2237 1100 3 _pl _pf _np _s _s 2237 970 _m
+_sp 2432 970 2432 973 2237 973 3 _pl _pf _np _s _s 2237 1097 _m
+_sp 2432 1097 2432 1100 2237 1100 3 _pl _pf _np 
+_s 0 g 122 191 2241 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9151 4125 _m
+/Times-RomanR 400 _ff
+(67)_S /Times-BoldR 600 _ff
+(Ho)_S /Times-RomanR 500 _ff
+9156 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+9356 3965 _m
+9356 4006 _m
+(11)_S 9416 4006 _m
+/Times-RomanR 300 _ff
+9416 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+9504 3965 _m
+9504 4006 _m
+(2)_S 9534 4006 _m
+/Times-RomanR 500 _ff
+9534 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2431 962 _m
+_sp 2625 962 2625 965 2431 965 3 _pl _pf _np _s _s 2431 1105 _m
+_sp 2625 1105 2625 1108 2431 1108 3 _pl _pf _np _s _s 2431 970 _m
+_sp 2434 970 2434 1100 2431 1100 3 _pl _pf _np _s _s 2431 970 _m
+_sp 2625 970 2625 973 2431 973 3 _pl _pf _np _s _s 2431 1097 _m
+_sp 2625 1097 2625 1100 2431 1100 3 _pl _pf _np 
+_s 0 g 122 190 2435 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 9942 4125 _m
+/Times-RomanR 400 _ff
+(68)_S /Times-BoldR 600 _ff
+(Er)_S /Times-RomanR 500 _ff
+9931 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+10131 3965 _m
+10131 4006 _m
+(12)_S 10191 4006 _m
+/Times-RomanR 300 _ff
+10191 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+10279 3965 _m
+10279 4006 _m
+(2)_S 10309 4006 _m
+/Times-RomanR 500 _ff
+10309 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2625 962 _m
+_sp 2819 962 2819 965 2625 965 3 _pl _pf _np _s _s 2625 1105 _m
+_sp 2819 1105 2819 1108 2625 1108 3 _pl _pf _np _s _s 2625 970 _m
+_sp 2628 970 2628 1100 2625 1100 3 _pl _pf _np _s _s 2625 970 _m
+_sp 2819 970 2819 973 2625 973 3 _pl _pf _np _s _s 2625 1097 _m
+_sp 2819 1097 2819 1100 2625 1100 3 _pl _pf _np 
+_s 0 g 122 190 2629 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 10678 4125 _m
+/Times-RomanR 400 _ff
+(69)_S /Times-BoldR 600 _ff
+(Tm)_S /Times-RomanR 500 _ff
+10706 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+10906 3965 _m
+10906 4006 _m
+(13)_S 10966 4006 _m
+/Times-RomanR 300 _ff
+10966 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+11054 3965 _m
+11054 4006 _m
+(2)_S 11084 4006 _m
+/Times-RomanR 500 _ff
+11084 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 2818 962 _m
+_sp 3013 962 3013 965 2818 965 3 _pl _pf _np _s _s 2818 1105 _m
+_sp 3013 1105 3013 1108 2818 1108 3 _pl _pf _np _s _s 2818 970 _m
+_sp 2821 970 2821 1100 2818 1100 3 _pl _pf _np _s _s 2818 970 _m
+_sp 3013 970 3013 973 2818 973 3 _pl _pf _np _s _s 2818 1097 _m
+_sp 3013 1097 3013 1100 2818 1100 3 _pl _pf _np 
+_s 0 g 122 191 2822 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 11476 4125 _m
+/Times-RomanR 400 _ff
+(70)_S /Times-BoldR 600 _ff
+(Yb)_S /Times-RomanR 500 _ff
+11481 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+11681 3965 _m
+11681 4006 _m
+(14)_S 11741 4006 _m
+/Times-RomanR 300 _ff
+11741 3965 _m
+(6s)_S /Times-RomanR 180 _ff
+11829 3965 _m
+11829 4006 _m
+(2)_S 11859 4006 _m
+/Times-RomanR 500 _ff
+11859 3965 _m
+gsave 4 4 scale 16 _sr _s 
+_s [] 0 _d 2 _lc 0 g _s 3012 962 _m
+_sp 3207 962 3207 965 3012 965 3 _pl _pf _np _s _s 3204 962 _m
+_sp 3207 962 3207 1108 3204 1108 3 _pl _pf _np _s _s 3012 1105 _m
+_sp 3207 1105 3207 1108 3012 1108 3 _pl _pf _np _s _s 3012 970 _m
+_sp 3015 970 3015 1100 3012 1100 3 _pl _pf _np _s _s 3012 970 _m
+_sp 3199 970 3199 973 3012 973 3 _pl _pf _np _s _s 3196 970 _m
+_sp 3199 970 3199 1100 3196 1100 3 _pl _pf _np _s _s 3012 1097 _m
+_sp 3199 1097 3199 1100 3012 1100 3 _pl _pf _np 
+_s 0 g 122 179 3016 974 _cw 
+
+_s 0 g 0 0 0 0 _cw 
+_s grestore 12232 4125 _m
+/Times-RomanR 400 _ff
+(71)_S /Times-BoldR 600 _ff
+(Lu)_S /Times-RomanR 500 _ff
+12182 3965 _m
+/Times-RomanR 300 _ff
+(Xe4f)_S /Times-RomanR 180 _ff
+12382 3965 _m
+12382 4006 _m
+(10)_S 12442 4006 _m
+/Times-RomanR 300 _ff
+12442 3965 _m
+(5d6s)_S /Times-RomanR 180 _ff
+12630 3965 _m
+12630 4006 _m
+(2)_S 12660 4006 _m
+/Times-RomanR 500 _ff
+12660 3965 _m
+_ep
+_ed end end
+

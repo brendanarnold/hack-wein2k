@@ -1,0 +1,114 @@
+***************************************************************
+Add in x:
+
+case irrep:
+set exe = irrep
+cat << theend > $def
+5, '$file.irrrep$so$updn',    'unknown', 'formatted',0
+6, '$file.outputir$so$updn',  'unknown', 'formatted',0
+9, '$file.vector$so$dnup',    'unknown', 'unformatted',9000
+10,'$file.vector$so$updn',    'old',     'unformatted',9000
+20,'$file.struct',            'old',     'formatted',0
+theend
+breaksw
+
+Run the program by 
+x irrep [-up/dn]  (without spin-orbit coupling) 
+x irrep -so [-up] (with    spin-orbit coupling)
+
+***************************************************************
+The program does not need any additional input file.
+The only files required are the vector-file(s) and the struct-file. 
+
+***************************************************************
+However, the program needs case.in1[c][s] only for checking complex 
+or real  eigenfunctions, therefore case.in1[c][s] is not included 
+in the irrep.def file. The code write a warning if both case.in1[s] 
+and case.in1c[s] exist. 
+
+***************************************************************
+The eigenfunctions are represented by (see kptin.f)
+COMPLEX*16,allocatable ::  A(:,:),B(:,:)
+
+Where A is the spin-up component, and B is the spin-down component.
+(B=CMPLX(0,0) if spin-orbit interaction is excluded)
+
+When the eigenfunctions are real valued, the program transforms 
+to complex eigenfunctions in kptin.f.
+
+In the case of spin-orbit coupling, the spin-up component A
+comes from one input-file (unit=10) and spin-dn component B
+from another input-file (unit=9).
+
+***************************************************************
+For calculation with spin-orbit coupling, use spin-direction 
+(0,0,1) in case.inso. Thus is, spin-direction is z-axis as normal.
+
+For calculation with spin-orbit coupling AND spin-polarized, use 
+IPR=1 in case.inso in order to write out both components in the 
+case of non-spin-polarized calculation.
+Moreover, use KPOT=1 in case.inso. Then, the calculation will not 
+mixed potentials in the lapwso, which might be group-theoretically 
+incorrect.
+
+***************************************************************
+The are two output files: 
+In case.outputir, properties of the symmetry opertations are given. 
+There one also finds the character table, classes, and IR's.
+
+In case.irrep, the characters for every symmetry ops. are given
+in a comprehensive way. This file can be used in the spaghetti
+program for plotting the band structure.
+
+***************************************************************
+Note:  
+(1)
+Labelling of IRs depends on atomic positions (see, for instance,
+Ref [1,2,6] in irrep.f).
+
+(2)
+Labelling of IRs in character tables in the literature (for 
+instance Koster, Schoenflies, etc) assumes certain symmetry axes.
+These symmetry axes can be different from the one you are 
+using for the considered k-point.
+For example, in the D2 group, there are three equivalent IRs,
+namely G2, G3, and G4. Labelling of these IRs depends on which 
+axis is chosen to be the main rotation axis. Different, but 
+equivalent, k-points in the Brillouin zone are associated with 
+different main rotation axis. 
+Therefore, for a complete characterization, always check which 
+symmetry operations belong to the different classes  
+(in this case C2, C2', and C2"). 
+
+***************************************************************
+The main program is called irrep.f. In this file one finds 
+references, notations, description of parameters, etc.
+Here one can follow the computational scheme, and one also find 
+some proper references. 
+
+***************************************************************
+Similar to other programs, LOMAX and NLOAT in param.inc have to 
+be consistent with LAPW1 and LAPWSO
+
+***************************************************************
+The program checks if the eigenfunctions are real or complex  
+(when spin-orbit interaction is excluded) by checking if case.in1c
+exists. The input from case.in1(c) is however not used.
+The program also checks if the inverse operation is in the 
+list of symmetry operations in case.struct or not. A warning
+message is written out in case.outputir if the two methods
+are not consistent, for example, if case.in1c exists although 
+the inversion operator exists in case.struct.
+
+***************************************************************
+
+For comments, questions, or bug fix, please do not hesitate 
+to contact
+
+Clas Persson,    Condensed Matter Theory Group, 
+                 Department of Physics, 
+                 Box 530, University of Uppsala, 
+                 SE-751 21 Uppsala, Sweden
+                 Email: Clas.Persson@fysik.uu.se
+
+                 

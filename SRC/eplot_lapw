@@ -1,0 +1,236 @@
+#!/bin/csh -f
+# interface for plotting E vs. c/a curves
+# data is generated with: optimize and "Analyze multiple SCF Files"
+#
+unalias rm
+
+echo ""
+echo ""
+echo "####################################"
+echo "#                                  #"
+echo "#            E - PLOT              #"
+echo "#                                  #"
+echo "####################################"
+echo ""
+echo ""
+
+set tmp  = tmp
+set tmp2 = tmp2
+set print = eplot.ps
+unset type
+unset terminal
+
+set file    = `pwd`
+set file    = $file:t
+
+#set file=(`ls *.analysis`)
+#set file    = $file[1]:r
+
+unset help
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -t:
+    shift
+    set type = $1
+    shift; breaksw
+  case -p:
+#    shift
+    set terminal = png
+    shift; breaksw
+  case -f:
+    shift; set file = $1
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+if !(-e $file.analysis) goto error
+
+
+if !($?type) then
+    echo 'type   "coa"  for c/a or' 
+    echo '       "vol"  for volume curve '
+    set type=$<
+endif
+
+if ( $type == 'vol' ) then
+
+# set ene=`grepline_lapw :ene '*.scf' 1 | cut -f2 -d=`
+# set vol=`grepline_lapw :vol '*.scf' 1 | cut -f2 -d=`
+#echo $ene
+#echo $vol
+# set i=4
+#touch $file.vol
+#rm $file.vol
+#loop:
+# echo $vol[$i] $ene[$i] >>$file.vol
+# @ i ++
+#if ( $i <= $#ene ) goto loop
+
+set ene=`grep :ENE $file.analysis | cut -f2 -d=`
+set vol=`grep :VOL $file.analysis | cut -f2 -d=`
+if (-e $file.vol) rm $file.vol
+set i = 0
+loop:
+ echo $vol[$i] $ene[$i] >>$file.vol
+ @ i ++
+if ( $i <= $#ene ) goto loop
+
+#bulk <$file.vol
+x eosfit -f $file
+    echo '       "display Murnaghan or Birch-Murnaghan fit: [M/B]"  '
+    set fit=$<
+echo "You may want to print $file.outputeos"
+cat $file.outputeos
+echo " Murnaghan-data are in $file.eosfit"
+echo " Birch-Murnaghan-data are in $file.eosfitb"
+  switch ($fit)
+  case [B,b]:
+     set murna=`grep V0, $file.outputeos | grep -v \* |tail -1`
+     set plotfile=$file.eosfitb
+    breaksw
+  default:
+     set murna=`grep V0, $file.outputeos | grep -v \* |tail -2|head -1`
+     set plotfile=$file.eosfit
+    breaksw
+  endsw
+#echo $murna
+
+#grep $type $file.analysis |sed "1d"| sed "s/.*$type//" |cut -c1-6,56- | tr "_" " " |sort -n >$tmp2
+
+#grep $type $file.analysis | grep -v "Analysis generated" |\
+# sed "s/.*$type//" | tr ":a-z" " " | awk '{print $1 " " $NF}'|\
+# cut -c1-6,8-  | tr "_" " " |sort -n >$tmp2
+
+
+cat <<EOF >$tmp
+set format y "%.4f"
+set title "$file"
+#plot "$tmp2" title "$file"
+plot "$file.vol" title "Murnaghan: $murna[1]" w p 
+replot "$plotfile" title "$murna[2-]" w l 
+pause -1
+EOF
+
+echo "press RETURN to continue"
+gnuplot $tmp
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is $print)"
+	set out = ($<)
+	echo "Printing hardcopy"
+	if ($out == "") set out = "$print"
+	cat <<EOF >$tmp
+set terminal postscript
+set output "$out"
+#set data style linespoints
+set format y "%.4f"
+set title "$file"
+plot "$file.vol" title "Murnaghan: $murna[1]" w p,"$plotfile" title "$murna[2-]" w l 
+EOF
+gnuplot $tmp
+endif
+else
+
+# here we do coa's
+
+#grep $type $file.analysis |sed "1d"| sed "s/.*$type//" |cut -c1-6,56- | tr "_" " " |sort -n >$tmp2
+
+grep $type $file.analysis | grep -v "Analysis generated" | grep -v ":VOL " |\
+ sed "s/.*$type//" | tr ":a-z" " " | awk '{print $1 " " $NF}'|\
+ cut -c1-6,8-  | tr "_" " " |sort -n >$tmp2
+
+echo ' ' >$tmp
+if ($?terminal) then
+cat <<EOF >$tmp
+set terminal png
+set output '$file.c_over_a.png'
+EOF
+endif
+
+cat <<EOF >>$tmp
+set xlabel "deviation from exp. c/a ratio (%)"
+set ylabel "Energy [Ry]"
+set format y "%.4f"
+f(x)=a1+a2*x+a3*x**2+a4*x**3+a5*x**4
+fit f(x) '$tmp2' via '.fitparam'
+plot "$tmp2" title "data" w p , f(x) title "polyfit_4order"
+#plot "$tmp2" title "$file"
+EOF
+if (! $?terminal) echo pause -1 >>$tmp
+
+cat <<EOF >.fitparam
+a1=1
+a2=1
+a3=1
+a4=1
+a5=1
+EOF
+
+gnuplot $tmp
+
+if ($?terminal) then
+    set out=eplot.ps
+    set hardcopy=y
+else
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is $print)"
+	set out = ($<)
+	echo "Printing hardcopy"
+	if ($out == "") set out = "$print"
+    endif
+endif
+#echo "press RETURN to continue" $hardcopy 
+if ($hardcopy == y) then
+	cat <<EOF >$tmp
+set terminal postscript
+set output "$out"
+#set data style linespoints
+set format y "%.4f"
+f(x)=a1+a2*x+a3*x**2+a4*x**3+a5*x**4
+fit f(x) '$tmp2' via '.fitparam'
+plot "$tmp2" title "data" w p , f(x) title "polyfit_4order"
+#plot "$tmp2" title "$file"
+EOF
+gnuplot $tmp >& /dev/null
+if ($?terminal) echo $file.c_over_a.png generated
+echo $out generated
+endif
+
+
+
+endif
+#rm $tmp $tmp2
+
+exit  0
+
+error:
+echo ">>>"
+echo ">>> ERROR: $file.analysis not found\!"
+echo ">>> ERROR:"
+echo '>>> ERROR: You should "Anaylze multiple SCF Files" first'
+echo ">>>"
+#exit(1)
+
+help:
+
+cat <<EOF
+EPLOT is a plotting interface to plot E vs. Vol or c/a curves.
+Once you have several scf calculations at different volumes (usually generated 
+with "optimize.job") you can generate the required "$file.analysis" using:
+grepline :ENE "*.scf" 1 >  $file.analysis
+grepline :VOL "*.scf" 1 >> $file.analysis
+Generates plots in X-window (default), png (-p) and ps format.
+
+eplot [-t vol/coa] [-p] [-f FILEHEAD]
+
+EOF

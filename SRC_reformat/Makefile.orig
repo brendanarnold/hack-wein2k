@@ -1,0 +1,26 @@
+#######################################
+#  FOPT    -  optimization
+#  C_LIBS  -  C libraries
+#  LDFLAGS -  linker flags
+#  EXEC    -  name of out file
+#  OBJS    -  name of obj files
+#######################################
+CC      = _CC_
+EXEC    = reformat
+OBJS    = $(EXEC).o 
+
+#FOPT    = -O2 -malign-double -malign-loops=4 -malign-jumps=4
+FOPT     = 
+LDFLAGS  = 
+C_LIBS   = -lm
+
+
+# Make executable
+$(EXEC) :  $(OBJS)
+	$(CC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(C_LIBS)
+
+clean :
+	rm -f $(OBJS)
+
+.c.o:
+	$(CC) -c $(FOPT) $<

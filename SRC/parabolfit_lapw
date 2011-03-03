@@ -1,0 +1,67 @@
+#!/bin/csh -f
+
+set file    = `pwd`
+set file    = $file:t           #tail of file-names
+unset help
+unset type
+unset scf
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -t:
+    shift
+    set type = $1
+    shift; breaksw
+  case -p:
+#    shift
+    set terminal = png
+    shift; breaksw
+  case -f:
+    shift; set file = $1
+    shift; breaksw
+  case -scf:
+    shift; set scf = $1
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+if !($?type) then
+echo 'enter dimensionality (2-4) of fit:'
+    set type=$<
+endif
+
+if( $type == '2' ) then
+  if( ! $?scf ) set scf='*a+c*.scf'
+  grepline :ene "$scf" 1 -s| cut -c40- >$file.ene              
+  grepline :lat "$scf" 1 -s| cut -c36->$file.latparam          
+else if( $type == '3' ) then
+  grepline :ene '*abc*.scf' 1 -s| cut -c40- >$file.ene
+  grepline :lat '*abc*.scf' 1 -s| cut -c27->$file.latparam
+else if( $type == '4' ) then
+  grepline :ene '*mon*.scf' 1 -s| cut -c40- >$file.ene              
+  grepline :lat '*mon*.scf' 1 -s| cut -c27->$file.latparam          
+endif
+
+echo "$file.ene and $file.latparam generated"
+
+echo $type | x eosfit6
+
+exit(0)
+
+help:
+cat <<EOF
+parabolfit_lapw is an interface for fitting E vs. 2-4-dim lattice parameters  
+by a non-linear least squares fit (eosfit6) using PORT routines.
+Once you have several scf calculations at different volumes (usually generated
+with "optimize.job") it generates the required "$file.ene" and "$file.latparam"
+
+parabolfit_lapw [ -t 2/3/4 ]  [ -f FILEHEAD ] [ -scf '*xxx*.scf' ]
+
+EOF
+

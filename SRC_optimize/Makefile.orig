@@ -1,0 +1,25 @@
+FC = _FC_
+FOPT     = _FOPT_
+LDFLAGS  = _LDFLAGS_
+DESTDIR  = ./
+EXECNAME = optimize
+
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+OBJS =	optimize.o
+
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS)
+
+$(OBJS):	Makefile
+
+clean:	  
+	-rm optimize $(OBJS)
+	@echo clean
+
+.f.o:
+	$(FC) $(FOPT) -c $<
+
+
+.f90.o:
+	$(FC) $(FOPT) -c $<

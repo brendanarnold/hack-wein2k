@@ -1,0 +1,24 @@
+#!/bin/csh -f
+
+echo "******************************************************"
+echo "You must have set manually proper compiler name in the" 
+echo "two Makefiles (./Makefile and ./Slatec-lib/Makefile)..."
+echo "*******************************************************"
+echo ""
+echo -n "Do you still want to proceed (y/N)?"
+set choi = ($<)
+
+if ( $choi == y ) then
+cd ./Slatec-lib
+make
+cd ..
+make
+cp *_elast ..
+cp genetempl ..
+cp elast_setup ..
+cp setelast ..
+cp anaelast ..
+else
+echo "See you soon...."
+exit 1
+endif

@@ -1,0 +1,16 @@
+- Resolver problema cuando theta es muy chico. No calcula bien el
+  gradiente, y ver que pasa con rho para theta < 10^-9 (implementado,
+  falta testeo, Javier lo prueba en BeH)
+- Ver el error cuando el punto esta muy cerca del RMT.
+- Buscar CP dentro de esferas. Implementar hessiano dentro de esfera.
+	(implementado el hessiano y la busqueda de puntos criticos)
+	Nota: los atomos no los encuentra porque en estos puntos no
+	esta definido ni grho ni hrho. Y ademas cuando nos acercamos
+	a los atomos siempre aumenta el gradiente.
+- Calcular el volumen del atomo.
+- Calcular momento dipolar.
+- Graficar el laplaciano en una linea o en un plano. (probablemente
+  mejor en lapw5)
+- Cambiar rmin por fac*rmt(iat)
+- Evaluar uso de splines para interp. (esta hecho)
+- Documentacion.

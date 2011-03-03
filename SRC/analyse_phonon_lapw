@@ -1,0 +1,112 @@
+#!/bin/csh -f
+#
+# analyse_phonon 
+#
+#
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+
+if($#argv > 1) then
+   echo "Syntax: analyse_phonon_lapw   [ -h | phonon-file.d45]"
+   exit 1
+endif
+
+if ($#argv == 1) then
+ if( $1 == '-h' ) then
+   echo "   Syntax: analyse_phonon_lapw  [ -h | phonon-file.d45] "
+   echo "   Creates a Hellman-Feynman-file   case.dat  for phonon"
+   echo "   Works together with init_phonon_lapw and run_phonon"
+   exit 1
+ else
+   set file=$1:r
+ endif
+endif
+
+unalias rm
+#set file    = $1:r		#tail of file-names
+
+if( ! -e $file.d45 ) then
+   echo ERROR: The required phonon-file $file.d45 does not exist.
+   exit 9
+endif
+set c=(`grep 'Number of Atomic Displacements' $file.d45 `) 
+set cases=$c[1]
+
+set klist=k
+set rkmax=rkm
+set pot=lda
+if (-e case_1/case_1.klist) then
+   set k=(`head -1 case_1/case_1.klist`)
+   set klist=${k[9]}k
+endif
+if (-e case_1/case_1.in1c) then
+   set k=(`head -2 case_1/case_1.in1c |tail -1`)
+   set rkmax=rkm$k[1]
+endif
+if (-e case_1/case_1.in0) then
+   set k=(`head -1 case_1/case_1.in0`)
+   if($k[2] == 13 ) then
+     set pot=gga
+   endif
+endif
+set fn=_${pot}_${rkmax}_${klist}
+
+echo ' '
+echo Analysis of phonon calculations triggered by phonon-file $file.d45
+scfselect:
+echo The following scf-files are present:
+ls -als case_*/*.scf
+echo 'Should the analysis be made using   case_*/case_*'"${fn}.scf -files ? (Y/n)"
+set a=($<)
+if ($a == 'n' ) then
+  echo 'Enter the part of the filename which identifies the scf-files uniquely' 
+  echo '(e.g. enter "_gga_rkm7.5_100k" for  case_*/case_*_gga_rkm7.5_100k.scf)'
+  set fn=($<)
+endif
+
+
+
+set i=1
+if (-e case.finM ) rm case.finM
+top:
+cd case_$i
+if( ! -e case_${i}$fn.scf ) then
+  echo "ERROR: file case_${i}$fn.scf does not exist "
+  cd ..
+  goto scfselect
+endif
+set nat=`head -2 case_$i.struct |tail -1 |cut -c28-30` 
+echo $nat atoms in case_$i  >> ../case.finM
+#grep MULT case_$i.struct >> ../case.finM
+grep X= case_$i.struct >> ../case.finM
+grep :FGL case_${i}$fn.scf | tail -$nat | cut -c29-91 >> ../case.finM
+set nsym=(`grep SYMMETRY case_$i.struct`)
+echo $nsym[1] >> ../case.finM
+@ nsym[1] = ( $nsym[1] * 4 )
+tail -$nsym[1] case_$i.struct >> ../case.finM
+cd ..
+@ i ++
+if($i <= $cases) goto top
+
+wien2k2phonon_sym << EOF
+$file.d45
+EOF
+
+echo \! `head -1 case_1/case_1.struct` > $file.dat
+echo \! `grep :RKM case_1/case_1$fn.scf|tail -1` >> $file.dat
+echo \! `grep 'NUMBER OF K-POINTS' case_1/case_1$fn.scf|tail -1` >> $file.dat
+
+cat $file.hff >> $file.dat
+echo The HF-force file   $file.dat   for phonon has been produced.
+
+if ( -e $file.hff_sym ) then
+echo \! `head -1 case_1/case_1.struct` > $file.dsy
+echo \! `grep :RKM case_1/case_1$fn.scf|tail -1` >> $file.dsy
+echo \! `grep 'NUMBER OF K-POINTS' case_1/case_1$fn.scf|tail -1` >> $file.dsy
+
+cat $file.hff_sym >> $file.dsy
+
+echo The symmetrized HF-force file   $file.dsy   for phonon has been produced.
+endif
+
+exit 0

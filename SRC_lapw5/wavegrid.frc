@@ -1,0 +1,8 @@
+      module wavegrid
+!.....allocatable with Nwav
+!_REAL      real*8, allocatable ::  RHOK(:), TAUK(:)
+!_COMPLEX      COMPLEX*16, allocatable ::  RHOK(:), TAUK(:)
+      integer,allocatable :: inst(:)
+      real*8,allocatable :: krec(:,:)
+      integer INDMAX   
+      end module wavegrid

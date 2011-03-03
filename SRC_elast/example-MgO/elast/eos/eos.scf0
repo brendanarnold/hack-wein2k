@@ -1,0 +1,21 @@
+
+
+            ---------
+:ITE07:  7. ITERATION
+            ---------
+
+       SUBSTANCE: MgO-B1                                                      
+
+       LATTICE                      = F   
+       NON-SPINPOLARIZED CALCULATION
+:POT  : POTENTIAL OPTION    5
+:LAT  : LATTICE CONSTANTS=  7.99792  7.99792  7.99792   90.000   90.000   90.000
+:VOL  : UNIT CELL VOLUME =     127.90023
+       MODE OF CALCULATION IS       = RELA
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.57963E-01
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.49317E+00
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1101197E-02
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1101197E-02
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2046140E-04
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2046140E-04
+:DEN  : DENSITY INTEGRALS =            -267.887976            0.000000   (Ry)

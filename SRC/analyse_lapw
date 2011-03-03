@@ -1,0 +1,132 @@
+#!/bin/csh -f
+unalias rm
+
+echo "$*"
+if ($#  < 2 ) goto help
+if ($1 == '-h' ) goto help
+
+rm -f .ana*
+set file=$1
+shift
+
+#grep :ITE $file |cut -c9-11 > .ana0
+set ite=`grep :ITE $file |wc -l`
+set i=1
+while ( $i <= $ite )
+echo $i >> .ana0
+@ i ++
+end
+
+
+echo '# ITE ' $* >analyse.out
+
+set ii=0
+foreach i ( $* )
+@ ii ++
+if ( $i == ':ENE' || $i == ':ene' ) then
+  grep -i $i $file |cut -c43- > .ana$ii
+endif
+if ( $i == ':DIS' || $i == ':dis' ) then
+  grep -i $i $file |cut -c26- > .ana$ii
+endif
+if ( $i == ':FER' ||$i == ':fer' ) then
+  grep -i $i $file |cut -c40- > .ana$ii
+endif
+if ( $i == ':MMT' ||$i == ':mmt' ) then
+  grep -i $i $file |cut -c43- > .ana$ii
+endif
+
+#atom specific
+set j=`echo $i|cut -c1-4`
+if ( $j == ':CTO' ||$j == ':cto' ) then
+  grep -i $i $file |cut -c39- > .ana$ii
+endif
+if ( $j == ':CUP' ||$j == ':cup' ) then
+  grep -i $i $file |cut -c39- > .ana$ii
+endif
+if ( $j == ':CDN' ||$j == ':cdn' ) then
+  grep -i $i $file |cut -c39- > .ana$ii
+endif
+if ( $j == ':NTO' ||$j == ':nto' ) then
+  grep -i $i $file |cut -c39- > .ana$ii
+endif
+if ( $j == ':NUP' ||$j == ':nup' ) then
+  grep -i $i $file |cut -c54- > .ana$ii
+endif
+if ( $j == ':NDN' ||$j == ':ndn' ) then
+  grep -i $i $file |cut -c54- > .ana$ii
+endif
+if ( $j == ':DTO' ||$j == ':dto' ) then
+  grep -i $i $file |cut -c54- > .ana$ii
+endif
+if ( $j == ':DUP' ||$j == ':dup' ) then
+  grep -i $i $file |cut -c54- > .ana$ii
+endif
+if ( $j == ':DDN' ||$j == ':ddn' ) then
+  grep -i $i $file |cut -c54- > .ana$ii
+endif
+if ( $j == ':RTO' ||$j == ':rto' ) then
+  grep -i $i $file |cut -c61- > .ana$ii
+endif
+if ( $j == ':EFG' ||$j == ':efg' ) then
+  grep -i $i $file |cut -c47-57 > .ana$ii
+endif
+if ( $j == ':HFF' ||$j == ':hff' ) then
+  grep -i $i $file |cut -c58-69 > .ana$ii
+endif
+if ( $j == ':MMI' ||$j == ':mmi' ) then
+  grep -i $i $file |cut -c45- > .ana$ii
+endif
+
+#vector quantities
+set jj=`echo $i|cut -c8`
+if ( $j == ':FOR' ||$j == ':for' ) then
+  set j=`echo $i|cut -c1-7`
+                set cc=20-35
+  if($jj == x ) set cc=35-48
+  if($jj == y ) set cc=49-65
+  if($jj == z ) set cc=65-
+  grep -i $j $file |cut -c$cc > .ana$ii
+endif
+if ( $j == ':POS' ||$j == ':pos' ) then
+  set j=`echo $i|cut -c1-7`
+                set cc=47-54
+  if($jj == x ) set cc=31-38
+  if($jj == y ) set cc=39-46
+  if($jj == z ) set cc=47-54
+  grep -i $j $file |cut -c$cc > .ana$ii
+endif
+if ( $j == ':FGL' ||$j == ':fgl' ) then
+  set j=`echo $i|cut -c1-7`
+                set cc=65-
+  if($jj == x ) set cc=35-48
+  if($jj == y ) set cc=49-65
+  if($jj == z ) set cc=65-
+  grep -i $j $file |cut -c$cc > .ana$ii
+endif
+
+end
+
+paste .ana* >>analyse.out
+
+exit(0)
+
+help:
+cat << end9
+
+        - creates analyse.out (for scfmonitor) 
+     
+          analyse case.scf arg1 arg2 ...
+
+          ANALYSE itself can handle the following arguments (not case sensitiv)
+          atom independend:   :ENE :DIS :FER :MMT
+          atom iii dependend: :CTOiii :CUPiii :CDNiii :NTOiii :NUPiii :NDNiii 
+                              :DTOiii :DUPiii :DDNiii :RTOiii :EFGiii :HFFiii
+                              :MMIiii
+          vector quantities:  :FORiii[x/y/z] :POSiii[x/y/z] :FGLiii[x/y/z]
+                 where         magnitude      z              z   is the default
+
+Usage:    analyse case.scf arg1 [arg2 arg3 arg4 ...]
+end9
+
+exit(1)

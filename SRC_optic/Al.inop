@@ -1,0 +1,16 @@
+1200 1        number of k-points, first k-point 
+-5.0 2.2      Emin, Emax for matrix elements
+2             number of choices (columns in *outmat)
+1             Re xx
+
+
+Choices:
+1......Re <x><x>
+2......Re <y><y>
+3......Re <z><z>
+4......Re <x><y>
+5......Re <x><z>
+6......Re <y><z>
+7......Im <x><y>
+8......Im <x><z>
+9......Im <y><z>

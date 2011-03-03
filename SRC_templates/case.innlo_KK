@@ -1,0 +1,4 @@
+eV              Units for the x-axis { AU | eV | Ry  }
+esu             Units for the y-axis { AU | SI | esu }
+0.00001         Broadening parameter for pole-integration in Ry
+LORENTZ  0.001    final broadening, width     {  GAUSS | LORENTZ } 

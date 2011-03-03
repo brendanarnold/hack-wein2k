@@ -1,0 +1,238 @@
+      SUBROUTINE COORS(RKM,NT,SX,SY,SZ,NAT)
+!
+      use matrices, only: HSROWS, KZZ, XK, YK, ZK, INIT_MATRICES, RK
+      use lolog, only : nlo, loor, lapw, ilo
+      use char, only  : LATTIC, NAME
+      use gener, only : BR2
+      use lstapw, only  : RKMT, NV
+      use orth, only  : ORTHO
+      use cut1, only  : CUT
+      use struk, only : POS, ALAT, ALPHA, RMT, V, PIA, VI, IATNR, MULT
+      IMPLICIT NONE
+      INCLUDE 'param.inc'
+!
+!        Arguments
+!
+      INTEGER            NAT, NT
+      DOUBLE PRECISION   RKM, SX, SY, SZ
+!
+!     ..................................................................
+!
+!        LAPW list generator for K-basis
+!
+!     ..................................................................
+!
+!        Local Scalars
+!
+      integer            nvec1loc,nvec2loc,nvec3loc
+      INTEGER            I, IV, J, JA, JB, JC, M, N, NDM1, NV1, NV2, NV3
+      DOUBLE PRECISION   DELTA, Q, RKQ, SBX, SBY, SBZ, SKX, SKY, SKZ
+      CHARACTER*67       ERRMSG
+      INTEGER            IA
+      DOUBLE PRECISION   RNN
+!
+!        External Subroutines
+!
+      EXTERNAL           LOPW, OUTERR
+!
+!        Intrinsic Functions
+!
+      INTRINSIC          ABS, SIGN, SQRT
+!
+!        Data statements
+!
+      DATA DELTA /1.0D-2/
+!
+      IF (ORTHO) THEN
+         SKX = SX*PIA(1)
+         SKY = SY*PIA(2)
+         SKZ = SZ*PIA(3)
+      ELSE
+         SKX = SX*BR2(1,1) + SY*BR2(1,2) + SZ*BR2(1,3)
+         SKY = SX*BR2(2,1) + SY*BR2(2,2) + SZ*BR2(2,3)
+         SKZ = SX*BR2(3,1) + SY*BR2(3,2) + SZ*BR2(3,3)
+      ENDIF
+!
+      RNN = RMT(1)
+      DO 160 IA = 2, NAT
+         IF (RMT(IA) .LT. RNN) RNN = RMT(IA)
+  160 CONTINUE
+!
+      nvec1loc=nvec1
+      nvec2loc=nvec2
+      nvec3loc=nvec3
+ 1    continue
+      DO 100 IV = 1, 2
+         IF (IV .EQ. 1) THEN
+            NV1 = -NVEC1loc
+            NV2 = -NVEC2loc
+            NV3 = -NVEC3loc
+         ELSE
+            NV1 = NVEC1loc
+            NV2 = NVEC2loc
+            NV3 = NVEC3loc
+         ENDIF
+         JA = NV1
+         JB = 0
+         JC = 0
+   90    CONTINUE
+         SBX = SKX + JA*BR2(1,1) + JB*BR2(1,2) + JC*BR2(1,3)
+         SBY = SKY + JA*BR2(2,1) + JB*BR2(2,2) + JC*BR2(2,3)
+         SBZ = SKZ + JA*BR2(3,1) + JB*BR2(3,2) + JC*BR2(3,3)
+         RKQ = SQRT(SBX**2+SBY**2+SBZ**2)
+         IF (RKQ .LT. RKM/RNN) THEN
+            GOTO 110
+         ELSEIF (JB .EQ. NV2) THEN
+            JC = NV3
+            JB = 0
+            GOTO 90
+         ELSEIF (JC .NE. NV3) THEN
+            JB = NV2
+            JA = 0
+            GOTO 90
+         ENDIF
+  100 CONTINUE
+!
+       call INIT_MATRICES(0, 0)
+!      NDM1 = HSROWS + 1
+      NDM1 = NMATMAX + 1 - NLO
+      RK(NDM1) = 1.0D+10
+      N = 0
+      JA = -NVEC1loc
+   10 CONTINUE
+      JA = JA + 1
+      IF (JA .LT. NVEC1loc) THEN
+         JB = -NVEC2loc
+   20    CONTINUE
+         JB = JB + 1
+         IF (JB .GE. NVEC2loc) THEN
+            GOTO 10
+         ELSE
+            JC = -NVEC3loc
+   30       CONTINUE
+            JC = JC + 1
+            IF (JC .GE. NVEC3loc) THEN
+               GOTO 20
+            ELSE
+               N = N + 1
+               SBX = SKX + JA*BR2(1,1) + JB*BR2(1,2) + JC*BR2(1,3)
+               SBY = SKY + JA*BR2(2,1) + JB*BR2(2,2) + JC*BR2(2,3)
+               SBZ = SKZ + JA*BR2(3,1) + JB*BR2(3,2) + JC*BR2(3,3)
+               RKQ = SQRT(SBX**2+SBY**2+SBZ**2)
+               IF (RKQ .LE. RKM) THEN
+!                  IF (N .GT. NDM1) N = NDM1
+                  IF (N .GT. NDM1) then
+                          N = NDM1
+                          cut=.true.
+                  endif
+!
+!        put vector in list according to length
+!
+                  M = N
+   40             CONTINUE
+                  IF (M .LE. 1) THEN
+                     GOTO 50
+                  ELSE
+                     M = M - 1
+                     IF (RK(M) .GT. RKQ) THEN
+                        I = M + 1
+                        RK(I) = RK(M)
+                        XK(I) = XK(M)
+                        YK(I) = YK(M)
+                        ZK(I) = ZK(M)
+                        KZZ(1,I) = KZZ(1,M)
+                        KZZ(2,I) = KZZ(2,M)
+                        KZZ(3,I) = KZZ(3,M)
+                        GOTO 40
+                     ENDIF
+                  ENDIF
+!
+                  M = M + 1
+                  IF (M .GE. NDM1) THEN
+                     IF (RK(NDM1) .LT. RKQ) GOTO 60
+                  ENDIF
+!
+   50             CONTINUE
+                  RK(M) = RKQ
+                  XK(M) = SBX
+                  YK(M) = SBY
+                  ZK(M) = SBZ
+                  IF (ORTHO) THEN
+                     Q = SBX/PIA(1) - SX
+                     KZZ(1,M) = Q + SIGN(DELTA,Q)
+                     Q = SBY/PIA(2) - SY
+                     KZZ(2,M) = Q + SIGN(DELTA,Q)
+                     Q = SBZ/PIA(3) - SZ
+                     KZZ(3,M) = Q + SIGN(DELTA,Q)
+                  ELSE
+                     KZZ(1,M) = JA
+                     KZZ(2,M) = JB
+                     KZZ(3,M) = JC
+!....transfer monocl.CXZ coord into "simple" monoclinc
+                     if(lattic(1:3).eq.'CXZ') then
+                         KZZ(1,M)=JA+JC
+                         KZZ(2,M)=JB
+                         KZZ(3,M)=JA-JC
+                     endif
+                  ENDIF
+                  GOTO 30
+               ENDIF
+   60          CONTINUE
+               N = N - 1
+               GOTO 30
+            ENDIF
+         ENDIF
+      ENDIF
+      IF (N .GE. (NMATMAX-NLO)) THEN
+         cut=.true.
+         DO 70 J = 1,NDM1
+            N = NDM1 - J
+            IF (ABS(RK(N)-RK(N+1)) .GT. 1.0D-5) GOTO 80
+   70    CONTINUE
+      ENDIF
+   80 CONTINUE
+!
+      RKMT=RK(N)*RNN
+!
+!        set up the arrays of spherical Bessel functions
+!
+      NV = N
+!      write(6,*) 'calkpt: nv, nlo, nume:', nv, nlo, nume
+!      write(6,*) 'size: rk,kzz: ', size(rk,1), size(kzz,1), size(kzz,2)
+      call INIT_MATRICES(NV + NLO, NUME)
+!      write(6,*) 'size: rk,kzz(1,2): ', size(rk,1), size(kzz,1), size(kzz,2)
+!      do iv=1,nv
+!      write(6,*) kzz(1,iv),kzz(2,iv),kzz(3,iv),xk(iv),yk(iv),zk(iv)
+!      enddo
+!
+      IF (NLO .GT. 0) CALL LOPW(NAT)
+!
+      RETURN
+!
+!        Error messages
+!
+  110 CONTINUE
+      IF (JA .EQ. NV1) THEN
+!         CALL OUTERR('COORS','NVEC1 too small.')
+            write(6,*) 'NVEC1 too small.',nvec1loc,ja,rkm/rnn,rkq
+            nvec1loc=nvec1loc*2
+      ELSEIF (JB .EQ. NV2) THEN
+!         CALL OUTERR('COORS','NVEC2 too small.')
+            write(6,*) 'NVEC2 too small.',nvec2loc,jb,rkm/rnn,rkq
+            nvec2loc=nvec2loc*2
+      ELSE
+!         CALL OUTERR('COORS','NVEC3 too small.')
+            write(6,*) 'NVEC3 too small.',nvec3loc,jc,rkm/rnn,rkq
+            nvec3loc=nvec3loc*2
+      ENDIF
+!      WRITE (ERRMSG,9000) RK(NV), JA, JB, JC, RKQ
+!      CALL OUTERR('COORS',ERRMSG)
+       goto 1
+!
+      STOP 'COORS - Error'
+!
+ 9000 FORMAT ('RK(NV)=',F7.3,2X,'RK(',I3,',',I3,',',I3,')=',F7.3)
+!
+!        End of 'COORS'
+!
+      END

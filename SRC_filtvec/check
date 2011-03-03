@@ -1,0 +1,24 @@
+#!/usr/bin/csh
+#
+set dir = $cwd:t; set dir = $dir:r
+set scr = ~/abinitio/wien97/$dir
+set tmp = tmp$$c
+#
+set list = ( check $tmp )
+#
+foreach file ( * )
+  foreach item ( $list )
+    if ( $file == $item ) goto next
+  end
+  if ( -e $scr/$file ) then
+    diff $file $scr/$file > $tmp
+    if ( ! -z $tmp ) then
+      echo "Source File $scr/$file differs \!"
+    endif
+    rm $tmp
+  else
+    echo "Source File $scr/$file missing \!"
+  endif
+  next:
+end
+

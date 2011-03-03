@@ -1,0 +1,16 @@
+
+
+
+      SUBROUTINE VOLNEW(A,ANEW,INEW,VOL)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DOUBLE PRECISION A(3,3),ANEW(3),AUX(3,3)
+      DO 10 I=1,3
+      DO 10 J=1,3
+        AUX(J,I)=A(J,I)
+  10  CONTINUE
+      DO 20 J=1,3
+        AUX(J,INEW)=ANEW(J)
+  20  CONTINUE
+      VOL=ABS(VOLOFB(AUX))
+      RETURN
+      END

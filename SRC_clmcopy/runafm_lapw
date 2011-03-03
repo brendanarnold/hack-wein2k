@@ -1,0 +1,442 @@
+#!/bin/csh -f
+unalias rm
+
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+if !(-d $bin) set bin = .
+set name  = $name:t 		#name of this script-file
+set logfile = :log
+set tmp   = (:$name)		#temporary files
+
+set scratch =                   # set directory for vectors and help files
+if ($?SCRATCH) then              #if envronment SCRATCH is set
+ set scratch=`echo $SCRATCH  | sed -e 's/\/$//'`/ #set $scratch to that value  
+endif                          
+
+#---> functions & subroutines
+alias	testinput	'if (! -e \!:1 || -z \!:1) goto \!:2'
+alias	teststatus	'if ($status) goto error'
+alias	testerror	'if ( -e \!:1.error && ! -z \!:1.error) goto error'
+alias	teststop	'if (\!:1 == $stopafter ) goto stop'
+alias   cleandayfile    'grep -v "\[" $dayfile >.tmp;'\
+                        'mv .tmp $dayfile'
+alias	output		'set date = `date +"(%T)"`;'\
+			'printf ">   %s\t%s " "\!:*" "$date" >> $dayfile'
+
+alias	exec		'($bin/x  \!:*) >> $dayfile;'\
+			'teststatus'
+
+alias	total_exec	'output \!:*;'\
+			'exec \!:*;'\
+                        'cleandayfile;'\
+			'testerror \!:1;'\
+			'testerror up\!:1;'\
+			'testerror dn\!:1;'\
+			'teststop \!:1'
+alias	TOTtoFOR	'sed "s/TOT/FOR/" \!:1 > $tmp;'\
+			'mv $tmp \!:1'
+alias	FORtoTOT	'sed "s/FOR/TOT/" \!:1 > $tmp;'\
+			'mv $tmp \!:1'
+
+#---> default parameters
+set ccut	= 0.0000 	#upper limit for charge convergence
+set fcut	= 0 	 	#upper limit for force convergence
+set ecut	= 0.0001	#upper limit for energy convergence
+set iter	= 20	#maximum number of iterations
+set riter	= 20	#restart after $riter iterations
+set stopafter		#stop after $stopafter
+set next		#set -> start cycle with $next
+set para
+set nohns
+set nohns1 = 0
+set it
+set it0
+set so
+
+#---> default flags
+unset force		#set -> force-calculation after self-consistency
+unset f_not_conv
+unset help		#set -> help output
+unset complex		#set -> complex calculation
+unset init		#set -> switches initially set to total energy calc.
+
+#---> handling of input options
+echo ">   ($name) options: $argv"	>> $logfile
+alias sb 'shift; breaksw'	#definition used in switch
+while ($#argv)
+  switch ($1)
+  case -[H|h]:
+    set help; sb
+  case -so:
+    set so = -so; sb
+  case -nohns:
+    set nohns = -nohns; shift; set nohns1 = $1;sb
+  case -it:
+    set it = -it; sb
+  case -it0:
+    set it = -it; set it0 = -it; sb
+  case -p:
+    set para = -p; sb
+  case -I:
+    set init; sb
+  case -e: 
+    shift; set stopafter = $1; sb
+  case -cc: 
+    shift; set ccut = $1; set fcut = 0; set ecut=0; sb
+  case -ec: 
+    shift; set ecut = $1; set fcut = 0; set ccut=0; sb
+  case -fc: 
+    shift; set f_not_conv; set fcut = $1; set ecut = 0; set ccut=0; sb
+  case -i:
+    shift; set iter  = $1; sb
+  case -r:
+    shift; set riter = $1; sb
+  case -s:
+    shift; set next  = $1; sb
+  default: 
+    echo "ERROR: option $1 does not exist\!"; sb
+  endsw
+end
+if ($?help) goto help
+  
+#---> path- and file-names
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+set dayfile = $file.dayfile	#main output-file
+
+#---> starting out
+if ($next != "") goto start	#start with optional program
+set next = lapw0		#default start with lstart
+
+if !(-e $file.clmsum) then
+   if (-e $file.clmsum_old) then
+    cp $file.clmsum_old $file.clmsum
+   else
+     echo 'no' $file'.clmsum(_old) file found, which is necessary for lapw0 \!'
+     echo 'no' $file'.clmsum(_old) file found, which is necessary for lapw0 \!'\
+	>>$dayfile
+     goto error
+   endif
+endif
+
+start:				#initalization of in2-files
+if ($?init) then
+  foreach i ($file.in2*)
+    sed "1s/[A-Z]..../TOT  /" $i > $tmp
+    mv $tmp $i
+  end
+endif
+
+set icycle=1
+
+set riter_save=$riter
+printf "\n\nCalculating $file in `pwd`\non `hostname`"  > $dayfile
+printf "\n\n    start \t(%s) " "`date`" >> $dayfile
+echo  "with $next ($iter/$riter to go)"	>> $dayfile
+goto $next
+
+cycle:					#begin of sc-cycle
+echo in cycle $icycle
+lapw0:
+testinput	$file.in0 error
+total_exec	lapw0
+
+if ($fcut == "0") goto lapw1
+
+#---> test of force-convergence for all forces
+if !(-e $file.scf) goto lapw1
+set natom = `grep UNITCELL $file.output0 |awk '{print $NF}'`
+set iatom = 1
+set ftest = (1 0)
+while ($iatom <= $natom) 		#cycle over all atoms 
+  if ($iatom <= 9) then
+      set test = (`$bin/testconv -p :FOR0$iatom -c $fcut`)	
+  else
+      set test = (`$bin/testconv -p :FOR$iatom -c $fcut`)	
+  endif
+  if  !($test[1]) set ftest[1] = 0
+  set ftest[2] = $test[2]
+  set ftest    = ($ftest $test[3] $test[4])
+  @ iatom ++
+end
+echo ":FORCE convergence:  $ftest[1-]"			>> $dayfile
+
+if ($ftest[1]) then			#force convergenced
+  if ($nohns == '-nohns') then			#force convergenced
+      set nohns 
+      echo "NOHNS deactivated by FORCE convergence"		>> $dayfile
+  else
+      set iter = 1
+      unset f_not_conv 
+      foreach i ($file.in2*)
+        TOTtoFOR $i				#switch FOR-label
+      end
+  endif
+endif
+
+lapw1:
+testinput	$file.in1 lapw1c
+if (-e .fulldiag) then
+  echo "    full diagonalization forced"
+  set it0
+  rm .fulldiag
+endif
+total_exec	lapw1 $it0 -up $para $nohns
+#total_exec	lapw1 $it0 -dn $para $nohns
+copyvec:
+  foreach i ( ${scratch}*.vectorup* )
+  if (! -z $i) then
+    set j=`echo $i:e | cut -d _ -f 2- -s`
+    if ( $j ) then
+      cp $i $file.vectordn_$j
+      echo $file.vectordn_$j copied >> $dayfile
+    else
+      cp $i $file.vectordn
+      echo $file.vectordn copied >> $dayfile
+    endif
+  endif
+  end
+#cp ${scratch}$file.vectorup ${scratch}$file.vectordn
+set it0 = $it
+
+#lapwso:
+#if ( "$so" == "-so" ) then
+#   testinput	$file.inso error
+#   total_exec lapwso -up $para
+#   if ( "$para" != "-p" ) then
+#     cp ${scratch}$file.vectordum ${scratch}$file.vectordumup
+#     cp ${scratch}$file.vectordum ${scratch}$file.vectordumdn
+#   endif
+#   goto lapw2c
+#endif
+
+lapw2:
+testinput	$file.in2 error
+total_exec	lapw2 -up $para
+testinput	$file.inclmcopy error
+total_exec      clmcopy
+#total_exec	lapw2 -dn $para
+if ( $it == "-it" ) then
+  touch ${scratch}$file.vector.old
+  foreach i (${scratch}*vector*.old)
+    rm $i
+  end
+  foreach i ( ${scratch}*.vector* )
+  if (! -z $i) mv $i $i.old
+  end
+endif
+
+lapw1s:
+testinput	$file.in1s lcore
+total_exec	lapw1 -sc -up $para $nohns
+total_exec	lapw1 -sc -dn $para $nohns 
+
+lapw2s:
+testinput	$file.in2s error
+total_exec	lapw2 -sc -up $para
+total_exec	lapw2 -sc -dn $para
+goto lcore
+
+lapw1c:
+testinput	$file.in1c error
+if (-e .fulldiag) then
+  echo "    full diagonalization forced"
+  set it0
+  rm .fulldiag
+endif
+total_exec	lapw1 $it0 -c -up $para $nohns
+cp ${scratch}$file.vectorup ${scratch}$file.vectordn
+#total_exec	lapw1 $it0 -c -dn $para $nohns
+set it0 = $it
+
+#lapwsoc:
+#if ( "$so" == "-so" ) then
+#   testinput	$file.inso error
+#   total_exec lapwso -up $para
+#   if ( "$para" != "-p" ) then
+#     cp ${scratch}$file.vectordum ${scratch}$file.vectordumup
+#     cp ${scratch}$file.vectordum ${scratch}$file.vectordumdn
+#   endif
+#   goto lapw2c
+#endif
+
+lapw2c:
+testinput	$file.in2c error
+total_exec	lapw2 -c -up $so $para
+testinput	$file.inclmcopy error
+total_exec      clmcopy
+#total_exec	lapw2 -c -dn $so $para
+if ( $it == "-it" ) then
+  rm ${scratch}*vector*.old
+  foreach i ( ${scratch}*.vector* )
+  if (! -z $i) mv $i $i.old
+  end
+endif
+
+lapw1cs:
+testinput	$file.in1cs lcore
+total_exec	lapw1 -c -sc -up $para $nohns
+total_exec	lapw1 -c -sc -dn $para $nohns
+
+lapw2cs:
+testinput	$file.in2cs error
+total_exec	lapw2 -c -sc -up $para
+total_exec	lapw2 -c -sc -dn $para
+
+lcore:
+testinput	$file.inc scf
+total_exec	lcore -up
+total_exec	lcore -dn
+
+scf:
+foreach i ( 0 1up 1dn so 2up 2dn 1sup 1sdn 2sup 2sdn cup cdn )
+  if (-e $file.scf$i) cat $file.scf$i  >> $file.scf
+end
+foreach i (clmsum clmup clmdn vspup vspdn vnsup vnsdn vrespup vrespdn)
+  if (-e $file.$i ) \
+	cp $file.$i $file.$i"_old"		#save last cycle
+end
+
+
+mixer:
+testinput	$file.inm error
+total_exec	mixer
+mv $file.scfm $file.scf
+
+mixer_vresp:
+testinput       $file.inm_vresp energytest
+total_exec      mixer_vresp
+#total_exec      int16
+
+energytest:
+#---> output energies
+#set EF = `grep 'F E R' $file.scf2    |awk '{printf("%.5f", $NF)}'`
+#set ET = `grep 'AL EN' $file.outputm |awk '{printf("%.5f", $NF)}'`
+#cat << theend				>> $dayfile
+#EF  $EF
+#ET  $ET
+#theend
+#echo $ET 				> $file.finM
+
+#---> test of energy convergence
+#if ($ecut == "0") goto chargetest
+set etest = (`$bin/testconv -p :ENE -c $ecut`)	
+teststatus
+echo ":ENERGY convergence:  $etest[1-3]"		>> $dayfile
+if ($etest[1]) then
+  if ($nohns == '-nohns') then
+      set nohns 
+      echo "NOHNS deactivated by ENERGY convergence"		>> $dayfile
+  else
+      set iter = 1
+  endif
+endif
+
+chargetest:
+#if ($ccut == "0") goto nextiter
+set ctest = (`$bin/testconv -p :DIS -c $ccut`)	
+teststatus
+echo ":CHARGE convergence:  $ctest[1-3]"		>> $dayfile
+if ($ctest[1]) then
+  if ($nohns == '-nohns') then
+      set nohns 
+      echo "NOHNS deactivated by CHARGE convergence"		>> $dayfile
+  else
+      set iter = 1
+  endif
+endif
+
+#---> output forces
+#grep 'FTOT' $file.outputm|awk '{print "FT ",$2,$4,$5,$6}'\
+#					>> $dayfile
+#grep 'FTOT' $file.outputm|awk '{print $4,$5,$6}' \
+#					>> $file.finM	
+
+nextiter:
+@  iter --
+@ riter --
+@ nohns1 --
+@ icycle ++
+
+#---> nohns
+if (! $nohns1 ) then
+  set nohns
+  echo "NOHNS deactivated" 			>> $dayfile
+endif
+
+#---> restart
+if (! $riter && -e $file.broyd1) then
+  echo "    restart" 			>> $dayfile
+  rm $file.broyd1 $file.broyd2
+  set riter=$riter_save
+endif
+
+foreach i ($tmp)			#delete temporary files
+  if (-e $i) rm $i
+end
+
+#output		cycle
+printf "%s\n\n" "$iter/$riter to go" 	>> $dayfile
+if (-e .stop) goto stop1
+
+if ($iter) goto cycle			#end of sc-cycle
+
+if ( $?f_not_conv ) then
+      printf "\n>   FORCES NOT CONVERGED\n"			>> $dayfile    
+      exit 3
+endif
+
+stop:					#normal exit
+printf "\n>   stop\n"			>> $dayfile
+exit 0 
+
+stop1:					#normal exit
+printf "\n>   stop due to .stop file\n"			>> $dayfile
+if (-e .stop) rm .stop
+exit 0 
+
+error:					#error exit	
+printf "\n>   stop error\n"		>> $dayfile
+exit 1
+
+help:					#help exit 
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	running the spinpolarized scf-cycle in WIEN95
+		to be called within the case-directory
+		has to be located in WIEN95-executable directory
+
+USAGE:		$name [OPTIONS] [FLAGS]
+
+OPTIONS:
+-cc LIMIT ->	charge convercence LIMIT ($ccut)
+-ec LIMIT ->	energy convercence LIMIT ($ecut Ry)
+-fc LIMIT ->	force  convercence LIMIT ($fcut mRy/a.u.)
+-e PROGRAM ->	exit after PROGRAM ($stopafter)
+-i NUMBER -> 	max. NUMBER ($iter) of iterations
+-s PROGRAM -> 	start with PROGRAM ($next)
+-r NUMBER -> 	restart after NUMBER ($riter) iterations (rm *.broyd*)
+-nohns NUMBER ->do not use HNS for NUMBER iterations 
+
+FLAGS:
+-h/-H ->	help
+-I    ->	with initialization of in2-files to "TOT" 
+-p    ->        run k-points in parallel (needs .machine file [speed:name])
+-so   ->	run SCF including spin-orbit coupling
+-it   ->        use iterative diagonalization after first cycle
+-it0  ->	use iterative diagonalization (also in first cycle)
+		
+CONTROL FILES:
+.stop		stop after SCF cycle
+.fulldiag	force full diagonalization
+
+ENVIRONMENT VARIBLES:
+SCRATCH         directory  where vectors and help files should go
+
+theend
+
+exit 1
+
+

@@ -1,0 +1,144 @@
+#!/bin/csh -f
+#
+
+set tmp  = .tmp_qtlpara.$$
+set tmp2 = .tmp_qtlpara.$$_2
+onintr exit
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+unalias rm
+alias   testinput       'if (! -e \!:1 ||  -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+set t	    = time  
+set log     = :parallel
+set defmach = `hostname`
+set updn			# spinpolarization switch
+set dnup    = 'dn'		# spinpolarization switch
+set sc				# semicore-switch
+set cmplx
+set remote = "ssh"
+set init = init:
+set res  = residue:
+############################################################################
+# In this section use 0 to turn of an option, 1 to turn it on, 
+# respectively choose a value
+
+set useremote   = 1             # using remote shell to launch processes
+set delay       = 1             # delay launching of processes by n seconds
+set sleepy      = 1             # additional sleep before checking
+set debug       = 0             # set verbosity of debugging output
+
+############################################################################
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+        source $bin/parallel_options
+endif
+
+
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+
+############################################################################
+
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit
+endif
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -up:
+    set updn = 'up'
+    set dnup = 'dn'
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -so:
+    set so = 'so'
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+set exe = $bin/qtl
+set exe = qtl
+
+#are we running parallel?
+testinput .processes single
+echo "running QTL in parallel mode"
+echo "RUNNING" >.qtlpara
+
+#before we start, we wipe away all parallel error files
+if ( -e qtl.error ) rm *qtl*.error
+if ( -e upqtl.error ) rm *qtl*.error
+if ( -e dnqtl.error ) rm *qtl*.error
+
+if ( -e qtl_1.error ) rm *qtl_*.error
+if ( -e upqtl_1.error ) rm *qtl_*.error
+if ( -e dnqtl_1.error ) rm *qtl_*.error
+if ( -e .timeq_1) rm .timeq_*
+
+
+if (-e .machines.help) rm .machines.help
+
+grep -v $init .processes|grep : | grep -v $res >$tmp2
+set mist     = `wc $tmp2 `
+set maxproc  = $mist[1]
+set machine  = `grep $init .processes | cut -f2 -d: | xargs`
+if ($#machine > $maxproc) then
+    set machine  = `grep $init .processes |head -$maxproc| cut -f2 -d: | xargs`
+endif
+set lockfile = `cut -f2 -d: $tmp2 | awk '{print $1 NR}'|xargs`
+set residue  = `grep $res .processes|cut -f2 -d:`
+if ($residue == "") unset residue
+
+if ($debug > 0) echo machines: $machine
+
+
+echo "** " Error in Parallel QTL >$def.error
+
+
+#get name of case
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+setenv PWD $cwd
+set case    = $PWD
+set case    = $case:t          
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+if ($debug > 0) echo Setting up case $case for parallel execution
+if ($debug > 0) echo of QTL
+if ($debug > 0) echo "  "
+#
+echo "calculating QTL's from parallel vectors"
+$exe $def.def $maxproc
+rm $tmp* >&/dev/null
+echo "DONE" >.qtlpara
+exit 0
+
+error:
+echo "** " QTL crashed!
+echo "** " QTL crashed at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " Error in Parallel QTL >>$def.error
+rm $tmp* >&/dev/null
+echo "ERROR" >.qtlpara
+exit 1
+

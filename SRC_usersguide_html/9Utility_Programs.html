@@ -1,0 +1,1305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9 Utility Programs</TITLE>
+<META NAME="description" CONTENT="9 Utility Programs">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="10Examples.html">
+<LINK REL="previous" HREF="8Analysis_Properties.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="10Examples.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1385"
+  HREF="10Examples.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1381"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1375"
+  HREF="8Analysis_Properties.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1383"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1386"
+  HREF="10Examples.html">10 Examples</A>
+<B> Up:</B> <A NAME="tex2html1382"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1376"
+  HREF="8Analysis_Properties.html">8 Analysis, Properties and</A>
+ &nbsp; <B>  <A NAME="tex2html1384"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1387"
+  HREF="9Utility_Programs.html#SECTION05610000000000000000">1 symmetso</A>
+<UL>
+<LI><A NAME="tex2html1388"
+  HREF="9Utility_Programs.html#SECTION05611000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1389"
+  HREF="9Utility_Programs.html#SECTION05620000000000000000">2 pairhess</A>
+<UL>
+<LI><A NAME="tex2html1390"
+  HREF="9Utility_Programs.html#SECTION05621000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1391"
+  HREF="9Utility_Programs.html#SECTION05622000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1392"
+  HREF="9Utility_Programs.html#SECTION05623000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1393"
+  HREF="9Utility_Programs.html#SECTION05630000000000000000">3 afminput</A>
+<UL>
+<LI><A NAME="tex2html1394"
+  HREF="9Utility_Programs.html#SECTION05631000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1395"
+  HREF="9Utility_Programs.html#SECTION05632000000000000000">2 Dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1396"
+  HREF="9Utility_Programs.html#SECTION05640000000000000000">4 clmcopy</A>
+<UL>
+<LI><A NAME="tex2html1397"
+  HREF="9Utility_Programs.html#SECTION05641000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1398"
+  HREF="9Utility_Programs.html#SECTION05642000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1399"
+  HREF="9Utility_Programs.html#SECTION05643000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1400"
+  HREF="9Utility_Programs.html#SECTION05650000000000000000">5 reformat</A>
+<LI><A NAME="tex2html1401"
+  HREF="9Utility_Programs.html#SECTION05660000000000000000">6 hex2rhomb and rhomb_in5</A>
+<LI><A NAME="tex2html1402"
+  HREF="9Utility_Programs.html#SECTION05670000000000000000">7 plane</A>
+<LI><A NAME="tex2html1403"
+  HREF="9Utility_Programs.html#SECTION05680000000000000000">8 clminter</A>
+<LI><A NAME="tex2html1404"
+  HREF="9Utility_Programs.html#SECTION05690000000000000000">9 eosfit</A>
+<LI><A NAME="tex2html1405"
+  HREF="9Utility_Programs.html#SECTION056100000000000000000">10 eosfit6</A>
+<LI><A NAME="tex2html1406"
+  HREF="9Utility_Programs.html#SECTION056110000000000000000">11 spacegroup</A>
+<LI><A NAME="tex2html1407"
+  HREF="9Utility_Programs.html#SECTION056120000000000000000">12 xyz2struct</A>
+<LI><A NAME="tex2html1408"
+  HREF="9Utility_Programs.html#SECTION056130000000000000000">13 cif2struct</A>
+<LI><A NAME="tex2html1409"
+  HREF="9Utility_Programs.html#SECTION056140000000000000000">14 <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM></A>
+<LI><A NAME="tex2html1410"
+  HREF="9Utility_Programs.html#SECTION056150000000000000000">15 supercell</A>
+<UL>
+<LI><A NAME="tex2html1411"
+  HREF="9Utility_Programs.html#SECTION056151000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1412"
+  HREF="9Utility_Programs.html#SECTION056160000000000000000">16 structeditor</A>
+<UL>
+<LI><A NAME="tex2html1413"
+  HREF="9Utility_Programs.html#SECTION056161000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1414"
+  HREF="9Utility_Programs.html#SECTION056170000000000000000">17 Visualization</A>
+<UL>
+<LI><A NAME="tex2html1415"
+  HREF="9Utility_Programs.html#SECTION056171000000000000000">1 BALSAC</A>
+<LI><A NAME="tex2html1416"
+  HREF="9Utility_Programs.html#SECTION056172000000000000000">2 XCrysDen</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05600000000000000000"></A>
+<A NAME="cha:utility"></A>
+<BR>
+9 Utility Programs
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION05610000000000000000"></A>
+<A NAME="sec:symmetso"></A>
+<BR>
+1 symmetso
+</H1>
+
+<P>
+This program helps to setup spin-orbit 
+calculations in magnetic systems. Since SO may break symmetry in certain 
+spacegroups, it classifies your symmetry operations into 
+operations <TT><B>A</B></TT>, which 
+do not invert the magnetization (identity, inversion, rotations with the
+rotation axis parallel to magnetization), <TT><B>B</B></TT>, which invert it (mirror
+planes) and <TT><B>C</B></TT>, which change the magnetization in some other way.
+(Note: magnetization is a result of a circular current, or equivalently, 
+an axial vector resulting from a vector product <!-- MATH
+ $\hat z \sim \hat x \times 
+\hat y$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img290.png"
+ ALT="$\hat z \sim \hat x \times
+\hat y$">). <TT><B>symmetso</B></TT> will keep all A-type and throw away all C-type 
+symmetry operations. Depending on the presence of inversion symmetry it 
+will keep (inversion is present) or remove the B-type operations.
+Finally, <TT><B>symmetso</B></TT> uses the remaining symmetry operations to 
+check/generate
+equivalent atomic positions (it can happen that some equivalent atoms become 
+non-equivalent after inclusion of SO interaction).
+
+<P>
+In essence, it reads your <TT><B>case.struct</B></TT> and <TT><B>case.inso</B></TT> 
+(for the direction of magnetization) files and creates an ordered 
+<TT><B>case.struct_orb</B></TT> file with proper symmetry and equivalent atoms.
+It also generates a file <TT><B>case.ksym</B></TT>, which is a struct file with valid
+operations to generate a proper k-mesh using <TT><B>''x kgen -so''</B></TT>. In
+addition proper input files <TT><B>case.in1, case.in2, case.inc, case.vspup/dn, 
+case.vnsup/dn, case.clmsum, case.clmup/dn</B></TT> are generated, so that you can 
+continue with <TT><B>runsp -so</B></TT> without any further changes.
+
+<P>
+
+<H2><A NAME="SECTION05611000000000000000"></A>
+<A NAME="sec:symmetso-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>symmetso</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>symmetso symmetso.def</B></TT> or <TT><B>x symmetso  [-c] </B></TT>
+
+</BLOCKQUOTE>
+Usually it is called from the script <TT><B>initso_lapw</B></TT> and thus needs not 
+to be invoked manually. 
+
+<P>
+
+<H1><A NAME="SECTION05620000000000000000"></A>
+<A NAME="sec:pairhess"></A>
+<BR>
+2 pairhess
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+  James Rondinelli, Bin Deng and Laurence Marks \\
+  Dept. Materials Science and Engineering\\
+  Northwestern University\\
+  Evanston, USA\\
+  l-marks@northwestern.edu
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This program creates an approximate hessian matrix (in <TT><B>.minpair</B></TT>) for structure minimization using
+the PORT option. It uses a harmonic model with exponentially decaying bond strenght and in many cases reduces the
+number of geometry steps during <TT><B>min_lapw</B></TT> significantly. It is described in detail in Rondinelli et al. 2006.
+
+<P>
+For its usage see the comments in sect. <A HREF="5Shell_scripts.html#sec:min">5.3.2</A>. 
+
+<P>
+<I>Please note, R (rhombohedral) lattices are not supported yet.</I> 
+
+<P>
+
+<H2><A NAME="SECTION05621000000000000000"></A>
+<A NAME="sec:pairhess-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>pairhess</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>pairhess pairhess.def</B></TT> or <TT><B>x pairhess </B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05622000000000000000">
+2 Dimensioning parameters</A>
+</H2>
+
+<P>
+The following parameters are used in <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NATMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. number of atoms)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NEIGMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max number of neighbours</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05623000000000000000"></A>
+<A NAME="sec:pairhess-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+<TT><B>pairhess</B></TT> uses an optional input file <TT><B>case.inpair</B></TT>, which is needed only for an
+experienced user for better tailoring of certain default parameters (when the "condition number" is larger than 3,
+or "max. eigenvalue" .gt. 3).
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+---------------- top of file: case.inpair -----------------------
+10.0 2.0 0.25  (Rmax, Decay, ReScale)
+0.05 1.0 0     (Cutoff, Diag, mode)
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>RMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Maximum distance (a.u.) for considering neighbors. 8-12 is good.</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>DECAY</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Exponential decay applied to neighbors when calculating the
+        pairwise bond strenghts. 1.5-2.5 is reasonable.</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>RESCALE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>A scaling term to multiply the pairwise hessian by. This number
+        is rather important; 0.25 appears to be best, 0.35 is more conservative</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>CUTOFF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>When the weighting (via an exponential decay) becomes smaller than this
+        number the pairwise bonds are ignored.</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>DIAG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>The value to multiply a unitary matrix by, this is added to the hessian
+        estimate</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>MODE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>0: Harmonic model; [1: spring model; not working]</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05630000000000000000"></A>
+<A NAME="sec:afminput"></A>
+<BR>
+3 afminput
+</H1>
+
+<P>
+This program creates the inputfile <TT><B>case.inclmcopy_st</B></TT> 
+for the program <TT><B>clmcopy</B></TT>, which copies
+spin-up densities of atom i to spin-down densities of the related
+antiferromagnetic atom j and vice versa in an
+anti-ferromagnetic system. It uses a symmetry operation to find out
+how and which atomic densities must be interchanged and how the Fourier coefficients of
+the density transform. It is based on the ideas of Manuel Perez-Mato (Bilbao, Spain).
+
+<P>
+See $WIENROOT/SRC_afminput/afminput_test for several examples.
+
+<P>
+The best way is to supply a file <TT><B>case.struct_supergroup</B></TT>, which is
+the struct file of the nonmagnetic supergroup. If the two spacegroups are
+``TRANSLATIONENGLEICH'', it will find out automatically the proper symmetry
+operation.  <I>Please note, this automatic way works only when the coordinate 
+system remains identical. In some cases sgroup may interchange eg. the y and z
+axis. In such cases reverse this change, both, for the lattice parameters as well
+as for all positions, set NSYM=0 and run init_lapw again (ignoring any 
+suggestion of sgroup).</I>
+
+<P>
+If the two spacegroups are ``KLASSENGLEICH'' (i.e. have the same
+number of symmetry operations), you will be asked to supply a translation
+which transforms the AF atoms into each other. A typical example would be bcc
+Cr: the bcc supergroup and the AF subgroup (simple cubic) have both 48 symmetry
+operations and the proper translation is (0.5,0.5,0.5).
+
+<P>
+Finally, if you don't give <TT><B>case.struct_supergroup</B></TT>, you have to supply
+a symmetry operation (rotation + non-primitive translation) as input. For bcc
+Cr or the famous NiO-AFII structure this would be simply
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\left( \begin{array}{ccc} 1.0 & 0.0 & 0.0 \\
+                         0.0 & 1.0 & 0.0 \\
+                         0.0 & 0.0 & 1.0 \\
+\end{array} \right)
+\left( \begin{array}{c} 0.5  \\
+                         0.5 \\
+                         0.5 \\
+\end{array} \right)
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="193" HEIGHT="102" BORDER="0"
+ SRC="img292.png"
+ ALT="\begin{displaymath}
+\left( \begin{array}{ccc} 1.0 &amp; 0.0 &amp; 0.0 \\
+0.0 &amp; 1.0 &amp; 0...
+...\begin{array}{c} 0.5 \\
+0.5 \\
+0.5 \\
+\end{array} \right)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+Please see the
+comments in sect. <A HREF="4Files_Program.html#sec:flow_afm">4.5.4</A> on how to proceed in detail for AFM
+calculations
+and find further examples in <TT><B>SRC_afminput</B></TT>.  
+
+<P>
+
+<H2><A NAME="SECTION05631000000000000000"></A>
+<A NAME="sec:afminput-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>afminput</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>afminput afminput.def</B></TT> or <TT><B>x afminput </B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05632000000000000000">
+2 Dimensioning parameters</A>
+</H2>
+
+<P>
+The following parameters are used:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM components in the density (in <TT><B>param.inc</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max l for LM expansion of the density (in <TT><B>param.inc</B></TT>).</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H1><A NAME="SECTION05640000000000000000"></A>
+<A NAME="sec:clmcopy"></A>
+<BR>
+4 clmcopy
+</H1>
+This program generates the spin-dn density (<TT><B>case.clmdn</B></TT>) from a given  
+spin-up density (<TT><B>case.clmup</B></TT>) according to rules and symmetry operations
+in <TT><B>case.inclmcopy</B></TT> (generated earlier by <TT><B>afminput</B></TT>) for
+an AFM calculation.
+
+<P>
+Please see the
+comments in sect. <A HREF="4Files_Program.html#sec:flow_afm">4.5.4</A> on how to proceed in detail for AFM calculations.  
+
+<P>
+
+<H2><A NAME="SECTION05641000000000000000"></A>
+<A NAME="sec:clmcopy-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>clmcopy</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>clmcopy clmcopy.def</B></TT> or <TT><B>x clmcopy </B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05642000000000000000">
+2 Dimensioning parameters</A>
+</H2>
+
+<P>
+The following parameters are  used in <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM components in the density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of symmetryoperations</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05643000000000000000"></A>
+<A NAME="sec:clmcopy-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+---------------- top of file: case.inclmcopy -----------------------
+   2                                              NUMBER of ATOMS to CHANGE
+   1   2                                          INTERCHANGE these ATOMS
+ -1.00000000000  0.00000000000  0.00000000000     SYMMETRY OPERATION
+  0.00000000000 -1.00000000000  0.00000000000
+  0.00000000000  0.00000000000 -1.00000000000
+   0                                              NUMBER of LM to CHANGE SIGN
+   3   4                                          INTERCHANGE these ATOMS
+ -1.00000000000  0.00000000000  0.00000000000     SYMMETRY OPERATION
+  0.00000000000 -1.00000000000  0.00000000000
+  0.00000000000  0.00000000000 -1.00000000000
+   9                                              NUMBER of LM to CHANGE SIGN
+  1 0    1 0 -1.00
+  3 0    3 0 -1.00
+  3 2    3 2 -1.00
+ -3 2   -3 2 -1.00
+  5 0    5 0 -1.00
+  5 2    5 2 -1.00
+ -5 2   -5 2 -1.00
+  5 4    5 4 -1.00
+ -5 4   -5 4 -1.00
+   1   0   0   0.50000
+   0   1   0   0.00000
+   0   0   1   0.50000
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NATOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Number of atoms for which rules for copying the density will be defined</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>N1, N2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Interchange spin-up and dn densities of atoms N1 and N2</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3-5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Symmetry operation for atom N1 to rotate into N2 (without
+  translational part)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NLM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Number of LM values, for which you have to change the sign when swapping up and dn-densities</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 7ff:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>L1,M1,L2,M2,Fac</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>NLM pairs of L1,M1 (spin-up), which change into L2,M2
+  (spin-dn) and the
+  respecting CLMs are multiplied by Fac</TD>
+</TR>
+</TABLE>
+
+<P>
+Lines 2-7ff have to be repeated NATOM times.
+
+<P>
+</DD>
+<DT><STRONG>line 8-10:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SYM0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Symmetry operation (one of the operations of the NM-supergroup
+ missing in the AFM-subgroup (transfers spin-up into spin-dn atom)</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05650000000000000000">
+5 reformat</A>
+</H1>
+
+<P>
+To produce a surface plot of the electron density using
+<TT><B>rhoplot_lapw</B></TT> (which is an interface to <TT><B>gnuplot</B></TT>), data from the file <TT><B>case.rho</B></TT> created by
+<TT><B>lapw5</B></TT> must be converted using <TT><B>reformat</B></TT>
+
+<P>
+The sources of the program <TT><B>reformat.c</B></TT> are supplied in
+<TT><B>SRC_reformat</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION05660000000000000000"></A>
+<A NAME="sec:hex2rhomb"></A>
+<BR>
+6 hex2rhomb and rhomb_in5
+</H1>
+
+<P>
+<TT><B>hex2rhomb</B></TT> interactively converts the positions of an atom from
+hexagonal to rhombohedral coordinates (needed in <TT><B>case.struct</B></TT>).
+
+<P>
+<TT><B>rhomb_in5</B></TT> interactively helps to generate input
+<TT><B>case.in5</B></TT> for density plots with <TT><B>lapw5</B></TT> for rhombohedral systems. 
+It defines a plane as needed
+in the input file when you specify 3 atoms of that plane.
+
+<P>
+The sources of these programs are supplied in <TT><B>SRC_trig</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION05670000000000000000"></A>
+<A NAME="sec:plane"></A>
+<BR>
+7 plane
+</H1>
+
+<P>
+<TT><B>plane</B></TT> helps to generate 
+<TT><B>case.in5</B></TT> for density plots with <TT><B>lapw5</B></TT> (for orthogonal and hex lattices
+only). The plane will be specified by 3 atoms and you need an auxiliary file <TT><B>plane.input</B></TT>, which contains:
+
+<P>
+<PRE>
+a,b,c     # lattice parameters
+x0,y0,z0  # position of atom (fractional coordinates), which will be centered in the plot
+x1,y1,z1  # position of atom, which will be ``below'' the centered atom
+x2,y2,z2  # position of atom, which will show to the ``left''
+xl,yl     # lenght (in bohr) of plot in x and y direction.
+'P'       # defines lattice, either P (carthesian coordinates) or H (hexagonal) supported
+</PRE>
+
+<P>
+The source of this program is supplied in <TT><B>SRC_trig</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION05680000000000000000"></A>
+<A NAME="sec:clminter"></A>
+<BR>
+8 clminter
+</H1>
+
+<P>
+<TT><B>clminter</B></TT> interpolates the density in <TT><B>case.clmsum/up/dn</B></TT> to a new
+radial mesh as defined in  <TT><B>case.struct_new</B></TT>. This utility is
+usefull when you run a structural minimization (<TT><B>min_lapw</B></TT>),
+some atoms start to overlap and you have to reduce RMT (the size of the atomic
+spheres) of certain atoms. In such a case:
+
+<P>
+
+<UL>
+<LI>save the calculations
+</LI>
+<LI>generate <TT><B>case.struct_new</B></TT> with modified RMTs
+</LI>
+<LI><TT><B>x clminter</B></TT>
+</LI>
+<LI>in spinpolarized case repeat this line with -up and -dn switches
+</LI>
+<LI>cp case.struct_new case.struct
+</LI>
+<LI>cp case.clmsum_new case.clmsum
+</LI>
+<LI>eventually copy also case.clmup/dn files)
+</LI>
+<LI><TT><B>run_lapw</B></TT>; (it will probably take some iterations until you reach
+  scf again, but it should be much faster than starting with <TT><B>init_lapw</B></TT>)
+</LI>
+</UL>
+
+<P>
+Note: Please be aware the the total energy will change with modified RMT (by
+some constant) and you must not compare energies comming from different RMTs
+(but most likely you can determine the constant shift by repeating (at least)
+ONE calculation with identical structure but different RMTs).
+
+<P>
+The source of this program is supplied in <TT><B>SRC_trig</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION05690000000000000000"></A>
+<A NAME="sec:eosfit"></A>
+<BR>
+9 eosfit
+</H1>
+
+<P>
+Small program to calculate the Equation of States (EOS; Equilibrium
+volume <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img293.png"
+ ALT="$V_0$">, Bulk modulus <IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img294.png"
+ ALT="$B_0$"> and it's derivative <IMG
+ WIDTH="23" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img295.png"
+ ALT="$B_0'$">. The Murnaghan
+(1944), the Birch-Murnaghan and the EOS2 equation of states are supported. It
+relies on the file <TT><B>case.vol</B></TT> (containing lines with "volume, E-tot", usually created from <EM>w2web</EM> using
+"Volume optimization"), or alternatively is called from
+<TT><B>eplot_lapw</B></TT> using <TT><B>case.analysis</B></TT> (see 
+<A HREF="5Shell_scripts.html#sec:eplot">5.7.1</A> and <A HREF="5Shell_scripts.html#sec:lattice-parameters">5.3.1</A>).
+
+<P>
+The sources  are supplied in <TT><B>SRC_eosfit</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION056100000000000000000"></A>
+<A NAME="sec:eosfit6"></A>
+<BR>
+10 eosfit6
+</H1>
+
+<P>
+Nonlinear least squares fit (using PORT routines) for a parabolic fit of the energy vs. 2-4 dim. lattice parameters.
+It requires <TT><B>case.ene</B></TT> and <TT><B>case.latparam</B></TT>, usually generated by <TT><B>parabolfit_lapw</B></TT>. It can optionally
+produce <TT><B>case.enefit</B></TT>, which contains energies on a specified grid for plotting purposes (in 2D same format as 
+<TT><B>case.rho</B></TT>, which can be used in contourplot programs).
+(See  <A HREF="5Shell_scripts.html#sec:lattice-parameters">5.3.1</A>).
+
+<P>
+The sources  are supplied in <TT><B>SRC_eosfit6</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION056110000000000000000"></A>
+<A NAME="sec:spacegroup"></A>
+<BR>
+11 spacegroup
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+  Vaclav Petricek\\
+  Institute of Physics\\
+  Academy of Sciences of the Czech Republic\\
+  Na Slovance 2\\
+  182 21 Praha (Prague) 8\\
+  Czech Republic\\
+  petricek@fzu.cz
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="196" ALIGN="MIDDLE" BORDER="0"
+ SRC="img296.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Vaclav Petricek\\
+Institute of Physics\\
+Ac...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+Interactive program to generate equivalent positions for
+a given spacegroup and lattice. The program is also used
+internally from <EM>w2web</EM> to generate positions when selecting
+spacegroups in the <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM>.
+
+<P>
+
+<H1><A NAME="SECTION056120000000000000000"></A>
+<A NAME="sec:xyz2struct"></A>
+<BR>
+12 xyz2struct
+</H1>
+
+<P>
+<TT><B>xyz2struct</B></TT> reads x,y,z-data from <TT><B>case.xyz</B></TT> and writes them into
+<TT><B>case.struct_xyz</B></TT>. You may have to adapt the read-format in the line with
+the label 10 in SRC_trig/xyz2struct.f. Since xyz data contain no symmetry 
+information, all atoms with the same ``label'' will be treated as equivalent. 
+The nuclear charges ZZ will not be given and you have to insert them manually.
+
+<P>
+(I recommend this program only for cases with many non-equivalent atoms and
+(almost) no symmetry. If you have spacegroup-information it is probably 
+easier to use <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> and copy/paste of the positions).
+
+<P>
+
+<H1><A NAME="SECTION056130000000000000000"></A>
+<A NAME="sec:cif2struct"></A>
+<BR>
+13 cif2struct
+</H1>
+
+<P>
+<TT><B>cif2struct</B></TT> reads structural data in cif-format from <TT><B>case.cif</B></TT> and writes them into
+<TT><B>case.struct</B></TT>. It is executed using:
+
+<P>
+<TT><B>cif2struct case.cif</B></TT>
+
+<P>
+The required cif files can be for example be obtained from Cystallographic databases (e.g.
+the Inorganic Crystal Structure DataBase ICSD) or from other programs.
+
+<P>
+
+<H1><A NAME="SECTION056140000000000000000"></A>
+<A NAME="sec:structgen"></A>
+<BR>
+14 <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM>
+</H1>
+
+<P>
+The new <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> helps to generate the master input file <TT><B>case.struct</B></TT>. It has the following additional features:
+
+<UL>
+<LI>automatic conversion from/to &#197; and Bohr
+</LI>
+<LI>Use spacegroup information (in conjunction with the
+  <TT><B>spacegroup</B></TT> program (see <A HREF="#sec:spacegroup">9.11</A> to generate
+  equivalent positions)
+</LI>
+<LI>built in calculator to carry out simple arithmetic operations to
+  specify the position parameters (of the equivalent atoms).  Each
+  position of equivalent atoms can be entered as a number, a fraction
+  (e.g. <IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img75.png"
+ ALT="$1/3$">) or a simple expression (e.g. <IMG
+ WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img76.png"
+ ALT="$0.21+1/3$">). The first
+  position defines the variables x, y and z, which can be using in
+  expression defining the other positions (e.g. <IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="$-y$">, <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img78.png"
+ ALT="$x$">, <IMG
+ WIDTH="68" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$-z+1/2$">).
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<H1><A NAME="SECTION056150000000000000000"></A>
+<A NAME="sec:supercell"></A>
+<BR>
+15 supercell
+</H1>
+
+<P>
+This program helps to generate supercells from a regular <TT><B>WIEN2k</B></TT>-struct
+file. 
+
+<P>
+It asks interactively for the name of the original struct file and the
+number of cells in x, y, and z direction. (Only integers are allowed, thus
+no rotations by <IMG
+ WIDTH="27" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img297.png"
+ ALT="$45^o$"> like sqrt(2) x sqrt(2) cells are supported yet).
+
+<P>
+If symmetry permits, one can change the target lattice to P, B or F centered
+lattices, (C and R types not yet supported), which allows to increase the
+number of atoms in these supercells by a factor of 2, 4, 8, ...
+
+<P>
+If the target lattice is P, one can add some vacuum in each direction for
+slabs (or chains or isolated molecules) and also add a ``top''-layer.
+
+<P>
+You can define an optional shift in 
+x,y,z direction for  all the atoms in the cell.
+(This might be usefull if you want to arrange the atoms in a certain way,
+eg. you may want to create a surface slab such that it is centered around
+z=0.5 (and not z=0), so that plotting programs (xcrysden) produce nicer
+pictures of the structure.
+
+<P>
+For the experienced user a much more flexible (but also more complicated) 
+tool is available, namely the <TT><B>structeditor</B></TT> package (see Sect.<A HREF="#sec:structeditor">9.16</A>).
+
+<P>
+<I>Please note: You cannot make calculations with these supercells (except for
+surfaces) unless you
+modify the created supercell-struct file. You must break the symmetry by
+introducing some distortions (e.g. for a frozen phonon) or replace one atom by
+an impurity/vacancy, ....</I> 
+
+<P>
+
+<H2><A NAME="SECTION056151000000000000000"></A>
+<A NAME="sec:supercell-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>supercell</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>supercell</B></TT> or <TT><B>x supercell </B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H1><A NAME="SECTION056160000000000000000"></A>
+<A NAME="sec:structeditor"></A>
+<BR>
+16 structeditor
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+        Robert Laskowski\\
+        email: rolask@theochem.tuwien.ac.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="100" ALIGN="MIDDLE" BORDER="0"
+ SRC="img298.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Robert Laskowski\\
+email: rolask@theochem.tuw...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This package helps to manipulate structures. Usually one would start from an
+appropriate (simple) <TT><B>case.struct</B></TT> file, and this tool allows to add or manipulate
+atoms (with or without symmetry considerations), or generate arbitrary supercells
+or surfaces. It is commandline driven and targeted for the more experienced
+user,  who ``knows what he
+wants to do'' and is just looking for a convenient tool.
+
+<P>
+It consists of a couple of octave (mathlab) routines and some fortran code,
+thus it requires <TT><B>octave</B></TT>
+(the free <TT><B>mathlab</B></TT> version) and for
+visualization the <TT><B>opendx</B></TT> package (http://www.octave.org and http://www.opendx.org ). 
+
+<P>
+A full documentation and some examples can be found in
+<TT><B>$WIENROOT/SRC_structeditor/doc</B></TT>, but the main commands are:
+
+<P>
+<PRE>
+a2adist            * calculates  distance between atoms     
+mina2adist         * calculates minimum distance between atoms 
+addatom	           * adds an atom to the structure 
+addeqatom          * adds an atom and all equivalent 
+copyatom           * creates a copy of an atom 
+getaname           * converts atomic number into atomic symbol
+getar0             * calculates r0 from atomic number 
+getazz             * converts atomic name into atomic number 
+loadstruct         * reads Wien2k structfile 
+movealla           * moves all atoms with vector vec 
+replaceatom        * replaces an atom with other atom 
+replaceeqatoms     * replaces an atom and all equivalent with other atoms
+rmatom             * removes an atom 
+rmeqatoms          * removes an atom and all equivalent 
+savestruct         * saves crystal structure 
+showequivalent     * outputs list of equivalent atoms 
+showstruct         * displays structure (using DX) 
+smultatom          * creates symmetry equivalent positions 
+sshift             * symmetric shifts of equivalent atoms 
+makeconventional   * converts structure into the conventional form 
+makeprimitive      * converts structure to the primitive form 
+makesupercell      * creates supercell 
+makesurface        * creates surface for a given unitcell
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION056161000000000000000"></A>
+<A NAME="sec:structeditor-exe"></A>
+<BR>
+1 Execution
+</H2>
+The <TT><B>structeditor</B></TT> is invoked within the octave environment:
+<BLOCKQUOTE>
+<TT><B>octave</B></TT>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>s=loadstruct("GaN.struct")
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE># make an orthorhombic supercell and visualize it 
+<BR>
+a=[1 0 0; 1 1 0; 0 0 2]
+<BR>
+sout=makesupercell (s,a);
+<BR>
+showstruct(sout);
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE># save it as test.struct
+<BR>
+savestruct (sout,"test.struct");
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE># get help on all commands
+<BR>
+helpstruct
+<BR>
+</BLOCKQUOTE>
+
+<P>
+
+<H1><A NAME="SECTION056170000000000000000"></A>
+<A NAME="sec:visualization"></A>
+<BR>
+17 Visualization
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION056171000000000000000"></A>
+<A NAME="sec:balsac"></A>
+<BR>
+1 BALSAC
+</H2>
+
+<P>
+<TT><B>balsac</B></TT> (Build and Analyze Lattices, Surfaces and Clusters) was written
+by Klaus Hermann (Fritz-Haber Institut, Berlin).  It provides high
+quality postscript files. 
+In SRC_balsac-utils we provide the following interface programs to convert from <EM>WIEN2k</EM> 
+to <TT><B>balsac</B></TT>:
+
+<P>
+
+<UL>
+<LI><TT><B>str2lat</B></TT> to convert <TT><B>case.struct</B></TT> to <TT><B>case.lat</B></TT> (the BALSAC "lat" file). 
+</LI>
+<LI><TT><B>str2plt</B></TT> to convert <TT><B>case.struct</B></TT> to <TT><B>case.plt</B></TT> (the BALSAC "plt" file for one unit cell). 
+</LI>
+<LI><TT><B>outnn2plt</B></TT> to convert <TT><B>case.outputnn</B></TT> to <TT><B>case.plt</B></TT> (the BALSAC "plt" file for one unit cell). You have to select one atom (central atom) and than all nn-atoms are converted into the plt file. 
+</LI>
+<LI>In addition converters to the xyz-format (<TT><B>str2xyz, outnn2xyz</B></TT>) for other plotting programs are also available.
+</LI>
+</UL>
+
+<P>
+For an example see figure
+<A HREF="3Quick_Start.html#fig:tic_structure">3.1</A>
+For scientific questions concerning
+BALSAC please contact Klaus Hermann at hermann@FHI-Berlin.MPG.DE
+
+<P>
+Balsac is available from: 
+<BLOCKQUOTE>
+Garching Innovation GmbH, Mrs. M. Pasecky
+  Hofgartenstr. 8, D-80539 Munich,    Germany 
+<BR>
+Tel.: +49 89 2909190,  Fax.: +49 89 29091999 
+<BR>
+e-mail: gi@ipp.mpg.de  
+<BR>
+web: http://www.fhi-berlin.mpg.de/th/personal/hermann/balpam.html
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION056172000000000000000"></A>
+<A NAME="sec:xcrysden"></A>
+<BR>
+2 XCrysDen
+</H2>
+
+<P>
+XCrysDen (Kokalj 1999) is a render and analysis package. It has the following features:
+
+<UL>
+<LI>render and analyze (distances, angles) the crystal structure
+</LI>
+<LI>generate k-mesh for bandstructure plots
+</LI>
+<LI>generate input and render 2D charge densities
+</LI>
+<LI>generate input and render 3D charge densities
+</LI>
+<LI>generate input and render Fermi surfaces
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:xcrysden"></A><A NAME="12575"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 9.1:</STRONG>
+3D electron density in TiC generated with XCrysDen</CAPTION>
+<TR><TD><IMG
+ WIDTH="199" HEIGHT="222" BORDER="0"
+ SRC="img299.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\epsfig{figure=figs/tic/xcrysden, height=50mm}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+XCrysDen is available from:
+<BLOCKQUOTE>
+Tone Kokalj
+<BR>
+Jozef Stefan Institute, Dept. of Physical and Organic Chemistry
+<BR>
+Jamova 39, SI-1000 Ljubljana, Slovenia
+<BR>
+Tel.: +386 61 177 3520, Fax: +386 61 177 3811
+<BR>
+Tone.Kokalj@ijs.si
+<BR>
+http://www.xcrysden.org/
+
+</BLOCKQUOTE>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1385"
+  HREF="10Examples.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1381"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1375"
+  HREF="8Analysis_Properties.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1383"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1386"
+  HREF="10Examples.html">10 Examples</A>
+<B> Up:</B> <A NAME="tex2html1382"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1376"
+  HREF="8Analysis_Properties.html">8 Analysis, Properties and</A>
+ &nbsp; <B>  <A NAME="tex2html1384"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

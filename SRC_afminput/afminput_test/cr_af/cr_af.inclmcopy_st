@@ -1,0 +1,11 @@
+   1                                              NUMBER of ATOMS to CHANGE
+   1   2                                          INTERCHANGE these ATOMS
+ -1.00000000000  0.00000000000  0.00000000000     SYMMETRY OPERATION
+  0.00000000000 -1.00000000000  0.00000000000
+  0.00000000000  0.00000000000 -1.00000000000
+   0                                              NUMBER of LM to CHANGE SIGN
+   1   0   0   0.50000
+   0   1   0   0.50000
+   0   0   1   0.50000
+ The symmetry operation above is one of the operations of the NM-supergroup
+ missing in the AFM-subgroup (transfers spin-up into spin-dn atom)

@@ -1,0 +1,7 @@
+  1  2  0                     nmod, natorb, ipr
+PRATT  1.0                    BROYD/PRATT, mixing
+  1 1 2                          iatom nlorb, lorb
+  2 1 2                          iatom nlorb, lorb
+  1                              nsic 0..AFM, 1..SIC, 2..HFM
+   0.52 0.00        U J (Ry)   Note: we recommend to use U_eff = U-J and J=0
+   0.52 0.00        U J

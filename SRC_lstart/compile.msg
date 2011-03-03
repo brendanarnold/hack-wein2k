@@ -1,0 +1,42 @@
+rm  -f cdlsd.o  corgga.o corlsd.o dalp.o epsxc.o exch.o    fpot.o  gcor.o gea.o    geaex.o  hl1.o    hle1.o inouh.o insld.o   inth.o  drho.o potsl.o  resld.o  sevald.o somm.o vxcsp.o ykdir.o   grans.o lstart.o spline.o vpw91.o  vxclm2.o vxcpw2.o ev92.o ev92ex.o vxc24.o vxc15.o write1.o parse.o  vxc17.o  exch17.o pbe1.o watsonw.o wc05.o   cdlsd.P  corgga.P corlsd.P dalp.P epsxc.P exch.P    fpot.P  gcor.P gea.P    geaex.P  hl1.P    hle1.P inouh.P insld.P   inth.P  drho.P potsl.P  resld.P  sevald.P somm.P vxcsp.P ykdir.P   grans.P lstart.P spline.P vpw91.P  vxclm2.P vxcpw2.P ev92.P ev92ex.P vxc24.P vxc15.P write1.P parse.P  vxc17.P  exch17.P pbe1.P watsonw.P wc05.P cdlsd.prj  corgga.prj corlsd.prj dalp.prj epsxc.prj exch.prj    fpot.prj  gcor.prj gea.prj    geaex.prj  hl1.prj    hle1.prj inouh.prj insld.prj   inth.prj  drho.prj potsl.prj  resld.prj  sevald.prj somm.prj vxcsp.prj ykdir.prj   grans.prj lstart.prj spline.prj vpw91.prj  vxclm2.prj vxcpw2.prj ev92.prj ev92ex.prj vxc24.prj vxc15.prj write1.prj parse.prj  vxc17.prj  exch17.prj pbe1.prj watsonw.prj wc05.prj  \
+	lstart.xref
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c cdlsd.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c corgga.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c corlsd.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dalp.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c epsxc.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c exch.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c fpot.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c gcor.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c gea.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c geaex.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c hl1.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c hle1.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inouh.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c insld.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inth.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c drho.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c potsl.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c resld.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c sevald.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c somm.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxcsp.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ykdir.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c grans.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c lstart.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c spline.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vpw91.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxclm2.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxcpw2.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ev92.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ev92ex.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxc24.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxc15.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c write1.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c parse.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c vxc17.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c exch17.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c pbe1.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c watsonw.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c wc05.f
+ifort -o ./lstart cdlsd.o  corgga.o corlsd.o dalp.o epsxc.o exch.o    fpot.o  gcor.o gea.o    geaex.o  hl1.o    hle1.o inouh.o insld.o   inth.o  drho.o potsl.o  resld.o  sevald.o somm.o vxcsp.o ykdir.o   grans.o lstart.o spline.o vpw91.o  vxclm2.o vxcpw2.o ev92.o ev92ex.o vxc24.o vxc15.o write1.o parse.o  vxc17.o  exch17.o pbe1.o watsonw.o wc05.o  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -L/opt/intel/mkl/9.0/lib/em64t -lpthread 

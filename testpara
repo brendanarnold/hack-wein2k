@@ -1,0 +1,303 @@
+#!/bin/csh -f
+#
+# (C)1997 by Joachim Luitz
+#
+# $Revision: 1.5 $
+# $Date: 1997/12/02 13:00:43 $
+#
+# $Author: jluitz $
+# $Source: /zeus/lapw/WIEN97/bin/RCS/testpara_lapw,v $
+# $State: Exp $
+#
+unalias rm
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+
+if !(-e .machines) then
+    echo "Case not set up for parallel execution\!"
+    echo "No .machines file present."
+    exit 1
+endif
+
+set tmp  = .tmp_testpara_new.$$
+set tmp2 = .tmp_testpara_new.$$_2
+onintr exit
+
+alias   testinput       'if (! -e \!:1 || -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+
+
+
+
+############################################################################
+# First we set up some variables
+#
+
+set updn			# spinpolarization switch
+set dnup	= 'dn'		# spinpolarization switch
+set sc				# semicore-switch
+set cmplx
+set t 		= time
+set remote      = "ssh"
+set log         = :parallel
+set granular    = granularity:
+set res         = residue:
+set ef          = extrafine:
+
+set kpl
+
+set granularity = 3            # higher values split k-list into more
+                               # junks, however, each vector will produce
+                               # its own clmval file!!!
+                               # Granularity 3 yields approx. 3 files per
+                               # processor
+
+############################################################################
+#In this section use 0 to turn of an option, 1 to turn it on, 
+#respectively choose a value
+
+set useremote   = 1             # using remote shell to launch processes
+set delay       = 0             # delay launching of processes by n seconds
+set sleepy      = 10            # additional sleep before checking again
+                                # for free processors
+set debug       = 0             # verbosity of debugging output
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+	source $bin/parallel_options
+endif
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+if ( $?WIEN_GRANULARITY ) then
+        set granularity = $WIEN_GRANULARITY
+endif
+if ( $?WIEN_EXTRAFINE ) then
+        set extrafine
+endif
+
+if ( $?WIEN_MPIRUN ) then
+  set mpirun = "$WIEN_MPIRUN"
+else
+  set mpirun='mpirun -np _NP_ _EXEC_'
+endif
+
+############################################################################
+
+#correct PWD variable if using the amd-daemon
+# we assume that any /tmp_mnt/xxx directory will be mounted
+# as /xxx!!!!!
+
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+setenv PWD $cwd
+# echo $PWD
+
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -up:
+    set updn = up
+    set dnup = dn
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -sc:
+    set sc = 's'
+    shift; breaksw
+  case -c:
+    set cmplx = c
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+echo ""
+echo "#####################################################"
+echo "#                     TESTPARA                      #"
+echo "#####################################################"
+echo ""
+
+#get name of case
+set case    = `pwd`
+set case    = $case:t 
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+
+if (-e $case.in1c && -s $case.in1c ) set cmplx = c
+#check if klist is read from unit 4
+#else quit!
+set test = `grep "K-VECTORS" $case.in1${cmplx}|cut -c21`
+if ($test != 4) then
+  echo "   K-Vectors must be read from unit 4"
+  echo "   for parallel execution! "
+  echo "   Change setting in $case.in1${cmplx}! "
+  exit 1
+endif
+
+if ($debug > 0) echo " ->" Testing $case for parallel execution
+if ($debug > 0) echo " ->" of LAPW1
+if ($debug > 0) echo " ->" ""
+#
+#get machine names and weighs, set up 
+#proper junks for parallel execution
+#in case of a spin polarized calculation
+#ensure both up and down are done with the
+#same number of k-points; first calc. generates
+#file .machines.help
+
+if ($updn == 'up' || $updn == 'dn') then
+  if ($debug > 1) echo " ->" sp
+  if (-e .machines.help && $updn == 'dn') then
+    cp .machines.help $tmp
+    echo "Test: LAPW1 in parallel mode (using .machines.help)"
+  else
+    cp .machines $tmp
+    cp $tmp .machines.help
+    echo "Test: LAPW1 in parallel mode (using .machines)"
+  endif
+else
+  if ($debug > 1) echo " ->" non sp
+  cp .machines $tmp
+  echo "Test: LAPW1 in parallel mode (using .machines)"
+endif
+
+grep : $tmp |grep -v '#' | grep -v 'lapw0' | grep -v $granular | grep -v $res |grep -v $ef >$tmp2
+
+set weigh    = `cut -f1 -d: $tmp2 |xargs`
+set machine  = `cut -f2 -d: $tmp2 |xargs`
+set wweigh   = ($weigh)
+set mist     = `wc $tmp2`
+set proc     = $mist[1]
+unset mist
+set mist     = `grep $granular $tmp |grep -v '#'| cut -f2 -d:`
+if ($mist != "") then 
+    echo "Granularity set to $mist"
+    set granularity = $mist
+endif
+set mist     = `grep $ef $tmp |grep -v '#'| cut -f2 -d:`
+if ($mist == 1) then
+    echo "Extrafine set"
+    set extrafine
+else
+    echo "Extrafine unset"
+    unset extrafine
+endif
+
+set mist     = `grep $res $tmp |grep -v '#'| cut -f2 -d:`
+if ($mist != "") then 
+    echo "Residue set to $mist"
+    set residue = $mist
+else
+    unset residue
+endif
+unset mist
+set i          = 0
+set sumw       = `awk -F: '{sumw += $1};END {print sumw}' $tmp`
+sed "/END/q" <$case.klist >$case.klist.tmp
+set mist = `wc $case.klist.tmp`
+set klist = $mist[1]
+@ klist -- 
+# modify weights
+set i = 1
+set sumn = 0
+while ($i <= $#weigh)
+    @ weigh[$i] *= $klist
+    @ weigh[$i] /= $sumw
+    @ weigh[$i] /= $granularity
+    if ($weigh[$i] == 0 ) then
+	@  weigh[$i] ++  # oops, we divided by too big a number
+    endif
+    @ sumn += $weigh[$i]
+    @ i ++
+end
+# check for residue
+if ($?residue) then
+    @ resk = $klist % $sumn
+endif
+    echo ""
+    if ($?residue) then
+    echo "    klist:       $klist ($resk residue)"
+    else
+    echo "    klist:       $klist"
+    endif
+    echo "    machines:    $machine"
+    echo "    procs:       $proc"
+    if ($?residue) then
+    echo "    residue:     $residue ($resk k)"
+    endif
+    echo "    weigh(old):  $wweigh"
+    echo "    sumw:        $sumw"
+    echo "    granularity: $granularity"
+    echo "    weigh(new):  $weigh"
+
+if ($?residue) then
+    set machine  = `echo "$residue $machine" |xargs`
+    set weigh    = `echo "$resk $weigh" | xargs`
+    @ proc ++
+endif
+
+echo ""
+echo "Distribution of k-point (under ideal conditions)"
+echo "will be:"
+echo ""
+
+@ multi = $proc * $granularity
+
+set loop    = 0
+set kbegin  = 1
+set endloop = 0
+
+kloop:
+    set p = 1
+    if ($?residue && $?resok) set p = 2
+    while ($p <= $proc)
+	if ($kbegin > $klist) goto endkloop
+	@ loop ++
+        set kold = $kbegin
+        if ($loop > $multi && $?extrafine) then
+            @ head = $kbegin
+            set tail = 1
+            @ kbegin = $kbegin + 1
+        else
+            @ head = $kbegin + $weigh[$p] - 1
+            set tail = $weigh[$p]
+            @ kbegin = $kbegin + $weigh[$p]
+        endif
+
+	if ($head >= $klist) then
+	    set head    = $klist
+	    @ tail = $klist - $kold - 1
+	endif
+	set kpl = ($kpl $tail)
+	if ($?residue && $loop == 1) then
+	echo  "$loop : $machine[$p]($weigh[$p]) ${kpl[$loop]}k (residue)"
+	else
+	echo  "$loop : $machine[$p]($weigh[$p]) ${kpl[$loop]}k "
+	endif
+    endif
+    @ p ++
+    if ($?residue) then
+       # now a job on residue machine has started
+       set resok
+    endif
+    end
+    #echo try again
+goto kloop
+
+endkloop:
+exit:
+    rm $tmp* >&/dev/null

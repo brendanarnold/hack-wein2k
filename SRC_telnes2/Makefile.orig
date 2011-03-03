@@ -1,0 +1,190 @@
+###############################################################################
+#                                                                             #
+#  make              ... generate executable                                  #
+#  make clean        ... delete unnecessary files                             #
+#  make check        ... check static semantics of the FORTRAN routines       #
+#  make xref         ... generate a cross reference listing                   #
+#                                                                             #
+###############################################################################
+
+#------------------------------------------------------------------------------
+#
+#                          
+#
+# FC ......... compiler name
+# FOPT ....... optimization flags
+# FGEN ....... code generation flags (flags not related to optimization)
+# LDFLAGS .... linker flags
+# LIBS ....... libraries needed to build the executable
+# DESTDIR .... directory where the executable should go (incl. trailing '/'!)
+# EXECNAME ... name of the resulting executable (without prefixed path!)
+#
+#------------------------------------------------------------------------------
+FC = _FC_
+FOPT     = _FOPT_
+FGEN     =
+LDFLAGS  = _LDFLAGS_
+LIBS     =
+DESTDIR  = ./
+EXECNAME = telnes2
+
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS  = \
+	calculateintermatrix.o\
+	ados.o\
+	angularmesh.o\
+	angularxspectrum.o\
+	arbdos.o\
+	atpar.o\
+	averagedangularspectrum.o\
+	averagedenergyspectrum.o\
+	bessj.o\
+	bessj0.o\
+	bessj1.o\
+	calculateangularspectrum.o\
+	calculateenergyspectrum.o\
+	calculatematrices.o\
+	calculateweights.o\
+	comatrix.o\
+	conversiondegrad.o\
+	coreholelifetime.o\
+	corewavefunction.o\
+	dalp.o\
+	dblfactrl.o\
+	ddlmlm.o\
+	debug.o\
+	defineindex.o\
+	densityofstates.o\
+	describetask.o\
+	determinant.o\
+	elnes.o\
+	energymesh.o\
+	energyxspectrum.o\
+	errclr.o\
+	errflg.o\
+	fact.o\
+	factln.o\
+	factrl.o\
+	fpot.o\
+	gammln.o\
+	gtfnam.o\
+	hfsd.o\
+	identity.o\
+	inouh.o\
+	insld.o\
+	inth.o\
+	inverse.o\
+	latgen.o\
+	modules.o\
+	multscalmatrix.o\
+	noculc.o\
+	normofradialfunctions.o\
+	orientedangularspectrum.o\
+	orientedenergyspectrum.o\
+	orthogonality.o\
+	outerr.o\
+	outwin.o\
+	potsl.o\
+	productmatmat.o\
+	productmatvect.o\
+	prodvectvect.o\
+	qmesh.o\
+	radialfunctions.o\
+	readcrossdos.o\
+	readdos.o\
+	readinnes.o\
+	readrotij.o\
+	readstruct.o\
+	reciproclatvect.o\
+	resld.o\
+	rint13.o\
+	rint14.o\
+	rotate.o\
+	rotatecrist.o\
+	rotation.o\
+	rotdef4.o\
+	somm.o\
+	spherbes.o\
+	tetraforelnes.o\
+	threejm0.o\
+	threejsymbol.o\
+	transpose.o\
+	usebr1.o\
+	wavelength.o\
+	writeangulardependence1.o\
+	writeangulardependence2.o\
+	writeaveragedangularspectrum.o\
+	writeaveragedenergyspectrum.o\
+	writeddlmlm.o\
+	writedosl.o\
+	writedoslm.o\
+	writeorientedangularspectrum.o\
+	writeorientedenergyspectrum.o\
+	writexdos.o\
+	ylm.o
+
+OBJSMOD = 
+
+#
+#  Build executable
+#
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(C_LIBS)
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	 Makefile modules.o
+$(OBJSMOD):      modules.o
+$(OBJSMOD):   
+
+#..............................................................................
+#
+#  perform static semantics checking (variables used before set, type
+#  consistency, correct usage of common blocks, etc.)
+#
+check:	$(PRJS)
+	ftnchek $(PRJS)
+
+#..............................................................................
+#
+#  remove object files, preprocessed source files and files needed for
+#  static semantics checking
+#
+clean:
+	rm  -f $(OBJS) $(PREOBJS:.o=.P) $(OBJS1:.o=.P) $(PRJS) \
+		$(EXECNAME).xref *.mod *.tex *.aux *.log *.toc compile.msg 
+
+#..............................................................................
+#
+#  define rules for generating files needed to check the static semantics
+#  of the FORTRAN source code and for generating object files from source files
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.f.mod:
+	$(FC) $(FFLAGS) -c $<
+.f90.o:
+	$(FC) $(FFLAGS) -c $<
+
+doc:
+	echo "Make documentation using protex"
+	@protex -s intro.txt modules.F `echo $(OBJS) | sed 's/\.o/\.f/g' | sed 's/modules.f/modules.F/g' ` > ELNESProgrammersGuide.tex
+	echo "Compile the tex-file to dvi-file "
+	@latex ELNESProgrammersGuide
+	@latex ELNESProgrammersGuide
+	@latex ELNESProgrammersGuide
+	echo "Convert the tex-file to a nice pdf-file"
+	@dvipdf ELNESProgrammersGuide.dvi ELNESProgrammersGuide.pdf
+
+

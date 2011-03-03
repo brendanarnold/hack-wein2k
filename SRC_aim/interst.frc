@@ -1,0 +1,197 @@
+      SUBROUTINE INTERST(v,chg,grho,hrho,srho,sgrho,shrho)
+
+!
+!     AIM (1999-2000) by Javier D. Fuhr and Jorge O. Sofo
+!
+!     Instituto Balseiro and Centro Atomico Bariloche
+!     S. C. de Bariloche - Rio Negro
+!     Argentina
+!     e-mail: fuhr@cab.cnea.gov.ar
+!             sofo@cab.cnea.gov.ar
+!
+!     This routine calculates the value, the gradient,
+!       and the Hessian of the electron density for a point in the
+!       interstitial.
+!
+!     V: point
+!     CHG: returns the value of the electron density.
+!     GRHO(3): returns the gradient
+!     HRHO(3,3): returns the Hessian
+!     SRHO,SGRHO,SHRHO: logial switches (TRUE/FALSE)
+!
+!     Substantial cleanup of code, and speedup, LDM 12/2005
+!
+      use out,k=>krec
+      implicit none
+      include 'param.inc'
+!     
+!.... POINT IN INTERSTITIAL
+!     
+!_COMPLEX      complex*16 sa,ca,im !,stc,ctc
+!_COMPLEX      real*8 stc,ctc
+!_REAL         real*8 ct,st,sa,ca
+!_COMPLEX      parameter (im = (0.D0,1.D0) )
+      real*8 v,chg,grho,hrho,vt,a,alpha,beta,gamma,gamma1
+      real*8 arg
+      real*8 pi,tpi,fpi,sqpi,sqtpi,targ,tpisquare
+
+      integer ii,i,j,jj
+
+      logical ortho,sgrho,srho,shrho,deb
+
+      DIMENSION v(3),vt(3),grho(3),hrho(3,3)
+      common /DEBUG/ deb
+      COMMON /LATT/ A(3),alpha,beta,gamma,gamma1,ortho
+      common /CTES/ pi,tpi,fpi,sqpi,sqtpi
+
+      do i=1,3
+        if(ortho) then
+          vt(i)=v(i)/a(i)*tpi
+        else
+          vt(i)=v(i)*tpi
+        endif
+        grho(i)=0.0
+        do j=1,3
+           hrho(j,i)=0.0
+        end do
+      end do
+      
+      chg=0.0                                             
+!      kpp=0                                 
+
+!     iz star index
+!      iz=1
+
+!      cutoff=0.0
+
+      tpisquare=tpi*tpi
+
+!     Take some cases outside if statements
+!       Just the value
+        if(srho .and. (.not.sgrho) .and. (.not.shrho)) then
+        do i=1,indmax
+          arg=vt(1)*k(1,i)+vt(2)*k(2,i)+vt(3)*k(3,i)
+!_REAL          chg=chg+cos(arg)*tauk(i)
+!_COMPLEX       chg=chg+tauk(i)*cmplx(cos(arg),sin(arg))
+        enddo
+
+!       Value and gradient
+        else if(srho .and. sgrho .and. (.not.shrho)) then
+        do i=1,indmax
+          arg=vt(1)*k(1,i)+vt(2)*k(2,i)+vt(3)*k(3,i)
+!_REAL          chg=chg+cos(arg)*tauk(i)
+!_REAL          st=-sin(arg)*tauk(i)
+!_COMPLEX       sa=sin(arg)*tauk(i)
+!_COMPLEX       ca=cos(arg)*tauk(i)
+!_COMPLEX       chg=chg+ca+im*sa !cmplx(ca,sa)
+!_COMPLEX       stc=-sa+ca*im    !cmplx(-sa,ca)
+          do j=1,3
+!_REAL         grho(j)=grho(j)+st*k(j,i)
+!_COMPLEX      grho(j)=grho(j)+stc*k(j,i)
+          end do
+        enddo
+
+!       Just gradient
+        else if((.not.srho) .and. sgrho .and. (.not.shrho)) then
+        do i=1,indmax
+          arg=vt(1)*k(1,i)+vt(2)*k(2,i)+vt(3)*k(3,i)
+!_REAL          st=-sin(arg)*tauk(i)
+!_COMPLEX       sa=sin(arg)*tauk(i)
+!_COMPLEX       ca=cos(arg)*tauk(i)
+!_COMPLEX       stc=-sa+ca*im  
+          do j=1,3
+!_REAL         grho(j)=grho(j)+st*k(j,i)
+!_COMPLEX      grho(j)=grho(j)+stc*k(j,i)
+          end do
+        enddo
+
+!       Everything
+        else if(srho .and. sgrho .and. shrho) then
+        do i=1,indmax
+        arg=vt(1)*k(1,i)+vt(2)*k(2,i)+vt(3)*k(3,i)
+        sa=sin(arg)*tauk(i)
+        ca=cos(arg)*tauk(i)
+!_REAL          chg=chg+ca
+!_COMPLEX       chg=chg+ca+im*sa !cmplx(ca,sa)
+!_COMPLEX       stc=-sa + im*ca  !cmplx(-sa,ca)
+          do j=1,3
+!_REAL         grho(j)=grho(j)-sa*k(j,i)
+!_COMPLEX      grho(j)=grho(j)+stc*k(j,i)
+          end do
+!_COMPLEX       ctc=-(ca + im*sa) !-cmplx(ca,sa)
+           do jj=1,3
+             do j=jj,3
+!_REAL              hrho(j,jj)=hrho(j,jj)-ca *k(j,i)*k(jj,i)
+!_COMPLEX           hrho(j,jj)=hrho(j,jj)+ctc*k(j,i)*k(jj,i)
+            end do
+          end do
+        enddo
+
+!       Others, original code (slower)
+        else
+
+      do i=1,indmax
+        arg=vt(1)*k(1,i)+vt(2)*k(2,i)+vt(3)*k(3,i)
+        if (srho) then
+!_REAL          chg=chg+cos(arg)*tauk(i)
+!_COMPLEX       chg=chg+tauk(i)*cmplx(cos(arg),sin(arg))
+        end if
+        if (sgrho) then
+!_REAL          st=-sin(arg)*tauk(i)
+!_COMPLEX       stc=cmplx(-sin(arg),cos(arg))*tauk(i)
+          do j=1,3
+!_REAL         grho(j)=grho(j)+st*k(j,i)
+!_COMPLEX      grho(j)=grho(j)+stc*k(j,i)
+          end do
+        end if
+        if (shrho) then
+!_REAL          ct =-cos(arg)*tauk(i)
+!_COMPLEX       ctc=-cmplx(cos(arg),sin(arg))*tauk(i)
+           do jj=1,3
+             do j=jj,3
+!_REAL              hrho(j,jj)=hrho(j,jj)+ct *k(j,i)*k(jj,i)
+!_COMPLEX           hrho(j,jj)=hrho(j,jj)+ctc*k(j,i)*k(jj,i)
+            end do
+          end do
+        end if
+      enddo
+
+      endif
+
+
+      if(ortho) then
+        if(sgrho) then
+          do ii=1,3
+            grho(ii)=tpi*grho(ii)/a(ii)
+          enddo
+        endif
+        if(shrho) then
+         hrho(1,2) = hrho(2,1)
+         hrho(1,3) = hrho(3,1)
+         hrho(2,3) = hrho(3,2)
+          do jj=1,3
+            do j=1,3
+              hrho(j,jj)=tpisquare*hrho(j,jj)/(a(j)*a(jj))
+            end do
+          end do
+        end if
+      else
+        if(sgrho) then
+          do ii=1,3
+            grho(ii)=tpi*grho(ii)
+          enddo
+        endif
+        if(shrho) then
+         hrho(1,2) = hrho(2,1)
+         hrho(1,3) = hrho(3,1)
+         hrho(2,3) = hrho(3,2)
+          do jj=1,3
+            do j=1,3
+              hrho(j,jj)=tpisquare*hrho(j,jj)
+            end do
+          end do
+        end if
+      endif
+
+      return
+      end

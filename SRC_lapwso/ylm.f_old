@@ -1,0 +1,122 @@
+      SUBROUTINE YLM(V,LMAX,Y)
+!..Se lapw2
+      INTEGER            LMAX
+      DOUBLE PRECISION   V(3)
+      COMPLEX*16         Y(*)
+      INTEGER            I2L, I4L2, INDEX, INDEX2, L, M, MSIGN
+      DOUBLE PRECISION   A, B, C, AB, ABC, ABMAX, ABCMAX
+      DOUBLE PRECISION   D4LL1C, D2L13, PI
+      DOUBLE PRECISION   COSTH, SINTH, COSPH, SINPH
+      DOUBLE PRECISION   TEMP1, TEMP2, TEMP3
+      DOUBLE PRECISION   YLLR, YLL1R, YL1L1R, YLMR
+      DOUBLE PRECISION   YLLI, YLL1I, YL1L1I, YLMI
+!************************************************************************
+!
+      PI = (4.0D+0)*ATAN(1.0D+0)
+!
+!        Y(0,0)
+!
+      YLLR = 1.0D+0/SQRT(4.0D+0*PI)
+      YLLI = 0.0D+0
+      Y(1) = DCMPLX(YLLR,YLLI)
+!
+!        continue only if spherical harmonics for (L .GT. 0) are desired
+!
+      IF (LMAX .LE. 0) GOTO 999
+!
+!        calculate sin(Phi), cos(Phi), sin(Theta), cos(Theta)
+!        Theta, Phi ... polar angles of vector V
+!
+      ABMAX  = MAX(ABS(V(1)),ABS(V(2)))
+      IF (ABMAX .GT. 0.0D+0) THEN
+         A = V(1)/ABMAX
+         B = V(2)/ABMAX
+         AB = SQRT(A*A+B*B)
+         COSPH = A/AB
+         SINPH = B/AB
+      ELSE
+         COSPH = 1.0D+0
+         SINPH = 0.0D+0
+      ENDIF
+      ABCMAX = MAX(ABMAX,ABS(V(3)))
+      IF (ABCMAX .GT. 0.0D+0) THEN
+         A = V(1)/ABCMAX
+         B = V(2)/ABCMAX
+         C = V(3)/ABCMAX
+         AB = A*A + B*B
+         ABC = SQRT(AB + C*C)
+         COSTH = C/ABC
+         SINTH = SQRT(AB)/ABC
+      ELSE
+         COSTH = 1.0D+0
+         SINTH = 0.0D+0
+      ENDIF
+!
+!        Y(1,0)
+!
+      Y(3) = DCMPLX(SQRT(3.0D+0)*YLLR*COSTH,0.0D+0)
+!
+!        Y(1,1) ( = -DCONJG(Y(1,-1)))
+!
+      TEMP1 = -SQRT(1.5D+0)*YLLR*SINTH
+      Y(4) = DCMPLX(TEMP1*COSPH,TEMP1*SINPH)
+      Y(2) = -DCONJG(Y(4))
+!
+      DO 20 L = 2, LMAX
+         INDEX  = L*L+1
+         INDEX2 = INDEX + 2*L
+         MSIGN  = 1 - 2*MOD(L,2)
+!
+!        YLL = Y(L,L) = f(Y(L-1,L-1)) ... Formula 1
+!
+         YL1L1R = DBLE(Y(INDEX-1))
+         YL1L1I = DIMAG(Y(INDEX-1))
+         TEMP1 = -SQRT(DBLE(2*L+1)/DBLE(2*L))*SINTH
+         YLLR = TEMP1*(COSPH*YL1L1R - SINPH*YL1L1I)
+         YLLI = TEMP1*(COSPH*YL1L1I + SINPH*YL1L1R)
+         Y(INDEX2) = DCMPLX(YLLR,YLLI)
+         Y(INDEX)  = MSIGN*DCONJG(Y(INDEX2))
+         INDEX2 = INDEX2 - 1
+         INDEX  = INDEX  + 1
+!
+!        YLL1 = Y(L,L-1) = f(Y(L-1,L-1)) ... Formula 2
+!               (the coefficient for Y(L-2,L-1) in Formula 2 is zero)
+!
+         TEMP2 = SQRT(DBLE(2*L+1))*COSTH
+         YLL1R = TEMP2*YL1L1R
+         YLL1I = TEMP2*YL1L1I
+         Y(INDEX2) = DCMPLX(YLL1R,YLL1I)
+         Y(INDEX)  = -MSIGN*DCONJG(Y(INDEX2))
+         INDEX2 = INDEX2 - 1
+         INDEX  = INDEX  + 1
+!
+         I4L2 = INDEX2 - 4*L + 2
+         I2L  = INDEX2 - 2*L
+         D4LL1C = COSTH*SQRT(DBLE(4*L*L-1))
+         D2L13  = -SQRT(DBLE(2*L+1)/DBLE(2*L-3))
+!
+         DO 10 M = L - 2, 0, -1
+!
+!        YLM = Y(L,M) = f(Y(L-2,M),Y(L-1,M)) ... Formula 2
+!
+            TEMP1 = 1.0D+0/SQRT(DBLE((L+M)*(L-M)))
+            TEMP2 = D4LL1C*TEMP1
+            TEMP3 = D2L13*SQRT(DBLE((L+M-1)*(L-M-1)))*TEMP1
+            YLMR = TEMP2*DBLE(Y(I2L))  + TEMP3*DBLE(Y(I4L2))
+            YLMI = TEMP2*DIMAG(Y(I2L)) + TEMP3*DIMAG(Y(I4L2))
+            Y(INDEX2) = DCMPLX(YLMR,YLMI)
+            Y(INDEX)  = MSIGN*DCONJG(Y(INDEX2))
+!
+            MSIGN  = -MSIGN
+            INDEX2 = INDEX2 - 1
+            INDEX  = INDEX  + 1
+            I4L2   = I4L2   - 1
+            I2L    = I2L    - 1
+   10    CONTINUE
+   20 CONTINUE
+!
+  999 RETURN
+!
+!        End of 'YLM'
+!
+      END

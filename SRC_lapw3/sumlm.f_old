@@ -1,0 +1,45 @@
+      SUBROUTINE SUMLM(LMMAX,TCC,YL,F,FA,JATOM,FFX)                     
+      IMPLICIT REAL*8 (A-H,O-Z)
+      COMPLEX*16 YL(*),ANG,IMAGM                                       
+      DIMENSION TCC(*),FFX(*)                                     
+      DATA IMAGM/(0.0,-1.0)/                                            
+      FA=0.0                                                            
+!                                                                       
+!.....WRITTEN FOR CUBIC STRUCTUR                                        
+!.....LM:  00  40  44  60  66                                           
+!                                                                       
+      CFO=SQRT(7./12.)                                                  
+      CFF=SQRT(5./12.)                                                  
+      CSO=SQRT(2.)/4.                                                   
+      CSF=-SQRT(14.)/4.                                                 
+      F=0.0
+      fa=0.0                                                            
+      F=F+TCC(1)*YL(1)                                                  
+      FFX(1)=F                                                          
+      ANG=(YL(25)+YL(17))/SQRT(2.)                                      
+      F1=CFO*TCC(2)+CFF*TCC(3)                                          
+      F2=CFO*YL(21)+CFF*ANG                                             
+      F=F+F1*F2                                                         
+      FFX(2)=F1*F2                                                      
+      ANG=(YL(47)+YL(39))/SQRT(2.)                                      
+      F1=CSO*TCC(4)+CSF*TCC(5)                                          
+      F2=CSO*YL(43)+CSF*ANG                                             
+      F=F+F1*F2                                                         
+      FFX(3)=F1*F2                                                      
+      FFX(4)=0.                                                         
+      FFX(5)=0.                                                         
+      FFX(6)=0.                                                         
+      FFX(7)=0.                                                         
+      IF(LMMAX.EQ.5) RETURN                                             
+!ccc      IF(JATOM.EQ.1) RETURN                                         
+!                                                                       
+!.....ANFL-STRUCTUR                                                     
+!.....AT.NR.2  LM=32                                                    
+!                                                                       
+      ANG=IMAGM*(YL(15)-YL(11))*0.707107                                
+      FA=TCC(6)*ANG                                                     
+      FFX(6)=FA                                                         
+!......FA IS THE ANTISYMMETRIC PART OF THE STRUCTUR-AMPLIDUDE           
+!......SEE KURKU-... ISR.J.CHEM.                                        
+      RETURN                                                            
+      END                                                               

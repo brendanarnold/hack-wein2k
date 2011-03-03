@@ -1,0 +1,31 @@
+#!/bin/csh -f
+#Modify this script according to your needs
+
+set flist = `ls tetra_*.struct | cut -c 1-11`
+cd ./tetra
+foreach i ($flist)
+echo $i
+cp ../$i.struct ./tetra.struct
+x_lapw dstart
+#x_lapw dstart -up
+#x_lapw dstart -dn
+#cp ../result/$i.clmsum ./tetra.clmsum
+#cp ../result/$i.clmup ./tetra.clmup
+#cp ../result/$i.clmdn ./tetra.clmdn
+run_lapw -ec 0.00001 -p
+   set stat = $status
+   if ($stat) then
+       echo "ERROR status in" $i
+       exit 1
+   endif
+
+#echo $i >> error
+#x lapw2 -p -qtl | & tee -a error
+#x tetra
+#mv tetra.outputt $i.outputt
+#mv tetra.qtl $i.qtl
+#mv tetra.dos1 $i.dos1
+#mv tetra.dos1ev $i.dos1ev
+save_lapw $i
+mv $i.* ../result
+end

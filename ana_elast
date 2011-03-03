@@ -1,0 +1,132 @@
+#!/bin/csh -f
+
+######## Script driver and plotting interface for
+######## program anaelast.
+########
+########   Author: CHARPIN Thomas
+########           Laboratoire des Geomateriaux de l'IPGP
+########           4,pl Jussieu
+########           F-75252 Paris Cedex 05
+########           France
+########           charpin@ipgp.jussieu.fr   
+########
+########
+
+set pref = `pwd`
+set pref = $pref:t
+
+if ( $pref != result ) then
+echo ""
+echo "You have to run that script in the result directory...." 
+echo ""
+exit 1
+endif
+
+foreach i ( \
+    eos \
+    tetra \
+    rhomb \
+)
+set nam = $i'_'
+echo $nam
+grepline_lapw :LAT "$nam*.scf" 1 > $i.lat
+grepline_lapw :ENE "$nam*.scf" 1 > $i.ene
+
+end
+
+$WIENROOT/anaelast
+#./anaelast
+
+echo ""
+echo "**********************************"
+echo "******** Plotting results ********"
+echo "**********************************"
+echo ""
+
+
+cat <<EOF > tempor
+set format y "%.4f"
+set xlabel "Volume in Bohr^3"
+set ylabel "Energy in Ry"
+plot "eos.strain" title "Data" w p, "eos.fit" title "Birch-Murnaghan fit" w l
+pause -1
+EOF
+
+echo "press RETURN to continue"
+gnuplot tempor
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is eos.ps)"
+	set out = ($<)
+	echo "Printing hardcopy"
+	if ($out == "") set out = "eos.ps"
+cat <<EOF > temporp
+set terminal postscript
+set output "$out"
+EOF
+
+cat tempor | head -n 4 >> temporp
+gnuplot temporp
+endif
+
+cat <<EOF > tempor
+set format y "%.4f"
+set xlabel "Tetragonal strain"
+set ylabel "Energy in Ry"
+plot "tetra.strain" title "Data" w p, "tetra.fit" title "Polynomial fit" w l
+pause -1
+EOF
+
+echo "press RETURN to continue"
+gnuplot tempor
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is tetra.ps)"
+	set out = ($<)
+	echo "Printing hardcopy"
+	if ($out == "") set out = "tetra.ps"
+cat <<EOF > temporp
+set terminal postscript
+set output "$out"
+EOF
+
+cat tempor | head -n 4 >> temporp
+gnuplot temporp
+endif
+
+cat <<EOF > tempor
+set format y "%.4f"
+set xlabel "Rhombohedral strain"
+set ylabel "Energy in Ry"
+plot "rhomb.strain" title "Data" w p, "rhomb.fit" title "Polynomial fit" w l
+pause -1
+EOF
+
+echo "press RETURN to continue"
+gnuplot tempor
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is rhomb.ps)"
+	set out = ($<)
+	echo "Printing hardcopy"
+	if ($out == "") set out = "rhomb.ps"
+cat <<EOF > temporp
+set terminal postscript
+set output "$out"
+EOF
+
+cat tempor | head -n 4 >> temporp
+gnuplot temporp
+endif
+
+if (! -e outputs ) mkdir outputs
+mv *.fit ./outputs
+mv *.strain ./outputs
+mv *.output ./outputs
+mv *.ps ./outputs
+
+echo "Have a good day..."
+

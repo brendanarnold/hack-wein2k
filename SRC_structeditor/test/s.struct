@@ -1,0 +1,11 @@
+octavetmp                                                                       
+P   LATTICE,NONEQUIV.ATOMS   1    1P1      
+MODE OF CALC=RELA unit=bohr
+  5.117792  5.117792  5.117792 60.000000 60.000000 60.000000
+ATOM  -1: X=0.00000000 Y=0.00000000 Z=0.00000000
+          M     1          ISPLIT= 8
+Rh         NPT=  781  R0=.000010000 RMT=   2.00000   Z:  45.00000
+LOCAL ROT MATRIX:    1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+   0      NUMBER OF SYMMETRY OPERATIONS

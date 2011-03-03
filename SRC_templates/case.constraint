@@ -1,0 +1,13 @@
+2         # number of constrains (free format)
+0 0 0   0 0 1.   0 0 0   0 0 0   0 0 1.   0 0 0   0 0 0   1.
+0 0 0   0 0 0   0 0 1.   0 0 0   0 0 0   0 0 -1.   0 0 0   0
+
+# This is constraint file for mini. Constraint is of the form A*x=b, where A is 
+# (m,3*nat) matrix, m - number of constraints, nat - number of notequiv. atoms, 
+# x - atomic coordinates, b - constant vector. In line 1 number of constraints 
+# must be given, then lines 2 specify first row of A and first component of "b",
+# in line 3 - second row of A and second component of vector "b", so on "m" times.
+#
+# Example has 7 atoms, 
+# atoms 2,5 have equal "z and -z" components; z2+z5=1  or   z5 = 1 - z2
+# atoms 3,6 have equal z components; z3-z6=0  or  z3 = z6

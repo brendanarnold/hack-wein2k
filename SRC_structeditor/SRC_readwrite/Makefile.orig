@@ -1,0 +1,24 @@
+FC = _FC_
+FOPT     = _FOPT_
+FGEN     =
+LDFLAGS  = _LDFLAGS_     
+DESTDIR  = ./
+EXECN1 = readwrite
+
+EXEC   = $(DESTDIR)$(EXECN1)
+
+OBJS =	module.o readwrite.o convert.o rwoctave.o
+
+$(EXEC):	$(OBJS) 
+	$(FC) -o $(EXEC) $(FFLAGS) $(LDFLAGS) $(OBJS)
+
+$(OBJS):	Makefile
+
+clean:	  
+	rm -f $(OBJS) *.mod readwrite
+	@echo clean
+
+.f.o:
+	$(FC) -c $(FOPT) $<
+.f90.o:
+	$(FC) $(FOPT) -c $<

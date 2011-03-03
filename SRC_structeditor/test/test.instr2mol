@@ -1,0 +1,46 @@
+ 1.0                              # rescal 
+ 1                                # add periodic
+ 0.0 0.0 0.0                      #translation
+# plot box (for povray)
+ 1                                # 1/0 yes/no  
+ 0.8 0.8 0.8                      # rgb
+ 3                                # finish
+ 0.1                              # width  
+# plot xyz axes (for povray)
+ 0                                # 1/0 yes/no
+ 0 1 0                            # rgb
+ 1                                # finish
+ 0.1 7.0                          # width, length
+# define supercell
+ 1 1 1
+# define finish and colors of atoms
+ 3                                # finish
+    6                             #  number of defs
+'B*'    0.985  0.612  0.966     # atom name, rgb
+'N*'    0.804  0.455  0.985     # atom name, rgb
+'Rh1'   0.107  0.791  0.813     # atom name, rgb
+'Rh2'   0.007  0.391  0.813     # atom name, rgb
+'Rh3'   0.207  0.091  0.813     # atom name, rgb
+'Rh4'   0.007  0.791  0.013     # atom name, rgb
+# define radius of atoms
+    3                             #  number of defs
+'B*'    3.257               # atom name, vdwr
+'N*'    2.969               # atom name, vdwr
+'Rh*'   4.138               # atom name, vdwr
+# define bonds
+  0 1 1 0.1                       # 1/0 - use atom colors, use this rgb
+  3                               # finish
+  0.1 0.15                         # lenght of gradient for atom colors, bond width
+    6                             #  number of defs
+'B*'  'B*'    3.299             # atoms names, distans
+'B*'  'N*'    3.158             # atoms names, distans
+'B*'  'Rh*'   4.566             # atoms names, distans
+'N*'  'N*'    3.017             # atoms names, distans
+'N*'  'Rh*'   4.425             # atoms names, distans
+'Rh*' 'Rh*'   5.834             # atoms names, distans
+# define color ... of momenta
+ 3                                # finish
+ 0 0.5                            # 0 - color as atom, scaled by factor, 1 defined bellow
+ 0 0 0                            # rgb, valid only for 1    
+ 0.1 2.0 0.15                     # min on pict, max on pict, min consid 
+ 0.2                              # width of cylinder

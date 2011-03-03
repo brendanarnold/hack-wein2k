@@ -1,0 +1,1525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3 Quick Start</TITLE>
+<META NAME="description" CONTENT="3 Quick Start">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="previous" HREF="2Basic_concepts.html">
+<LINK REL="up" HREF="1Introduction_WIEN2k.html">
+<LINK REL="next" HREF="2Detailed_description.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html876"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html872"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html868"
+  HREF="2Basic_concepts.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html874"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html877"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Up:</B> <A NAME="tex2html873"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html869"
+  HREF="2Basic_concepts.html">2 Basic concepts</A>
+ &nbsp; <B>  <A NAME="tex2html875"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html878"
+  HREF="3Quick_Start.html#SECTION04210000000000000000">1 Naming conventions</A>
+<LI><A NAME="tex2html879"
+  HREF="3Quick_Start.html#SECTION04220000000000000000">2 Starting the server</A>
+<LI><A NAME="tex2html880"
+  HREF="3Quick_Start.html#SECTION04230000000000000000">3 Connecting to the <EM>w2web</EM> server</A>
+<LI><A NAME="tex2html881"
+  HREF="3Quick_Start.html#SECTION04240000000000000000">4 Creating a new session</A>
+<LI><A NAME="tex2html882"
+  HREF="3Quick_Start.html#SECTION04250000000000000000">5 Creating a new case</A>
+<LI><A NAME="tex2html883"
+  HREF="3Quick_Start.html#SECTION04260000000000000000">6 Creating the struct file</A>
+<LI><A NAME="tex2html884"
+  HREF="3Quick_Start.html#SECTION04270000000000000000">7 Initialization</A>
+<LI><A NAME="tex2html885"
+  HREF="3Quick_Start.html#SECTION04280000000000000000">8 The SCF calculation</A>
+<LI><A NAME="tex2html886"
+  HREF="3Quick_Start.html#SECTION04290000000000000000">9 The case.scf file</A>
+<LI><A NAME="tex2html887"
+  HREF="3Quick_Start.html#SECTION042100000000000000000">10 Saving a calculation</A>
+<LI><A NAME="tex2html888"
+  HREF="3Quick_Start.html#SECTION042110000000000000000">11 Calculating properties</A>
+<UL>
+<LI><A NAME="tex2html889"
+  HREF="3Quick_Start.html#SECTION042111000000000000000">1 Electron density plots</A>
+<LI><A NAME="tex2html890"
+  HREF="3Quick_Start.html#SECTION042112000000000000000">2 Density of States (DOS)</A>
+<LI><A NAME="tex2html891"
+  HREF="3Quick_Start.html#SECTION042113000000000000000">3 X-ray spectra</A>
+<LI><A NAME="tex2html892"
+  HREF="3Quick_Start.html#SECTION042114000000000000000">4 Bandstructure</A>
+<LI><A NAME="tex2html893"
+  HREF="3Quick_Start.html#SECTION042115000000000000000">5 Bandstructure with band character plotting / full lines </A>
+<LI><A NAME="tex2html894"
+  HREF="3Quick_Start.html#SECTION042116000000000000000">6 Volume Optimization</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html895"
+  HREF="3Quick_Start.html#SECTION042120000000000000000">12 Setting up a new case</A>
+<UL>
+<LI><A NAME="tex2html896"
+  HREF="3Quick_Start.html#SECTION042121000000000000000">1 Manual setup</A>
+<LI><A NAME="tex2html897"
+  HREF="3Quick_Start.html#SECTION042122000000000000000">2 Setting up a new case using <EM>w2web</EM></A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION04200000000000000000"></A>
+<A NAME="1009"></A>
+<A NAME="cha:quick-start"></A>
+<BR>
+3 Quick Start
+</H1>
+
+<P>
+We assume that <EM>WIEN2k</EM> is properly installed and configured for your site
+and that you ran  <TT><B>userconfig_lapw</B></TT> to adjust your path and environment.
+(For a detailed description of the installation see chapter <A HREF="11Installation_Dimensioning.html#cha:installation">11</A>.
+
+<P>
+This chapter is intended to guide the novice user in the handling of the
+program package.  We will use the example of TiC in the sodium chloride
+structure to show which steps are necessary to initialize a
+calculation and run a self consistent field cycle. We also demonstrate
+how to calculate various physical properties from these SCF data.
+Along the way we will give all important information in a very
+abridged form, so that the novice user is not flooded with
+information, and the experienced user will be directed to more
+complete information.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic_structure"></A><A NAME="1500"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+TiC in the sodium chloride structure. This plot was generated 
+      using BALSAC (see <A HREF="9Utility_Programs.html#sec:balsac">9.17.1</A>). Interface programs between
+      <EM>WIEN2k</EM> and BALSAC are available. </CAPTION>
+<TR><TD><IMG
+ WIDTH="19" HEIGHT="2" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{270}{\epsfig{figure=figs/tic/structure, height=70mm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In this chapter we will also show, how the new graphical user interface
+<EM>w2web</EM> can be utilized to setup and run the calculations.
+
+<P>
+
+<H1><A NAME="SECTION04210000000000000000"></A>
+<A NAME="1024"></A>
+<A NAME="sec:naming-conventions"></A>
+<BR>
+1 Naming conventions
+</H1>
+
+<P>
+Before we begin with our introductory example, we describe the naming
+conventions, to which we will adhere throughout this
+user's guide.
+
+<P>
+On UNIX systems the files are specified by <TT><B>case.type</B></TT> and it is 
+required that all files reside in a subdirectory <TT><B>./case</B></TT>. 
+Here and in the following sections and in the shell scripts 
+which run the package themselves, we follow a simple, systematic 
+convention for file labeling.
+
+<P>
+For the general discussion (when no specific crystal is involved), 
+we use <TT><B>case</B></TT>, while for a specific case, e.g. TiC, we use the 
+following notation: 
+<BLOCKQUOTE>
+<TT><B>case=TiC</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+The filetype ``<TT><B>type</B></TT>'' always describes the content of the file (e.g.,
+<BLOCKQUOTE>
+<TT><B>type=inm</B></TT>  is inPUT for mIXER).
+
+</BLOCKQUOTE>
+
+<P>
+Thus the input to MIXER for TiC is found in the file
+<BLOCKQUOTE>
+<TT><B>TiC.inm</B></TT>
+
+</BLOCKQUOTE>
+which should be in subdirectory <TT><B>./TiC</B></TT>.
+
+<P>
+
+<H1><A NAME="SECTION04220000000000000000">
+2 Starting the <EM>w2web</EM> server</A>
+</H1>
+
+<P>
+Start the  user interface <EM>w2web</EM><A NAME="1575"></A> on the computer where you want to
+execute <EM>WIEN2k</EM>(you may have to telnet, ssh,.. to this machine) with the command
+<BLOCKQUOTE>
+<TT><B>w2web [-p xxxx]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+If the default port (7890) used to serve the interface is already in use 
+by some other process, you will
+get the error message <TT>w2web failed to bind port 7890 - port
+already in use!</TT>. Then you will have to choose a different port number
+(between 1024 and 65536) . 
+Please remember this port number, you need it when connecting to the <EM>w2web</EM> 
+server.
+
+<P>
+<I>Note: Only user <B>root</B> can specify port numbers below 1024!</I>
+
+<P>
+At the first startup of this server, you will also be asked to setup a username
+and password, which is required to connect to this server.
+
+<P>
+
+<H1><A NAME="SECTION04230000000000000000">
+3 Connecting to the <EM>w2web</EM> server</A>
+</H1>
+
+<P>
+Use your favorite WWW-browser to connect to <EM>w2web</EM>, specifying the correct 
+portnumber, e.g.
+
+<P>
+<BLOCKQUOTE>
+<TT><B>netscape http://hostname_where_w2web_runs:7890</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+(If you do not remember the portnumber, you can find it by using 
+``ps -ef <IMG
+ WIDTH="8" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$\vert$"> grep w2web'' on the computer where <EM>w2web</EM> is running.)
+You should see a screen as in Fig.<A HREF="#fig:wien_startup">3.2</A>.
+
+<P>
+
+<H1><A NAME="SECTION04240000000000000000">
+4 Creating a new session</A>
+</H1>
+
+<P>
+The user interface <EM>w2web</EM> uses <B>sessions</B> to distinguish
+between different working environments and to quickly change between
+different calculations. First you have to create a new session (or select an 
+old one). Enter ``TiC'' and click the ``<I>Create</I>'' button. 
+<BR><I>Note: Creating a session does not automatically
+create a new directory!</I>
+
+<P>
+You will be placed in your home directory if no working directory was
+designated to this session previously (or if the directory does not exist any
+more).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:wien_startup"></A><A NAME="1506"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Startup screen of <EM>w2web</EM></CAPTION>
+<TR><TD><IMG
+ WIDTH="444" HEIGHT="406" BORDER="0"
+ SRC="img68.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/startupn, width=.8\textwidth}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION04250000000000000000">
+5 Creating a new case-directory</A>
+</H1>
+
+<P>
+Using ``<I>Session Mgmt. <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> change
+  directory</I>'' you can select an existing directory or create a new one.
+For this example create a new directory <TT><B>lapw</B></TT> and than  <TT><B>TiC</B></TT>  
+using the
+``<I>Create</I>'' button. After the directory has been created, 
+you have to click on <I>select current directory</I>
+to assign this newly created directory to the current session.
+
+<P>
+After clicking on <I>Click to restart session</I>  the main
+window of <EM>w2web</EM> will appear (Fig.<A HREF="#fig:wien_main">3.3</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:wien_main"></A><A NAME="1509"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Main window of <EM>w2web</EM></CAPTION>
+<TR><TD><IMG
+ WIDTH="388" HEIGHT="295" BORDER="0"
+ SRC="img70.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/mainn, width=.7\textwidth}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION04260000000000000000"></A>
+<A NAME="sec:struct-creat"></A>
+<BR>
+6 Creating the 
+``master input`` file  case.struct
+</H1>
+
+<P>
+To create the file <TT><B>TiC.struct</B></TT> start the struct-file generator using
+<A NAME="1089"></A> 
+``<I>Execution</I> <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM>'' (see figure <A HREF="#fig:wien_struct">3.4</A>).
+
+<P>
+For a new case  <EM>w2web</EM> creates an empty structure template in which you can specify structural
+data. Later on this information is used
+to generate the <TT><B>TiC.struct</B></TT> file.
+
+<P>
+As a first step specify the number of atoms (2 for TiC) and fill in the data given below into the corresponding fields (white boxes):
+
+<P>
+<DIV ALIGN="CENTER">
+  <FONT SIZE="-1">  </FONT><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1">
+    Title </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> TiC</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Lattice </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> F (for face centered)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    a </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 4.328 &#197;(make sure the Ang button is selected)</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    b </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 4.328 &#197;</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    c </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 4.328 &#197;</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    <!-- MATH
+ $\alpha,\beta,\gamma$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$\alpha,\beta,\gamma$"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 90</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Atom </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> Ti, enter position (0,0,0) </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+     Atom </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> C, enter position (.5,.5,.5)  </FONT></TD>
+</TR>
+</TABLE>
+</DIV>
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+
+<P>
+Click <B>``Save Structure''</B>  (Z will be updated automatically) and
+<B>``set automatically RMT and continue editing ''</B>:
+
+<P>
+This will compute the nearest neigbor distances using the program <TT><B>nn</B></TT>
+and <TT><B>setrmt_lapw</B></TT> will then determine the optimal  RMT values
+(muffin-tin radius, atomic sphere radius). <I>To learn more about the
+philosophy of setting RMTs see <!-- MATH
+ $http://www.wien2k.at/reg_user/faq$
+ -->
+<IMG
+ WIDTH="266" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img73.png"
+ ALT="$http://www.wien2k.at/reg_user/faq$"></I>. 
+Since it is essential to keep RMTs
+constant within a series of calculations (eg. when you do a
+Volume-optimization, see <A HREF="#cha:quick-volume-opt">3.11.6</A> ), you should already now decide whether you want to
+do just one single calculation with fixed structural parameters, or whether you
+intend a relaxation of internal parameters (using forces and <TT><B>min_lapw</B></TT>)
+or a volume optimization, which would required reduced RMT values.
+
+<P>
+Choose a reduction of 3 % so that we can later optimize the lattice parameter.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:wien_struct"></A><A NAME="1512"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+<EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM></CAPTION>
+<TR><TD><IMG
+ WIDTH="555" HEIGHT="598" BORDER="0"
+ SRC="img74.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/structgen, width=\textwidth}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+When you are done, exit the <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> with ``<I>save file and
+clean up</I>''. This will generate the file <TT><B>TiC.struct</B></TT> (shown now in view-only mode with a different background color), which is
+the master input file for all subsequent programs.  This step also
+automatically generates the input file for the free atom program
+<TT><B>lstart</B></TT> (atomic configurations) <TT><B>tic.inst</B></TT>.
+
+<P>
+A few other hints on <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM>:
+
+<P>
+You have to click on <B>Save Structure</B> after every modifications you make in the white fields. Add/remove a position/atom only if you have made no other changes before.
+
+<P>
+In a face-centered (body-centered) spacegroup you have to enter just
+one atom (not the ones in (.5,.5,0),...).
+
+<P>
+<EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> offers a built in calculator: Each position of
+equivalent atoms can be entered as a number, a fraction (e.g. <IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img75.png"
+ ALT="$1/3$">)
+or a simple expression (e.g. <IMG
+ WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img76.png"
+ ALT="$0.21+1/3$">). The first position defines
+the variables x, y and z, which can be using in expression defining
+the other positions (e.g. <IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="$-y$">, <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img78.png"
+ ALT="$x$">, <IMG
+ WIDTH="68" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$-z+1/2$">).
+
+<P>
+When you now choose ``<I>Files</I> <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> <I>show all
+  files</I>'', you will see, that both files <TT><B>tic.struct</B></TT> and
+<TT><B>tic.inst</B></TT> have been created.
+
+<P>
+For a detailed description of these files consult sections
+<A HREF="4Files_Program.html#sec:struct-file">4.3</A> and  <A HREF="6Initialization.html#sec:lstart-in">6.4.3</A>.
+
+<P>
+
+<H1><A NAME="SECTION04270000000000000000"></A>
+<A NAME="1132"></A><A NAME="1133"></A>
+<A NAME="sec:initialization"></A>
+<BR>
+7 Initialization of the calculation (init_lapw)
+</H1>
+
+<P>
+After the two basic input files have been created, initalization of
+the calculation is done by ``<I>Execution <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> initialize
+calc.</I>''. This will guide you through the steps necessary to
+initialite the calculation. Simply follow the steps that are
+highlighted in green and follow the instructions.
+
+<P>
+The initialization process is described in detail in section
+<A HREF="5Shell_scripts.html#sec:init_lapw">5.1.2</A>.
+
+<P>
+Alternatively you could run the script <TT><B>init_lapw</B></TT> from the command line.
+All actions of this script are logged in short in <TT><B>:log</B></TT> and in
+detail in the file <TT><B>case.dayfile</B></TT><A NAME="1140"></A>, which 
+can easily be accessed by <I>Utils. <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> show dayfile</I>.
+
+<P>
+Initializing the calculation will run several steps automatically,
+where <TT><B>x</B></TT> is the script to start <EM>WIEN2k</EM> programs (see section:
+<A HREF="5Shell_scripts.html#sec:x_lapw">5.1.1</A>).
+
+<P>
+<DL>
+<DT><STRONG>x nn</STRONG></DT>
+<DD>calculates the nearest neighbors up to a specified
+  distance and thus helps to determine the atomic sphere radii (you must
+  specify a distance factor f, e.g. 2, and all distances up to f * NN-dist.
+  are calculated)
+</DD>
+<DT><STRONG>view TiC.outputnn</STRONG></DT>
+<DD>: check for overlapping spheres, coordination numbers and nearest
+  neighbor distances, (e.g. in the sodium chloride structure there
+  must 6 nearest and 12 next nearest neighbors). Using these distances
+  and coordinations you can check whether you put the proper positions
+  into your struct file or if you made a mistake. <TT><B>nn</B></TT> also checks
+  whether your equivalent atoms are really crystallographically
+  equivalent and eventually writes a new struct-file which you may or
+  may not accept. If you have not done so at the very beginning, go back to <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> and choose
+proper RMT values. <I>You can save a lot of CPU-time by changing RMT to
+almost touching spheres. See Sec.<A HREF="4Files_Program.html#sec:struct-file">4.3</A></I> 
+</DD>
+<DT><STRONG>x sgroup</STRONG></DT>
+<DD>calculates the point and spacegroups for the given structure
+</DD>
+<DT><STRONG>view TiC.outputsgroup</STRONG></DT>
+<DD>: Now you can either accept the <TT><B>TiC.struct</B></TT> file generated by <TT><B>sgroup</B></TT> (if you want to use the spacegroup information or a different cell has been found by <TT><B>sgroup</B></TT>) or keep your original file (default).
+
+<P>
+</DD>
+<DT><STRONG>x symmetry</STRONG></DT>
+<DD>generates from a raw <TT><B>case.struct</B></TT> file the
+  space group symmetry operations, determines the point group of the
+  individual atomic sites, generates the LM expansion for the lattice
+  harmonics (in <TT><B>case.in2_st</B></TT>) and local rotation matrices (in
+  <TT><B>case.struct_st</B></TT>).
+
+<P>
+</DD>
+<DT><STRONG>view  TiC.outputs</STRONG></DT>
+<DD>: check the symmetry operations (they have been written to or
+  compared with already available ones in <TT><B>TiC.struct</B></TT> by the
+  program symmetry) and the point group symmetry of the atoms (You may
+  compare them with the ``International Tables for X-Ray
+  Crystallography``). If the output does not match your expectations
+  from the ``Tables'', you might have made an error in specifying the
+  positions. The <TT><B>TiC.struct</B></TT> file will be updated with symmetry
+  operations, positive or negativ atomic counter (for ``cubic'' point
+  group symmetries) and the local rotation matrix.
+
+<P>
+</DD>
+<DT><STRONG>x lstart</STRONG></DT>
+<DD>generates atomic densities (see section
+    <A HREF="6Initialization.html#sec:lstart">6.4</A>) and determines how the orbitals are treated in
+    the band structure calculations (i.e. as core or band states, with
+    or without local orbitals, ...).  You are requested to specify
+    the desired exchange correlation potential and an energy
+    that separates valence from core states. For TiC select the
+    recommended potential option ``GGA of Perdew-Burke-Ernzerhof
+    96'' and a separation energy of -6.0 Ry.
+
+<P>
+</DD>
+<DT><STRONG>edit TiC.outputst</STRONG></DT>
+<DD>: check the output (did you specify a proper atomic configuration,
+  did lstart converge, are the core electrons confined to the atomic
+  sphere?).  Warnings for the radial mesh can usually be neglected
+  since it affects only the atomic total energy.  <TT><B>lstart</B></TT>
+  generates <TT><B>TiC.in0_st</B></TT>, <TT><B>in1_st</B></TT>, <TT><B>in2_st</B></TT>,
+  <TT><B>inc_st</B></TT> and <TT><B>inm</B></TT>. For Ti it selects automatically <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img80.png"
+ ALT="$1s$">,
+  <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img81.png"
+ ALT="$2s$">, and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$2p$"> as core states, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$3s$"> and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$"> will be treated with
+  local orbitals together with <IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img84.png"
+ ALT="$3d$">, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$4s$"> and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$4p$"> valence states.
+
+<P>
+</DD>
+<DT><STRONG>edit TiC.in1_st</STRONG></DT>
+<DD>: As mentioned, the input files are generated automatically with
+  some default values which should be a reasonable choice for most
+  cases.  Nevertheless we highly recommend that you go through these
+  inputs and become familiar with them. The most important parameter
+  here is RKMAX, which determines the number of basis functions (size
+  of the matrices). Values between 5-9 (APW) and 6-10 (LAPW) are usually 
+  reasonable. You may change here the usage of APW or LAPW (set 1 or 0
+  after the CONT/STOP switch), since often APW is necessary only for 
+orbitals more difficult to 
+converge  (3d, 4f). <I>Here we will just change EMAX 
+of the energy window from 1.5 to 2.0 Ry in order to be able to calculate the 
+unoccupied DOS to higher energies.</I> 
+</DD>
+<DT><STRONG>edit TiC.in2_st</STRONG></DT>
+<DD>:  Here you may limit the LM expansion (for some 
+  speedup), change the value
+  of GMAX (in cases with small spheres (e.g. systems with H-atoms)
+  values of 15-24 are recommended) or specify a different
+  BZ-integration method to determine the Fermi energy. For this
+  example you should not change anything so that you can compare your 
+  results with the test run.
+</DD>
+<DT><STRONG>edit TiC.inm_st</STRONG></DT>
+<DD>:  For ``difficult to converge systems'' (several 
+atoms with localized d- or f-electrons, magnetic systems) you should reduce 
+the mixing factor from 0.4 to a smaller value (e.g. 0.05). (See our
+faq-page on www.wien2k.at what you should do when the scf cycle crashes).
+For TiC no changes are necessary.
+</DD>
+<DT><STRONG>Copy all generated inputs</STRONG></DT>
+<DD>(from <TT><B>case.in<IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img86.png"
+ ALT="$*$">_st</B></TT>
+  to <TT><B>case.in*</B></TT>). In cases without inversion symmetry the
+  files <TT><B>case.in1c, in2c</B></TT> are produced.
+</DD>
+<DT><STRONG>x kgen</STRONG></DT>
+<DD>generates a k-mesh in the Brillouin zone (BZ). You must
+  specify the number of k-points in the whole BZ (use 1000 for
+  comparison with the provided output, a ``good'' calculations needs
+  many more). For details see section
+  <A HREF="6Initialization.html#sec:kgen">6.5</A>.
+</DD>
+<DT><STRONG>view TiC.klist</STRONG></DT>
+<DD>: check the number of k-points in the irreducible wedge of the BZ
+  (IBZ) and the energy interval specified for the first k-point. You can now either rerun <TT><B>kgen</B></TT> (and generate a different
+  k-mesh) or continue. 
+</DD>
+<DT><STRONG>x dstart</STRONG></DT>
+<DD>generates a starting density for the SCF cycle by
+  superposition of atomic densities generated in <TT><B>lstart</B></TT>. For details
+  see section <A HREF="6Initialization.html#sec:dstart">6.6</A>.
+</DD>
+<DT><STRONG>view TiC.outputd</STRONG></DT>
+<DD>(check if gmax <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img87.png"
+ ALT="$&gt;$">gmin)
+</DD>
+<DT><STRONG> Now you are asked</STRONG></DT>
+<DD>, whether or not you want to run a
+  spin-polarized calculation (in such a case case <TT><B>dstart</B></TT> is
+  re-run to generate spin-densities). For TiC say <B>No</B>.
+</DD>
+</DL>
+
+<P>
+Initialization<A NAME="1175"></A><A NAME="1176"></A> of a
+calculation (running <TT><B>init_lapw</B></TT>) will create all inputs for the
+subsequent SCF calculation choosing some default options and values. You can
+find a list of input files using ``<I>Files <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> input files</I>'' (
+<A HREF="#fig:wien_infiles">3.5</A>).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:wien_infiles"></A><A NAME="1184"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.5:</STRONG>
+List of input files</CAPTION>
+<TR><TD><IMG
+ WIDTH="390" HEIGHT="335" BORDER="0"
+ SRC="img88.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/inputfiles, width=.7\textwidth}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION04280000000000000000"></A><A NAME="1696"></A>
+<A NAME="sec:scf-calc"></A>
+<BR>
+8 The SCF calculation
+</H1>
+
+<P>
+After the case has been set up, a link to ``run SCF'' is added, 
+(``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> run SCF</I>'' and you should invoke the 
+ self-consistency cycle<A NAME="1697"></A> (SCF). This runs the script
+<TT><B>run_lapw</B></TT><A NAME="1701"></A> with the desired options.
+
+<P>
+The SCF cycle consists of the following steps:<DL>
+<DT><STRONG>LAPW0</STRONG></DT>
+<DD>(POTENTIAL)  generates potential from density
+  
+</DD>
+<DT><STRONG>LAPW1</STRONG></DT>
+<DD>(BANDS) calculates valence bands (eigenvalues and 
+    eigenvectors) 
+  
+</DD>
+<DT><STRONG>LAPW2</STRONG></DT>
+<DD>(RHO) computes valence densities from eigenvectors
+  
+</DD>
+<DT><STRONG>LCORE</STRONG></DT>
+<DD>computes core states and densities
+  
+</DD>
+<DT><STRONG>MIXER</STRONG></DT>
+<DD>mixes input and output densities
+  
+</DD>
+</DL>
+
+<P>
+After selecting ``run SCF'' from the ``Execution'' menu, the
+SCF-window will open, and you can now specify additional
+parameters. For this example we
+select charge convergence to 0.0001: Specify ``<I>charge</I>'' to be
+used as convergence criterion, and select a value of 0.0001 (-cc 0.0001).
+
+<P>
+To run the SCF cycle, click on ``<I>Run!</I>''
+
+<P>
+Since this might take a long time for larger systems; you can specify the ``<I>Execution
+  type</I>'' to be <I>batch</I> or <I>submit</I> (if your system is
+configured with a queuing system and <EM>w2web</EM> has been properly set
+up, see section <A HREF="11Installation_Dimensioning.html#sec:gui-config">11.3</A>).
+
+<P>
+While the calculation is running (as indicated by the status frame in
+the top right corner of the window), you can monitor several
+quantities (see section <A HREF="#sec:history">3.9</A>).
+
+<P>
+Once the calculation is finished (11 iterations), view <TT><B>case.dayfile</B></TT> for timing
+and errors and compare your results with the files in the provided example
+(<TT><B>TiC/case_scf</B></TT>).
+
+<P>
+For magnetic systems<A NAME="1712"></A> you would run a spin-polarized
+calculation with the script <TT><B>runsp_lapw</B></TT>. The program flow of
+such a calculation is described in section <A HREF="4Files_Program.html#sec:flow_spinpol">4.5.2</A> and
+the script itself in section <A HREF="5Shell_scripts.html#sec:run_lapw">5.1.3</A>.
+
+<P>
+
+<H1><A NAME="SECTION04290000000000000000"></A>
+<A NAME="sec:history"></A>
+<BR>
+9 The ``history`` file  case.scf
+</H1>
+
+<P>
+During the SCF cycle the essential data of each iteration are appended
+to the file <A NAME="1213"></A><TT><B>case.scf</B></TT>, in our example
+<TT><B>TiC.scf</B></TT>.  For an easier retrieval of certain quantities, the
+essential lines carry a label of the form <TT><B>:LABEL:</B></TT> which can be
+used to monitor these quantities during a SCF run.
+
+<P>
+The information is retrieved using the UNIX grep command or using the
+``<I>Utils. <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> analyze</I>'' menu.
+
+<P>
+While the SCF cycle of TiC is running try to monitor e.g.  the total
+energy (label <TT><B>:ENE</B></TT>) or the charge distance (label <TT><B>:DIS</B></TT>).
+The calculation has converged, when the convergence criterion is met
+for three subsequent iterations (compare the charge distance in the
+example).
+
+<P>
+For a detailed description of the various labels consult section
+<A HREF="4Files_Program.html#sec:scf-file">4.4</A>.
+
+<P>
+
+<H1><A NAME="SECTION042100000000000000000"></A>
+<A NAME="sec:save"></A><A NAME="1223"></A>
+<BR>
+10 Saving a calculation
+</H1>
+Before you proceed to another calculation, you should save the results
+of the SCF-cycle with the <TT><B>save_lapw</B></TT><A NAME="1728"></A> command, which is
+also described in detail in section <A HREF="5Shell_scripts.html#sec:save_lapw">5.2.1</A>. This can also
+be done from the graphical user interface by choosing the ``<I>Utils. <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> save_lapw</I>'' menu.
+
+<P>
+Save the result to this example under the name ``<TT><B>TiC_scf</B></TT>''.
+
+<P>
+You can now improve your calculation and check the convergence of the most
+important parameters:
+
+<UL>
+<LI>increase RKMAX<A NAME="1736"></A> and GMAX<A NAME="1737"></A> in <TT><B>case.in1</B></TT> and
+    <TT><B>case.in2</B></TT>
+</LI>
+<LI>increase the k-mesh<A NAME="1742"></A> with <TT><B> x kgen</B></TT>
+</LI>
+<LI>choose a different exchange-correlation potential in <TT><B>case.in0</B></TT>
+</LI>
+</UL>
+Then just execute another <TT><B>run_lapw</B></TT> using ``<I>Execution <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> run SCF</I>''. 
+
+<P>
+
+<H1><A NAME="SECTION042110000000000000000"></A><A NAME="1749"></A>
+<A NAME="sec:properties"></A>
+<BR>
+11 Calculating properties
+</H1>
+
+<P>
+Once the SCF cycle has converged one can
+calculate various properties like Density of States (DOS),
+band structure, Optical properties or X-ray spectra.
+
+<P>
+For the calculation of properties (which from now on will be called
+``<I>Tasks</I>''). We strongly encourage the user to utilize the
+user interface, <EM>w2web</EM>.  This user interface automatically
+supplies input file templates and shows how to calculate the named
+properties on a step by step basis.
+
+<P>
+
+<H2><A NAME="SECTION042111000000000000000"></A>
+<A NAME="1244"></A>
+<BR>
+1 Electron density plots
+</H2>
+
+<P>
+Select ``<I>El. Dens.</I>'' from the ``<I>Tasks</I>'' menu and click
+on the buttons one by one (see figure <A HREF="#fig:wien_densel">3.6</A>):
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:wien_densel"></A><A NAME="1252"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.6:</STRONG>
+Task ``Electron Density Plots''</CAPTION>
+<TR><TD><IMG
+ WIDTH="510" HEIGHT="475" BORDER="0"
+ SRC="img89.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/densityn, width=0.92\textwidth}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<UL>
+<LI>Edit <TT><B>TiC.in2</B></TT> and set EMIN to -1.0 to eliminate Ti 3s
+    and 3p semicore states (Normally you would check the  <TT><B>TiC.scf</B></TT> file
+    and find out yourself which states (at what energy) you may want to cut out).
+</LI>
+<LI>Recalculate the valence density without 3s and 3p (<TT><B>x lapw2</B></TT>). 
+    This is only possible, when you still have a valid 
+    <TT><B>TiC.vector</B></TT> file on a tetrahedral mesh.
+</LI>
+<LI>Edit <TT><B>TiC.in5</B></TT> choose the offered template input file.
+    To select the (100) plane for plotting specify the following
+    input: 
+    <BLOCKQUOTE>
+</BLOCKQUOTE><PRE>
+-1 -1 0 4     # origin of plot (x,y,z,denominator)
+-1  3 0 4     # x-end of plot
+ 3 -1 0 4     # y-end of plot
+3 2 3         # x,y,z number of shells
+100 100       # x, y plotting mesh, choose ratio similar to x,y length 
+RHO               
+ANG VAL NODEBUG
+ORTHO
+</PRE><BLOCKQUOTE>
+    
+</BLOCKQUOTE>
+    For a detailed description of input options consult section
+    <A HREF="8Analysis_Properties.html#sec:lapw5-in">8.6.3</A>
+</LI>
+<LI>Calculate electron density 
+</LI>
+<LI>Plot output (using rhoplot), after the first preview select a range 
+    zmin=-0.5 to zmax=2
+</LI>
+<LI>Reset EMIN in <TT><B>TiC.in2</B></TT> (don't forget this, or you will run onto troubles later on!)
+  
+</LI>
+</UL>
+
+<P>
+Compare the result with the electron density plotted in the (100)
+plane (see figure <A HREF="#fig:tic-densel">3.7</A>). The program <B>gnuplot</B>
+(public domain) must be installed on your computer. For more advanced
+graphics use your favorite plotting package or specify other options
+in <B>gnuplot</B> (see <TT><B>rhoplot_lapw</B></TT> how gnuplot is called).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-densel"></A><A NAME="1279"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.7:</STRONG>
+Electron density of TiC in [110] plane</CAPTION>
+<TR><TD><IMG
+ WIDTH="499" HEIGHT="429" BORDER="0"
+ SRC="img90.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=screenshot2k/density2n, width=0.9\textwidth}}\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION042112000000000000000"></A>
+<A NAME="1284"></A>
+<A NAME="1285"></A>
+<BR>
+2 Density of States (DOS)
+</H2>
+Select ``<I>Density of States (DOS)</I>'' from the ``<I>Tasks</I>'' menu
+and click on the buttons one by one:
+<UL>
+<LI>Calculate partial charges (<TT><B>x lapw2 -qtl</B></TT>). (This
+    is only possible, when you still have a valid <TT><B>TiC.vector</B></TT> file on a
+    tetrahedral mesh.) 
+</LI>
+<LI>Edit <TT><B>TiC.int</B></TT>, choose the offered template input
+    file and edit it to select: total DOS, Ti-d, Ti-d<IMG
+ WIDTH="17" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img91.png"
+ ALT="$_{eg}$">, Ti-d<IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img92.png"
+ ALT="$_{t2g}$">, 
+    C-s and C-p-like DOS.
+    <BLOCKQUOTE>
+</BLOCKQUOTE><PRE>
+TiC
+  -0.50     0.00200   1.500 0.003   EMIN, DE, EMAX, Gauss-broadening
+    6                         NUMBER OF DOS-CASES
+    0    1   tot              (atom,case,description)
+    1    4   Ti d
+    1    5   Ti eg
+    1    6   Ti t2g
+    2    2   C s
+    2    3   C p
+</PRE><BLOCKQUOTE><FONT SIZE="-1">
+    
+</FONT></BLOCKQUOTE>
+
+<P>
+For a detailed description of input options consult section
+    <A HREF="8Analysis_Properties.html#sec:tetra-in">8.1.3</A>
+</LI>
+<LI>Calculate DOS (<TT><B>x tetra</B></TT>).
+</LI>
+<LI>Preview output using ``dosplot''
+  
+</LI>
+</UL>
+
+<P>
+If you want to use the supplied plotting interface <B>dosplot</B> to
+preview the results, the program <B>gnuplot</B> (public domain) must
+be installed on your computer.  
+
+<P>
+The calculated DOS can be compared with figures <A HREF="#fig:tic-totdos">3.8</A>
+to <A HREF="#fig:tic-ddos">3.13</A> if you select a range of -12.5 to 3.5 eV. To
+calculate DOS for higher energies, you will have to increase EMAX in
+<TT><B>case.in1</B></TT> and rerun <TT><B>x lapw1</B></TT>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-totdos"></A><A NAME="1781"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.8:</STRONG>
+TiC: total DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img93.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_tot, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-csdos"></A><A NAME="1789"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.9:</STRONG>
+TiC: C partial s-DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img94.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_c-s, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-cpdos"></A><A NAME="1797"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.10:</STRONG>
+TiC: C partial p-DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img95.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_c-p, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-tiddos"></A><A NAME="1805"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.11:</STRONG>
+TiC: Ti partial d-DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img96.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_ti-d, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-sdos"></A><A NAME="1813"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.12:</STRONG>
+TiC: Ti partial eg-DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img97.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_eg, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-ddos"></A><A NAME="1821"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.13:</STRONG>
+TiC: Ti partial <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$t_{2g}$">-DOS</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="315" BORDER="0"
+ SRC="img98.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_dos_t2g, height=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION042113000000000000000"></A>
+<A NAME="1359"></A>
+<BR>
+3 X-ray spectra
+</H2>
+
+<P>
+Select ``X-Ray Spectra'' from the ``Tasks menu'' and click on the 
+buttons one by one:
+<UL>
+<LI>Calculate partial charges (<TT><B>x lapw2 -qtl</B></TT>). This is only
+    possible, when you still have a valid <TT><B>TiC.vector</B></TT> file on a
+    tetrahedral mesh. <I>To reproduce this figure you will have to
+      increase the EMAX value in your <TT><B>TiC.in1</B></TT> to 2.5 Ry and
+      rerun <TT><B>x lapw1</B></TT></I>
+</LI>
+<LI>Edit <TT><B>TiC.inxs</B></TT>; choose the offered template.  This
+  template will calculate the <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$L_{III}$">-spectrum of the first atom (Ti
+  in this example) in the energy range between -2 and 15 eV. For a
+  detailed description of the contents of this input file refer to
+  section <A HREF="8Analysis_Properties.html#sec:xspec-in">8.10.3</A>.
+</LI>
+<LI>Calculate spectra
+</LI>
+<LI>Preview spectra
+  
+</LI>
+</UL>
+
+<P>
+If you want to use the supplied plotting interface <B>specplot</B>
+to preview the results, the public domain program <B>gnuplot</B>
+must be installed on your computer.  The calculated TiC
+Ti-<IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$L_{III}$">-spectrum can be compared with figure
+<A HREF="#fig:tic-xspec_l3">3.14</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-xspec_l3"></A><A NAME="1539"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.14:</STRONG>
+Ti <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$L_{III}$"> spectrum of TiC</CAPTION>
+<TR><TD><IMG
+ WIDTH="360" HEIGHT="252" BORDER="0"
+ SRC="img99.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_xspec, width=8cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION042114000000000000000"></A>
+<A NAME="1384"></A>
+<BR>
+4 Bandstructure
+</H2>
+
+<P>
+Select ``<I>Bandstructure</I>'' from the ``<I>Tasks</I>'' menu and
+click on the buttons one by one:
+<UL>
+<LI>Create the file <TT><B>TiC.klist_band</B></TT> from the template in 
+<TT><B>$WIENROOT/SRC_templates/fcc.klist</B></TT>. (To
+    calculate a bandstructure a special k-mesh<A NAME="1846"></A> along high
+    symmetry directions is necessary. For a few crystal structures
+    template files are supplied in the <TT><B>SRC</B></TT>-directory, you can also
+    use XCRYSDEN (save it as xcrysden.klist) to generate a k-mesh or type 
+    in your own mesh.
+
+<P>
+</LI>
+<LI>Calculate Eigenvalues using the ``-band'' switch (which changes  
+<TT><B>lapw1.def</B></TT> such that the k-mesh is read from <TT><B>TiC.klist_band</B></TT> and 
+not from <TT><B>TiC.klist</B></TT>) 
+<BR><I>Note: When you want to
+      calculate DOS, charge densities or spectra after this
+      bandstructure, you must first recalculate the <TT><B>TiC.vector</B></TT>
+      file using the ``tetrahedral'' k-mesh, because the k-mesh for
+      the band structure plots is <B>not</B> suitable for
+      calculations of such properties.</I>
+
+<P>
+</LI>
+<LI>Edit <TT><B>TiC.insp</B></TT>: insert the correct Fermi energy (which
+    can be found in the saved <TT><B>scf</B></TT>-file) and specify plotting
+    parameters. For comparison with figure
+    <A HREF="#fig:tic-bandstructure">3.15</A> select an energy-range from -13 to 8
+    eV.
+</LI>
+<LI>Calculate Bandstructure (<TT><B>x spaghetti</B></TT>).
+</LI>
+<LI>Preview Bandstructure (needs <B>ghostscript installed</B>).
+  
+</LI>
+</UL>
+
+<P>
+If you want to preview the bandstructure, the program
+<B>ghostview</B> (public domain) must be installed on your computer.
+You can compare your calculated bandstructure with figure
+<A HREF="#fig:tic-bandstructure">3.15</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-bandstructure"></A><A NAME="1411"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.15:</STRONG>
+Bandstructure of TiC</CAPTION>
+<TR><TD><IMG
+ WIDTH="239" HEIGHT="363" BORDER="0"
+ SRC="img100.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/bands, height=8cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION042115000000000000000"></A>
+<A NAME="1416"></A>
+<BR>
+5 Bandstructure with band character plotting / full lines 
+</H2>
+Select again ``<I>Bandstructure</I>'' from the
+``<I>Tasks</I>'' menu. We assume that you have already done the steps 
+described in the previous section (generate <TT><B>TiC.klist_band</B></TT>  
+and <TT><B>x lapw1 -band</B></TT>).
+<UL>
+<LI>Calculate partial charges (<TT><B>x lapw2 -qtl -band</B></TT>)
+<BR>    <I>Note: You have to calculate the partial charges for the
+      new special k-mesh specified above and cannot use the partial
+      charges from the DOS calculation.</I>
+</LI>
+<LI>Edit <TT><B>TiC.insp</B></TT>: insert the correct Fermi energy (same as before) and
+    specify plotting parameters. For "band character plotting" (see figure
+    <A HREF="#fig:tic-bandcharacter">3.16</A>) select  "line type = dots" and 
+    jatom=1, jtype=6 and jsize=0.2 (in the last input line) to produce a character
+    plot of the Ti t2g-like character bands. 
+</LI>
+<LI>Calculate Bandstructure (<TT><B>x spaghetti</B></TT>)
+</LI>
+<LI>Preview Bandstructure
+</LI>
+<LI>To plot the bandstructure with full lines, calculate the irreducible
+     representations with "x irrep" and select "lines" in <TT><B>case.insp</B></TT>.
+  
+</LI>
+</UL><BLOCKQUOTE>
+<I>If you have <TT><B>case.irrep*</B></TT> or <TT><B>case.qtl*</B></TT> files from previous runs which
+do not fit to the present <TT><B>case.output1</B></TT> file, you may get errors while
+running <TT><B>spaghetti</B></TT>. In this case remove all <TT><B>case.irrep</B></TT> or <TT><B>case.qtl</B></TT> files.</I>
+
+</BLOCKQUOTE>
+
+<P>
+You can compare your results with figure <A HREF="#fig:tic-bandcharacter">3.16</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:tic-bandcharacter"></A><A NAME="1442"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.16:</STRONG>
+Bandstructure of TiC, showing t2g-character bands of Ti in 
+          character plotting mode</CAPTION>
+<TR><TD><IMG
+ WIDTH="239" HEIGHT="363" BORDER="0"
+ SRC="img101.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/dbands, height=8cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION042116000000000000000"></A>
+<A NAME="cha:quick-volume-opt"></A>
+<BR>
+6 Volume Optimization
+</H2>
+
+<P>
+Select ``<I>Optimize (V,c/a)</I>'' from the ``<I>Execution</I>'' menu.
+Setup the shell script <TT><B>optimize.job</B></TT>
+script using <TT><B>x optimize</B></TT> and volume variations of -10, -5, 0, +5
+and +10%.  Edit this file and uncomment the <TT><B>x dstart</B></TT> line (remove the ``#'' character). Then run the <TT><B>optimize.job</B></TT>.
+When the job has finished, you should click on <I>Plot</I>
+and then preview the energy curve. 
+
+<P>
+You should get an energy curve as in figure <A HREF="#fig:eplot">3.17</A>.  On the
+screen  you will find the
+fitting parameters for the ``equation of states'' (Murnaghan, Birch-Murnaghan and the
+EOS2 equation, see sec. <A HREF="9Utility_Programs.html#sec:eosfit">9.9</A>). This information is also written to 
+<TT><B>TiC.outputeos</B></TT>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:eplot"></A><A NAME="1462"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3.17:</STRONG>
+Energy vs. volume curve for TiC</CAPTION>
+<TR><TD><IMG
+ WIDTH="359" HEIGHT="252" BORDER="0"
+ SRC="img102.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/tic/TiC_vol, width=8cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H1><A NAME="SECTION042120000000000000000"></A>
+<A NAME="sec:new-case"></A><A NAME="1468"></A>
+<BR>
+12 Setting up a new case
+</H1>
+In order to setup a new case you need at least the following
+information:
+
+<UL>
+<LI>The lattice parameters (in Bohr or &#197;ngstroms) and angles,
+</LI>
+<LI>the lattice type (primitive, face-centered, hexagonal,...) or
+  spacegroup,
+</LI>
+<LI>the position of all equivalent and inequivalent atoms in
+  fractions of the unit cell.
+</LI>
+<LI>Alternatively with the new <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> you can specify the
+  spacegroup and only the inequivalent positions. The equivalent ones
+  will be generated automatically.
+</LI>
+</UL>
+
+<P>
+Usually this information can be collected from the ``International Tables of 
+Crystallography'' once you know the space group, the Wyckoff position and the 
+internal free coordinates.
+
+<P>
+
+<H2><A NAME="SECTION042121000000000000000">
+1 Manually setting up a new case</A>
+</H2>
+
+<P>
+Usually for a new ``case`` the input is not created from scratch, but
+one uses the <TT><B>struct</B></TT>  file from a similar case
+as pattern. Change into the <TT><B>lapw</B></TT> subdirectory and proceed as
+follows:
+<BLOCKQUOTE>
+<TT><B>mkdir case_new</B></TT>
+<BR>  <TT><B>cd case_new</B></TT>
+<BR>  <TT><B>cp ../case_old/case_old.struct case_new.struct</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+Now edit <TT><B>case_new.struct</B></TT> (see section <A HREF="4Files_Program.html#sec:struct-file">4.3</A>)
+ as necessary (Note: this is a fixed formatted file, so all values must remain
+at their proper columns).
+Afterwards generate <TT><B>case_new.inst</B></TT> using <TT><B>instgen_lapw</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION042122000000000000000">
+2 Setting up a new case using <EM>w2web</EM></A>
+</H2>
+
+<P>
+Use the menu <I>Session Mgmt. <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> change
+session</I> of
+<EM>w2web</EM> to create a new session (enter the name of the
+new session and click on ``<I>Create</I>''). 
+Then you should also create a new directory and ``select'' it..
+
+<P>
+When you select ``<I>Execution <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM></I>'', you have two choices:
+you can select a ``<TT><B>cif</B></TT>'' file (or download it from some other location)
+and convert this file to the WIEN2k <TT><B>case.struct</B></TT> file. Alternatively you
+just specify the number of non-equivalent atoms and a 
+ template file will be copied to <TT><B>case.struct</B></TT>.  To create the new
+ case using the <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> you simply specify the lattice (type or 
+spacegroup), cell parameters and
+ name and positions of atoms. When you ``<I>save file and clean up</I>'' the new <TT><B>case.struct</B></TT>
+file and the <TT><B>case.inst</B></TT> file are created automatically.
+
+<P>
+For more information on the <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> refer to page
+<A HREF="9Utility_Programs.html#sec:structgen"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>.
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html876"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html872"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html868"
+  HREF="2Basic_concepts.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html874"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html877"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Up:</B> <A NAME="tex2html873"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html869"
+  HREF="2Basic_concepts.html">2 Basic concepts</A>
+ &nbsp; <B>  <A NAME="tex2html875"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

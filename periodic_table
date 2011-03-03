@@ -1,0 +1,5 @@
+#!/bin/csh -f 
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+if !(-d $bin) set bin = .
+ghostview -landscape $bin/SRC/periodic.ps &

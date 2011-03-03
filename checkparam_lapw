@@ -1,0 +1,216 @@
+#!/bin/csh -f
+#
+# Check parameters for WIEN97    (contributed by M.Lee, U.Toronto)
+#
+#---> path- and file-names
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+if !(-d $bin) set bin = .
+set name  = $name:t 		#name of this script-file
+set date = `date`
+set logfile = checkparam.log
+
+alias	find		'echo " " >> $logfile;'\
+			'echo "Searching for \!:* . ." >> $logfile;'\
+			'set param = \!:*'
+
+alias	check		'echo "In file \!:*" >> $logfile;'\
+			'grep $param \!:* >> $logfile'
+
+echo "Checking parameters for WIEN97 . . " 
+echo "$date" > $logfile 
+echo "Checking parameters for WIEN97 . . " >> $logfile 
+#
+find	IFFT1=
+check	$bin/SRC_lapw0/lapw0.f
+check	$bin/SRC_mixer/mixer.f
+#
+find	IFFT2=
+check	$bin/SRC_lapw0/lapw0.f
+check	$bin/SRC_mixer/mixer.f
+#
+find	IFFT3=
+check	$bin/SRC_lapw0/lapw0.f
+check	$bin/SRC_mixer/mixer.f
+#
+find	KMAX1=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+#
+find	KMAX2=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+#
+find	KMAX3=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+#
+find	LMAX=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+echo 	"N.B. LMAX in lapw1 must equal LMAX+1 in lapwso" >> $logfile
+check 	$bin/SRC_lapwso/param.inc
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+#
+find	LOMAX=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+check 	$bin/SRC_lapwso/param.inc
+check 	$bin/SRC_lapw2/param.inc_r
+check 	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+#
+find	NATO=
+check	$bin/SRC_nn/nn.f
+check	$bin/SRC_symmetry/param.inc
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw0/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapwso/param.inc
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+check	$bin/SRC_joint/param.inc
+check 	$bin/SRC_tetra/param.inc
+#
+find	NCOM=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+find	NCOM=
+echo "N.B. NCOM in lapw0 is independent of NCOM in other routines" >> $logfile
+check	$bin/SRC_lapw0/param.inc
+#
+find	NDIF=
+check	$bin/SRC_nn/nn.f
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw0/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapwso/param.inc
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+check	$bin/SRC_joint/param.inc
+#
+find  	NGAU=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+check 	$bin/SRC_lapw2/param.inc_r
+check 	$bin/SRC_lapw2/param.inc_c
+#
+find  	NKPT=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+check 	$bin/SRC_lapw2/param.inc_r
+check 	$bin/SRC_lapw2/param.inc_c
+echo "N.B. Eack k point is calculated separately so NKPT=3 in optic" >> $logfile
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+check	$bin/SRC_joint/param.inc
+find 	NKP=
+check 	$bin/SRC_spaghetti/param.inc
+find    NKTOT=
+check 	$bin/SRC_tetra/param.inc
+#
+find  	NMAT=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+check 	$bin/SRC_lapwso/param.inc
+check 	$bin/SRC_lapw2/param.inc_r
+check 	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+#
+find	NRAD=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw0/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapwso/param.inc
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_lcore/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+#
+find	NSYM=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+check	$bin/SRC_joint/param.inc
+#
+find  	NUME=
+check 	$bin/SRC_lapw1/param.inc_r
+check 	$bin/SRC_lapw1/param.inc_c
+check 	$bin/SRC_lapwso/param.inc
+check 	$bin/SRC_lapw2/param.inc_r
+echo 	"N.B. NUME in lapw2c should be 2*NUME in lapwso" >> $logfile
+check 	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_optic/param.inc_r
+check	$bin/SRC_optic/param.inc_c
+check	$bin/SRC_joint/param.inc
+find 	NEVL=
+check 	$bin/SRC_spaghetti/param.inc
+find    NBTOT=
+check 	$bin/SRC_tetra/param.inc
+#
+find	NVEC1=
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+#
+find	NVEC2=
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+#
+find	NVEC3=
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+#
+find	NWAV=
+check	$bin/SRC_dstart/param.inc
+check	$bin/SRC_lapw1/param.inc_r
+check	$bin/SRC_lapw1/param.inc_c
+check	$bin/SRC_lapw2/param.inc_r
+check	$bin/SRC_lapw2/param.inc_c
+check	$bin/SRC_sumpara/param.inc
+check	$bin/SRC_mixer/param.inc
+check	$bin/SRC_lapw5/param.inc
+
+cat $logfile | less -E
+echo "Output written to $logfile"
+exit 0
+

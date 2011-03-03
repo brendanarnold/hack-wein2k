@@ -1,0 +1,10 @@
+!     >> Standard WIEN97 Parameters <<
+!
+!     Constant parameter definition
+!
+      INTEGER            LMAX, LOMAX, NKPT,nloat
+!
+      PARAMETER          (LMAX=   13)
+      PARAMETER          (LOMAX=   3)
+      PARAMETER          (nloat=   3)
+      PARAMETER          (NKPT= 5000)

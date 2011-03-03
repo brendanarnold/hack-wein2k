@@ -1,0 +1,126 @@
+###############################################################################
+#                                                                             #
+#  make              ... generate executable                                  #
+#  make clean        ... delete unnecessary files                             #
+#  make check        ... check static semantics of the FORTRAN routines       #
+#  make xref         ... generate a cross reference listing                   #
+#                                                                             #
+###############################################################################
+
+#------------------------------------------------------------------------------
+#
+#                          IBM RS6000  AIX 3.2
+#
+# FC ......... compiler name
+# FOPT ....... optimization flags
+# FGEN ....... code generation flags (flags not related to optimization)
+# LDFLAGS .... linker flags
+# LIBS ....... libraries needed to build the executable
+# DESTDIR .... directory where the executable should go (incl. trailing '/'!)
+# EXECNAME ... name of the resulting executable (without prefixed path!)
+#
+#------------------------------------------------------------------------------
+FC = ifort
+CC = icc
+FOPT     = -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+FGEN     = 
+LDFLAGS  = $(FOPT) -L/opt/intel/mkl/9.0/lib/em64t -lpthread
+LIBS     = -lmkl_lapack64 -lmkl_em64t -lguide -lvml -pthread
+DESTDIR  = ./
+EXECNAME = mini
+
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS1 =	dfpmin.o  errclr.o  errflg.o  finish.o  func.o    gbass.o \
+	gtfnam.o  haupt.o   ininos.o  inv.o     latgen.o  lnsrch.o\
+	maxstp.o  mini.o    mold0.o   mold.o    nn.o      nose.o  \
+	nose0.o   nwtmin.o  outerr.o  pairdis.o rotate.o  rotdef.o\
+	wrtscf.o  latmix.o  distxy.o \
+	mdble.o d1mach.o ditsum.o dr7mdc.o  dv7cpy.o    i7mdcn.o \
+	divset.o drldst.o  dv7dfl.o  dl7itv.o drmng.o   dv7scp.o stopx.o  \
+	dl7ivm.o dv7vmp.o dl7tvm.o drmngwien.o dw7zbf.o da7sst.o dl7upd.o \
+	func2.o  dd7dog.o dl7vml.o  dv2axy.o    traptouch.o \
+	dd7tpr.o dparck.o  dv2nrm.o  constr.o
+# i1mach.o  
+#
+
+#	inter.o   read3.o   integr.o  stern.o   rean3.o \
+#        rean0.o   setffx.o  charge.o  iffpar.o  normal.o choice.o \
+#	 lsqfit.o  mixin.o
+
+#..............................................................................
+#
+#  Routines which may require preprocessing before compiling on some machines
+#  (Sourcecode-level optimization)
+#
+PREOBJS = atomgrid.o mxpmgrid.o
+
+#..............................................................................
+#
+OBJS = $(PREOBJS) $(OBJS1)
+PRJS = $(OBJS1:.o=.prj) $(PREOBJS:.o=.prj)
+
+#..............................................................................
+#
+.SUFFIXES:	.prj
+
+#..............................................................................
+#
+#  Build executable
+#
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS)
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	param.inc Makefile $(PREOBJS)
+
+#..............................................................................
+#
+#  perform static semantics checking (variables used before set, type
+#  consistency, correct usage of common blocks, etc.)
+#
+check:	$(PRJS)
+	ftnchek $(PRJS)
+
+#..............................................................................
+#
+#  remove object files, preprocessed source files and files needed for
+#  static semantics checking
+#
+clean:
+	rm  -f $(OBJS) $(PREOBJS:.o=.P) $(OBJS1:.o=.P) $(PRJS) \
+		$(EXECNAME).xref
+
+#..............................................................................
+#
+#  build a cross reference table (file '$(EXECNAME).xref')
+#
+xref:
+	fxref $(OBJS1:.o=.f) $(PREOBJS:.o=.f) >$(EXECNAME).xref
+
+#..............................................................................
+#
+#  define rules for generating files needed to check the static semantics
+#  of the FORTRAN source code and for generating object files from source files
+#
+.f.prj:
+	ftnchek -project -f77 -declare -sixchar -novice=2 -noextern -library $<
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.f.mod:
+	$(FC) $(FFLAGS) -c $<
+.c.o:
+	$(CC) -c $<
+.f90.o:
+	$(FC) $(FFLAGS) -c $<

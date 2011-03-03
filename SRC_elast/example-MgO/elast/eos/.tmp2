@@ -1,0 +1,26 @@
+ 2,'eos.nsh',    'unknown','formatted',0
+ 3,'eos.in1',   'unknown','formatted',0
+ 4,'eos.inso',           'unknown','formatted',0
+ 5,'eos.in2',   'old',    'formatted',0
+ 6,'eos.output2_3','unknown','formatted',0
+ 8,'eos.clmval_3','unknown','formatted',0
+ 9,'./eos.vectordn_3', 'unknown','unformatted',9000
+10,'./eos.vector_3', 'unknown','unformatted',9000
+11,'eos.weight',    'unknown','formatted',0
+13,'eos.recprlist',      'unknown','unformatted',9000
+14,'eos.kgen',        'unknown','formatted',0
+15,'eos.tmp',       'unknown','formatted',0
+16,'eos.qtl',       'unknown','formatted',0
+17,'eos.weightaver','unknown','formatted',0
+18,'eos.vsp',       'old',    'formatted',0
+19,'eos.vns',       'unknown','formatted',0
+20,'eos.struct',         'old',    'formatted',0
+21,'eos.scf2_3',   'unknown','formatted',0
+22,'eos.rotlm',   'unknown',    'formatted',0
+23,'eos.radwf',   'unknown',    'formatted',0
+24,'eos.almblm',   'unknown',    'formatted',0
+26,'eos.weigh_3',   'unknown','unformatted',0
+27,'eos.weighdn_3',   'unknown','unformatted',0
+28,'eos.vrespval_3',   'unknown','formatted',0
+31,'./eos.help31_3','unknown','formatted',0
+32,'./eos.help32_3','unknown','formatted',0

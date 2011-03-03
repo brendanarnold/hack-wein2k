@@ -1,0 +1,25 @@
+
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  Mg        
+
+          OVERALL ENERGY PARAMETER IS    0.3000
+          E( 0)=    0.3000
+          E( 0)=   -4.9900   E(BOTTOM)=   -5.210   E(TOP)=   -4.770
+          E( 1)=    0.3000
+          E( 1)=   -2.6125   E(BOTTOM)=   -2.905   E(TOP)=   -2.320
+
+          ATOMIC SPHERE DEPENDENT PARAMETERS FOR ATOM  O         
+
+          OVERALL ENERGY PARAMETER IS    0.3000
+          E( 0)=   -0.7500   E(BOTTOM)=   -1.860   E(TOP)=    0.360
+          E( 0)=    0.3000
+          E( 1)=    0.3000
+
+       K=   0.00000   0.00000   0.00000            1
+:RKM  : MATRIX SIZE  234LOs:   5  RKM= 7.90  WEIGHT= 1.00  PGR:    
+       EIGENVALUES ARE:
+        -4.9420304   -2.5452577   -2.5452577   -2.5452577   -0.9298848
+         0.3138672    0.3138672    0.3138672    0.6464448    1.4516907
+         1.4516907    1.4516907
+       ********************************************************
+
+       NUMBER OF K-POINTS:          165

@@ -1,0 +1,189 @@
+#!/usr/bin/perl
+
+require "../libs/w2web.pl";
+
+my $indent = q/<br>&nbsp;&nbsp;&nbsp;/;
+
+&GetInput;
+&GetSession;
+
+$OUT .=  <<__STOP__;
+Content-type: text/html\n
+<HTML>
+<HEAD>
+   <TITLE>WIEN</TITLE>
+<link href="/w2web.css" rel="stylesheet">       
+</HEAD>
+<BODY BGCOLOR=$topcolor>
+<A HREF="http://www.wien2k.at" TARGET="_new"><IMG SRC="/art/w2k.gif" WIDTH=124 HEIGHT=139 ALT="WIEN2k Homepage" BORDER=0></A>
+<FONT SIZE=-1>
+__STOP__
+if($exec) {
+	$OUT .= <<__STOP__;
+<A NAME=a>
+<br>
+<A HREF="/navig.pl?SID=$SID&exec=0"><B>&lt;&lt; Execution </B></A>
+__STOP__
+} else {
+	$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&exec=1"><B>Execution &gt;&gt; </B></A>
+__STOP__
+}
+	$OUT .= <<__STOP__;
+$indent<A HREF=/util/structgen.pl?SID=$SID TARGET="main">StructGen<font size=-2><sup>TM</sup></font></A> 
+$indent<A HREF=/exec/initlapw.pl?SID=$SID TARGET="main">initialize calc.</A>
+$indent<A HREF=/exec/scf.pl?SID=$SID TARGET="main">run SCF</A>
+$indent<A HREF=/exec/single.pl?SID=$SID TARGET="main">single program</A>
+$indent<A HREF=/exec/cmdline.pl?SID=$SID TARGET="main">command line</A>
+__STOP__
+if($exec) {
+  $OUT .= <<__STOP__;
+$indent<A HREF=/exec/optimize.pl?SID=$SID TARGET="main">optimize (V,c/a)</A>
+$indent<A HREF=/exec/min.pl?SID=$SID TARGET="main">mini. positions</A>
+__STOP__
+}
+$OUT .= <<__STOP__;
+<BR>
+<BR>
+__STOP__
+
+$xcrys="";
+if ($ENV{'XCRYSDEN_TOPDIR'}) {
+	$xcrys="$indent<A HREF=/util/viewxcrys.pl?SID=$SID TARGET=\"main\">view structure</A>";
+}
+if ($utils) {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&utils=0"><B>&lt;&lt; Utils. </B></A>
+$indent<A HREF=/util/dayfile.pl?SID=$SID TARGET="main">show dayfile</A>
+$indent<A HREF=/util/stdout.pl?SID=$SID TARGET="main">show STDOUT</A>
+$indent<A HREF=/util/analysis.pl?SID=$SID TARGET="main">analysis</A>
+$indent<A HREF=/util/savelapw.pl?SID=$SID TARGET="main">save_lapw</A>
+$indent<A HREF=/util/restorelapw.pl?SID=$SID TARGET="main">restore_lapw</A>
+$indent<A HREF=/util/cleanlapw.pl?SID=$SID TARGET="main">clean_lapw</A>
+$indent<A HREF=/util/initso.pl?SID=$SID TARGET="main">initso_lapw</A>
+$xcrys
+$indent<A HREF=/util/stopscf.pl?SID=$SID TARGET="main">stop SCF</A>
+$indent<A HREF=/util/stopmini.pl?SID=$SID TARGET="main">stop mini</A>
+$indent<A HREF=/util/fulldiag.pl?SID=$SID TARGET="main">full diag.</A>
+$indent<A HREF=/util/editpara.pl?SID=$SID TARGET="main">edit .machines</A>
+$indent<A HREF=/util/testpara.pl?SID=$SID TARGET="main">testpara</A>
+$indent<A HREF=/util/testpara1.pl?SID=$SID TARGET="main">testpara1</A>
+$indent<A HREF=/util/testpara2.pl?SID=$SID TARGET="main">testpara2</A>
+
+__STOP__
+} else {
+	$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&utils=1"><B>Utils. &gt;&gt;</B></A>
+__STOP__
+}
+
+
+$OUT .= <<__STOP__;
+<BR>
+<BR>
+__STOP__
+if ($tasks) {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&tasks=0"><B>&lt;&lt; Tasks</B></A>
+$indent<A HREF=/exec/rho.pl?SID=$SID TARGET="main">El. Dens.</A>
+$indent<A HREF=/exec/dos.pl?SID=$SID TARGET="main">DOS</A>
+$indent<A HREF=/exec/xspec.pl?SID=$SID TARGET="main">XSPEC</A>
+$indent<A HREF=/exec/elnes.pl?SID=$SID TARGET="main">ELNES</A>
+$indent<A HREF=/exec/optic.pl?SID=$SID TARGET="main">OPTIC</A>
+$indent<A HREF=/exec/band.pl?SID=$SID TARGET="main">Bandstructure</A>
+__STOP__
+} else {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&tasks=1"><B>Tasks &gt;&gt;</B></A>
+__STOP__
+}
+$OUT .= <<__STOP__;
+<br>
+<br>
+__STOP__
+if ($files) {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&files=0"><b>&lt;&lt; Files</b></A>
+__STOP__
+} else {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&files=1"><b>Files &gt;&gt;</b></A>
+__STOP__
+}
+$OUT .= <<__STOP__;
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=struct TARGET="main">struct file(s)</A>     
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=in TARGET="main">input files</A>     
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=out TARGET="main">output files</A> 
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=scf TARGET="main">SCF files</A> 
+__STOP__
+if ($files) {
+$OUT .= <<__STOP__;
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=clm TARGET="main">CLM files</A> 
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=def TARGET="main">def files</A> 
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=error TARGET="main">error files</A> 
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&ext=run TARGET="main">running files</A> 
+<br>
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&f=1 TARGET="main">show all files</A>     
+__STOP__
+}
+
+
+$OUT .= <<__STOP__;
+<br>
+<br>
+__STOP__
+if ($FORM{'session'}) {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&session=0"><B>&lt;&lt; Session Mgmt.</B></A>
+__STOP__
+} else {
+$OUT .= <<__STOP__;
+<A HREF="/navig.pl?SID=$SID&session=1"><B>Session Mgmt. &gt;&gt;</B></A>
+__STOP__
+}
+
+$OUT .= <<__STOP__;
+$indent<A HREF=$ENV{'MASTER_URL'}/session/change.cgi?SID=$SID TARGET=_parent>change session</A>
+$indent<A HREF=/util/dir.pl?SID=$SID&dir=$DIR&cd=1 TARGET="main">change directory</A>
+$indent<A HREF=/session/changename.cgi?SID=$SID TARGET="main">change info</A>
+__STOP__
+
+if ($FORM{'session'}) {
+$OUT .= <<__STOP__;
+$indent<A HREF=/session/duplicate.cgi?SID=$SID TARGET="main">duplicate session</A>
+$indent<A HREF=/session/delete.cgi?SID=$SID TARGET="main">delete session</A>
+<br>
+__STOP__
+}
+
+if ($FORM{'config'}) {
+$OUT .= <<__STOP__;
+<br>
+<br>
+<A HREF="/navig.pl?SID=$SID&config=0"><B>&lt;&lt; Configuration </B></A>
+$indent<A HREF=/config/index.pl TARGET="main">interface config.</A>
+$indent<A HREF=/util/htpasswd.pl TARGET="main">edit accounts</A>
+__STOP__
+} else {
+$OUT .= <<__STOP__;
+<br>
+<br>
+<A HREF="/navig.pl?SID=$SID&config=1"><B>Configuration &gt;&gt;</B></A>
+__STOP__
+}
+
+$OUT .= <<__STOP__;
+<br>
+<br>
+<B>Usersguide</B></A>
+$indent<A HREF="/usersguide/usersguide.html" TARGET="_new">html-Version</A>
+$indent<A HREF="/usersguide/usersguide.pdf" TARGET="_new">pdf-Version</A>
+</FONT>
+<br><br>
+
+</BODY>
+</HTML>
+__STOP__
+
+print $OUT;
+

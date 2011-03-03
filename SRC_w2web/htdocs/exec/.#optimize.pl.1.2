@@ -1,0 +1,173 @@
+#!/usr/bin/perl
+
+require "../../libs/w2web.pl";
+
+&GetInput;
+&GetSession;
+&ExeTypes();
+
+$OUT .= "<h2>Optimize volume or c/a-ratio</h2>";
+
+$next="contine with optimizer";
+$nexturl="/exec/optimize.pl?SID=$SID";
+$nextinteractive=1;
+
+
+$OUT .=  <<__STOP__;
+
+<FORM ACTION=/exec/executor.pl METHOD=post>
+__STOP__
+&PassHiddenParms;
+
+$xxout = "${CASE}.struct";
+if (-e "$DIR/${CASE}_initial.struct") { $xxout = "${CASE}_initial.struct"};
+
+$OUT .=  <<__STOP__;
+<TABLE BGCOLOR=$green>
+
+<TR><TD BGCOLOR=$gray>
+<INPUT NAME=precmd TYPE=HIDDEN VALUE="x">
+<INPUT NAME=prog TYPE=HIDDEN VALUE="optimize">
+<INPUT TYPE=SUBMIT VALUE="x optimize">
+Generate structure files from $xxout  
+<INPUT TYPE=hidden NAME=nextinteractive VALUE=1>
+<INPUT TYPE=hidden NAME=next VALUE="$next">
+<INPUT TYPE=hidden NAME=nexturl VALUE="$nexturl">
+</FORM>
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<FORM ACTION="/util/edit.pl">
+<INPUT NAME=SID VALUE=$SID TYPE=HIDDEN>
+<INPUT NAME=file VALUE="$DIR/optimize.job" TYPE=HIDDEN>
+<INPUT TYPE=SUBMIT VALUE="edit optimize.job">
+    Uncomment "x dstart" or "cp clmsum"; change options in run_lapw, save_lapw,...
+<INPUT TYPE=hidden NAME=next VALUE="$next">
+<INPUT TYPE=hidden NAME=nexturl VALUE="$nexturl">
+</FORM>
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<FORM ACTION=/exec/executor.pl METHOD=post>
+__STOP__
+&PassHiddenParms;
+
+$OUT .=  <<__STOP__;
+<INPUT NAME=precmd TYPE=HIDDEN VALUE="">
+<INPUT NAME=prog TYPE=HIDDEN VALUE="optimize.job">
+$exetypes<br>
+<INPUT TYPE=SUBMIT VALUE="run optimize.job">
+<INPUT TYPE=hidden NAME=next VALUE="$next">
+<INPUT TYPE=hidden NAME=nexturl VALUE="$nexturl">
+</FORM>
+</TD></TR>
+
+__STOP__
+
+if($plot){
+  $OUT .= <<__STOP__;
+<b>We are in plot mode</b><br>
+
+<TR><TD BGCOLOR=$gray>
+<FORM ACTION=/exec/optimize.pl METHOD=POST>
+__STOP__
+&PassHiddenParms();
+  $OUT .= <<__STOP__;
+
+<SELECT name=type>
+<OPTION VALUE="vol">E vs. volume
+<OPTION VALUE="coa">E vs. c/a
+</SELECT>
+<INPUT TYPE=hidden NAME=doit VALUE="1">
+<INPUT TYPE=hidden NAME=plot VALUE="1">
+<INPUT TYPE=SUBMIT VALUE="plot">
+energy curve using
+<INPUT NAME="SCFFILES" VALUE=*>
+.scf   files
+</FORM>
+</TD></TR>
+__STOP__
+
+  if($doit) {
+
+#		@files = sort (glob ("$DIR/${CASE}_${type}*.scf"));
+		@files = sort (glob ("$DIR/${SCFFILES}.scf"));
+		if (-e "$DIR/$CASE.vol") { $umps = qx( rm $DIR/$CASE.vol)};
+
+		if ($type =~ /vol/) {
+			unless(open(FILE,">$DIR/$CASE.vol")) {
+				&CGIError("Can't write file $fname.\n");
+				exit;
+			}
+			foreach $i (@files) {
+				$x = qx(grep :VOL $i | tail -1 | cut -f2 -d= );
+				chomp($x);
+				$y = qx(grep :ENE $i | tail -1 | cut -f2 -d= );
+				chomp($y);
+				print FILE "$x $y\n";
+			}
+			close(FILE);
+
+			$umps = qx( cd $DIR && echo "" | x eosfit );
+			$tmp = qx(grep V0 $DIR/$CASE.outputeos | tail -1) ;
+			@murna = split(" ",$tmp);
+
+			$plotfile="$tempdir/$SID-$$";
+			unless(open(FILE,">$DIR/:eplot")) {
+				&CGIError("Can't write file $fname.\n");
+				exit;
+			}
+
+			$t1=$murna[0];
+			shift(@murna);
+			print FILE <<__STOP__;
+set terminal png
+set output '$plotfile.png'
+set format y "%.4f"
+set title "$CASE"
+set xlabel "Volume [a.u.^3]"
+set ylabel "Energy [Ry]"
+plot "$CASE.vol" title "Murnaghan: $t1" w p, "$CASE.eosfit" title "@murna" w l 
+set terminal postscript
+set output '$plotfile.ps'
+replot
+__STOP__
+
+			close(FILE);
+
+			$umps = qx(cd $DIR;gnuplot ":eplot" 2>&1);
+			$OUT .= "<br><IMG SRC=/tmp/$SID-$$.png><br clear=all><br>";
+			$OUT .= "<A HREF=/tmp/$SID-$$.ps>Download hardcopy in PostScript format</A>";
+			$OUT .= "<br><pre>";
+                        $OUT .= qx(cat $DIR/$CASE.outputeos);
+	
+		} else {
+
+			$OUT .= "Sorry, c/a-plot not implemented yet!<br>";
+		}
+
+	}
+
+} else {
+  $OUT .= <<__STOP__;
+<TR><TD BGCOLOR=$gray>
+<FORM ACTION=/exec/optimize.pl METHOD=POST>
+__STOP__
+&PassHiddenParms;
+$OUT .=  <<__STOP__;
+<INPUT TYPE=hidden NAME=plot VALUE="1">
+<INPUT TYPE=SUBMIT VALUE="plot">
+Plot energy curve
+</FORM>
+</TD></TR>
+__STOP__
+}
+
+$OUT.="</table>";
+
+
+
+
+PrintPage("Context",$OUT);
+
+

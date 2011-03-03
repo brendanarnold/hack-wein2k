@@ -1,0 +1,85 @@
+# Created rwoctave
+# name: s1
+# type: struct
+# length: 12
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+     6.028227000     6.028227000     9.805737000
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+    90.000000000    90.000000000   120.000000000
+# name: aname
+# type: string
+# elements:     4
+# length:  3
+Ga1
+# length:  3
+Ga2
+# length:  3
+N 3
+# length:  3
+N 4
+# name: jrj
+# type: matrix
+# rows:     4
+# columns: 1
+   781
+   781
+   781
+   781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+     5.220597722     0.000000000     0.000000000
+    -3.014113500     6.028227000     0.000000000
+     0.000000000     0.000000000     9.805737000
+# name: lattic
+# type: string
+# elements: 1
+# length:  1
+H
+# name: nat
+# type: scalar
+     4
+# name: pos
+# type: matrix
+# rows:     4
+# columns: 3
+     0.333333340     0.666666680     0.500000000
+     0.666666660     0.333333320     0.000000000
+     0.333333340     0.666666680     0.857000000
+     0.666666660     0.333333320     0.357000000
+# name: r0
+# type: matrix
+# rows:     4
+# columns: 1
+     0.000050000
+     0.000050000
+     0.000100000
+     0.000100000
+# name: rmt
+# type: matrix
+# rows:     4
+# columns: 1
+     1.950000000
+     1.950000000
+     1.500000000
+     1.500000000
+# name: title
+# type: string
+# elements: 1
+# length:  9
+blebleble
+# name: zz
+# type: matrix
+# rows:     4
+# columns: 1
+    31.000000000
+    31.000000000
+     7.000000000
+     7.000000000

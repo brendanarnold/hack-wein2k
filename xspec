@@ -1,0 +1,59 @@
+#!/bin/csh -f
+unalias rm
+
+set file    = `pwd`
+set file    = $file:t           #tail of file-names
+set dayfile = $file.dayfile     #main output-file
+set err     = $1:r
+set err     = $err.error
+
+#--->functions
+alias   testerror       'if !( -z $err) goto error'
+
+# Call the XSPEC routines
+
+#Begin with INIT_XSPEC
+
+echo "Start INITXSPEC"
+set exe = initxspec
+time initxspec $1
+testerror 
+
+#Now we need a DOS
+if ($1 == 'upxspec.def') then
+   echo "Start TETRA"
+   set exe = tetra
+   x tetra -up
+   testerror 
+endif 
+if ($1 == 'dnxspec.def') then
+   echo "Start TETRA"
+   set exe = tetra
+   x tetra -dn
+   testerror
+endif 
+if ($1 == 'xspec.def') then
+   echo "Start TETRA"
+   set exe = tetra
+   x tetra
+   testerror
+endif 
+
+#Now calculate a theoretical spectrum
+echo "Start TXSPEC"
+set exe = txspec
+time txspec $1
+testerror 
+
+#Now do peak-broadening
+echo "Start LORENTZ"
+set exe = lorentz
+time lorentz $1
+testerror
+printf "\n>   stop\n>   xspec done\n"
+exit 0   
+
+error:                                  #error exit
+printf "\n>   stop error $exe $1\n" 
+exit 1
+

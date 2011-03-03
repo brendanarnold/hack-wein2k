@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>10 Examples</TITLE>
+<META NAME="description" CONTENT="10 Examples">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="previous" HREF="9Utility_Programs.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="3Installation_WIEN2k.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1425"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1421"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1417"
+  HREF="9Utility_Programs.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1423"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1426"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Up:</B> <A NAME="tex2html1422"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1418"
+  HREF="9Utility_Programs.html">9 Utility Programs</A>
+ &nbsp; <B>  <A NAME="tex2html1424"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1427"
+  HREF="10Examples.html#SECTION05710000000000000000">1 TiC</A>
+<LI><A NAME="tex2html1428"
+  HREF="10Examples.html#SECTION05720000000000000000">2 FCC Nickel</A>
+<LI><A NAME="tex2html1429"
+  HREF="10Examples.html#SECTION05730000000000000000">3 Rutile</A>
+<LI><A NAME="tex2html1430"
+  HREF="10Examples.html#SECTION05740000000000000000">4 supercell calc</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05700000000000000000"></A>
+<A NAME="sec:samples"></A>
+<BR>
+10 How to run <EM>WIEN2k</EM> for selected samples
+</H1>
+
+<P>
+Three test cases are provided in the <EM>WIEN2k</EM> package. They contain  the
+two starting files <TT><B>case.struct</B></TT> and <TT><B>case.inst</B></TT> and all the output
+so that you can compare your results with them. 
+
+<P>
+The test cases are the following (where the names correspond 
+to what was called CASE in the rest of this User's Guide)
+
+<P>
+<BLOCKQUOTE>
+<TT><B>TiC</B></TT>
+<BR>  <TT><B>Fccni</B></TT>
+<BR>  <TT><B>TiO2</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+We recommend to run these test cases (in a different directory) and compare the output to the
+provided one. All test cases are setup
+such that the CPU-time remains small (seconds). For real production
+runs the value of RKMAX in <TT><B>case.in1</B></TT> must be increased and a
+better (denser) k-mesh should be used.
+
+<P>
+In addition we provide a subdirectory <TT><B>example_struct_files</B></TT>
+were various more complicated struct files can be found. 
+
+<P>
+
+<H1><A NAME="SECTION05710000000000000000">
+1 TiC</A>
+</H1>
+
+<P>
+The  TiC example  is described in detail in chapter <A HREF="3Quick_Start.html#cha:quick-start">3</A>
+(<B>Quickstart</B>).
+
+<P>
+
+<H1><A NAME="SECTION05720000000000000000"></A>
+<A NAME="sec:fccni"></A><A NAME="14369"></A>
+<BR>
+2 Fcc Nickel (spin polarized)
+</H1>
+
+<P>
+Ferromagnetic Nickel is a test case for a spin-polarized calculation.  
+Ni has the atomic configuration
+<IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img300.png"
+ ALT="$1s^2$">, <IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img301.png"
+ ALT="$2s^2$">, <IMG
+ WIDTH="27" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img302.png"
+ ALT="$2p^6$">, <IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img303.png"
+ ALT="$3s^2$">, <IMG
+ WIDTH="27" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img304.png"
+ ALT="$3p^6$">, <IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img305.png"
+ ALT="$3d^8$">, <IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img306.png"
+ ALT="$4s^2$"> or [Ar] <IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img305.png"
+ ALT="$3d^8$">,
+<IMG
+ WIDTH="27" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img306.png"
+ ALT="$4s^2$">.  We treat the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img80.png"
+ ALT="$1s$">, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img81.png"
+ ALT="$2s$">, <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$2p$"> and <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$3s$"> as core states, and
+<IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img83.png"
+ ALT="$3p$"> (as local orbital), <IMG
+ WIDTH="20" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img84.png"
+ ALT="$3d$">, <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$4s$"> and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img85.png"
+ ALT="$4p$"> are handled as
+valence states. In a spin-polarized calculation the file structure and
+the sequence of programs is different from the non-spin-polarized case
+(see <A HREF="4Files_Program.html#sec:flow_spinpol">4.5.2</A>).
+
+<P>
+Create a new session and its corresponding directory. Generate the structure
+with the following data (we can use a large sphere as you will see from the
+output of <TT><B>nn</B></TT>):
+
+<P>
+<DIV ALIGN="CENTER">
+  <FONT SIZE="-1">  </FONT><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1">
+    Title </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> fcc Ni</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Lattice </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> F </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    a </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 6.7 bohr </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    b </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 6.7 bohr</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    c </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 6.7 bohr </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    <!-- MATH
+ $\alpha,\beta,\gamma$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$\alpha,\beta,\gamma$"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 90</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Atom </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> Ni, enter position (0,0,0) and RMT = 2.3 </FONT></TD>
+</TR>
+</TABLE>
+</DIV>
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+
+<P>
+Initialize the calculation using the default RKmax and use 
+3000 k-points (a ferromagnetic metal needs many k-points to yield 
+reasonably converged magnetic moments). Allow for spin-polarization.
+
+<P>
+Start the scf cycle (<TT><B>runsp_lapw</B></TT>) with "-cc 0.0001" (in particular for 
+magnetic systems charge convergence is often the best choice). 
+At the bottom of the converged scf-file
+(<TT><B>Fccni.scf</B></TT>) you find the magnetic moments in the interstital region,
+inside the sphere and the total moment per cell (only the latter is an 
+``observable'', the others depend on the sphere size).
+<PRE>
+:MMINT: MAGNETIC MOMENT IN INTERSTITIAL =   -0.03130
+:MMI001: MAGNETIC MOMENT IN SPHERE  1    =    0.66198
+:MMTOT: TOTAL MAGNETIC MOMENT IN CELL   =    0.63068
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION05730000000000000000"></A>
+<A NAME="sec:tio2"></A>
+<BR>
+3 Rutile (<IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$">)
+</H1>
+<A NAME="14383"></A>
+
+<P>
+This example shows you how to ``optimize internal parameters'' and do a k-point
+parallel calculation.
+
+<P>
+Create a new session and its corresponding directory. Generate the structure
+with the following data (we use a smaller O sphere because Ti-d states are
+harder to converge then O-p):
+
+<P>
+<DIV ALIGN="CENTER">
+  <FONT SIZE="-1">  </FONT><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1">
+    Title </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> TiO2</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Spacegroup </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> <IMG
+ WIDTH="77" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img307.png"
+ ALT="$P4_2/mnm$"> (136) </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    a </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 8.682 bohr </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    b </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 8.682 bohr</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    c </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 5.592 bohr </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    <!-- MATH
+ $\alpha,\beta,\gamma$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img72.png"
+ ALT="$\alpha,\beta,\gamma$"> </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> 90</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Atom </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> Ti, enter position (0,0,0) and RMT = 2.0 </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-1"> 
+    Atom </FONT></TD>
+<TD ALIGN="LEFT"><FONT SIZE="-1"> O,  enter position (0.3,0.3,0) and RMT = 1.6 </FONT></TD>
+</TR>
+</TABLE>
+</DIV>
+<P>
+<DIV ALIGN="CENTER">
+</DIV>
+
+<P>
+<EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM>should automatically add the equivalent positions.
+
+<P>
+Initialize the calculation using RKmax=6.5 in <TT><B>tio2.in1_st</B></TT> and use 
+100 k-points and a ``shift`` in <TT><B>kgen</B></TT>. 
+
+<P>
+If you have more cpus available (a parallel machine or simply a couple of PCs
+with a common NFS filesystem, for
+details see <A HREF="5Shell_scripts.html#sec:parallel">5.5</A>), you can use 
+``<I>Execution</I> <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Run scf'', activate the ``parallel''
+button'' and ``start scf'' in <EM>w2web</EM>. This will create and open a
+<TT><B>.machines</B></TT> file and you should insert lines with the proper names of
+your PCs
+(possibly use 9 (or 3) processors since we have 9 k-points, ).
+Save this file and click on ``<I>Execution</I> <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Run scf'', activate
+``-fc 1.0'' for force-convergence and ``start
+scf''  to submit the scf-cycle.
+
+<P>
+Alternatively at the command-line you can use
+the UNIX command 
+<PRE>
+    cp  $WIENROOT/SRC_templates/.machines .
+</PRE> 
+and edit this file. You would start the scf-cycle (in background) simply by
+typing 
+<PRE>
+    run_lapw -p -fc 1.0 &amp;
+</PRE> 
+
+<P>
+During the scf-cycle monitor  <TT><B>tio2.dayfile</B></TT> and check convergence
+(:ENE, :DIS, :FGL002), either using ``Utils/Analysis'' in <EM>w2web</EM>, or <TT><B>``grep
+  :ENE tio2.scf''</B></TT>. You should see some convergence of :FGL002 and then a big
+jump in the final cycle, when the valence-force corrections are added. Only the
+last force (including this correction) is valid.
+
+<P>
+Since this force is quite large, you can now optimize the position of the
+O-atom:
+
+<P>
+Start the structure minimization in <EM>w2web</EM> using ``<I>Execution</I> 
+<IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> mini.positions''. This will generate <TT><B>TiO2.inM</B></TT>, and you can
+try option PORT with tolf=1.0 (instead of 2.0), otherwise stay with the default
+parameters. Repeat ``<I>Execution</I> <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> mini.positions'' and start the 
+minimization.
+
+<P>
+Alternatively you can use
+<PRE>
+  min_lapw -p
+</PRE> 
+which is identical to:
+<PRE>
+  min_lapw -j ``run_lapw -I -fc 1 -p''
+</PRE> 
+
+<P>
+This will create <TT><B>TiO2.inM</B></TT> automatically, call the program <TT><B>min</B></TT>, 
+which generates a
+new struct file using the calculated forces, and continues with the next scf
+cycle. It will continue until the forces are below 1 mRy/bohr  (TiO2.inM) and
+the final results are not ``saved'' automatically but can be found in the 
+``current'' calculation.
+
+<P>
+You should watch the minimization (:ENE, :FGL002, :POS002) using the file <TT><B>TiO2.scf_mini</B></TT>, which 
+contains the final iteration of each geometry step (see also Sec.<A HREF="5Shell_scripts.html#sec:min">5.3.2</A>).
+If the forces in this file oscillate from plus to minus and seem to diverge, or
+if they change very little, you can edit <TT><B>TiO2.inM</B></TT> (change the method, reduce or increase
+the stepsize), and remove <TT><B>TiO2.tmpM</B></TT> (contains the ``history'' of
+the minimization and is used to calculate the velocities of the moving atoms).
+(This should not be neceaasry for the rutile example, but may occur in more
+complex minimizations. See comments in Sec. <A HREF="5Shell_scripts.html#sec:min">5.3.2</A>).
+
+<P>
+The final structural parameter of the O-atom should be close to  x=0.304, 
+which compares well with the experimental x=0.305.
+
+<P>
+
+<H1><A NAME="SECTION05740000000000000000"></A>
+<A NAME="sec:tic_super"></A>
+<BR>
+4 Supercell calculations on TiC
+</H1>
+<A NAME="14424"></A>
+
+<P>
+This example shows you how to create a supercell of TiC, which could be used
+to simulate a TiC-surface or vacancies, impurities or core-holes for X-ray 
+absorption / ELNES spectroscopy. I'll describe the procedure using Unix and
+WIEN2k commands in an xterm, but of course you can do the same in <EM>w2web</EM>.
+
+<P>
+Create a new directory, copy the original TiC struct file into it and run
+<TT><B>supercell</B></TT> program:
+
+<P>
+<PRE>
+  mkdir super
+  cd super
+  cp ../TiC/TiC.struct .
+  x supercell
+</PRE> 
+
+<P>
+Specify ``TiC.struct'', a ``2x2x2'' supercell, ``F'' lattice (this will create
+a cell with 16 atoms, you can also create 32 or 64 atom cells using B or P
+lattice type. Note: surfaces require a P supercell).
+<PRE>
+cp TiC_super.struct super.struct
+</PRE> 
+and edit this file to make some changes. You could eg.
+
+<UL>
+<LI>delete an atom (to simulate a vacancy)
+</LI>
+<LI>replace an atom by another element (impurity)
+</LI>
+<LI>``label'' an atom (put a 1 in the 3rd column next to the element name) to
+  make this atom unique (needed eg. for core-holes)
+</LI>
+<LI>displace an atom (for phase transitions or phonons)
+</LI>
+</UL>
+
+<P>
+<I>Note: it is important to make at least one of these chages. Otherwise the
+  initialization will restore the original unit cell (or the calculations will
+  fail later on because symmetry is most likely not correct)</I>
+
+<P>
+Run <TT><B>init_lapw</B></TT>. You will see that <TT><B>nn</B></TT> complains and finds a new
+set of equivalent atoms (originally all atoms were non-equivalent, but nn finds
+that some atoms have identical neighbors, thus should be in an equivalent
+set). Accept the automatically generated struct file and continue. Remember,
+supercells normally require less k-points than the original small cell. 
+
+<P>
+After the complete initialization you may in principle restore the original
+struct file (eg. without a displacement) in case you want to ``repeat'' the
+undistorted structure in supercell geometry.
+
+<P>
+For a ``core-hole'' calculation you would now edit <TT><B>super.inc</B></TT> and remove
+one core electron from the desired atom and state (1s or 2p, ...). In addition
+you should add the missing electron either in <TT><B>super.inm</B></TT> (background
+charge) or <TT><B>super.in2</B></TT> (add it to the valence electrons). In the latter
+case, you should remove this extra electron AFTER scf and BEFORE calculation of
+the spectra.
+
+<P>
+Once this has been done, you could start a scf-cycle (for impurities,
+vacancies,.. you should most likely also optimize the internal positions).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1425"
+  HREF="3Installation_WIEN2k.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1421"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1417"
+  HREF="9Utility_Programs.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1423"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1426"
+  HREF="3Installation_WIEN2k.html">3 Installation of the</A>
+<B> Up:</B> <A NAME="tex2html1422"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1418"
+  HREF="9Utility_Programs.html">9 Utility Programs</A>
+ &nbsp; <B>  <A NAME="tex2html1424"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

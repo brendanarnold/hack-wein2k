@@ -1,0 +1,140 @@
+       subroutine pzher2m (dirt,uplo,transa,transb,m,n, &
+                          alpha,a,ia,ja,desca,b,ib,jb,descb,&
+			  beta,c,ic,jc,descc)
+!
+! Author: Dieter Kvasnicka
+!         Institute of Materials Chemistry
+!         Vienna University of Technology, Austria
+!         2001-2002
+!
+!  Purpose
+!  =======
+!
+!  pzher2m performs one of the matrix-matrix operations
+!
+!     op1(C) := alpha*op2( A )*op2( B ) + beta*op1(C),
+!
+!  where  op1( X ) means that only the UPPER or only the LOWER
+!  part of X is accessed
+!
+!  and  op2( X ) is one of
+!
+!     op2( X ) = X   or   op2( X ) = X',
+!
+!  alpha and beta are scalars, and A, B and C are matrices, with 
+!  op2( A ) an m by n matrix, 
+!  op2( B ) an n by m matrix, and 
+!  C an m by m matrix.
+!
+!     dirt: 'N'ot dirty or 'D'irty: whether to use ('N') artificial
+!           symmetrization or ('D') overwrite (small) parts of 
+!           the lower half of C
+!     uplo: 'U'pper or 'L'ower
+!     transa,transb: op2( X ) = X   or   op2( X ) = X', with X=A,B
+!     m: number of rows of op2(A) and op2(B) and of
+!        rows and columns of C
+!     n: number of columns of op2(A) and op2(B)
+!     alpha
+!     op2(A): mXn matrix
+!     op2(B): mXn matrix
+!     beta
+!     c: symmetric mXm matrix, 
+!        stored either above (uplo='U') or below (uplo='L') the
+!        diagonal
+!     ia,ja,ib,jb,ic,jc: first and second index of A, B, C, respectively
+!     desca,descb,descc: matrix descriptor of A, B, C, respectively
+!                        see scalapack users guide at 
+!                        www.netlib.org/scalapack/slug/index.html
+!
+       implicit none
+       character*1 uplo,transa,transb, dirt
+       integer m,n,ia,ja,ib,jb,ic,jc
+       integer desca(9), descb(9), descc(9)
+       double complex alpha,beta
+       double complex a(*), b(*), c(*)
+#ifdef Parallel
+
+       integer nblock, nprow, npcol, myrow, mycol
+       double precision half
+       parameter (half=0.5d0)
+
+       integer i,j,k,ii,jj,kk,imax,jmax,kmax
+       logical upper,atransC,atransT,atransN,btransC,btransT,btransN,dirty
+
+       logical lsame
+       external lsame
+
+       upper=lsame(uplo, 'U')
+       atransC=lsame(transa, 'C')
+       atransT=lsame(transa, 'T')
+       atransN=lsame(transa, 'N')
+       btransC=lsame(transb, 'C')
+       btransT=lsame(transb, 'T')
+       btransN=lsame(transb, 'N')
+       dirty=lsame(dirt, 'D')
+
+       nblock=desca(5)
+       if(desca(6).ne.nblock .or. descb(5).ne.nblock .or. &
+	  descb(6).ne.nblock .or. descc(5).ne.nblock .or. &
+	  descc(6).ne.nblock) &
+	 stop 'wrong parameter in matrix descriptors in pzher2m'
+       call blacs_gridinfo( desca(2), nprow, npcol, myrow, mycol)
+       nblock=nblock*npcol
+
+       if(dirty) then
+	 if(upper .and. ((atransC.or.atransT) .and. btransN)) then
+	   do jj=1,m,nblock
+	     jmax=min(m,jj+nblock-1)
+	     call pzgemm(transa,transb,jmax,jmax-jj+1,n, &
+		      alpha,a,1,1,desca,b,1,jj,descb, &
+		      beta,c,1,jj,descc)
+	   end do
+	 else if(upper .and. (atransN .and. (btransC.or.btransT))) then
+	   do jj=1,m,nblock
+	     jmax=min(m,jj+nblock-1)
+!	     write(*,*) 'New and dirty'
+	     call pzgemm(transa,transb,jmax,jmax-jj+1,n, &
+		      alpha,a,1,1,desca,b,jj,1,descb, &
+		      beta,c,1,jj,descc)
+	   end do
+	 else
+	   stop 'wrong parameter in pzher2m'
+	 end if
+       else
+         if(upper .and. ((atransC.or.atransT) .and. btransN)) then
+	   do jj=1,m,nblock
+	     jmax=min(m,jj+nblock-1)
+	     if(atransC) then
+	       call pzher2k(uplo,transa,jmax-jj+1,n,half*alpha,a,1,jj,desca, &
+			  b,1,jj,descb,beta,c,jj,jj,descc)
+	     else
+	       call pzsyr2k(uplo,transa,jmax-jj+1,n,half*alpha,a,1,jj,desca, &
+			  b,1,jj,descb,beta,c,jj,jj,descc)
+	     endif
+	     if(jj.ne.1) &
+	       call pzgemm(transa,transb,jj-1,jmax-jj+1,n, &
+		      alpha,a,1,1,desca,b,1,jj,descb, &
+		      beta,c,1,jj,descc)
+	   end do
+	 else if(upper .and. (atransN .and. (btransC.or.btransT))) then
+	   do jj=1,m,nblock
+	     jmax=min(m,jj+nblock-1)
+	     if(btransC) then
+	       call pzher2k(uplo,transa,jmax-jj+1,n,half*alpha,a,jj,1,desca, &
+			  b,jj,1,descb,beta,c,jj,jj,descc)
+	     else
+	       call pzsyr2k(uplo,transa,jmax-jj+1,n,half*alpha,a,jj,1,desca, &
+			  b,jj,1,descb,beta,c,jj,jj,descc)
+	     endif
+	     if(jj.ne.1) &
+	       call pzgemm(transa,transb,jj-1,jmax-jj+1,n, &
+		      alpha,a,1,1,desca,b,jj,1,descb, &
+		      beta,c,1,jj,descc)
+	   end do
+	 else
+	   stop 'wrong parameter in pzher2m'
+	 end if
+       end if
+#endif
+       end
+

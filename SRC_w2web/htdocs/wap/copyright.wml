@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+
+$OUT .= <<__STOP__;
+Content-type: text/vnd.wap.wml\n
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD /wml_1.1.xml">
+<wml>
+<card id="copyright" title="Copyright">
+<p>
+<a title="back" href="index.wml">back</a>
+<br/>
+<b>w2w\@p</b><br/>
+------------<br/>
+Copyright by luitz.at<br/>
+------------<br/>
+Buero fuer Informationstechnologie und
+Technisches Buero fuer Technische Chemie<br/>
+<small>Dipl. Ing. Joachim Luitz KEG<br/>
+Wohlmuthgasse 18<br/>
+A-3003 Gablitz<br/>
+Tel. +43-2231-61254<br/>
+Fax. +43-2231-67443<br/>
+eMail: buero\@luitz.at<br/>
+</small>
+<br/>
+<br/>
+<a title="session select" href="index.wml">session select</a>
+</p>
+</card>
+</wml>
+__STOP__
+
+print $OUT;
+

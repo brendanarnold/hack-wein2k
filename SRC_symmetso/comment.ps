@@ -1,0 +1,530 @@
+%!PS-Adobe-3.0
+%%Creator: A2ps version 4.3
+%%CreationDate: Wed Feb 13 07:29:50 2002
+%%Pages: (atend)
+%%DocumentFonts: Courier Courier-Bold Helvetica Helvetica-Bold
+%%EndComments
+% Copyright (c) 1993, 1994, Miguel Santana, M.Santana@frgu.bull.fr
+
+/$a2psdict 100 dict def
+$a2psdict begin
+
+% General macros.
+/xdef {exch def} bind def
+/getfont {exch findfont exch scalefont} bind def
+
+% Create Courier backspace font
+/backspacefont {
+    /Courier findfont dup length dict begin
+	{ % forall
+	    1 index /FID eq { pop pop } { def } ifelse
+	} forall
+	currentdict /UniqueID known { % if
+	    /UniqueID UniqueID 16#800000 xor def
+	} if
+	CharStrings length 1 add dict begin
+	    CharStrings { def } forall
+	    /backspace { -600 0 0 0 0 0 setcachedevice } bind def
+	    currentdict
+	end
+	/CharStrings exch def
+	/Encoding Encoding 256 array copy def
+	Encoding 8 /backspace put
+	currentdict
+    end
+    definefont pop
+} bind def
+
+% FUNCTIONS
+
+% Function filename: Initialize file printing.
+/fn
+{ /filenm xdef
+  /filenmwidth filenm stringwidth pop def
+  /filenmfont
+       filenmwidth fns gt
+       {
+	       filenmfontname
+	       fnfs fns mul filenmwidth div
+	     getfont
+       }
+       { sfnf }
+     ifelse
+  def
+} bind def
+
+% Function header: prints page header. no page
+% is passed as argument.
+/hp
+  { x sd get  y sd get hs sub 1 add  moveto
+    df setfont
+    gsave
+      x sd get y sd get moveto
+      0 hs 2 div neg rmoveto 
+      hs setlinewidth
+      0.95 setgray
+      pw 0 rlineto stroke
+    grestore
+    gsave
+      dfs hm rmoveto
+      d show				% date/hour
+    grestore
+    gsave
+      pnum cvs pop				% page pop up
+        pw (Page 999) stringwidth pop sub
+        hm
+	  rmoveto
+      (Page ) show pnum show		% page number
+    grestore
+    empty pnum copy pop
+    gsave
+      filenmfont setfont
+         fns filenm stringwidth pop sub 2 div dw add
+          bm 2 mul 
+        add 
+        hm
+      rmoveto
+        filenm show			% file name
+      grestore
+    } bind def
+
+% Function border: prints border page
+/border 
+{ x sd get y sd get moveto
+  gsave				% print four sides
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function hborder: completes border of the header.
+/hborder 
+{ gsave
+	0.7 setlinewidth
+	0 hs neg rmoveto
+	pw 0 rlineto
+	stroke
+  grestore
+} bind def
+
+% Function sheetnumber: prints the sheet number.
+/sn
+    { snx sny moveto
+      df setfont
+      pnum cvs
+	  dup stringwidth pop (0) stringwidth pop sub neg 0 rmoveto show
+      empty pnum copy pop
+    } bind def
+
+% Function loginprint: prints the login id of the requestor.
+/lgp
+    { lx ly moveto
+      df setfont
+      dup stringwidth pop neg 0 rmoveto show
+    } bind def
+
+% Function currentdate: prints the current date.
+/cd
+    { dx dy moveto
+      df setfont
+      (Printed: ) show
+      td show
+    } bind def
+
+% Function filename_footer: prints the file name at bottom of page.
+/fnf
+    { fnx fny moveto
+      df setfont
+      filenm center show
+    } bind def
+
+% Function center: centers text.
+/center
+    { dup stringwidth pop
+      2 div neg 0 rmoveto
+    } bind def
+
+% Function s: print a source line
+/s  { show
+      /y0 y0 bfs sub def
+      x0 y0 moveto
+    } bind def
+
+% Functions b and st: change to bold or standard font
+/b  { show
+      bdf setfont
+    } bind def
+/st { show
+      bf setfont
+    } bind def
+
+% Strings used to make easy printing numbers
+/pnum 12 string def
+/empty 12 string def
+
+% Global initializations
+
+/CourierBack backspacefont
+/filenmfontname /Helvetica-Bold def
+/inch {72 mul} bind def
+
+%
+% Meaning of some variables and functions (coded names)
+%
+%	twp:		twinpages?
+%	sd:		sheet side
+%	l:		line counter
+%	c:		column counter
+%	d:		date
+%	td:		current date (for today)
+%	lg:		login name
+%	fn:		filename printing function
+%	sn:		sheetnumber printing function
+%	cd:		current date printing function
+%	fnf:		filename footer printing function
+%	lgp:		login printing function
+%	hp:		header printing function
+%	y:		y coordinate for the logical page
+%	x:		x coordinate for the logical page
+%	sny:		y coordinate for the sheet number
+%	snx:		x coordinate for the sheet number
+%	dy:		y coordinate for the date
+%	dx:		x coordinate for the date
+%	ly:		y coordinate for the login
+%	lx:		x coordinate for the login
+%	scx:		x coordinate for the sheet center
+%	fny:		y coordinate for the filename (footer)
+%	fnx:		x coordinate for the filename (footer)
+%	fnfs:		filename font size
+%	bfs:		body font size
+%	dfs:		date font size
+%	bfs:		body font size
+%	df:		date font
+%	bf:		body font
+%	bdf:		bold font
+%	sfnf:		standard filename font
+%	dw:		date width
+%	pw:		page width
+%	sw:		sheet width
+%	ph:		page height
+%	sh:		sheet height
+%	hm:		header margin
+%	tm:		top margin
+%	bm:		body margin
+%	rm:		right margin
+%	lm:		left margin
+%	hs:		header size
+%	fns:		filename size
+
+% Initialize page description variables.
+/x0 0 def
+/y0 0 def
+/sh 11.64 inch def
+/sw 8.27 inch def
+/margin 1.4 inch def
+/rm margin 3 div def
+/lm margin 2 mul 3 div def
+/d () def
+/td (Feb 13 2002 07:29) def
+/lg (Printed by novakp from sun175) def
+%%EndProlog
+
+/docsave save def
+%%Page: 1 1
+/pagesave save def
+/twp true def
+/fnfs 11 def
+/dfs fnfs 0.8 mul def
+/df /Helvetica dfs getfont def
+/dw df setfont td stringwidth pop def
+/sfnf filenmfontname fnfs getfont def
+/hm fnfs 0.25 mul def
+/hs 0.22 inch def
+/bfs 6.8 def
+/bdf /Courier-Bold bfs getfont def
+/bm bfs 0.7 mul def
+/bf /CourierBack bfs getfont def
+/l 69 def
+/c 89 def
+/pw
+   bf setfont (0) stringwidth pop c mul bm dup add add
+   def
+/ph
+   bfs l mul bm dup add add hs add
+   def
+/fns
+      pw
+      fnfs 4 mul dw add (Page 999) stringwidth pop add
+    sub
+  def
+/tm margin twp {3} {2} ifelse div def
+/sd 0 def
+/y [ rm ph add bm add
+          dup ] def
+/sny dfs dfs add def
+/snx sh tm dfs add sub def
+/dy sny def
+/dx tm dfs add def
+/x [ tm			% left page
+          dup 2 mul pw add	% right page
+        ] def
+/scx sh 2 div def
+/fny dy def
+/fnx scx def
+/ly fnfs 2 div y sd get add def
+/lx snx def
+/d (Feb 12 2002 09:57) def
+( comment ) fn
+sw 0 translate
+90 rotate
+1 hp
+border
+hborder
+/x0 x 0 get bm add def
+/y0 y 0 get bm bfs add hs add sub def
+x0 y0 moveto
+bf setfont
+( Comment to symmetry in WIEN calculation with spin-orbit coupling) s
+( P. Novak, J. Kunes, July 1999, novakp@fzu.cz, kunes@fzu.cz) s
+( ) s
+( *************** Non spin-polarized calculations *****************) s
+( Symmetry of system is not changed when spin-orbit \(s-o\) coupling is) s
+( included. No change of input files is needed.) s
+( ) s
+( ***************** Spin-polarized calculations **********************) s
+( s-o + magnetization leads to the reduction of the symmetry of system.) s
+( Only those symmetry operations remain which leave the magnetization) s
+( unchanged. These form a subgroup of the original symmetry group and) s
+( could be found in two steps:) s
+( \(1\) the symmetry is reduced to a uniaxial one, axis being parallel to) s
+(     magnetization) s
+( \(2\) the time inversion does no more couple to all the direct space symmetry) s
+(     operations, but only to those inverting the magnetization \(i. e. combination) s
+(     with the time inversion remains the magnetization unchanged\).) s
+( The point \(2\) must be kept in mind when calculating mean values of tensor) s
+( operators \(e.g. conductivity tensor\). For systems without inversion symmetry) s
+( it leads also to different symmetries in direct and k-space as explained below.) s
+( ) s
+( The symmetry operations \(1\) may be found by adding in the structure) s
+( file to each atom a pair of 'auxiliary' atoms along the spin direction,) s
+( each auxiliary atom has the same distance from the original atom.) s
+( SYMMETRY program is then used to find the remaining symmetry operations and) s
+( KGEN is run to obtain the irreducible k-points.) s
+( ) s
+( Care is needed when the system does not have the inversion center. Because) s
+( the time inversion behaves like the space inversion in the k-space \(contrary) s
+( to its behaviour in the direct space where it generates complex conjugate\)) s
+( the symmetry operations which include the time inversion must be changed ) s
+( in the respective way \(i.e. multiplied by -1 matrix\) for the propose of ) s
+( generation of the irreducible k-points \(such modified structure file is used) s
+( !only! for KGEN\). This procedure should be in general applied to systems) s
+( with inversion symmetry as well, but in this case the symmetry group of the) s
+( k-space would be the same as the symmetry group of the direct space and so) s
+( it is not necessary.) s
+( ) s
+( The way in which we proceed depend on whether s-o is or is not included) s
+( into the selfconsistent loop.) s
+( ) s
+( 1/ s-o coupling not included in scf iterations \(it is run only once) s
+(    after the scf calculation is finished, which is sufficient for small) s
+(    s-o e.g. most of 3d atoms, or if the force theorem is used to calculate) s
+(    the anisotropy etc.\). It is then sufficient to use the case.klist) s
+(    file created as described above, not changing any other input file.) s
+(    Note that AVERX can be used only for calculating the average value) s
+(    of quantities, which are invariant under the \(reduced\) symmetry) s
+(    group \(energy, z-component of orbital momentum etc.\).) s
+( ) s
+( 2/ s-o coupling included in scf iterations. The reduction of the symmetry) s
+(    due to the simultaneous presence of the magnetization may lead to:) s
+(    \(i\) local symmetry is changed, resulting in different \(l,m\) components) s
+(        of the potential and different local rotation matrices.) s
+(    \(ii\)  atoms which were equivalent are no longer equivalent.) s
+(    If \(i\) is true, the situation can still be handled with the 'auxiliary') s
+(    atoms method. New case.struct and case.in2 files are obtained in the) s
+(    usual way.) s
+(    However, the 'auxiliary' atoms procedure does not check whether) s
+(    or not the atoms remain equivalent and the checking must be done) s
+(    manually. Because of this problem and because the manipulation of spin-) s
+(    polarized + s-o cases became rather incomprehensible, we have created) s
+(    package SYMMETSO, based on the SYMMETRY package, which is available on) s
+(    request.) s
+( ) s
+( *************************** SYMMETSO *********************************) s
+(  SYMMETRY file for the spin-orbit calculation in magnetically ordered) s
+( systems.) s
+( ) s
+/sd 1 def
+2 hp
+border
+hborder
+/x0 x 1 get bm add def
+/y0 y 1 get bm bfs add hs add sub def
+x0 y0 moveto
+bf setfont
+(   Modified program SYMMETRY of WIEN97 - analysis of symmetry in the) s
+(   presence of spin-orbit coupling and magnetization. Program creates) s
+(   modified structure file case.struct_so. If the system does not) s
+(   have center of inversion, different set of symmetry operations is) s
+(   needed to make case.klist and case.kgen files. This) s
+(   set is written on file case.ksym \(fort.23\), which is to be) s
+(   appended to case.struct \(instead of proper set\) when KGEN is) s
+(   run.) s
+(   Analysis is made in two steps:) s
+(   1/ File case.struct is read, check is made which operations are) s
+(      retained with M in \(tm1,tm2,tm3\) direction. Distribution of atoms) s
+(      into groups of magnetically equivalent atoms is performed and) s
+(      intermediate case.struct file created \(SUBROUTINE SYMSO\).) s
+(      WARNING: SYMMETSO must be run with case.struct containing all) s
+(      symmetry operations i.e. number of symmetry operations can not) s
+(      be set to 0 \(otherwise run SYMMETRY first\).) s
+(   2/ For each nonequivalent group of atoms local rotation matrix,) s
+(      local symmetry and nonzero \(l,m\) components are found - output) s
+(      is then analogous as when using SYMMETRY package. In some cases,) s
+(      however, the reduced symmetry group is not equivalent to any of) s
+(      the crystallographic groups listed in SYMMETRY. The program then) s
+(      prints a warning and local rotation matrices, as well as \(l,m\)) s
+(      components must be found separatelly - still the output of ) s
+(      SYMMETSO helps. Note that \(l,m\) components are needed only when) s
+(      a s-o is taken into account selfconsistently.) s
+( ) s
+( ) s
+( SYMMETSO is run by:) s
+( ) s
+( symmetso symmetso.def) s
+( ) s
+( where symmetso.def file for Fe3O4 compound is:) s
+( ) s
+(  5,'fe3o4.insymso',   'old',    'formatted',0) s
+(  6,'fe3o4.outsymso','unknown','formatted',0) s
+( 25,'fe3o4.vspdn',         'unknown',    'formatted',0) s
+( 45,'fe3o4.vspdn_so',         'unknown',    'formatted',0) s
+( 26,'fe3o4.vspup',         'unknown',    'formatted',0) s
+( 46,'fe3o4.vspup_so',         'unknown',    'formatted',0) s
+( 27,'fe3o4.vnsdn',         'unknown',    'formatted',0) s
+( 47,'fe3o4.vnsdn_so',         'unknown',    'formatted',0) s
+( 28,'fe3o4.vnsup',         'unknown',    'formatted',0) s
+( 48,'fe3o4.vnsup_so',         'unknown',    'formatted',0) s
+( 20,'fe3o4.struct_interm',         'unknown',    'formatted',0) s
+( 21,'fe3o4.struct_so',         'unknown',    'formatted',0) s
+( 22,'fe3o4.struct'           'old',    'formatted',0) s
+( 23,'fe3o4.ksym',         'unknown',    'formatted',0) s
+( 24,'fe3o4.temp',         'unknown',    'formatted',0) s
+( 29,'fe3o4.in1',         'unknown',    'formatted',0) s
+( 49,'fe3o4.in1_so',         'unknown',    'formatted',0) s
+( 30,'fe3o4.inc',         'unknown',    'formatted',0) s
+( 50,'fe3o4.inc_so',         'unknown',    'formatted',0) s
+( 31,'fe3o4.inldau',         'unknown',    'formatted',0) s
+( 51,'fe3o4.inldau_so',         'unknown',    'formatted',0) s
+( 32,'fe3o4.Vldaudn',         'unknown',    'formatted',0) s
+( 52,'fe3o4.Vldaudn_so',         'unknown',    'formatted',0) s
+( 33,'fe3o4.Vldauup',         'unknown',    'formatted',0) s
+( 53,'fe3o4.Vldauup_so',         'unknown',    'formatted',0) s
+( 34,'fe3o4.in2',         'unknown',    'formatted',0) s
+( 54,'fe3o4.in2_so',         'unknown',    'formatted',0) s
+( Files case.file_so are to be copied in case.file for s-o calculation. ) s
+( File 20 intermediate structure file \(see below\).) s
+( *******************************************) s
+( Input data:) s
+( ) s
+( The input consists of single line \(free format\):) s
+( ) s
+(   x  y  z  ipot) s
+( ) s
+/sd 0 def
+1 sn
+fnf
+lg lgp
+pagesave restore
+showpage
+%%Page: 2 2
+/pagesave save def
+/twp true def
+/fnfs 11 def
+/dfs fnfs 0.8 mul def
+/df /Helvetica dfs getfont def
+/dw df setfont td stringwidth pop def
+/sfnf filenmfontname fnfs getfont def
+/hm fnfs 0.25 mul def
+/hs 0.22 inch def
+/bfs 6.8 def
+/bdf /Courier-Bold bfs getfont def
+/bm bfs 0.7 mul def
+/bf /CourierBack bfs getfont def
+/l 69 def
+/c 89 def
+/pw
+   bf setfont (0) stringwidth pop c mul bm dup add add
+   def
+/ph
+   bfs l mul bm dup add add hs add
+   def
+/fns
+      pw
+      fnfs 4 mul dw add (Page 999) stringwidth pop add
+    sub
+  def
+/tm margin twp {3} {2} ifelse div def
+/sd 0 def
+/y [ rm ph add bm add
+          dup ] def
+/sny dfs dfs add def
+/snx sh tm dfs add sub def
+/dy sny def
+/dx tm dfs add def
+/x [ tm			% left page
+          dup 2 mul pw add	% right page
+        ] def
+/scx sh 2 div def
+/fny dy def
+/fnx scx def
+/ly fnfs 2 div y sd get add def
+/lx snx def
+/d (Feb 12 2002 09:57) def
+( comment ) fn
+sw 0 translate
+90 rotate
+3 hp
+border
+hborder
+/x0 x 0 get bm add def
+/y0 y 0 get bm bfs add hs add sub def
+x0 y0 moveto
+bf setfont
+(  x,y,z are the magnetization components in lattice unit vectors) s
+(   if ipot.lt.0 only struct_so and struct_interm are written) s
+(   if ipot.ge.0 in1_so, in2_so and inc_so are also written) s
+(   if ipot.gt.0 VNS_so and VSP_so files are also written) s
+(   if ipot.gt.1 files for LDA+U \(inldau_so, Vldauup, Vldaudn\) are also wr.) s
+(    the Brillouin zone. As mentioned above if the system does not have) s
+(    center of symmetry, KGEN must be run with symmetry operations) s
+(    contained in the file urhal.ksym) s
+( ******************************************) s
+( Recommended procedure if spin-orbit calculation is started from) s
+( calculation without spin-orbit. Spin-polarized calculation.) s
+( ) s
+( After finishing iteration without s-o:) s
+( 1/ Run LAPW0 with old files to get VSP, VNS \(up, dn\). Remove) s
+(    clmsum_old, clmup_old, clmdn_old and the broyden files!) s
+( 2/ Run symmetso with ipot=1 in *insymso) s
+( 3/ Run KGEN using the case.struct_so file to get .kgen, .klist for the) s
+(    reduced symmetry) s
+( 4/ copy in1_so, vsp_so \(up,dn\), vns_so \(up dn\) and struct_interm in) s
+(    in1, vsp ... files) s
+( 5/ run LAPW1 -up, -dn, LAPWSO) s
+( 6/ copy in2_so in in2c, struct_so into struct, inc_so into inc) s
+( 7/ run LAPW2c -up, -dn, LCORE -up, -dn, MIXER) s
+( 8/ Now you can proceed with the normal s-o iterations) s
+/sd 1 def
+/sd 0 def
+2 sn
+fnf
+lg lgp
+pagesave restore
+showpage
+
+%%Trailer
+%%Pages: 2
+docsave restore end

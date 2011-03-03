@@ -1,0 +1,66 @@
+# Created by Octave 2.1.55, Mon Jan 02 14:39:39 2006 CET <pblaha@susi>
+# name: s
+# type: struct
+# length: 12
+# name: a
+# type: matrix
+# rows: 1
+# columns: 3
+ 5.1177921019616 5.1177921019616 5.1177921019616
+# name: alpha
+# type: matrix
+# rows: 1
+# columns: 3
+ 60 60 60
+# name: aname
+# type: string
+# elements: 1
+# length: 10
+Rh        
+# name: brlat
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6188255 3.6188255
+ 3.6188255 0 3.6188255
+ 3.6188255 3.6188255 0
+# name: jrj
+# type: matrix
+# rows: 1
+# columns: 1
+ 781
+# name: lat2car
+# type: matrix
+# rows: 3
+# columns: 3
+ 0 3.6188255 3.6188255
+ 3.6188255 0 3.6188255
+ 3.6188255 3.6188255 0
+# name: lattic
+# type: string
+# elements: 1
+# length: 1
+P
+# name: nat
+# type: scalar
+1
+# name: pos
+# type: matrix
+# rows: 1
+# columns: 3
+ 0 0 0
+# name: r0
+# type: matrix
+# rows: 1
+# columns: 1
+ 1e-05
+# name: rmt
+# type: matrix
+# rows: 1
+# columns: 1
+ 2
+# name: zz
+# type: matrix
+# rows: 1
+# columns: 1
+ 45

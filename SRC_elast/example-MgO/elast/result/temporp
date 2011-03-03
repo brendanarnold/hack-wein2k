@@ -1,0 +1,36 @@
+set format y "%.4f"
+set xlabel "Volume in Bohr^3"
+set ylabel "Energy in Ry"
+plot "eos.strain" title "Data" w p, "eos.fit" title "Birch-Murnaghan fit" w l
+set format y "%.4f"
+set xlabel "Tetragonal strain"
+set ylabel "Energy in Ry"
+plot "tetra.strain" title "Data" w p, "tetra.fit" title "Polynomial fit" w l
+set format y "%.4f"
+set xlabel "Rhombohedral strain"
+set ylabel "Energy in Ry"
+plot "rhomb.strain" title "Data" w p, "rhomb.fit" title "Polynomial fit" w l
+set format y "%.4f"
+set xlabel "Volume in Bohr^3"
+set ylabel "Energy in Ry"
+plot "eos.strain" title "Data" w p, "eos.fit" title "Birch-Murnaghan fit" w l
+set format y "%.4f"
+set xlabel "Tetragonal strain"
+set ylabel "Energy in Ry"
+plot "tetra.strain" title "Data" w p, "tetra.fit" title "Polynomial fit" w l
+set format y "%.4f"
+set xlabel "Rhombohedral strain"
+set ylabel "Energy in Ry"
+plot "rhomb.strain" title "Data" w p, "rhomb.fit" title "Polynomial fit" w l
+set format y "%.4f"
+set xlabel "Volume in Bohr^3"
+set ylabel "Energy in Ry"
+plot "eos.strain" title "Data" w p, "eos.fit" title "Birch-Murnaghan fit" w l
+set format y "%.4f"
+set xlabel "Tetragonal strain"
+set ylabel "Energy in Ry"
+plot "tetra.strain" title "Data" w p, "tetra.fit" title "Polynomial fit" w l
+set format y "%.4f"
+set xlabel "Rhombohedral strain"
+set ylabel "Energy in Ry"
+plot "rhomb.strain" title "Data" w p, "rhomb.fit" title "Polynomial fit" w l

@@ -1,0 +1,11 @@
+      module kgrid
+      complex*16,pointer :: tauk(:)
+      integer,pointer :: krec(:,:)           
+      integer nfk,nkd
+       integer,pointer ::  INST(:)            
+!_REAL      real*8,pointer :: RHOK(:),STRF(:)
+!_COMPLEX      COMPLEX*16,pointer :: RHOK(:),STRF(:)                   
+      real*8,pointer :: ABSK(:)
+      integer,pointer :: KZZ(:,:)                 
+      integer NK
+      end module kgrid

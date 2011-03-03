@@ -1,0 +1,27 @@
+#!/bin/csh -f 
+if ( $#argv  < 2 || $#argv  >  4 ) goto syntax
+switch ( $1 )
+	case -i:
+		set confirm
+		shift 
+	breaksw
+	default:
+		unset confirm
+	breaksw
+endsw
+if ( $#argv  != 2 ) goto syntax
+foreach i ( *$1* )
+	set j=`echo $i  | sed  -n  s/$1/$2/p `
+	if ( $?confirm ) then
+		echo -n "move $i  to $j ? [y/n] "
+		set a=$<
+		if ( $a != 'y' )  continue
+	endif 
+	mv $i  $j
+end
+exit 0
+
+syntax:	
+echo ' rename changes string1 to string2 in all filenames of the current directory'
+echo ' syntax:		rename [-i] string1 string2	(-i  asks for confirmation)'
+exit 1	

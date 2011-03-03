@@ -1,0 +1,183 @@
+#!/bin/csh -f
+unalias rm
+
+set name      = $0
+set bin       = $name:h		    #directory of WIEN-executables
+if !(-d $bin) set bin = .
+set template  = $bin/SRC_templates
+set name      = $name:t 	    #name of this script-file
+set logfile   = :log
+set tmp       = (:$name)	    #temporary files
+set file      = `pwd`
+set file      = $file:t		    #tail of file-names
+set sleep     = 1                   # use 0 for fast machines
+
+#---> functions & subroutines
+alias	teststatus	'if ($status) goto error'
+alias	exec		'($bin/x \!:*) ;'\
+			'teststatus'
+
+
+#alias editor emacs
+if($?EDITOR) then
+  if ("$EDITOR" == vi ) then
+    alias editor 'xterm -e vi'
+  else
+    alias editor '$EDITOR'
+  endif
+else
+  alias editor emacs
+endif
+
+#---> default flags
+unset help		#set -> help output
+
+#---> handling of input options
+echo ">   ($name) options: $argv"	>> $logfile
+alias sb 'shift; breaksw'	#definition used in switch
+while ($#argv)
+  switch ($1)
+  case -[H|h]:
+    set help; sb
+  case -e: 
+    shift; set stopafter = $1; sb
+  case -s:
+    shift; set next  = $1; sb
+  default: 
+    echo "ERROR: option $1 does not exist!!"; sb
+  endsw
+end
+if ($?help) goto help
+
+
+if (! -e $file.inso || -z $file.inso ) cp $template/case.inso $file.inso
+#if (! -e $file.inaverx || -z $file.inaverx) cp $template/case.inaverx $file.inaverx
+
+
+cat<<EOF
+  Edit input file $file.inso  and $file.in1
+  In particular select the direction of the moment ( h k l ) 
+  and a larger emax value for the energy window in $file.in1   
+EOF
+
+
+sleep $sleep
+editor $file.inso
+#editor $file.inaverx
+if(-e $file.in1c && ! -z $file.in1c) then
+editor $file.in1c
+else
+editor $file.in1
+endif
+
+cat<<EOF
+
+In spinpolarized case SO will reduce symmetry. 
+
+In some cases you can mimic this by changing temporarely the lattice
+parameters (e.g. make a cubic system tetragonal when the magnetization is along [001]) or by splitting each atom into two atoms in 
+the direction of magnetization (e.g. 0,0,0 --> 0,0,z and 0,0,1-z). 
+Note, equivalent atoms could become inequivalent in some cases. (Checked by nn)
+
+EOF
+
+echo -n "Do you want to modify your $file.struct  (You must also change NSYM to 0 \!\!) ? (y/N)"
+set yn = ($<)
+if ($yn == y || $yn == Y) then
+    cp $file.struct $file.struct_orig
+    sed "/NUMBER/s/[0-9]../00 /" $file.struct > $file.struct.tmp
+    mv $file.struct.tmp $file.struct
+    editor $file.struct
+    echo "$file.struct has been saved under $file.struct_orig"
+    echo "NN will be executed and you should examine the results"
+    exec nn
+    editor $file.outputnn
+    echo ' Do you want to use ' $file.struct_nn '(y/N)'
+    set yn = ($<)
+      if ($yn == y || $yn == Y) then
+      cp $file.struct_nn $file.struct
+      endif
+    echo "Symmetry will be executed and you should examine the results"
+    exec symmetry
+    editor  $file.outputs
+
+    cat<<EOF
+
+Now you should remove the changes you have made earlier in your struct file
+KGEN will than be executed with the reduced symmetry.
+
+EOF
+    sleep $sleep
+    editor $file.struct_st
+    cp $file.struct_st $file.struct
+    exec kgen
+    cat $file.in2_ls $file.in2_sy > $file.in2c
+
+echo "Remove spurious lm combination of additional atoms in case.in2c"
+
+    sleep $sleep
+    editor $file.in2c
+
+    cat<<EOF
+
+When the number of the atoms has changed, you need to reinitialize
+the calculation (new case.inst file, init_lapw (where you should neglect
+the output of nn and symmetry))
+
+When only the symmetry (LM combinations) have changed, you need to rerun 
+dstart only.
+
+-----> Do you want to rerun   dstart ?  (y/n)
+EOF
+    set yn = ($<)
+      if ($yn != n || $yn != N) then
+       if (-e .mist) rm .mist
+       if (! -e $file.in1c ) then
+         cp $file.in1 $file.in1c
+         touch .mist
+       endif
+       x dstart -c
+       editor $file.outputd
+       echo "now running dstart spin up and dn"
+       x dstart -c -up
+       x dstart -c -dn
+       if (-e .mist) then
+          rm .mist
+          rm $file.in1c
+       endif
+      endif
+
+else
+    if (-e $file.in2) cp $file.in2 $file.in2c
+endif
+
+cat<<EOF
+
+Spinorbit is now ready to be run.
+EOF
+
+exit 0
+
+error:
+    echo "An error has occured"
+exit 1
+
+help:					#help exit 
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	initialisation of spinorbit
+		to be called within the case-directory
+
+USAGE:		$name
+
+FLAGS:
+-h/-H ->	help
+		
+theend
+
+exit 1
+
+
+

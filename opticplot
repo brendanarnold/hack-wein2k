@@ -1,0 +1,319 @@
+#!/bin/csh -f
+# interface for plotting optic
+#
+#
+# (C)1997-1999 by J. Luitz
+# Last change:
+# Thu Nov 25 14:08:30 CET 1999
+#
+unalias rm
+set updn = ""
+set plotoptions = ""
+set xmin
+set xmax
+set ymin
+set ymax
+
+main:
+echo "####################################"
+echo "#                                  #"
+echo "#         OPTIC  PLOT              #"
+echo "#                                  #"
+echo "####################################"
+echo ""
+echo ""
+unset help
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -i:
+    set ignore
+    shift; breaksw
+  case -up:
+    set updn = up
+    shift; breaksw
+  case -dn:
+    set updn = dn
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+set defaults = opticplot.ini
+
+set file    = `pwd`
+set file    = $file:t
+
+set print = opticplot$updn.ps
+
+set out
+
+echo "NOTE: this plotting interface only functions"
+echo "      correctly if you have followed the"
+echo "      guidelines from the User Interface"
+echo "      Wien in a BOX\!"
+echo ""
+echo ""
+if !($?ignore) then
+	if (-e $defaults) then
+		echo "  ... using defaults set in file $defaults"
+		cat $defaults
+		echo ""
+		echo ""    
+		source $defaults
+	endif
+endif
+
+filesel:
+
+if ($?optic) then
+    set in = $optic
+    goto jump3
+endif
+cat<<EOF
+   Please specify which file to plot:
+
+   J   $file.joint$updn
+   E   $file.epsilon$updn
+   S   $file.sigmak$updn
+   A   $file.absorp$updn
+   N   $file.refraction$updn
+   F   $file.reflectivity$updn
+   I   $file.sigma_intra$updn
+   L   $file.eloss$updn
+   U   $file.sumrules$updn
+
+   q   to quit
+
+   File to plot:
+EOF
+set in=($<)
+jump3:
+
+switch ($in)
+    case [jJ]:
+	set fname = $file.joint$updn
+	set titline = 2
+	set delline = 3
+	breaksw
+    case [eE]:
+	set fname = $file.epsilon$updn
+	set titline = 6
+	set delline = 7
+	set plotoptions = "set xzeroaxis"
+	breaksw
+    case [aA]:
+	set fname = $file.absorp$updn
+	set titline = 8
+	set delline = 9
+	breaksw
+    case [nN]:
+	set fname = $file.refraction$updn
+	set titline = 6
+	set delline = 7
+	breaksw
+    case [fF]:
+	set fname = $file.reflectivity$updn
+	set titline = 6
+	set delline = 7
+	breaksw
+    case [sS]:
+	set fname = $file.sigmak$updn
+	set titline = 8
+	set delline = 9
+	breaksw
+    case [iI]:
+	set fname = $file.sigma_intra$updn
+	set titline = 1
+	set delline = 2
+	breaksw
+    case [lL]:
+	set fname = $file.eloss$updn
+	set titline = 6
+	set delline = 7
+	breaksw
+    case [uU]:
+	set fname = $file.sumrules$updn
+	set titline = 1
+	set delline = 0
+	breaksw
+    case [qQ]:
+	exit
+	breaksw
+    default:
+	goto filesel
+	breaksw
+endsw
+
+set test = `wc -l $fname`
+if ($test[1] == 0) then
+   echo ""
+   echo "File $fname is empty"
+   echo ""
+   echo "Press RETURN to continue"
+   set yn =($<)
+   goto  filesel
+endif
+
+#cat $fname | head -$titline | tail -1|cut -c2-8,14-99
+cat $fname | head -$titline 
+
+if !($?col) then
+    echo -n "Which column to plot?  "
+    set col=($<)
+endif
+
+foreach col ($col)
+
+if ($col == 1) then
+   echo ""
+   echo "Column 1 will not produce sensible output\!"
+   echo ""
+   echo "Press RETURN to continue"
+   set yn =($<)
+
+else
+    set label = "$fname col $col"
+
+    set units = 1
+    if ($units == 1) then
+	set units  = ev
+	set xlabel = "Energy [eV]"
+	set axis   = "yzeroaxis"
+    else
+	set units  = ""
+	set xlabel = "Energy [Ryd]"
+	set axis   = "noyzeroaxis"
+    endif
+
+
+    set tmp1 = :opt1
+    set tmp2 = :opt2
+    
+    sed "1,${delline}d" $fname >$tmp1
+    set ylabels  = `cat $fname | head -$titline | tail -1|cut -c2-8,14-99`
+#    @ dummy = $col + 1
+echo $ylabels
+    if( $#ylabels >= $col )then
+       set ylabel = $ylabels[$col]
+    endif
+    set title = $fname
+
+replot:
+
+    if ($?noview) goto jump2
+    
+    cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set ylabel "$ylabel"
+set $axis
+$plotoptions
+plot "$tmp1" using 1:$col  title "$fname"
+pause -1
+EOF
+
+    echo ""
+    echo "Showing $fname, column $col"
+    echo ""
+    echo "Press RETURN to continue"
+    gnuplot $tmp2
+
+    echo -n "Do you want to set ranges? (y/N)"
+    set yn = ($<)
+    if ($yn == y) then
+	unset yn
+	echo -n "     Limit x-range? (y/N)"
+	set yn = ($<)
+	if ($yn == y) then
+	    unset yn
+	    echo -n "       xmin="
+	    set xmin = ($<)
+	    echo -n "       xmax="
+	    set xmax = ($<)
+	endif
+	echo -n "     Limit y-range? (y/N)"
+	set yn = ($<)
+	if ($yn == y) then
+	    unset yn
+	    echo -n "       ymin="
+	    set ymin = ($<)
+	    echo -n "       ymax="
+	    set ymax = ($<)
+	endif
+	goto replot
+    endif
+
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is $print)"
+	set out = ($<)
+jump2:
+	echo "Printing: $label"
+	if ($out == "") set out = "$print"
+	cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set terminal postscript
+set output "$out"
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set ylabel "$ylabel"
+$plotoptions
+plot "$tmp1" using 1:$col title "$label"
+EOF
+	gnuplot $tmp2
+    endif
+
+    rm $tmp1 $tmp2
+endif
+end
+unset col
+goto main
+
+error:
+
+echo ">>>"
+echo ">>> ERROR: $dosfile not found\!"
+echo ">>>"
+exit(1)
+
+help:
+
+cat <<EOF 
+OPTICPLOT is an interface script to plot optical
+properties using  gnuplot.
+
+Basically OPTICPLOT interactively asks for information
+which is used for plotting.
+
+To use OPTICPLOT in a batch like manner create the file
+opticplot.ini in which you can set various parameters
+in csh-style, these parameter are:
+
+    set optic = J          # for JOINT DOS
+              = E          # for EPSILON
+	      = S          # for SIGMAK
+	      = I          # for SIGMA_INTRA
+
+    set col = "2"          # which column to plot, more than one 
+                           # column can be given
+    set xmin = -15         # with xmin, xmax, ymin, ymax you
+    set xmax = 15          # can specify plotting ranges
+    set print = "file"     # file to be used for plotting, or 
+                           # pipe directly to printer queue e.g. "|lpr"
+    set noview             # set to skip preview and directly print
+                           
+To ignore the startup file use
+	opticplot -i
+EOF

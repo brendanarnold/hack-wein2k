@@ -1,0 +1,88 @@
+_____________________________________________________________________________________
+
+The update of the optic package contains changes in optic, joint, and kram:
+
+OPTIC: 
+
+The input file had to be changed in order to allow the calculation of specific
+components. For the calculation of the imaginary part of the dielectric tensor
+(in absence of spin-orbit coupling) up to 6 real components of the matrix elements
+can be calculated according to the symmetry of the crystal. 
+
+The dielectric tensor components (and other quantities) are given per spin in case of 
+the spin-polarized calculation and as a sum of both spin dierection if the calculation 
+is non-spinpolarized.
+
+The programm is called as usual: x optic(c) (-up/dn)
+
+Due to spin-orbit coupling imaginary parts of the nondiagonal elements may occur.
+Thus in general, up to 9 components can be calculated at the same time. 
+
+In order to get the correct matrix elements, the files vectorso(up/dn) have to
+be used. For that purpose the following procedure is recommended:
+
+(1) run SCF cycle: run(sp)_lapw -so
+(2) generate a fine k-mesh for the optics part: x kgen
+(3) change TOT to FERMI in case.in2c
+(4) run lapw1, lapwso, and lapw2 with this mesh: run(sp)_lapw -so -s lapw1 -e lcore
+(5) run optic: x opticc -so (-up)
+(6) run joint: x joint -so (-up)
+(7) run kram: x kram (-up)
+
+Also in the spin-polarized case only one call for optic/joint/kram (either up or down) 
+is necessary, since the spins are not independent any more and both vectorfiles are 
+used at the same time.
+
+_____________________________________________________________________________________
+
+
+JOINT:
+
+The input of joint has been changes as well: After line four (which defines the switch)
+one line has been added, where the number of columns to be taken into account is defined.
+The parameter MG in param.inc defines the number of columns. Note that the program might
+become big if the parameters are very large.
+
+SWITCH 7 is new: in addition to SWITCH 6 the contributions from different bands to the
+plasma frequency are analyzed.
+
+The band analysis for all options (SWITCHES 0, 2, 5, 7) has been improved: 
+For each tensor component additional files are created, where each column contains
+the contributions from a single band or band combination. The file names are e.g.
+case.Im_eps_xx_1, case.Im_eps_xx_2, or case.jdos_1 etc. where the number of files depend 
+on the number of band /band combinations.
+(WARNING: the number of band combinations might be quite big!)
+
+_____________________________________________________________________________________
+
+
+KRAM:
+
+The Kramers-Kronig analysis is carried out for the actual number of columns contained
+in the case.joint(up/dn) file. For each real component its imaginary counterpart is
+created and vice versa. All dielectric tensor components can be found in file 
+case.epsilon(up/dn). The real and imaginary parts of the optical conductivity (in 10^15/sec)
+are written to file case.sigmak(up/dn). In addition, file case.absorp containes the
+real parts of the optical conductivity (in 1 / (Ohm cm)) and the absorption coefficients.
+
+
+_____________________________________________________________________________________
+
+
+EXAMPLE:
+
+Example inputs Al.inop, Al.injoint, Al.inkram, and Al.joint for option 4 
+(dielectric tensor) are added for comparison. The calculation has been carried
+out with 165 k-points in order to keep the numerical effort small. (The results
+are not fully converged with respect to the number of k-points.)
+
+_____________________________________________________________________________________
+
+
+The update has been done in collaboration with Jan Kunes and Pavel Novak
+(Prague).  Contributions from this group are especially in the
+symmetrization of the matrix elelements in presence of spin-orbit coupling.
+
+
+September 1999
+Claudia Ambrosch-Draxl

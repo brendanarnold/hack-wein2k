@@ -1,0 +1,37 @@
+CRIT
+1         atom (including multiplicity) around you search for critical points
+ALL       two, three, four, all    (dimers,trimers,....all=2+3)
+3 3 3     nshell
+END
+
+-----------other examples for critical points starting at other atoms or "FOUR"
+CRIT
+1         atom around you search for critical points
+FOUR       two, three, four, all    (dimers,trimers,....all=2+3)
+3 3 3     nshell
+CRIT
+3         atom around you search for critical points
+ALL       two, three, four, all    (dimers,trimers,....all=2+3)
+3 3 3     nshell
+CRIT
+3         atom around you search for critical points
+FOUR       two, three, four, all    (dimers,trimers,....all=2+3)
+3 3 3     nshell
+END       end, or  CRIT and another atom. (or other switch)                    
+
+------example for integration of atom 1
+SURF
+1                          atom (including multiplicity) to integrate
+20 0.0 1.5707963267949     theta, 20 points, from zero to pi/2
+20 0.7853980 2.35619       phi, from pi/4 to  3 pi/4  (depends on symmetry!!) 
+0.07 0.8 4                 step along gradient line, rmin (when reached it assumes the gradient line ends at the atom), every 4th step it checks wether gr.path is behing/in front an already found surface                
+1.65 0.1                    initial R for search, step (a.u)
+3 3 3                      nshell
+IRHO                       "INTEGRATE" rho
+WEIT                       WEIT (surface weights are available in case.surf), NOWEIT if surface put int by hand 
+30                         30 radial points outside min(RMIN,RMT)
+END                                  
+
+
+
+

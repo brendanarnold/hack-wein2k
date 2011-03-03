@@ -1,0 +1,181 @@
+//
+// time: Fri Jan 17 15:21:47 2003
+//
+// version: 3.1.2 (format), 4.1.3 (DX)
+//
+//
+// Begin MDF
+// MODULE AntiAlias
+// CATEGORY Macros
+// DESCRIPTION Writes out an antialias image at resolution specified
+// INPUT object; object; (none); Input the object that you want to view. This is typically the input to image
+// INPUT camera; camera; (none); camera from Image window with the view that you selected
+// INPUT write_image; value list or field or string or string list; 0; 0=do not write out the image file 1=write out the image file
+// INPUT filename; string; "image"; Name of the file to write out (without format extension)
+// INPUT image_format; string; "gif"; Imge file format to write out
+// INPUT bgcolor; vector or string; (no default); backgroung color
+// OUTPUT image; field or group;  anti-aliased image
+// End MDF
+//
+// comment: This macro will create an anti-aliased version of your image. It has as inputs the object to be rendered (typically whatever you are passing to the Image tool), along with the camera used for your desired view (the second output of your image tool).  You can also choose whether or not to write out the anti-aliased image to a file.
+// comment: 
+// comment: Note that screen objects (captions and colorbars) will end up half as large in the anti-aliased version of the image. Thus you should increase the "height" parameter of a caption or the "shape" parameter of a colorbar by a factor of 2 before passing the collected object to AntiAlias.
+// comment: 
+// comment: Also note that lines (showconnections, for example, or line fonts) will tend to become dimmer after passing through the anti-aliasing process. You may want to brighten the colors first using Mark(object,"colors")-> Compute(2*a) ->Unmark(object).
+// comment: 
+// comment:  (C) COPYRIGHT International Business Machines Corp. 1996.
+// comment:  All Rights Reserved.
+// comment:  Licensed Materials - Property of IBM
+// comment: 
+// comment:  Permission to use, copy, modify, and distribute this software and its documentation for any purpose and without fee is hereby granted, provided that the above copyright notice appear in all copies and that both that copyright notice and this permission notice appear in supporting documentation, and that the name of IBM not be used in advertising or publicity pertaining to distribution of the software without specific prior written permission.
+// comment: 
+// comment: INTERNATIONAL BUSINESS MACHINES CORPORATION PROVIDES THE SOFTWARE, BOTH INDIVIDUALLY AND AS ONE OR MORE GROUPS, "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  IBM DOES NOT WARRANT AGAINST THE INFRINGMENT OF PATENTS, COPYRIGHT OR ANY OTHER INTELLECTUAL PROPERTY RIGHTS OF OTHERS.  IN NO EVENT SHALL IBM BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE, BOTH INDIVIDUALLY AND AS ONE OR MORE GROUPS, IS WITH YOU.
+// workspace: width = 613, height = 608
+// layout: snap = 0, width = 50, height = 50, align = NN
+//
+macro AntiAlias(
+ object
+,camera
+,write_image = 0
+,filename = "image"
+,image_format = "gif"
+,bgcolor
+) -> (
+ image
+) {
+    // 
+    // node Input[1]: x = 355, y = 19, inputs = 0, label = Camera
+    // parameter: position = 2, name = 'camera', value = '(none)', descriptive = 1, description = 'camera from Image window with the view that you selected', required = 1, visible = 1
+    //
+AntiAlias_Input_1_out_1 = camera;
+    // 
+    // node Inquire[1]: x = 385, y = 180, inputs = 3, label = Inquire
+    // input[2]: defaulting = 0, visible = 1, type = 32, value = "camera resolution"
+    //
+AntiAlias_Inquire_1_out_1 = 
+    Inquire(
+    AntiAlias_Input_1_out_1,
+    "camera resolution",
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Compute[1]: x = 512, y = 194, inputs = 2, label = Compute
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "$0*2"
+    // expression: value = resolution*2
+    // name[2]: value = resolution
+    //
+AntiAlias_Compute_1_out_1 = 
+    Compute(
+    "$0*2",
+    AntiAlias_Inquire_1_out_1
+    ) [instance: 1, cache: 1];
+    // 
+    // node Input[3]: x = 18, y = 28, inputs = 0, label = Write Image Switch
+    // parameter: position = 3, name = 'write_image', value = '0', descriptive = 0, description = '0=do not write out the image file 1=write out the image file', required = 0, visible = 1
+    //
+AntiAlias_Input_3_out_1 = write_image;
+    // 
+    // node Compute[2]: x = 82, y = 172, inputs = 2, label = Compute
+    // input[1]: defaulting = 0, visible = 0, type = 32, value = "$0+1"
+    // expression: value = a+1
+    // name[2]: value = a
+    //
+AntiAlias_Compute_2_out_1 = 
+    Compute(
+    "$0+1",
+    AntiAlias_Input_3_out_1
+    ) [instance: 2, cache: 1];
+    // 
+    // node Input[2]: x = 265, y = 25, inputs = 0, label = Object to view
+    // parameter: position = 1, name = 'object', value = '(none)', descriptive = 1, description = 'Input the object that you want to view. This is typically the input to image', required = 1, visible = 1
+    //
+AntiAlias_Input_2_out_1 = object;
+    // 
+    // node Input[4]: x = 104, y = 22, inputs = 0, label = Filename
+    // parameter: position = 4, name = 'filename', value = '"image"', descriptive = 0, description = 'Name of the file to write out (without format extension)', required = 0, visible = 1
+    //
+AntiAlias_Input_4_out_1 = filename;
+    // 
+    // node Input[5]: x = 171, y = 30, inputs = 0, label = Image Format
+    // parameter: position = 5, name = 'image_format', value = '"gif"', descriptive = 0, description = 'Imge file format to write out', required = 0, visible = 1
+    //
+AntiAlias_Input_5_out_1 = image_format;
+    // 
+    // node Input[6]: x = 571, y = 24, inputs = 0, label = backgroung color
+    // parameter: position = 6, name = 'bgcolor', value = '(no default)', descriptive = 1, description = 'backgroung color', required = 0, visible = 1
+    //
+AntiAlias_Input_6_out_1 = bgcolor;
+    // 
+    // node UpdateCamera[1]: x = 366, y = 303, inputs = 10, label = UpdateCamera
+    // input[2]: defaulting = 1, visible = 1, type = 8, value = NULL
+    // input[3]: defaulting = 1, visible = 1, type = 8, value = NULL
+    // input[6]: defaulting = 1, visible = 1, type = 5, value = 1.0
+    //
+AntiAlias_UpdateCamera_1_out_1[cache: 0] = 
+    UpdateCamera(
+    AntiAlias_Input_1_out_1,
+    NULL,
+    NULL,
+    NULL,
+    AntiAlias_Compute_1_out_1,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    AntiAlias_Input_6_out_1
+    ) [instance: 1, cache: 1];
+    // 
+    // node Render[1]: x = 213, y = 161, inputs = 3, label = Render
+    //
+AntiAlias_Render_1_out_1[cache: 0] = 
+    Render(
+    AntiAlias_Input_2_out_1,
+    AntiAlias_UpdateCamera_1_out_1,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Reduce[1]: x = 247, y = 242, inputs = 2, label = Reduce
+    //
+AntiAlias_Reduce_1_out_1[cache: 0] = 
+    Reduce(
+    AntiAlias_Render_1_out_1,
+    NULL
+    ) [instance: 1, cache: 1];
+    // 
+    // node Output[1]: x = 493, y = 546, inputs = 1, label = Output
+    // parameter: position = 1, name = 'image', value = ' ', descriptive = 0, description = ' anti-aliased image', required = 0, visible = 1
+    //
+image = AntiAlias_Reduce_1_out_1;
+    // 
+    // node Route[2]: x = 53, y = 417, inputs = 2, outputs = 2, label = Route
+    //
+AntiAlias_Route_2_out_1[cache: 0],
+AntiAlias_Route_2_out_2[cache: 0] = 
+    Route(
+    AntiAlias_Compute_2_out_1,
+    AntiAlias_Reduce_1_out_1
+    ) [instance: 2, cache: 1];
+    // 
+    // node WriteImage[1]: x = 105, y = 517, inputs = 4, label = WriteImage
+    //
+    WriteImage(
+    AntiAlias_Route_2_out_2,
+    AntiAlias_Input_4_out_1,
+    AntiAlias_Input_5_out_1,
+    NULL
+    ) [instance: 1, cache: 1];
+// network: end of macro body
+}
+AntiAlias_Input_1_out_1 = NULL;
+AntiAlias_Inquire_1_out_1 = NULL;
+AntiAlias_Compute_1_out_1 = NULL;
+AntiAlias_Input_3_out_1 = NULL;
+AntiAlias_Compute_2_out_1 = NULL;
+AntiAlias_Input_2_out_1 = NULL;
+AntiAlias_Input_4_out_1 = NULL;
+AntiAlias_Input_5_out_1 = NULL;
+AntiAlias_Input_6_out_1 = NULL;
+AntiAlias_UpdateCamera_1_out_1 = NULL;
+AntiAlias_Render_1_out_1 = NULL;
+AntiAlias_Reduce_1_out_1 = NULL;
+AntiAlias_Route_2_out_2 = NULL;

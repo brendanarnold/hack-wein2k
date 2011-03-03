@@ -1,0 +1,59 @@
+
+
+            ---------
+:ITE07:  7. ITERATION
+            ---------
+
+       SUBSTANCE: MgO-B1                                                      
+
+       LATTICE                      = R   
+       NON-SPINPOLARIZED CALCULATION
+:POT  : POTENTIAL OPTION    5
+:LAT  : LATTICE CONSTANTS=  5.56415  5.56415 14.17451
+:VOL  : UNIT CELL VOLUME =     126.68217
+       MODE OF CALCULATION IS       = RELA
+       ATOMNUMBER= 1 Mg         VCOUL-ZERO = -0.51005E-01
+:EFG01:                        EFG         =    -0.26942   *10**21  V / m**2
+                               V20  TOT/SRF=    -0.23332    -0.03831
+                               V22  TOT/SRF=     0.00000     0.00000
+                               V22M TOT/SRF=     0.00000     0.00000
+                               V21  TOT/SRF=     0.00000     0.00000
+                               V21M TOT/SRF=     0.00000     0.00000
+
+              0.13471    0.00000    0.00000        0.13471    0.00000    0.00000
+              0.00000    0.13471    0.00000        0.00000    0.13471    0.00000
+              0.00000    0.00000   -0.26942        0.00000    0.00000   -0.26942
+
+         MAIN DIRECTIONS OF THE EFG   1.0000  0.0000  0.0000
+                                      0.0000  1.0000  0.0000
+                                      0.0000  0.0000  1.0000
+:ANG01:  ANGLE WITH OLD X-AXIS =         0.0
+
+:ETA01:                         ASYMM. ETA =     0.00000
+
+
+       ATOMNUMBER= 2 O          VCOUL-ZERO =  0.49620E+00
+:EFG02:                        EFG         =     0.98390   *10**21  V / m**2
+                               V20  TOT/SRF=     0.85208     0.05560
+                               V22  TOT/SRF=     0.00000     0.00000
+                               V22M TOT/SRF=     0.00000     0.00000
+                               V21  TOT/SRF=     0.00000     0.00000
+                               V21M TOT/SRF=     0.00000     0.00000
+
+             -0.49195    0.00000    0.00000       -0.49195    0.00000    0.00000
+              0.00000   -0.49195    0.00000        0.00000   -0.49195    0.00000
+              0.00000    0.00000    0.98390        0.00000    0.00000    0.98390
+
+         MAIN DIRECTIONS OF THE EFG   1.0000  0.0000  0.0000
+                                      0.0000  1.0000  0.0000
+                                      0.0000  0.0000  1.0000
+:ANG02:  ANGLE WITH OLD X-AXIS =         0.0
+
+:ETA02:                         ASYMM. ETA =     0.00000
+
+
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1227397E-02
+:FIT01: SIGMA OF V-XC FIT FOR ATOM  1  0.1227397E-02
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2182253E-04
+:FIT02: SIGMA OF V-XC FIT FOR ATOM  2  0.2182253E-04
+:DEN  : DENSITY INTEGRALS =            -268.024708            0.000000   (Ry)

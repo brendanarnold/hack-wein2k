@@ -1,0 +1,54 @@
+#!/bin/csh -f 
+#
+unalias rm
+
+set name  = $0
+set name  = $name:t 		#name of this script-file
+set file = `pwd`
+set file    = $file:t		#tail of file-names
+#---> path- and file-names
+#
+if ( "$1" == '-s' )  then
+  goto continue
+endif
+if ($1 == '-h')  goto help
+echo 'deletes all large (unnecessary) files! Do you want to continue [y/n] '
+set b=($<)
+if ($b != 'y')  exit(1)
+#
+continue:
+set a=(`ls $file.vec* $file.help* $file.vresp* $file.clmval_* $file.clmvalup_* $file.clmvaldn_* $file.output2_* $file.output2up_* $file.output2dn_* $file.recprlist $file.scfdm_* $file.scfdmup_* $file.scfdmdn_* $file.dmat_* $file.dmatup_* $file.dmatdn_* $file.dmatud_*`)
+set a1=(`ls $file.nsh* $file.vint* $file.nval* $file.broy* $file.*_old *~ $file.corew* fort.* ftn* *.error `)
+set a2=(`ls .command* .running* .lapw?para .time?_* .tmp? :parallel* This_file* .processes .script .mist* .time_* :log STDOUT $file.klist_* $file.weigh* .in.tmp* *.def *.scf1_* *.scf2_* *.tmp*`)
+if ( "$1" == '-s') then
+  foreach i ($a $a1 $a2)
+  rm $i
+  end
+  exit (0) 
+else
+  foreach i ($a $a1 $a2)
+  ls $i		
+  rm $i
+  end
+  echo ' all large (unnecessary) files deleted\! ' 
+  exit (0)
+endif
+
+help:
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	cleaning of a case subdirectory of WIEN95
+		to be called within the case-directory
+		deletes all files which are not necessary for continuation
+
+USAGE:		$name 
+
+FLAGS:
+-h ->		help
+-s ->           silent operation
+theend
+
+exit(1)
+ 

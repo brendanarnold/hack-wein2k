@@ -1,0 +1,21 @@
+#!/bin/csh -f
+
+set pref = `pwd`
+set pref = $pref:t
+
+if ( $pref != elast ) then
+echo ""
+echo "You have to run that script in the elast directory...." 
+echo ""
+exit 1
+endif
+
+$WIENROOT/setelast
+#./setelast
+chmod +x eos.job
+chmod +x tetra.job
+chmod +x rhomb.job
+
+echo "***************************************************"
+echo "Now edit and run manually the scripts ./*.job"
+echo "***************************************************"

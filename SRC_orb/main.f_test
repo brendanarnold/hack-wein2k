@@ -1,0 +1,295 @@
+      PROGRAM main    
+      use opr
+      use ldau
+      IMPLICIT REAL*8(A-H,O-Z)
+      INCLUDE 'param.inc'
+      CHARACTER*80    DEFFN,ERRFN,FNAME
+      LOGICAL         FL(3)
+      character*4     amod(3),chldau(0:3)
+      character*5     chmix
+      character*11    status,form
+      complex*16      Ldzeta(-3:3,-3:3)
+!      complex*16      dmat(nato,3,-3:3,-3:3,2)
+      complex*16      dm(-3:3,-3:3,2)
+       complex*16,allocatable ::      vorb(:,:,:,:),vold(:,:,:,:)
+!      complex*16      vorb(nato,3,-3:3,-3:3),vold(nato,3,-3:3,-3:3)
+      complex*16      vu(-3:3,-3:3),vu_sic(-3:3,-3:3),vu_amf(-3:3,-3:3)
+      character*4     spin(-1:2)
+!      dimension       NATOM(NATO)
+      common/print/   ipr,ipr3j,iprv
+      common/updn/    nup,spin
+!      common/opr/   amix,Bexten,VSP(NRAD,NATO),EOP(LABC,NATO),zz(nato), &
+!                    pop(labc,nato),al(3,labc,nato),alm(labc,nato), &
+!                    dmat
+!      common/opi/     nmod,natorb,iatom(nato),nlorb(nato),nmodop, &
+!                      lorb(labc,nato),NCALC(NATO),indop(labc,nato)
+      common/angles/  theta,phi,thetaloc,philoc
+!      common/rotmat/  rotloc(3,3,nato)
+!      real*8          U(labc,nato),J(labc,nato),Ja
+!      common /ldau/   U,J,nsic
+       real*8 ja
+      dimension x(3),xloc(3)
+      pi=4.d0*atan(1.d0)
+      CALL OPNFS(DEFFN,ERRFN,FL)
+      CALL ERRFLG(ERRFN,'Error in Vorb')
+! find out whether spin is up or down or if calculation is non spin-polarized
+      spin(-1)='down'
+      spin(1) ='up  '
+      spin(2) ='dnup'
+      spin(0) ='para'
+      nup=-1
+      OPEN (1,FILE=DEFFN,STATUS='OLD',ERR=999)
+   10 CONTINUE
+         READ (1,*,END=20,ERR=999) IUNIT,FNAME,STATUS,FORM,IRECL
+         if(iunit.eq.12) then
+           do i=80,1,-1
+             if(fname(i:i).ne.' ') then
+               if(fname(i:i).eq.'p') then
+                 nup=1
+               else if(fname(i:i).eq.'b') then
+                 nup=0
+               endif
+             goto 10
+             endif
+           enddo
+         endif
+         if(iunit.eq.11) nup=2
+        goto 10
+20    continue
+!
+      amod(1)='LDAU'
+      amod(2)='magn'
+      amod(3)='Bext'
+      chldau(0)=' AMF'
+      chldau(1)=' SIC'
+      chldau(2)=' MFH'
+      chldau(3)=' IIM'
+!
+      call init(chmix)
+      allocate(vorb(natorb,3,-3:3,-3:3), vold(natorb,3,-3:3,-3:3))
+      write(6,*)' natom',(mult1(ii),ii=1,3)
+! find out whether old potential is present (then iold=1)
+      iold=0
+      read(13,*,end=99)nmodold
+       if(nmod.ne.nmodold)then
+        write(6,*)' Error: attempt to mix different Vorb',nmod,nmodold
+        stop
+       endif
+      iold=1
+99    continue
+      if(iold.eq.0)then
+        write(6,*)' No old potential found'
+      else
+        write(6,104) chmix,amix
+      endif
+!
+! dir. cos. of M (nmod=2) or Bext (nmod=3) in global coordinate system
+      if((nmod.eq.2).or.(nmod.eq.3)) then
+        x(1)=sin(theta)*cos(phi)
+        x(2)=sin(theta)*sin(phi)
+        x(3)=cos(theta)
+      endif
+!
+      do i=1,natorb
+       iat=iatom(i)
+       mult=mult1(iat)
+!       write(12,*)iat,nlorb(i),' atom type, number of L'
+!!       if(iold.eq.1)read(13,*)iatold
+! calculate orbitally dependent potential
+        if((nmod.eq.2).or.(nmod.eq.3)) then
+! dir. cos of M (nmod=2) or Bext (nmod=3) in local coordinate system
+         call rotate(x,rotloc(1,1,iat),xloc)
+         thetaloc=ACOS(xloc(3))
+         xx=sqrt(xloc(1)**2+xloc(2)**2)
+           if (xx.LT.1D-5) then
+            philoc=0.D0
+           else
+           xab=xloc(1)/XX
+	    philoc=acos(xloc(1)/XX)
+	    if(abs(xloc(2)).gt.1D-5) &
+               philoc=philoc*xloc(2)/abs(xloc(2))
+	   endif  
+            thloc=thetaloc*180./pi
+            phloc=philoc*180./pi
+            write(6,212)amod(nmod),(xloc(k),k=1,3),thloc,phloc
+          endif
+!
+        do nl=1,nlorb(i)
+!!         if(iold.eq.1)read(13,*)Lold
+         L=lorb(nl,i)
+          if(nmod.eq.1)then
+           Ua=U(nl,i)
+           Ja=J(nl,i)
+!           write(12,100)L,chldau(nsic),Ua,Ja
+            do m1=-l,l
+             do m2=-l,l
+              ndm=2
+              if(nup.eq.2)ndm=1
+              do is=1,ndm   
+               dm(m1,m2,is)=dmat(i,nl,m1,m2,is)
+              enddo
+             enddo
+            enddo
+            IF(nsic==3) THEN
+! Igors functional
+               n_av=0.0d0
+               PRINT*,'density matrices'
+               DO ii=1,3
+                  print*,ii,dm(ii,ii,1)
+               ENDDO
+               DO ii=1,3
+                  print*,ii,dm(ii,ii,2)
+               ENDDO
+STOP
+               nsic=1
+               call vldau(nup,nsic,l,dm,ua,ja,vu_sic,mult,ipr,eorb_sic)
+               nsic=0
+               call vldau(nup,nsic,l,dm,ua,ja,vu_amf,mult,ipr,eorb_amf)
+               alpha=eorb_sic/(eorb_sic-eorb_amf)
+               vu(-3:3,-3:3)=alpha*vu_amf(-3:3,-3:3)+(1.d0-alpha)*vu_sic(-3:3,-3:3)
+               WRITE(21,*) 'Mazin mixing V=a*Vamf+(1-a)*Vsic'
+               WRITE(21,107) alpha,eorb_amf,eorb_sic
+               write(21,106) alpha*eorb_amf+(1.d0-alpha)*eorb_sic
+               nsic=3
+            ELSE
+               call vldau(nup,nsic,l,dm,ua,ja,vu,mult,ipr,eorb)
+               write(21,106)EORB
+            ENDIF
+            do m1=-l,l
+             do m2=-l,l
+               vorb(i,nl,m1,m2)=vu(m1,m2)
+              enddo
+             enddo
+          else if((nmod.eq.2).or.(nmod.eq.3))then
+           call orbmom(L,thetaloc,philoc,Ldzeta,ipr)
+          endif
+          if(nmod.eq.2)then
+           if(ncalc(i).eq.1)then
+             call parop(i,nl,L,OP,ipr)
+           else
+             OP=pop(nl,i)
+           endif
+        write(6,666)i,nl,ncalc(i),l,pop(nl,i),OP
+666     format(' i,nl,ncalc,l,pop(l,i)',4i3,2f10.5)
+!           write(12,101)L,OP
+! scalar product (L*M/|M|)
+           if(nmodop.eq.1)then
+           xL=0.
+            do k=1,3
+             xL=xL+x(k)*al(k,nl,i)
+            enddo
+           else
+            xl=alm(nl,i)
+           endif
+      write(6,*)' xl=Lm',xl
+            do m1=-l,l
+             do m2=-l,l
+!              Vorb(m1,m2)=-OP*xL*Ldzeta(m1,m2)
+               Vorb(i,nl,m1,m2)=OP*xL*Ldzeta(m1,m2)
+             enddo
+            enddo
+         endif
+          if(nmod.eq.3)then
+!           write(12,*)L,' L'
+! V=-muB*|Bext|*Ldzeta(operator), dzeta || Bext
+            do m1=-l,l
+             do m2=-l,l
+               Vorb(i,nl,m1,m2)=-Bexten*Ldzeta(m1,m2)
+             enddo
+            enddo
+         endif
+         write(6,*)
+         write(6,*)' Atom',iat,' spin ',spin(nup), &
+                   ' potential real part (Ry)'
+         write(21,*)
+         write(21,*)'       Atom',iat,' spin ',spin(nup), &
+                   ' Potential real part (Ry)'
+         do m=-l,l
+           write(6,102)m,(dble(vorb(i,nl,m,m1)),m1=-l,l)
+           write(21,102)m,(dble(vorb(i,nl,m,m1)),m1=-l,l)
+         enddo
+         write(6,*)
+         write(6,*)' Potential imaginary part (Ry)'
+         write(21,*)
+         write(21,*)'                      Potential imaginary part (Ry)'
+         do m=-l,l
+           write(6,102)m,(aimag(vorb(i,nl,m,m1)),m1=-l,l)
+           write(21,102)m,(aimag(vorb(i,nl,m,m1)),m1=-l,l)
+         enddo
+        enddo
+      enddo
+! For OP calculate correction to total energy
+      if(nmod.eq.2)then
+! parts not diagonal in spin are neglected
+       if(nup.le.1)then
+       do i=1,natorb
+        do nl=1,nlorb(i)
+          l=lorb(nl,i)
+           tr=0.
+            do m=-l,l
+             do m1=-l,l
+              tr=tr+vorb(i,nl,m,m1)*dmat(i,nl,m1,m,1)
+             enddo
+            enddo
+           eo=-tr/2.
+           eorb=mult*eo
+           write(6,105)i,l,eo,eorb
+           write(21,106)EORB
+         enddo
+        enddo
+       endif
+      endif
+!  read the old potential
+      if(iold.eq.1)then
+       do i=1,natorb
+        read(13,*)iatold
+        do nl=1,nlorb(i)
+         read(13,*)Lold
+          L=lorb(nl,i)
+           do m=-l,l
+            do m1=-l,l
+             read(13,103) vold(i,nl,m,m1)
+            enddo
+           enddo
+         enddo
+       enddo
+! mix old and new potential (if old is present)
+      call vorbmix(vorb,vold,natorb,nlorb,lorb,chmix,amix)
+      endif
+! write potential on file 12
+      do i=1,natorb
+       iat=iatom(i)
+!       mult=natom(iat)
+       write(12,*)iat,nlorb(i),' atom type, number of L'
+        do nl=1,nlorb(i)
+         L=lorb(nl,i)
+          if(nmod.eq.1)then
+            Ua=U(nl,i)
+            Ja=J(nl,i)
+            write(12,100)L,chldau(nsic),Ua,Ja
+           else
+            write(12,*)L,' L'
+           endif
+            do m=-l,l
+             do m1=-l,l
+             write(12,103)vorb(i,nl,m,m1)
+             enddo
+            enddo
+! new vorb data written for atom iatom(i), L=lorb
+        enddo
+      enddo
+! 
+100   format(i4,a4,2f9.4,' L, modus, U, J (Ry)')
+101   format(i4,f9.4,' L, orb.pol.par. (Ry)')
+102   format(7x,' M=',i3,7f10.5)
+103   format(2f18.11)
+104   format(a5,' Pratt mixing of old and new potential, coef.=',f8.4)
+105   format(' atom',i4,' L=',i2,' Eorb=',f10.6,' Eorb(tot)=',f10.6) 
+106   format(':EORB:',f13.6)
+107   format(':ALPH:',f13.6,':EAMF:',f13.6,':ESIC:',f13.6)
+212   format(/1x,a4,' in local orthogonal system',3f10.5,/, &
+           ' angle (M,zloc)=',f8.3,' angle (M,xloc)=',f8.3,' deg'/)
+999   continue
+      CALL ERRCLR(ERRFN)
+      stop ' orbital potential calculation END'
+      end

@@ -1,0 +1,218 @@
+ ABOUT
+=========
+
+This is the source distribution of SGROUP.
+The SGROUP deals with symmetry aspects of crystallography, namely for an
+arbitrary choice of the unit cell the SGROUP should find a proper unit cell
+and identify the space group.
+All the 230 space groups were taken from the INTERNATIONAL TABLES FOR
+CRYSTALLOGRAPHY, 1992.
+
+ DESCRIPTION
+=============
+     sgroup [options] input_file [output_file]
+
+  OPTIONS:
+   -noeq  Output contains only atoms not connected by lattice translations,
+          i.e. only atoms of a primitive cell. For example, in the case
+          of pure fcc lattice only (0,0,0) position will be printed,
+          but not the positions (0.5, 0.5, 0.0), (0.5, 0.0, 0.5),
+          (0.0, 0.5, 0.5).
+
+   -prim  Use the basis of the primitive cell for output.
+
+   -wi   -wien-input
+          Read data from a file written to be input for the WIEN package.
+          That's WIEN's case.struct file. The output file contains lattice
+          parameters and atomic positions required by WIEN package.
+          Also a symmetry check of the input file is produced.
+
+   -wo   -wien-output
+          Generate WIEN's struct file. To do this -wi option has to be given.
+
+   -set-TOL=number
+          Set tolerance for floating arithmetic to a value specified 
+          by `number`. Spaces not allowed between `number` and `=` character.
+          Typical values for `number` are 0.0001, 0.00001.
+
+   -help  Print this message and exit.
+
+ NOTES
+========= 
+
+
+1. For all cubic, tetragonal and orthorombic groups, if any,
+   only the "origin choice 2" is implemented (inversion at the origin).
+
+
+2. For monoclinic lattice only "unique axis c" and "cell choice 1"
+   are implemented.
+
+
+3. To make input more convenient various choices of centring modes
+   for lattices have been introduced (Table below). 
+   It supposes that only atoms of primitive cell and parameters of the 
+   conventional cell (see below) must be given.
+   The atom positions must be given with respect to the basis of the
+   conventional cell.
+   ^^^^^^^^^^^^
+   Possible centring modes are:
+     P - primitive
+     F - all face centred
+     I - body centred
+     C - one face centred
+     A - one face centred 
+     
+Table. 
+[ Note:  alpha = <(b,c), beta = <(a,c), gamma = <(a,b) ]
+------------------------------------------------------------------------------
+Symbol    Description   Centering vectors       Restrictions on interaxial
+                                                angles alpha beta gamma
+------------------------------------------------------------------------------
+
+  P        primitive           none                none 
+------------------------------------------------------------------------------  
+                             b/2 + c/2
+  F        all face          a/2 + c/2           alpha=beta=gamma=90
+           centered          a/2 + b/2
+------------------------------------------------------------------------------  
+
+  I        body           a/2 + b/2 + c/2        alpha=beta=gamma=90
+           centered
+------------------------------------------------------------------------------  
+
+  C        C-base             a/2 + b/2          alpha=beta=gamma=90
+           centered
+------------------------------------------------------------------------------  
+
+  A        A-base             b/2 + c/2          alpha=beta=90
+           centered
+------------------------------------------------------------------------------  
+
+            
+    The vectors of the conventional cell in cartesian basis
+    ( 1 vector is 1 column ... )
+    
+             1    2    3
+             |    |    |
+             V    V    V
+             
+             a    0    0
+             0    b    0     F,I,C - centred
+             0    0    c
+
+             a  b*Cos[gamma]  0
+             0  b*Sin[gamma]  0   A - centred
+             0      0         c
+
+    
+    The decompositions of the vectors of the primitive cells over the vectors
+    of the conventional cell ( 1 vector is 1 column ... )
+    
+             1    2    3
+             |    |    |
+             V    V    V
+             
+            0.0  0.5  0.5
+            0.5  0.0  0.5     F - centred
+            0.5  0.5  0.0
+    
+           -0.5  0.5  0.5
+            0.5 -0.5  0.5     I - centred
+            0.5  0.5 -0.5      
+    
+             0.5  0.5  0.0   
+            -0.5  0.5  0.0     C - centred
+             0.0  0.0  1.0
+
+            1.0   0.0  0.0
+            0.0   0.5 -0.5     A - centred
+            0.0   0.5  0.5
+
+  Example: C -centred.  
+  a',b',c' = primitive basis
+  a ,b, c  = conventional basis
+                a'=1/2*a - 1/2*b
+                b'=1/2*a + 1/2*b
+                c'=c
+
+4. Output is restricted to the following lattice types:
+   primitive    - cubic, tetragonal, orthorombic, monoclinic, triclinic
+   F  centred   - cubic, orthorombic
+   I  centred   - cubic, tetragonal, orthorombic
+   rhombohedral - default output supposes the hexagonal obverse setting,
+                  the -prim option will change output to the rhombohedral basis.
+   hexagonal    - hexagonal and trigonal
+   C  centred   - orthorombic
+   A  centred   - orthorombic, monoclinic
+
+
+5. Internal program parameters are stored in the file type_sg.h 
+       MAX_ATOMS=4096  -  maximal number of atoms
+       MAX_CHARS=32    -  maximal number of characters in atom name
+       TOL=1.e-4       -  tolerance for floating arithmetic
+
+
+6. Example of the input file:
+Real structures are collected in ./examples directory.
+Below just a skeleton.
+
+/ ------------------------------------------------------------
+/ in input file symbol "/" means a comment
+/ and trailing characters are ignored by the program
+
+/ empty lines are allowed
+
+P  /type of lattice; choices are P,F,I,C,A
+
+/  parameters of cell:
+/  lengths of the basis vectors and 
+/  angles (degree unit is used)  alpha=b^c  beta=a^c  gamma=a^b
+/   |a|  |b|   |c|               alpha  beta  gamma
+
+   1.0   1.1   1.2                90.   91.    92.
+
+/Number of atoms in the cell
+4
+
+/List of atoms
+0.1 0.2 0.3  / <-- Atom positions in units of the vectors a b c
+Al           / <-- name of this atom
+
+0.1 0.2 0.4  /....
+Al1
+
+0.2 0.2 0.3
+Fe
+
+0.1 0.3 0.3
+Fe
+
+/ ------------------------------------------------------------------
+
+
+  BUGS
+========
+
+ 1) Usually more than one choice exists to set up
+    crystallography cell which is consistent to given space group orientation.
+    Thus, output is not unique.
+
+ There are minor problems:
+
+ 2) In the program all floating comparisons are controlled 
+    by the parameter TOL.
+    So, program will not work correctly if input data reside near 
+    this threshold.
+
+ 3) Incorrect input may produce the "Segmentation fault" message.
+    
+
+  If you have suggestions or find a bug, please,
+  report to <yan@imag.kiev.ua>
+  
+   
+-------   
+   Bogdan Yanchitsky
+   Institute of Magnetism, Kiev, Ukraine
+   yan@imag.kiev.ua

@@ -1,0 +1,13 @@
+ 5,'tio2.inxs',   'old',    'formatted',0
+ 6,'tio2.outputx','unknown','formatted',0
+ 7,'tio2.inc',   'old',    'formatted',0
+ 8,'tio2.int','unknown','formatted',0
+ 9,'tio2.coredens', 'unknown','formatted',0
+18,'tio2.vsp',       'old',    'formatted',0
+20,'tio2.struct',         'old',    'formatted',0
+30,'tio2.qtl', 'old',    'formatted',0
+32,'tio2.dos1ev',        'unknown','formatted',0
+46,'tio2.xspec',            'unknown','formatted',0
+47,'tio2.txspec',            'unknown','formatted',0
+53,'tio2.m1',            'unknown','formatted',0
+54,'tio2.m2',            'unknown','formatted',0

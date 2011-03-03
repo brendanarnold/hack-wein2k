@@ -1,0 +1,6 @@
+current:FOPT:-FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+current:FPOPT:-FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML
+current:LDFLAGS:$(FOPT) -L/opt/intel/mkl/9.0/lib/em64t -lpthread
+current:DPARALLEL:'-DParallel'
+current:R_LIBS:-lmkl_lapack64 -lmkl_em64t -lguide -lvml -pthread
+current:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs -lmpi

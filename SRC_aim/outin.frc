@@ -1,0 +1,148 @@
+      SUBROUTINE OUTIN(ICLM,LATTIC,cform,fadd,ortho,br3,br2)
+
+!
+!     Reads plane wave expansion of the density in the
+!       interstitial.
+!
+!     LDM, 12/2005
+!     Modified to only store the plane waves with RHOK > 1D-17
+!     Save rhok*tauk in tauk since only this is used
+!     Modified stern used
+!
+      use out
+      implicit none
+      INCLUDE 'param.inc'
+      CHARACTER*19     nkktext
+
+!_COMPLEX      COMPLEX*16 rho2,taup 
+!_REAL      real*8 rho2,taup
+      real*8 fadd,br3,vt,vt1,tau,otau,oiz,invoiz,rt3,rt3b
+
+      integer iclm,k1,nst,istg,iz,iord
+      integer ind,nk,ii,i,j,j1,jj,nwav,j2
+
+      character*4 lattic,cform
+      character*60 line
+      logical  ortho, tempon
+
+      dimension vt(3),br3(3,3),vt1(3)
+
+      COMMON /FOUR/ K1(3),NST,ISTG(3,NSYM),TAUP(NSYM)                   
+      COMMON /SYM2/ tau(3,NSYM),otau(3,NSYM),oiz(3,3,NSYM), &
+         invoiz(3,3,NSYM),iz(3,3,NSYM),iord
+!      common /out/ rhok(nwav),tauk(nwav*nsym),krec(3,nwav*nsym), &
+!         inst(nwav),indmax
+      real*8 AMIND1,ABSM,temp,BFACT
+      real*8 BR2(3,3),dwcnvrt
+!     Conversion term, slightly flakey (should be checked)
+      parameter (dwcnvrt=0.892805771D0)
+!
+!     Look at control file to see if TEMP appears
+!     While this is a nice idea, it does not work because of the
+!     large maximum at the atom positions of the PW density
+      BFACT=0.25D0
+      tempon=.false.
+!      do j=1,9999
+!        read(5,112,err=100,end=100)line
+!        if(line(1:4).eq.'TEMP')then
+!                read(line(5:60),*)BFACT
+!                write(6,*)'Thermal damping of P.W. components',BFACT
+!               Convert units to atomic
+!                BFACT=BFACT*dwcnvrt
+!                tempon=.true.
+!                goto 100
+!        endif
+!      enddo
+100   REWIND(UNIT=5)
+!      if(BFACT.LT.1D-5)tempon=.false.        
+      IND=0                                                             
+!      READ(9,117) NK  
+  read(9,'(//,a19)') nkktext
+  read(nkktext,'(9x,i10)',err=6767) nk
+  goto 6768
+ 6767 read(nkktext,'(13x,i6)') nk
+ 6768 continue
+      nwav=nk                                                  
+      allocate (rhok(nwav),tauk(nwav*nsym),krec(3,nwav*nsym),inst(nwav))
+!      if(nk.gt.nwav) then
+!        write(*,*) 'nk.gt.nwav in outin', nk,nwav
+!        stop 'nwav'
+!      end if
+!              
+      ii=0
+  35  do I=1,NK                                             
+        READ(9,2071,END=19) (K1(J),J=1,3),rho2
+      if(tempon)then
+!       Find distance squared in r.s.
+        ABSM=0.0D0                                                        
+        DO J1=1,3                                                    
+         AMIND1=0.0                                                   
+         DO  J2=1,3                                                 
+             AMIND1=AMIND1+K1(J2)*BR2(J1,J2)
+         ENDDO                       
+         ABSM=ABSM+AMIND1*AMIND1                                                                      
+        ENDDO                 
+!       D.W. like damping
+        temp=exp(-absm*BFACT)
+!       write(44,44)k1,temp,absm,rho2
+!44     format(3i4,6d14.5)
+        rho2=rho2*temp
+      endif
+! 36     CALL STERNB
+!        if (abs(rho2).gt.(0.d0)) then
+         if (abs(rho2).gt.1d-17) then
+ 36     CALL STERNB
+          ii=ii+1
+          DO J=1,NST                                                     
+            IND=IND+1
+            TAUK(IND)=TAUP(J)*rho2/NST                                               
+!            TAUK(IND)=TAUP(J
+            IF(IND.GT.NWAV*NSYM) STOP 'IND GT NWAV*NSYM'
+            DO JJ=1,3
+              KREC(JJ,IND)=ISTG(JJ,J)
+            end do
+          end do
+          INST(ii)=NST                                                       
+          rhok(ii)=rho2/NST
+        end if
+      end do
+      nk=ii
+ 19   INDMAX=IND                                                        
+!
+!                                                                       
+!.... FOR HEX LATTIC CONVERT TO ORTHOGONAL COORDINATES                  
+!
+      RT3=1.D0/sqrt(3.D0)                                                                       
+      RT3b=2.D0*RT3
+      IF(.not.ortho) THEN                                         
+         DO 40 II=1,INDMAX
+            VT(1)=krec(1,ii)
+            VT(2)=krec(2,ii)
+            VT(3)=krec(3,ii)
+!       I don't think this part is used!
+            IF(LATTIC.EQ.'H   ') THEN
+!               KREC(1,II)=KREC(1,II)*2./SQRT(3.)+KREC(2,II)/SQRT(3.)
+                KREC(1,II)=KREC(1,II)*RT3b+KREC(2,II)*RT3
+            ELSE
+!               KREC(1,II)=vt(1)*1./SQRT(3.)+vt(2)*1./SQRT(3.) &
+!                    -2/SQRT(3.)*vt(3)
+               KREC(1,II)=vt(1)*RT3+vt(2)*RT3-RT3b*vt(3)
+               KREC(2,II)=-vt(1)+vt(2)             
+               KREC(3,II)=vt(1)+vt(2)+vt(3)             
+            END IF
+!ccc
+            DO 945 J1=1,3
+               Vt1(J1)=BR3(1,j1)*vt(1)+BR3(2,j1)*vt(2)+BR3(3,J1)*vt(3)
+               if(ii.lt.30) write(6,*) ii,krec(j1,ii),vt1(j1)
+               krec(j1,ii)=vt1(j1)
+ 945        continue
+!cc      
+ 40      CONTINUE
+      END IF                                                            
+
+  117 FORMAT(//,13X,I6)                                                 
+  118 FORMAT(3X,3I5,2E15.7)                                             
+ 2071 FORMAT(3X,3I5,2E19.12)
+  112 FORMAT(A)
+      RETURN                                                            
+      END                                                               

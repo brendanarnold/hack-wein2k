@@ -1,0 +1,117 @@
+      subroutine main2()
+!        last changes: 10.07.00 ba
+!                      30.10.00 ub (reading of unit 10 as in LAPW1/2/7)
+!                      31.10.00 ub (more flexible band selection)
+!                      12.11.00 ub (reading of case.vectorf introduced)
+!                      13.11.00 ub (output optimized)
+!                      13.11.00 ub (test printing removed)
+!
+!        program reads case.vector file and creates case.vectorf file
+!        for only a few k points and bands (to be chosen in case.inf)
+!
+      implicit none
+      INCLUDE 'param.inc'
+      character*10 kname
+      character*4 lattic      
+      integer      nume,i, j, ie, ih, ik, nv, ne, nat, ierr, ik0, ie0
+      logical      ikf(nkpt)
+      logical,allocatable ::   ief(:,:)
+      logical      first
+      integer       nef(nkpt) 
+      integer,allocatable ::      KV(:,:) 
+      real*8       E(LMAX), ELO(0:LOMAX,nloat), EH, SX, SY, SZ, WEIGHT
+!_REAL      real*8,allocatable ::       Z(:)
+!_COMPLEX      complex*16,allocatable ::   Z(:)
+      
+!     read input files
+!     write header
+      write(6,1001)
+ 
+!     find number of inequiv. atoms (from case.struct)
+      read(20,'(/A4,24X,I2)') lattic, nat
+      write(6,1011) lattic, nat
+                                                                                    
+ 1001 format(' filter "case.vector"'/ &
+             ' ~~~~~~~~~~~~~~~~~~~~')
+ 1011 format(' lattice = ',A4,'   nat =',I3/)                                       
+      DO I = 1, NAT
+         READ (10) (E(J),J=1,LMAX)
+         READ (10) ELO
+      enddo
+      READ (10,END=25,IOSTAT=ierr) SX, SY, SZ, KNAME, NV, NUME, WEIGHT, ik
+      rewind (10)
+      nume=max(20,nume*2)
+! This was used to estimate the max NUME value
+      allocate (ief(nume,nkpt))
+
+      call info(nume,ikf,nef,ief)
+
+!     read/write augmentation energies
+      DO 10 I = 1, NAT
+         READ (10) (E(J),J=1,LMAX)
+         READ (10) ELO
+         write (12) (E(J),J=1,LMAX)
+         write (12) ELO
+   10 CONTINUE
+
+!     read/write k point, rec. lattice vectors, bands, KS coeff's
+      WRITE(6,1000)
+      ik0 = 0
+   20 READ (10,END=25,IOSTAT=ierr) SX, SY, SZ, KNAME, NV, NE, WEIGHT
+         ik0 = ik0 + 1
+         IF(ierr.LT.0) GOTO 25
+         ik = ik0
+!         if (NV.gt.nmat) stop 'ERROR # plane waves in case.vector'
+         if (NE.gt.nume) stop 'ERROR # band in case.vector'
+      allocate (KV(3,NV),z(nv)) 
+         READ (10) (KV(1,I),KV(2,I),KV(3,I),I=1,NV)
+         if (ikf(ik)) then ! selected k point ?
+            WRITE (12) SX, SY, SZ, KNAME, NV, NEF(ik), WEIGHT, ik
+            WRITE (12) (KV(1,I),KV(2,I),KV(3,I),I=1,NV)
+         end if
+         ih = 0
+         first = .TRUE.
+!   30    READ (10,IOSTAT=ierr) ie0, EH, ie
+   30    READ (10,IOSTAT=ierr) ie0, EH
+         ie=ie0
+!            IF(ierr.GT.0) ie = ie0
+            if (first) WRITE(6,1010) ik, NV, IE0, NE
+!            WRITE(6,*) ik, NV, IE0, NE
+            first = .FALSE.
+            if (ie.gt.nume) stop 'ERROR # bands in case.vector'
+            READ (10) (Z(J),J=1,nv)
+            if (ief(ie,ik)) then ! selected band ?
+               ih = ih + 1
+               WRITE (12) ih, EH, ie
+               WRITE (12) (Z(J),J=1,NV)
+               ief(ie,ik) = .false.
+            end if
+         IF (IE0.LT.NE) GOTO 30
+!        check for non-processed band indices
+         if (ikf(ik)) then
+            do 35 ie = 1, nume
+               if (ief(ie,ik))  &
+                  stop 'ERROR: Missing band index in case.vector'
+   35       continue
+            ikf(ik) = .false.
+         end if
+      deallocate (kv,z)
+      GOTO 20
+   25 CONTINUE
+!     check for non-processed k-points 
+      do 40 ik = 1, nkpt
+        if (ikf(ik)) stop 'ERROR: Missing k-point in case.vector'
+   40 continue
+      WRITE(6,1020)
+
+      close(10)
+      close(12)
+      close(6)
+
+ 1000 format(/' Reading "case.vector" :')
+ 1010 format( '   k =',I4,' , Nmatrix =',I7,' , Nband : min =', &
+              I5,' , max =',I5,' ...')
+ 1020 format(/' Done (on errors)')
+
+      return
+      end

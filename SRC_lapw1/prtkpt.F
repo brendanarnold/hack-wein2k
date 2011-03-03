@@ -1,0 +1,198 @@
+      SUBROUTINE PRTKPT(KPOINT,INFO)
+!
+#ifdef Parallel
+      use matrices, only : HSROWS, Z, EIGVAL, KZZ, XK, YK, ZK, &
+                           END_MATRICES, END_matrice1
+#else 
+      use matrices, only : HS, HSDIAG, HSROWS, &
+                           HPANEL, SPANEL, Z, EIGVAL, KZZ, XK, YK, ZK, &
+                           END_MATRICES, END_matrice1
+#endif
+      use lapw_timer, only: READ_CPU_TIME, READ_WALL_TIME, time_pkp, &
+                            time_hamilt, time_hns, time_diag, &
+                            START_TIMER, STOP_TIMER
+      use lolog, only   : nlo, loor, lapw, ilo
+      use comc, only    : IPGR, KNAME
+      use comi, only    : NVAA, NE, NBELW, NAT, NT, LNSMAX
+      use coml, only    : SPRSWF, PRNTWF, WFTAPE, REL, ITER, NOHNS
+      use comr, only    : RKM, EL, EU, WEIGHT
+      use kpts, only    : SX, SY, SZ
+      use lstapw, only  : RKMT, NV
+      use parallel, only: MYID
+      IMPLICIT NONE
+      INCLUDE 'param.inc'
+!
+!        Arguments
+!
+      INTEGER            INFO, KPOINT
+!
+!     ..................................................................
+!
+! 1.     PROGRAM UNIT 'PRTKPT'
+!           Process (print out/save) the results obtained by 'CALKPT'
+!           FORTRAN 77 SUBROUTINE
+!
+! 2.     PURPOSE
+!           This routine is intended to process the computed results of
+!           the current K-point (Eigenvalues and Eigenvectors).
+!           Currently timing results, K-point information, Eigenvalues
+!           and (optionally) the Eigenvectors are printed out.
+!
+! 3.     USAGE
+!           INTEGER NUMKPT, INFO
+!           CALL INILPW(NUMKPT,INFO)
+!           CALL INIKPT(INFO)
+!           DO I = 1, NUMKPT
+!              CALL SETKPT(I)
+!              CALL CALKPT
+!              CALL PRTKPT(I,INFO)
+!           ENDDO
+!
+!        ARGUMENT-DESCRIPTION
+!           INFO   - INTEGER value                              (output)
+!                    returns the error condition:
+!                    INFO .EQ. 0 ... no error
+!                    INFO .NE. 0 ... currently not supported
+!           KPOINT - INTEGER value                               (input)
+!                    the index of the K-point to process
+!                    constraint: (1 .LE. KPOINT .LE. MAXKPT)
+!                                this constraint won't be checked
+!
+!        USED SUBROUTINES (DIRECTLY CALLED)
+!           CPUTIM - measure used CPU-time
+!           TAPEWF - write computed Eigenvectors to a file (unformatted)
+!           WFPNT  - write computed Eigenvectors to a file (formatted)
+!
+!        INDIRECTLY CALLED SUBROUTINES
+!           none
+!
+!        UTILITY-SUBROUTINES (USE BEFOREHAND OR AFTERWARDS)
+!           CALKPT - calculate Eigenvalues/-vectors for one k-point
+!           INILPW - preliminalry calculations (set COMMON blocks)
+!           INIKPT - setup values (valid for all k-points) not covered
+!                    by 'INILPW' (e.g. warpin)
+!           SETKPT - set current k-point
+!
+!        INPUT/OUTPUT (READ/WRITE)
+!           'PRTKPT' writes to the following files:
+!              - output-file
+!              - SCF-file (history-file)
+!
+!        MACHINENDEPENDENT PROGRAMPARTS
+!           none
+!
+! 4.     REMARKS
+!           The CPU-time used within this routine also contributes to
+!           the CPU-time used to calculate an entire K-point as well as
+!           to the overall CPU-time. The necessary counters (TIMKPT and
+!           TIMGES) are updated accordingly.
+!
+! 5.     METHOD
+!           - write timing results for the calculation of the current
+!             K-point to the output-file
+!           - write K-point and computed Eigenvalues to the output-file
+!           - for the first K-point only, write K-point and Eigenvalues
+!             to the SCF-file (history-file)
+!           - if Eigenvalues were found below the given energy-window
+!             write a warning message to the SCF-file
+!           - if desired, print the Eigenvectors to the output-file
+!           - if desired, print the Eigenvectors to the vector-file (un-
+!             formatted)
+!
+!        INSTITUT FUER THEORETISCHE CHEMIE            --  TU VIENNA
+!     ..................................................................
+!
+!        Local Scalars
+!
+      INTEGER            J
+      DOUBLE PRECISION   DTIME1, DTIME2, rr1, rr2, rr3
+      DOUBLE PRECISION   WTIME(3)
+!
+!        External Subroutines
+!
+      EXTERNAL           TAPEWF, WFPNT
+!
+!        setup timing
+!
+      CALL START_TIMER(time_pkp)
+!
+!        write out time needed to calculate matrix-elements
+!
+        rr1 = READ_CPU_TIME(time_hamilt)
+        rr2 = READ_CPU_TIME(time_hns)
+        rr3 =  READ_CPU_TIME(time_diag)
+        IF(myid.eq.0) WRITE(6,6020) rr1, rr2, rr3
+!!$        IF(myid.eq.0) WRITE(6,6020) READ_CPU_TIME(time_hamilt),  &
+!!$                    READ_CPU_TIME(time_hns), &
+!!$                    READ_CPU_TIME(time_diag)
+#ifdef Parallel
+        rr1 = READ_WALL_TIME(time_hamilt)
+        rr2 = READ_WALL_TIME(time_hns)
+        rr3 =  READ_WALL_TIME(time_diag)
+        IF(myid.eq.0) WRITE(6,6021) rr1, rr2, rr3
+
+!      IF(myid.eq.0) WRITE(6,6021) READ_WALL_TIME(time_hamilt),  &
+!                    READ_WALL_TIME(time_hns), &
+!                    READ_WALL_TIME(time_diag)
+
+#endif
+      CALL END_MATRICE1
+!
+!        write out results of variational calculation
+!
+      IF(myid.eq.0) WRITE(6,6000) SX(KPOINT), SY(KPOINT), SZ(KPOINT), KNAME(KPOINT), &
+                    NV+NLO, WEIGHT(KPOINT), IPGR(KPOINT), (EIGVAL(J),J=1,NE)
+      IF(myid.eq.0) WRITE(6,6010) NBELW, EL
+      IF(myid.eq.0) WRITE(6,6030)
+      IF (KPOINT .EQ. 1) THEN
+         IF(myid.eq.0) WRITE(21,6001) SX(KPOINT), SY(KPOINT), SZ(KPOINT), &
+                        KNAME(KPOINT),NV+nlo,nlo,RKMT,WEIGHT(KPOINT), &
+                        IPGR(KPOINT), (EIGVAL(J),J=1,NE)
+      ENDIF
+      IF (NBELW .GT. 0) THEN
+         IF(myid.eq.0) WRITE(21,6010) NBELW, EL
+      ENDIF
+      IF (KPOINT .EQ. 1) THEN
+         IF(myid.eq.0) WRITE(21,6030)
+      ENDIF
+
+      IF (.NOT. SPRSWF) THEN
+         IF (PRNTWF) THEN
+            CALL WFPNT(NV+NLO,NE,NUME)
+            CALL WFPNT1(sx(kpoint),sy(kpoint),sz(kpoint),NV,NE,NUME)
+         ENDIF
+         IF (WFTAPE) THEN
+            CALL TAPEWF(KNAME(KPOINT),SX(KPOINT),SY(KPOINT),SZ(KPOINT), &
+			 NV+NLO,NE,WEIGHT(KPOINT),IPGR(KPOINT))
+         ENDIF
+      ENDIF
+
+      CALL END_MATRICES
+!
+!        error conditions
+!
+      INFO = 0
+!
+!        perfom timings
+!
+      CALL STOP_TIMER(time_pkp)
+!
+      RETURN
+!
+ 6000 FORMAT(/5X,'K=',3F10.5,3X,A10/5X,' MATRIX SIZE',I5, &
+             '  WEIGHT=',F5.2, '  PGR: ',A3,/5X,'EIGENVALUES ARE:', &
+             8(/2X,5F13.7))
+ 6001 FORMAT(/7X,'K=',3F10.5,3X,A10/':RKM  :',1X,'MATRIX SIZE',I5, &
+             'LOs:',I4,'  RKM=',F5.2, &
+             '  WEIGHT=',F5.2, '  PGR: ',A3,/7X,'EIGENVALUES ARE:', &
+             8(/5X,5F13.7))
+ 6010 FORMAT(I13,' EIGENVALUES BELOW THE ENERGY ',F10.5)
+ 6020 FORMAT(7X,'TIME HAMILT (CPU)  =',F8.1,', HNS =',F8.1, &
+                ', DIAG =',F8.1)
+ 6021 FORMAT(7X,'TIME HAMILT (WALL) =',F8.1,', HNS =',F8.1, &
+                ', DIAG =',F8.1)
+ 6030 FORMAT(7X,14('****')/)
+!
+!        End of 'PRTKPT'
+!
+      END

@@ -1,0 +1,88 @@
+###############################################################################
+#                                                                             #
+#  make              ... generate executable                                  #
+#  make clean        ... delete unnecessary files                             #
+#  make check        ... check static semantics of the FORTRAN routines       #
+#  make xref         ... generate a cross reference listing                   #
+#                                                                             #
+###############################################################################
+
+#------------------------------------------------------------------------------
+#
+#                          
+#
+# FC ......... compiler name
+# FOPT ....... optimization flags
+# FGEN ....... code generation flags (flags not related to optimization)
+# LDFLAGS .... linker flags
+# LIBS ....... libraries needed to build the executable
+# DESTDIR .... directory where the executable should go (incl. trailing '/'!)
+# EXECNAME ... name of the resulting executable (without prefixed path!)
+#
+#------------------------------------------------------------------------------
+FC       = _FC_
+FOPT     = _FOPT_     
+FGEN     = 
+LDFLAGS  = _LDFLAGS_ 
+C_LIBS   =                   
+DESTDIR  = ./
+EXECNAME = orb    
+
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS  = modules.o main.o init.o angle.o opnfs.o  errclr.o  errflg.o  \
+        gtfnam.o \
+        latgen2.o orbmom.o  outwin.o parop.o rint13.o charg2.o charg3.o \
+        rotate.o vldau.o Vcalc.o t3j.o vorbmix.o   
+
+OBJSMOD = angle.o init.o latgen2.o main.o parop.o vldau.o
+
+#
+#  Build executable
+#
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(C_LIBS)
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	 param.inc Makefile 
+$(OBJSMOD):      modules.o
+
+#..............................................................................
+#
+#  perform static semantics checking (variables used before set, type
+#  consistency, correct usage of common blocks, etc.)
+#
+check:	$(PRJS)
+	ftnchek $(PRJS)
+
+#..............................................................................
+#
+#  remove object files, preprocessed source files and files needed for
+#  static semantics checking
+#
+clean:
+	rm  -f $(OBJS) $(PREOBJS:.o=.P) $(OBJS1:.o=.P) $(PRJS) \
+		$(EXECNAME).xref *.mod
+
+#..............................................................................
+#
+#  define rules for generating files needed to check the static semantics
+#  of the FORTRAN source code and for generating object files from source files
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.f.mod:
+	$(FC) $(FFLAGS) -c $<
+.f90.o:
+	$(FC) $(FFLAGS) -c $<

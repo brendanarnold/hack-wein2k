@@ -1,0 +1,5395 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8 Analysis, Properties and Optimization</TITLE>
+<META NAME="description" CONTENT="8 Analysis, Properties and Optimization">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="9Utility_Programs.html">
+<LINK REL="previous" HREF="7SCF_cycle.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="9Utility_Programs.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1300"
+  HREF="9Utility_Programs.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1296"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1290"
+  HREF="7SCF_cycle.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1298"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1301"
+  HREF="9Utility_Programs.html">9 Utility Programs</A>
+<B> Up:</B> <A NAME="tex2html1297"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1291"
+  HREF="7SCF_cycle.html">7 SCF cycle</A>
+ &nbsp; <B>  <A NAME="tex2html1299"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1302"
+  HREF="8Analysis_Properties.html#SECTION05510000000000000000">1 TETRA</A>
+<UL>
+<LI><A NAME="tex2html1303"
+  HREF="8Analysis_Properties.html#SECTION05511000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1304"
+  HREF="8Analysis_Properties.html#SECTION05512000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1305"
+  HREF="8Analysis_Properties.html#SECTION05513000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1306"
+  HREF="8Analysis_Properties.html#SECTION05520000000000000000">2 QTL</A>
+<UL>
+<LI><A NAME="tex2html1307"
+  HREF="8Analysis_Properties.html#SECTION05521000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1308"
+  HREF="8Analysis_Properties.html#SECTION05522000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1309"
+  HREF="8Analysis_Properties.html#SECTION05523000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1310"
+  HREF="8Analysis_Properties.html#SECTION05530000000000000000">3 SPAGHETTI</A>
+<UL>
+<LI><A NAME="tex2html1311"
+  HREF="8Analysis_Properties.html#SECTION05531000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1312"
+  HREF="8Analysis_Properties.html#SECTION05532000000000000000">2 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1313"
+  HREF="8Analysis_Properties.html#SECTION05540000000000000000">4 IRREP</A>
+<UL>
+<LI><A NAME="tex2html1314"
+  HREF="8Analysis_Properties.html#SECTION05541000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1315"
+  HREF="8Analysis_Properties.html#SECTION05542000000000000000">2 Dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1316"
+  HREF="8Analysis_Properties.html#SECTION05550000000000000000">5 LAPW3</A>
+<UL>
+<LI><A NAME="tex2html1317"
+  HREF="8Analysis_Properties.html#SECTION05551000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1318"
+  HREF="8Analysis_Properties.html#SECTION05552000000000000000">2 Dimensioning parameters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1319"
+  HREF="8Analysis_Properties.html#SECTION05560000000000000000">6 LAPW5</A>
+<UL>
+<LI><A NAME="tex2html1320"
+  HREF="8Analysis_Properties.html#SECTION05561000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1321"
+  HREF="8Analysis_Properties.html#SECTION05562000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1322"
+  HREF="8Analysis_Properties.html#SECTION05563000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1323"
+  HREF="8Analysis_Properties.html#SECTION05570000000000000000">7 AIM</A>
+<UL>
+<LI><A NAME="tex2html1324"
+  HREF="8Analysis_Properties.html#SECTION05571000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1325"
+  HREF="8Analysis_Properties.html#SECTION05572000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1326"
+  HREF="8Analysis_Properties.html#SECTION05573000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1327"
+  HREF="8Analysis_Properties.html#SECTION05580000000000000000">8 LAPW7</A>
+<UL>
+<LI><A NAME="tex2html1328"
+  HREF="8Analysis_Properties.html#SECTION05581000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1329"
+  HREF="8Analysis_Properties.html#SECTION05582000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1330"
+  HREF="8Analysis_Properties.html#SECTION05583000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1331"
+  HREF="8Analysis_Properties.html#SECTION05590000000000000000">9 FILTVEC</A>
+<UL>
+<LI><A NAME="tex2html1332"
+  HREF="8Analysis_Properties.html#SECTION05591000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1333"
+  HREF="8Analysis_Properties.html#SECTION05592000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1334"
+  HREF="8Analysis_Properties.html#SECTION05593000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1335"
+  HREF="8Analysis_Properties.html#SECTION055100000000000000000">10 XSPEC</A>
+<UL>
+<LI><A NAME="tex2html1336"
+  HREF="8Analysis_Properties.html#SECTION055101000000000000000">1 Execution</A>
+<UL>
+<LI><A NAME="tex2html1337"
+  HREF="8Analysis_Properties.html#SECTION055101100000000000000">1 Execution of the shell script xspec</A>
+<LI><A NAME="tex2html1338"
+  HREF="8Analysis_Properties.html#SECTION055101200000000000000">2 Sequential execution of the programs</A>
+</UL>
+<LI><A NAME="tex2html1339"
+  HREF="8Analysis_Properties.html#SECTION055102000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1340"
+  HREF="8Analysis_Properties.html#SECTION055103000000000000000">3 Input</A>
+<UL>
+<LI><A NAME="tex2html1341"
+  HREF="8Analysis_Properties.html#SECTION055103010000000000000">1 Input for Emission Spectra:</A>
+<LI><A NAME="tex2html1342"
+  HREF="8Analysis_Properties.html#SECTION055103020000000000000">2 Input for Absorption Spectra:</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html1343"
+  HREF="8Analysis_Properties.html#SECTION055110000000000000000">11 TELNES.2</A>
+<UL>
+<LI><A NAME="tex2html1344"
+  HREF="8Analysis_Properties.html#SECTION055111000000000000000">1 Execution</A>
+<UL>
+<LI><A NAME="tex2html1345"
+  HREF="8Analysis_Properties.html#SECTION055111100000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html1346"
+  HREF="8Analysis_Properties.html#SECTION055112000000000000000">2 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1347"
+  HREF="8Analysis_Properties.html#SECTION055120000000000000000">12 BROADENING</A>
+<UL>
+<LI><A NAME="tex2html1348"
+  HREF="8Analysis_Properties.html#SECTION055121000000000000000">1 Execution</A>
+<UL>
+<LI><A NAME="tex2html1349"
+  HREF="8Analysis_Properties.html#SECTION055121100000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html1350"
+  HREF="8Analysis_Properties.html#SECTION055122000000000000000">2 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1351"
+  HREF="8Analysis_Properties.html#SECTION055130000000000000000">13 OPTIMIZE</A>
+<UL>
+<LI><A NAME="tex2html1352"
+  HREF="8Analysis_Properties.html#SECTION055131000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1353"
+  HREF="8Analysis_Properties.html#SECTION055132000000000000000">2 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1354"
+  HREF="8Analysis_Properties.html#SECTION055140000000000000000">14 ELAST</A>
+<UL>
+<LI><A NAME="tex2html1355"
+  HREF="8Analysis_Properties.html#SECTION055141000000000000000">1 Execution</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1356"
+  HREF="8Analysis_Properties.html#SECTION055150000000000000000">15 MINI</A>
+<UL>
+<LI><A NAME="tex2html1357"
+  HREF="8Analysis_Properties.html#SECTION055151000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1358"
+  HREF="8Analysis_Properties.html#SECTION055152000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1359"
+  HREF="8Analysis_Properties.html#SECTION055153000000000000000">3 Input</A>
+<UL>
+<LI><A NAME="tex2html1360"
+  HREF="8Analysis_Properties.html#SECTION055153010000000000000">1 Input for geometry optimization:</A>
+<LI><A NAME="tex2html1361"
+  HREF="8Analysis_Properties.html#SECTION055153020000000000000">2 Input for Molecular dynamics:</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html1362"
+  HREF="8Analysis_Properties.html#SECTION055160000000000000000">16 OPTIC</A>
+<UL>
+<LI><A NAME="tex2html1363"
+  HREF="8Analysis_Properties.html#SECTION055161000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1364"
+  HREF="8Analysis_Properties.html#SECTION055162000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1365"
+  HREF="8Analysis_Properties.html#SECTION055163000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1366"
+  HREF="8Analysis_Properties.html#SECTION055170000000000000000">17 JOINT</A>
+<UL>
+<LI><A NAME="tex2html1367"
+  HREF="8Analysis_Properties.html#SECTION055171000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1368"
+  HREF="8Analysis_Properties.html#SECTION055172000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1369"
+  HREF="8Analysis_Properties.html#SECTION055173000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1370"
+  HREF="8Analysis_Properties.html#SECTION055180000000000000000">18 KRAM</A>
+<UL>
+<LI><A NAME="tex2html1371"
+  HREF="8Analysis_Properties.html#SECTION055181000000000000000">1 Execution</A>
+<LI><A NAME="tex2html1372"
+  HREF="8Analysis_Properties.html#SECTION055182000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html1373"
+  HREF="8Analysis_Properties.html#SECTION055183000000000000000">3 Input</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1374"
+  HREF="8Analysis_Properties.html#SECTION055190000000000000000">19 FSGEN</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05500000000000000000"></A>
+<A NAME="cha:utilities"></A>
+<BR>
+8 Programs for analysis, 
+calculation of properties, and geometry optimization
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION05510000000000000000"></A>
+<A NAME="sec:tetra"></A><A NAME="6591"></A>
+<BR>
+1 TETRA (density of states)
+</H1>
+
+<P>
+This program calculates total and partial density of states (DOS) by
+means of the modified tetrahedron method (Bl&#246;chl et al 1994). It
+uses the partial charges in <TT><B>case.qtl</B></TT> generated by <TT><B>lapw2</B></TT>
+(switch QTL) and generates the DOS in states/Ry (files
+<TT><B>case.dos1/2/3</B></TT>) and in states/eV (with respect to the Fermi
+energy; files <TT><B>case.dos1/2/3ev</B></TT>). In spin-polarized
+calculations the DOS is given in states/Ry/spin (or states/eV/spin).
+
+<P>
+Please note: The total DOS is equal to the sum over the atoms of the total-atomic 
+DOS (inside spheres) and the interstitial-DOS. (Thus in the total-atomic 
+DOS the ``multiplicity'' of an atom is considered). On the other hand, in
+the partial (lm-like) DOS the multiplicity is not considered and one obtains
+the total-atomic DOS as a sum over all partial DOS times the multiplicity.
+
+<P>
+The ``m-decomposed'' DOS (e.g. <IMG
+ WIDTH="65" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img221.png"
+ ALT="$p_z, p_y, p_x$">) is given with respect to the 
+local coordinate system for each atom as defined by the local rotation matrix
+(see Appendix <A HREF="A_Local_rotation.html#sec:loc-rot">A</A>).
+
+<P>
+It is strongly recommended that you use ``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">
+  Tasks <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Density of States</I>'' from <EM>w2web</EM>.
+
+<P>
+
+<H2><A NAME="SECTION05511000000000000000"></A>
+<A NAME="sec:tetra-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>tetra</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>tetra tetra.def</B></TT> or <TT><B>x tetra [-up|dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05512000000000000000"></A>
+<A NAME="sec:tetra-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listed in file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. number of DOS cases (usually 21)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LXDOS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>usually 1, except for ``cross-DOS'' when using TELNES.2  = 3</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05513000000000000000"></A>
+<A NAME="sec:tetra-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+------------------ top of file: case.int ------------------
+TiO2                         		# Title  
+ -1.000     0.00250   1.200 0.003 	# EMIN, DE, EMAX for DOS, GAUSS-Broad
+    7                        		# NUMBER OF DOS-CASES
+    0    1   tot             		# jatom, doscase, description
+    1    2   Ti-s   
+    1    3   Ti-p   
+    1    4   Ti-px
+    1    5   Ti-py
+    1    6   Ti-pz
+    2    1   O-tot
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+title
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+emin, delta, emax, broad
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin, delta, emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the energy mesh (in Ry) where the
+    DOS is calculated. (emin should be set slightly below the lowest
+    valence band; emax will be checked against the lowest energy of the
+    highest band in <TT><B>case.qtl</B></TT>, and set to the minimum of these
+    two values; delta is the energy increment.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>broad</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Gauss-broadening factor. Must be greater than delta to have any effect.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+ndos
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ndos</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the number of DOS cases to be calculated. It
+    should be at least 1 and can get up to 21. The corresponding output is
+    written in groups of 7 to respective <TT><B>case.dosX</B></TT> files</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>(2i5,3x,a6)
+<BR>
+jatom, jcol, description
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>jatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies for which atom the DOS is calculated. 0 means
+    total DOS, <IMG
+ WIDTH="120" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img222.png"
+ ALT="$jatom=nat+1$"> means DOS in the interstitial, where <IMG
+ WIDTH="28" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img223.png"
+ ALT="$nat$">
+    is the number of inequivalent atoms. When spin-orbit is included,
+  <IMG
+ WIDTH="120" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img222.png"
+ ALT="$jatom=nat+1$"> gives total spin-up/dn DOS in a spinpolarized SO calculation,
+  but is meaningless in a non-spinpolarized SO case.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>jcol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the column to be used in the respective
+    QTL-file. 1 means total, 2 ...s, 3 ...p, ...The further
+    assignment depends on the value of ISPLIT set in
+    <TT><B>case.struct</B></TT> (see sec. <A HREF="4Files_Program.html#sec:struct-file">4.3</A>); the
+    respective description can be found in the header of <TT><B>case.qtl</B></TT>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>description</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>text used for further identification.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">:line 4</STRONG></DT>
+<DD>is repeated ``ndos`` times
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05520000000000000000"></A>
+<A NAME="sec:qtl"></A><A NAME="6628"></A><A NAME="6629"></A>
+<BR>
+2 QTL (calculates special partial charges)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+   J.Kune\v{s} \\
+Inst. of Physics, Acad.Science, Prague, Czeck Republic \\
+   email: kunes@fzu.cz \\
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="138" ALIGN="MIDDLE" BORDER="0"
+ SRC="img224.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+J.Kune\v{s} \\
+Inst. of Physics, Acad.Science,...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+<TT><B>qtl</B></TT> creates the input for calculating total density of states,
+ spin projected densities of 
+states and densities of states projected on an arbitrary basis of a
+given <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$">-subshell of any atom (including the relativistic <IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img225.png"
+ ALT="$jj_z$"> basis)
+using <TT><B>tetra</B></TT>. For example it supports calculations of ``<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$">''
+or ``<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$p_{3/2}$">'' DOS or an ``approximate <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img226.png"
+ ALT="$e_g$">/<IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$t_{2g}$">'' splitting in a distorted
+structure.
+The calculation is based on the spectral decomposition of a density matrix
+on a given atomic site and its transformation to the required basis.
+There are three types of input, which determine the results of the program:
+
+<P>
+a) the ordinary input file described below, 
+
+<P>
+b) the unitary transformation matrix from the standard <IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img227.png"
+ ALT="${}_{lms}$">-basis to the required one. For the most common bases (e.g. <IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img228.png"
+ ALT="${}_{jj_z}$">, <IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img227.png"
+ ALT="${}_{lms}$">, or
+<IMG
+ WIDTH="58" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img229.png"
+ ALT="$e_g-t_{2g}$">) these matrices are supplied with the code in 
+<TT><B>$WIENROOT/SRC_templates/case.cf_*</B></TT> and must be copied to 
+<TT><B>case.cf$iatom</B></TT> . For less common cases these must be generated
+by hand. 
+
+<P>
+c) the proper setting of the local rotation matrix in the <TT><B>case.struct</B></TT>
+ file, which 
+may be different from the setting for the scf calculation. In the special
+case of <IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img225.png"
+ ALT="$jj_z$"> projected densities of states the local <IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img182.png"
+ ALT="$z$">-axis must coincide with 
+the magnetization direction defined in <TT><B>case.inso</B></TT>. This is not done automatically but
+a message is written in the output together with the spin coordinate matrix.
+
+<P>
+<TT><B>qtl</B></TT> can use ``parallel'' vector-files and the output is written to <TT><B>case.qtl$iatom</B></TT>, which is used as an input for <TT><B>tetra</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05521000000000000000"></A>
+<A NAME="sec:qtl-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>qtl</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>x qtl [ -up/dn -so -p ]</B></TT> or
+<BR>  <TT><B>qtl qtl.def </B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05522000000000000000"></A>
+<A NAME="sec:qtl-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere (consistent with
+          <TT><B>lapw1</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LABC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l of wave function inside sphere where SO is considered</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max l for local orbital basis</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05523000000000000000"></A>
+<A NAME="sec:qtl-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+A sample input for <TT><B>case.inq</B></TT> is given below.
+
+<P>
+<PRE>
+------------------ top of file: case.inq --------------------
+FULL               (SUMA,SPIN,TOTA)
+DOSYM              (NOSYM)
+0.0 1.2            Emin, Emax
+0.768              Fermi energy 
+ 2                 number of atoms for which density matrix is calculated
+ 1  2              index of 1st atom, L
+ 4  3
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>formatA4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>FULL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>all <IMG
+ WIDTH="65" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img230.png"
+ ALT="$2(2l+1)$"> components of <IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$">-subshell  are calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SUMA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>only sums defined by stars in the <TT><B>case.cf$n</B></TT> file calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SPIN</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>projections of total DOS on up/dn subspaces for the case of a calculation with SOC</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TOTA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>shortcut for calculating total DOS only.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>formatA5
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>DOSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>standard option</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NOSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>symmetrization switched off. Allowed only in special cases.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin,emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy window</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ef</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Fermi energy</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>natom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of atom for which projected DOS is calculated</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format 
+<BR>
+iatom, l 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of atom for which projected DOS should be calculated</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>l</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>l-value for which projected DOS should be calculated</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>is repeated natom times
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05530000000000000000"></A>
+<A NAME="sec:spaghetti"></A><A NAME="6679"></A>
+<BR>
+3 SPAGHETTI (energy bandstructure plots)
+</H1>
+
+<P>
+This program generates an energy bandstructure plot (postscript file
+<TT><B>case.spaghetti_ps</B></TT> and xmgrace file <TT><B>case.bands.agr</B></TT>)
+using the eigenvalues printed in <TT><B>case.output1</B></TT> or <TT><B>case.outputso</B></TT>. 
+Using the SCF
+potentials one runs <TT><B>x lapw1 -band</B></TT> with a special k-mesh along some
+high-symmetry lines (some sample inputs can be found in
+<TT><B>SRC_templates/*.klist</B></TT> or you create your own k-mesh using <TT><B>Xcrysden</B></TT>). As an option, one can emphasize the
+character of the bands by additionally supplying corresponding partial
+charges (file <TT><B>case.qtl</B></TT> which can be obtained using <TT><B>x lapw2 -qtl -band</B></TT>
+, see <A HREF="7SCF_cycle.html#sec:lapw2">7.5</A>). This will 
+be called
+``band-character plotting`` below, in which each energy is drawn by a
+circle whose radius is proportional to the specified character of that
+state. It allows to analyze the character of bands (see also figures
+<A HREF="3Quick_Start.html#fig:tic-bandstructure">3.15</A> and <A HREF="3Quick_Start.html#fig:tic-bandcharacter">3.16</A>).
+
+<P>
+The file <TT><B>case.bands.agr</B></TT> can be opened directly with <TT><B>xmgrace</B></TT>. 
+Within xmgrace, all
+features of the plot, such as the plot range, the plot size,
+line properties (style, thickness and color), axis properties, labels,
+etc.&nbsp; can easily be changed by either
+using the menu (submenus of the "Plot" menu) or double-klicking on the
+corresponding part of the figure. The size of the characters for a
+``band-character plot`` can be changed in the menu
+"Plot/Graph appearance/Z normalization".
+The figures can directly be printed or exported in eps, jpg, png
+and other formats, via the menus "File/Print setup"
+and "File/Print".
+
+<P>
+C.Persson has modified this program and it allows now also to draw connected
+lines. For this purpose it uses the irreducible 
+representations
+(from file <TT><B>case.irrep</B></TT> produced by program <TT><B>irrep</B></TT> together with
+a table of ``compatibility relations'' to decide which points should be 
+connected (non-crossing rule !). <I>(Note: The latter may not be complete
+leading to incorrect connections between high symmetry points and neighboring
+points in the BZ. Please inform us of such cases) </I>
+
+<P>
+It is strongly recommended that you use ``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">
+Tasks <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Bandstructure</I>'' from <EM>w2web</EM>.
+
+<P>
+
+<H2><A NAME="SECTION05531000000000000000"></A>
+<A NAME="sec:spaghetti-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>spaghetti</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>spaghetti spaghetti.def</B></TT> or <TT><B>x spaghetti [-up|dn] [-so] [-p]</B></TT>
+<BR>
+</BLOCKQUOTE>
+
+<P>
+The -p switch directs spaghetti to use the <TT><B>case.output1_*</B></TT> files of a k-point parallel lapw1.
+
+<P>
+
+<H2><A NAME="SECTION05532000000000000000"></A>
+<A NAME="sec:spaghetti-in"></A>
+<BR>
+2 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+----------------- top of file: case.insp -------------------
+### Figure configuration
+ 5.0   3.0                         # paper offset of plot
+10.0  15.0                         # xsize,ysize [cm]
+ 1.0   4                           # major ticks, minor ticks
+ 1.0   1                           # character height, font switch
+ 1.1   2    4                      # line width, line switch, color switch
+### Data configuration            
+-25.0 15.0  2                      # energy range, energy switch (1:Ry, 2:eV)
+1      0.74250                     # Fermi switch,  Fermi-level (in Ry units)
+1   999                            # number of bands for heavier plotting   1,1
+0      1    0.02                   # jatom, jtype, size  of heavier plotting   
+------------------- bottom of file ------------------------
+</PRE>
+for ``character plotting``
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+test
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>test</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>line must start with '###'. Begin of figure description. This tests also if you use the new
+input (different from WIEN97 or early WIEN2k versions)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+xoffset, yoffset
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>xoffset</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>x offset (in cm) of origin of plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>yoffset</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>y offset (in cm) of origin of plot</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+xsize,ysize
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>xsize</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>plotsize in x direction (cm)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ysize</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>plotsize in y direction (cm)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+eincr, mtick
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>eincr</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy increment where y-axis labels are printed (major ticks)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>mtick</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of minor ticks of y-axis</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+charh, font
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>charh</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>scaling factor for size of labels</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>font</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>no text</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Times and Symbol</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Times,Times-Italic and Symbol</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Helvetica, Symbol, and  Helvetica-Italic</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>4</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>include your own fonts in defins.f</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+linew, ilin, icol
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>linew</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>line width</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ilin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>dots or open circles (WIEN97 style)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lines</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lines and open circles</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lines and filled circles</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>icol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>black</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>one-color plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>three-color plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>multi-color plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>4</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>multi-color plot,one color for each irred. representation</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>free format
+<BR>
+test
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>test</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>line must start with '###'. Begin of data description.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 8:</STRONG></DT>
+<DD>free format
+<BR>
+emin, emax, iunits 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy minimum of plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energy maximum of plot</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iunits</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energies in Ry (internal scale)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>energies in eV with respect to <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img231.png"
+ ALT="$E_f$"></TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 9:</STRONG></DT>
+<DD>free format
+<BR>
+iferm, efermi
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iferm</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>no line at EF</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>solid line  at EF</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>dashed line  at EF</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>dotted line  at EF</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>efermi</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Fermi energy (Ry); can be found in the respective
+    <TT><B>case.scf</B></TT> file. If set to 999., <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img231.png"
+ ALT="$E_f$"> is not
+    plotted (and iunits=2 cannot be used)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 10:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nband1, nband2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lower and upper band index for bands which should
+    show ``band-character plotting`` (if <TT><B>case.qtl</B></TT> is
+    present and the proper switch is set, see below). In addition the
+    corresponding x and y coordinates are written to file
+    <TT><B>case.spaghetti_ene</B></TT> (which can be used for plotting
+    with an external xy-plotting program).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 11:</STRONG></DT>
+<DD>free format
+<BR>
+jatom, jcol, jsize
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>jatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>If a <TT><B>case.qtl</B></TT> file is present, jatom
+         indicates the atom whose character (selected by jcol) is used for
+         ``band-character plotting`` (dots are replaced by circles with
+         radii proportional to the corresponding weight). If set to zero or
+         if <TT><B>case.qtl</B></TT> is not present, ``band-character
+         plotting`` does not occur.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>jcol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the column to be used in the respective
+         QTL-file. 1 means total, 2 ...s, 3 ...p, ...The further
+         assignment depends on the value of ISPLIT set in  <TT><B>case.struct</B></TT>. 
+         (ignored for jatom=0). The description can be found in the header of
+         <TT><B>case.qtl</B></TT>.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>jsize</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>size factor for radii of circles used in ``band-character
+             plotting''</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>if line 11</STRONG></DT>
+<DD>is repeated, one can average the QTLs for different atoms
+(but with identical jcol and jsize).
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION05540000000000000000"></A>
+<A NAME="sec:irrep"></A><A NAME="6733"></A><A NAME="6734"></A>
+<BR>
+4 IRREP (Determine irreducible representations)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+   Clas Persson \\
+Condensed Matter Theory Group, Department of Physics, \\
+University of Uppsala, Sweden \\
+   email: Clas.Persson@fysik.uu.se \\
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="158" ALIGN="MIDDLE" BORDER="0"
+ SRC="img232.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Clas Persson \\
+Condensed Matter Theory Group,...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This program determines the irreducible representation for each eigenvalue
+and all your k-points. It is in particular usefull to analyse energy bands
+and their connectivity.
+
+<P>
+You need a valid vector file, but no other input is required. The output 
+can be found in <TT><B>case.outputir</B></TT> and  <TT><B>case.irrep</B></TT>.
+For nonmagnetic SO calculations you must set IPR=1 in  <TT><B>case.inso</B></TT>.
+
+<P>
+The output of this program is needed when you want to draw bandstructures
+with connected lines (instead of ``dots'').
+
+<P>
+It will not work in cases of non-symmorphic spacegroups AND k-points at the
+surface of the BZ. See also <TT><B>$WIENROOT/SRC_irrep/README</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05541000000000000000"></A>
+<A NAME="sec:irrep-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>irrep</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>irrep [up/dn]irrep.def</B></TT> or   <TT><B>x irrep [-so -up/dn ]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05542000000000000000"></A>
+<A NAME="sec:irrep-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listend in file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. no. of local orbital. should be
+                consistent with lapw1 and lapwso</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NLOAT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of different types of LOs</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MSTP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. step to describe k as a fraction</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MAXDG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. no. of degenerate eigenfunctions</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MAXIRDG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. no. of degenerate irr. representations</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>FLMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>size of flag (FL) array (should be 4)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MAXIR</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. no. of irreducible representations</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>max. no. of symmetry operations</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>TOLDG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>min. energy deviation of degenerate states,
+                in units of Rydberg</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H1><A NAME="SECTION05550000000000000000"></A>
+<A NAME="sec:lapw3"></A><A NAME="6755"></A><A NAME="6756"></A>
+<BR>
+5 LAPW3 (X-ray structure factors)
+</H1>
+
+<P>
+This program calculates X-ray structure factors from the charge
+density by Fourier transformation.
+
+<P>
+You have to specify interactively valence or total charge density
+(because of the different normalization of <TT><B>case.clmsum</B></TT> and
+<TT><B>case.clmval</B></TT>) and a maximum <!-- MATH
+ $sin \theta/\lambda$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img233.png"
+ ALT="$sin \theta/\lambda$"> value.
+
+<P>
+
+<H2><A NAME="SECTION05551000000000000000"></A>
+<A NAME="sec:lapw3-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapw3</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>lapw3 lapw3.def</B></TT> or <TT><B>lapw3c lapw3.def</B></TT> or <TT><B>x lapw3 [-c ]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05552000000000000000"></A>
+<A NAME="sec:lapw3-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listend in file <TT><B>param.inc_r</B></TT> or
+<TT><B>param.inc_c</B></TT> :
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest L in in LM expansion of charge and potential</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H1><A NAME="SECTION05560000000000000000"></A>
+<A NAME="sec:lapw5"></A><A NAME="6776"></A><A NAME="6777"></A>
+<BR>
+6 LAPW5 (electron density plots)
+</H1>
+
+<P>
+This program generates the charge density (or the potential) in a
+specified plane of the crystal on a two dimensional grid which can be
+used for plotting with an external contour line program of your
+choice. Depending on the input files one can generate valence
+(<TT><B>case.clmval</B></TT>) or difference densities (i.e. crystalline minus
+superposed atomic densities) using the additional file
+(<TT><B>case.sigma</B></TT>). In spinpolarized cases one can produce up-, dn- and 
+total densities but also spin densities (difference up-dn). 
+It is also possible to plot total densities
+(<TT><B>case.clmsum</B></TT>), Coulomb (<TT><B>case.vcoul</B></TT>),
+exchange-correlation (<TT><B>case.r2v</B></TT>) or total (<TT><B>case.vtotal</B></TT>) potentials, but in
+those cases the file <TT><B>lapw5.def</B></TT> has to be edited and you must
+replace <TT><B>case.clmval</B></TT> by the respective filename. The file
+<TT><B>case.rho</B></TT> contains in the first line
+
+<P>
+<BLOCKQUOTE>
+<TT><B>npx, npy, xlength, ylength;</B></TT>
+
+</BLOCKQUOTE>
+and then the density (potential) written with:
+
+<P>
+<PRE>
+      write(21,11) ((charge(i,j),j=1,npy),i=1,npx)
+ 11   format(5e16.8)
+</PRE>
+
+<P>
+It is strongly recommended that you use ``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">
+  Tasks <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Electron density plots</I>'' from <EM>w2web</EM>, see the TiC example in Fig.<A HREF="3Quick_Start.html#fig:wien_densel">3.6</A> . 
+
+<P>
+
+<H2><A NAME="SECTION05561000000000000000"></A>
+<A NAME="sec:lapw5-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>lapw5</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>lapw5 lapw5.def</B></TT> or <TT><B>lapw5c lapw5.def</B></TT> or <TT><B>x lapw5 [-c -up|dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05562000000000000000"></A>
+<A NAME="sec:lapw5-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listend in file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest L in in LM expansion of charge and potential</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NPT00</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points beyond RMT</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05563000000000000000"></A>
+<A NAME="sec:lapw5-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below. You may want to use XCRYSDEN by T.Kokalj to 
+generate this file (see sect. <A HREF="9Utility_Programs.html#sec:xcrysden">9.17.2</A>).
+
+<P>
+<PRE>
+---------------- top of file: case.in5 --------------------
+0 0 0 1           # origin of plot: x,y,z,denominator
+1 1 0 1           # x-end of plot
+0 0 1 2           # y-end of plot
+3 3 3             # x,y,z nshells (of unit cells)
+100 100           # nx,ny
+RHO               # RHO/DIFF/OVER; ADD/SUB or blank
+ANG VAL NODEBUG   # ANG/ATU, VAL/TOT, DEBUG/NODEBUG
+NONORTHO          # optional line: ORTHO|NONORTHO
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ix,iy,iz,idv</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>The plane and section of the plot is specified
+    by three points in the unit cell, an origin of the plot, an x-end
+    and an y-end. The first line specifies the coordinates of the
+    origin, where x=ix/idv, ...in units of the lattice vectors
+    (except fc, bc and c lattices, where the lattice vectors of the
+    conventional cell are used)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ix,iy,iz,idv</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>coordinates of x-end</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ix,iy,iz,idv</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>coordinates of y-end (The two directions x and
+    y must be orthogonal to each other unless NONORTHO is selected).
+    Since it is quite difficult to specify those 3 points for a
+    rhombohedral lattice, an auxiliary program <TT><B>rhomb_in5</B></TT> is
+    provided, which creates those points when you specify 3 atomic
+    positions which will define your plane.  You can find this program
+    using ``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Other Goodies</I>'' from <EM>w2web</EM>.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nxsh, nysh, nzsh</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the number of nearest neighbor cells 
+         (in x,y,z direction) where atomic positions are generated 
+         (needs to be increased for very large plot sections, otherwise some
+          ``atoms'' are not found in the plot)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>npx, npy</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies number of grid points in plot. npy=1 produces 
+          a file <TT><B>case.rho_onedim</B></TT> containing the distance r (from the origin) 
+          and the respective density, which can be used in a
+          standard x-y plotting program.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>format (2a4)
+<BR>
+switch, addsub
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>RHO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>charge (or potential) plots, no atomic density
+                   is used (regular case)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>DIFF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>difference density plot (crystalline - superposed 
+                   atomic densities), needs file <TT><B>case.sigma</B></TT> (which
+                   is generated with LSTART, see section <A HREF="6Initialization.html#sec:lstart">6.4</A>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>OVER</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>superposition of atomic densities, needs file
+                   <TT><B>case.sigma</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>addsub</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>(or blank field): use only the file from unit 9</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ADD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>adds densities from units 9 and 11 (if present), 
+                   e.g. to add spin-up and down densities.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>SUB</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>subtracts density of unit 11 (if present) from that of
+                   unit 9 (e.g. for the spin-density, which is the difference
+                   between spin-up and down densities).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>format (3a4)
+<BR>
+iunits, cnorm, debug
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iunits</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ATU</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>density (potential) in atomic units 
+                   e/<IMG
+ WIDTH="37" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img234.png"
+ ALT="$\mbox{a.u.}^3$"> (or Ry)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ANG</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>density in e/<!-- MATH
+ ${\mbox{\AA}}^3$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img235.png"
+ ALT="${\mbox{\AA}}^3$"> (do not use this option for potentials)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>cnorm</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>determines normalization factor</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>VAL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>used for files <TT><B>case.clmval</B></TT>, 
+                   <TT><B>r2v</B></TT>, <TT><B>vcoul</B></TT>, <TT><B>vtotal</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>TOT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>used for files <TT><B>case.clmsum</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>debug</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>DEBU</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>debugging information is printed (large output)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 8:</STRONG></DT>
+<DD>free format 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>noorth1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ORTHO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>(default) enforces directions to be orthogonal</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NONORT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>directions can be arbitrary; use this option only
+                    if your plotting program supports non orthogonal
+                    plots (e.g. for XCRYSDENS).</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+In order to plot total densities or potentials (see cnorm as above)
+you have to create <TT><B>lapw5.def</B></TT> using <TT><B>x lapw5 -d</B></TT>, then edit
+<TT><B>lapw5.def</B></TT> and insert proper filenames (<TT><B>case.clmval</B></TT>,
+<TT><B>case.r2v</B></TT>, <TT><B>case.vcoul</B></TT>, <TT><B>case.vtotal</B></TT>) for units 9 and 11, and finally run
+<TT><B>lapw5 lapw5.def</B></TT>.
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05570000000000000000"></A>
+<A NAME="sec:aim"></A><A NAME="6845"></A><A NAME="6846"></A>
+<BR>
+7 AIM (atoms in molecules)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+Javier D. Fuhr and Jorge O. Sofo \\[-.0ex]
+Instituto Balseiro and Centro Atomico Bariloche \\[-.0ex]
+S. C. de Bariloche - Rio Negro, Argentina \\[-.0ex]
+email: fuhr@cab.cnea.gov.ar and sofo@cab.cnea.gov.ar \\[-.0ex]
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="158" ALIGN="MIDDLE" BORDER="0"
+ SRC="img236.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Javier D. Fuhr and Jorge O. Sofo  [-.0ex]
+Inst...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This program analyses the topology of the electron density according to Bader's 
+``Atoms in molecules'' theory. For more information see Bader 2001 and 
+Sofo and Fuhr 2001. 
+
+<P>
+The original code has been significantly speeded-up by
+L.Marks (L-marks@northwestern.edu). There are some new optional keywords in the
+input (usually not needed, more for testing) and also more debugging
+output. All changes are described in <TT><B>$WIENROOT/SRC_aim/Notes.txt</B></TT>.
+
+<P>
+Basically it performs two different tasks, namely searching for ``critical 
+points'' (CP) and/or determination of the atomic basins with an integration of the 
+respective charge density.
+
+<P>
+It is important that you provide a ``good'' charge density, i.e. one
+which is well converged with respect to LMMAX in the CLM-expansion (you may
+have to increase the default LM-list to LM=8 or
+10) and with as little ``core-leakage'' as possible (see <TT><B>lstart</B></TT>, sect. <A HREF="6Initialization.html#sec:lstart">6.4</A>), otherwise discontinuities appear at the sphere boundary.
+
+<P>
+
+<H2><A NAME="SECTION05571000000000000000"></A>
+<A NAME="sec:aim-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>aim</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>aim aim.def</B></TT> or <TT><B>aimc aim.def</B></TT> or <TT><B>x aim [-c ]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05572000000000000000"></A>
+<A NAME="sec:aim-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listed in file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest L in in LM expansion of charge and potential</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION05573000000000000000"></A>
+<A NAME="sec:aim-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+The input file contains ``SWITCHES'', followed by the necessary parameters
+until an END-switch has been reached.
+
+<P>
+Examples for ``critical-point'' searches and ``charge-integration'' are given below:
+
+<P>
+<PRE>
+---------------- top of file: case.inaim --------------------
+CRIT
+1                 # index of the atom (counting multiplicity)
+ALL               # TWO/THRE/ALL /FOUR	
+3 3 3             # x,y,z nshells (of unit cells)
+END
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>CRIT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Keyword to calculate critical points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of the atom from where the search should be started. 
+This count includes the multiplicity, i.e. if the first atom has MULT=2, 
+the ``second atom'' has iatom=3 (Do not use simply the atom-numbers from 
+<TT><B>case.struct</B></TT>)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>KEY</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>TWO, THRE, ALL, or FOUR</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines the starting point for the CP search
+to be in the middle of 2, 3 or 4 atoms. ALL combines option  TWO and THRE together.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+nxsh, nysh, nzsh 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the number of nearest neighbor cells 
+         (in x,y,z direction) where atomic positions are generated.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>lines 1-4</STRONG></DT>
+<DD>can be repeated with different atoms or KEYs
+<BR></DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>END</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies end of job.</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+In <TT><B>case.outputaim</B></TT> the critical points are marked with a label <TT><B>:PC</B></TT>
+<BR><PRE>
+:PC a1 a2 a3 l1 l2 l3 c lap rho iat1 dist1 iat2 dist2
+</PRE>
+where a1,a2,a3 are the coordinates of the CP in lattice
+	vectors; l1 l2 l3 are the eigenvalues of the Hessian at the
+	CP; c is the character of the CP (-3, -1, 1 or 3); lap is the
+	Laplacian of the density at the CP (lap=l1+l2+l3) and rho is
+	the density at the CP (all in atomic units). In case of a
+        bond critical point (c=-1) also the nearest distances (dist1, dist2) 
+        to the two nearest atoms (iat1, iat2) are given.
+
+<P>
+For convenience run <TT><B>extractaim_lapw case.outputaim</B></TT> (see <A HREF="5Shell_scripts.html#sec:extractaim_lapw">5.2.9</A>) 
+and get in the file
+<TT><B>critical_points_ang</B></TT> a comprehensive list of the CP (sorted and unique)
+with all values given in <!-- MATH
+ $\AA, e/\AA^3, ...$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$\AA, e/\AA^3,...$"> (instead of bohr).
+
+<P>
+<PRE>
+---------------- top of file: case.inaim --------------------
+SURF
+3                                atom in center of surface (including MULT)
+40 0.0 3.1415926536              theta, 40 points, from zero to pi
+40 -0.7853981634 2.3561944902    phi
+0.07 0.8 2                       step along gradient line, rmin, check
+1.65 0.1                         initial R for search, step (a.u)
+3 3 3                            nshell
+IRHO                             "INTEGRATE" rho
+WEIT                             WEIT (surface weights from case.surf), NOWEIT 
+30                               30 radial points outside min(RMIN,RMT)¨
+END
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SURF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Keyword to calculate the Bader surface.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>iatom</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>index of the atom from where the search should be started. 
+This count includes the multiplicity, i.e. if the first atom has MULT=2, 
+the ``second atom'' has iatom=3 (Do not use simply the atom-numbers from 
+<TT><B>case.struct</B></TT>)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+ntheta, thmin, thmax
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ntheta</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of theta directions for the surface determination. This
+    (and nphi) determines the accuracy (and computing time).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>thmin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>starting angle for theta</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>thmax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>ending angle for theta. If you have higher symmetry, you can
+change the angles thmin=0, thmax=<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$\pi$"> and use only the ``irreducible'' part, i.e. when you have a
+mirror plane normal to z (see case.outputs), restrict thmax to <IMG
+ WIDTH="30" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img238.png"
+ ALT="$\pi/2$">.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+nphi, phimin, phimax
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nphi</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of phi directions for the surface determination</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>phimin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>starting angle</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>phimax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>ending angle. (see comments for theta to reduce phi from the
+full <IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img239.png"
+ ALT="$0-2\pi$"> integration).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+h0, frmin, nstep	
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>h0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>step in real space to follow the gradient (&nbsp;0.1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>frmin</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>defines the radius, for which the routine assumes that the search path has
+		  entered an atom, given as ``rmin = frmin * rmt'' (&nbsp;0.8-1.0)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>nstep</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of steps between testing the position being inside or 
+outside of the 
+               surface (&nbsp;2-8).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+r0, dr0	
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>r0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>initial radius for the search of the surface radius (&nbsp;1.5)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>dr0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>step for the search of the surface radius(&nbsp;0.1)</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>free format
+<BR>
+nxsh, nysh, nzsh 
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the number of nearest neighbor cells 
+         (in x,y,z direction) where atomic positions are generated.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 8:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>IRHO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>integrate function on ``unit 9'' (usually <TT><B>case.clmsum</B></TT>)
+            inside previously defined surface (stored in <TT><B>case.surf</B></TT>).</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 9:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>WEIT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies the use of weights in <TT><B>case.surf</B></TT>.</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 9:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>npt</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies number of points for radial integration outside the MT (&nbsp;30)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 8:</STRONG></DT>
+<DD>A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>END</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>specifies end of job.</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05580000000000000000"></A>
+<A NAME="sec:lapw7"></A>
+<BR>
+8 LAPW7 (wave functions on grids / plotting)
+</H1>
+
+  This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+Uwe Birkenheuer \\[-.0ex]
+Max-Planck-Institut f\"ur Physik komplexer Systeme \\[-.0ex]
+N\"othnitzer Str.~38, D-01187 Dresden, Germany \\[-.0ex]
+email: birken@mpipks-dresden.mpg.de \\[-.0ex]
+and \\[-.0ex]
+Birgit Adolph, \\[-.0ex]
+University of Toronto, T.O., Canada \\[0.2ex]
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="216" ALIGN="MIDDLE" BORDER="0"
+ SRC="img240.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Uwe Birkenheuer  [-.0ex]
+Max-Planck-Institut f...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The program <TT><B>lapw7</B></TT> generates wave function data on spatial grids
+for a given set of <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points and electronic bands. 
+<TT><B>lapw7</B></TT> uses the wave function information stored in <TT><B>case.vector</B></TT> 
+(or in reduced (filtered) form in <TT><B>case.vectorf</B></TT> which can be obtained
+from <TT><B>case.vector</B></TT> by running the program <TT><B>filtvec</B></TT>).
+Depending on the options set in the input file <TT><B>case.in7(c)</B></TT> one can
+generate the real or imaginary part of the wave functions, it's modulus
+(absolute value) or argument, or the complex wave function itself. 
+For scalar-relativistic calculations both the large and the small 
+component of the wave functions can be generated (only one at a time).
+The wave functions are generated on a grid which is to be specified in
+the input file(s). The grid can either be any arbitrary list of points
+(to be specified free-formatted in a separate file <TT><B>case.grid</B></TT>) 
+or any <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dimensional grid (<IMG
+ WIDTH="64" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img242.png"
+ ALT="$n=0...3$">). The operating mode and 
+grid parameters are specified in the input file <TT><B>case.in7(c)</B></TT>.
+As output <TT><B>lapw7</B></TT> writes the specified wave function data for further
+processing - e.g. for plotting the wave functions with some graphical tools
+such as gnuplot - in raw format to <TT><B>case.psink</B></TT>. For quick inspection,
+a subset of this data is echoed to the standard output file
+<TT><B>case.outputf</B></TT> (the amount of data can be controlled in the input).
+In case, <TT><B>lapw7</B></TT> is called many times for one and the same wave function,
+program overhead can be reduced, by first storing the atomic augmentation
+coefficients <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.png"
+ ALT="$A_{lm}$">, <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$B_{lm}$"> (and <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="$C_{lm}$">) to a binary file <TT><B>case.abc</B></TT>.
+For the spin-polarized case two different calculations have to be performed
+using either the spin-up or the spin-down wave function data as input.
+
+<P>
+It should be easy to run <TT><B>lapw7</B></TT> in parallel mode, and/or to apply it to
+wave function data obtained by a spin-orbit interaction calculation.
+None of these options have been implemented so far.
+Also, <TT><B>lapw7</B></TT> has not yet been adapted for <EM>w2web</EM>.
+
+<P>
+Please note: <TT><B>lapw7</B></TT> requires an LAPW basis set and does not work with APW+lo yet.
+
+<P>
+
+<H2><A NAME="SECTION05581000000000000000"></A>
+<A NAME="sec:lapw7-exe"></A>
+<BR>
+1 Execution
+</H2>  
+
+<P>
+The program <TT><B>lapw7</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>lapw7 lapw7.def</B></TT> or <TT><B>lapw7c lapw7.def</B></TT> or <TT><B>x lapw7 [-c] [-up|dn] [-sel]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+With the <TT><B>-sel</B></TT> option <TT><B>lapw7</B></TT> expects data from the reduced (filtered) 
+wave function file <TT><B>case.vectorf</B></TT>, otherwise the standard wave function file
+<TT><B>case.vector</B></TT> is used. The reduced vector file <TT><B>case.vectorf</B></TT> is
+assumed to resist in the current working directory, while the standard 
+vector file <TT><B>case.vector</B></TT> (which may become quite large) is looked for in
+the <TT>WIEN</TT> scratch directory. For details see <TT><B>lapw7.def</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05582000000000000000"></A>
+<A NAME="sec:lapw7-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2> 
+
+<P>
+The following parameters are listed in file <TT><B>param.inc_(r/c)</B></TT>:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">NRAD</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT">NSYM</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">order of point group</TD>
+</TR>
+<TR><TD ALIGN="LEFT">LMAX7</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">maximum L value used for plane wave augmentation</TD>
+</TR>
+<TR><TD ALIGN="LEFT">LOMAX</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">maximum L value used for local orbitals</TD>
+</TR>
+</TABLE>
+
+<P>
+The meaning of <TT>LMAX7</TT> is the same as that of <TT>LMAX2</TT> in 
+<TT><B>lapw2</B></TT> and that of <TT>LMAX-1</TT> in <TT>lapw1</TT>. Rather than being 
+an upper bound it directly defines the number of augmentation functions 
+to be used. It may be set different to <TT>LMAX2</TT> in <TT><B>lapw2</B></TT> or 
+<TT>LMAX-1</TT> in <TT><B>lapw1</B></TT>, but it must not exceed the latter one.
+Note that, the degree of continuity of the wave functions across the boundary
+of the muffin tin sphere is quite sensitive to the choice of the parameter 
+<TT>LMAX7</TT>. A value of 8 for <TT>LMAX7</TT> turned out to be a good compromise.
+
+<P>
+
+<H2><A NAME="SECTION05583000000000000000"></A>
+<A NAME="sec:lapw7-in"></A>
+<BR>
+3 Input
+</H2> 
+
+<P>
+A sample input is given below. It shows how to plot a set of wave 
+functions on a 2-dim. grid.
+
+<P><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" COLSPAN=3><TT>
+
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+2D ORTHO         </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # mode  O(RTHOGONAL)|N(ON-ORTHOGONAL) </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+0 0 0 2          </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # x, y, z, divisor of origin </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+3 3 0 2          </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # x, y, z, divisor of x-end </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+0 0 3 2          </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # x, y, z, divisor of y-end </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+141 101 35 25    </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # grid points and echo increments </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+NO               </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # DEP(HASING)|NO (POST-PROCESSING) </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+RE  ANG LARGE </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # switch  ANG|ATU|AU  LARGE|SMALL </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+1 0              </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # k-point, band index </TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=3><TT>
+
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+</TABLE>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><B>line 1:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>format(A3,A1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" COLSPAN=3>mode flag</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">mode</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">the type of grid to be used</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ANY</TD>
+<TD ALIGN="LEFT">An arbitrary list of grid points is used.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">0D, 1D, 2D, or 3D</TD>
+<TD ALIGN="LEFT">An <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grid of points is used. 
+                            <!-- MATH
+ $n = 0, 1, 2, \mbox{or } 3$
+ -->
+<IMG
+ WIDTH="107" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img243.png"
+ ALT="$n = 0, 1, 2, \mbox{or } 3$">.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">flag</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">orthogonality checking flag (for <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grids only)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">N</TD>
+<TD ALIGN="LEFT">The axes of the <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grid are allowed to
+          be non-orthogonal.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">O or <!-- MATH
+ $\langle\mbox{blank}\rangle$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img244.png"
+ ALT="$\langle\mbox{blank}\rangle$"></TD>
+<TD ALIGN="LEFT">The axes of the <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grid have to be mutual
+          orthogonal.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 2:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>free format -- (for <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grids only)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ix iy iz idiv</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">Coordinates of origin of the grid, where x=ix/idv
+          etc. in units of the <I>conventional</I> lattice vectors.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 3:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>free format -- (for <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grids with <IMG
+ WIDTH="43" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img245.png"
+ ALT="$n&gt;0$"> 
+          only)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ix iy iz idiv</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">Coordinates of the end points of each grid axis.
+<BR>
+This input line has to be repeated <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-times.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 4:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>free format -- (not for 0-dim. grids)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">np ... npo ...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">In case of an <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grid, first the number of
+          grid points along each axis, and then the increments for the output
+          echo for each axis. Zero increments means that only the first and
+          last point on each axis are taken. In case of an arbitrary list of
+          grid points, the total number of grid points and the increment for
+          the output echo. Again a zero increments means that only the first
+          and last grid point are taken. Hence, for <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img241.png"
+ ALT="$n$">-dim. grids, altogether,
+          <IMG
+ WIDTH="37" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img246.png"
+ ALT="$2*n$"> integers must be provided; for arbitrary lists of grid points
+          two intergers are expected.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 5:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>format(A3)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">tool</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">post-processing of the wave functions</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">DEP</TD>
+<TD ALIGN="LEFT">Each wave function is multiplied by a complex phase
+          factor to align it (as most as possible) along the real axis (the 
+          so-called DEP(hasing) option).</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">NO</TD>
+<TD ALIGN="LEFT">No post-processing is applied to the 
+                            wave functions.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 6:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>format(A3,1X,A3,1X,A5)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" COLSPAN=3>switch iunit whpsi</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">switch</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">the type of wave function data to generate</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">RE</TD>
+<TD ALIGN="LEFT">The real part of the wave functions is 
+                            evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">IM</TD>
+<TD ALIGN="LEFT">The imaginary part of the wave functions is 
+                            evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ABS</TD>
+<TD ALIGN="LEFT">The absolute value of the wave functions is 
+                            evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ARG</TD>
+<TD ALIGN="LEFT">The argument the wave functions in the complex 
+                            plane is evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">PSI</TD>
+<TD ALIGN="LEFT">The complex wave functions are evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">iunit</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">the physical units for wave function output</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ANG</TD>
+<TD ALIGN="LEFT">&#197; units are used for the wave functions.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">AU or ATU</TD>
+<TD ALIGN="LEFT">Atomic units are used for the wave functions.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">whpsi</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">the relativistic component to be evaluated</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">LARGE</TD>
+<TD ALIGN="LEFT">The large relativistic component of wave function
+                           is evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">SMALL</TD>
+<TD ALIGN="LEFT">The small relativistic component of wave function
+                           is evaluated.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 7:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>free format</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" COLSPAN=3>iskpt iseig</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">iskpt</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">The <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points for which wave functions 
+          are to be evaluated. Even if the wave function information is read 
+          from <TT><B>case.vectorf</B></TT>, iskpt refers to the index of the 
+          <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point in the original <TT><B>case.vector</B></TT> file! If iskpt 
+          is set to zero, all <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points in <TT><B>case.vector(f)</B></TT> are 
+          considered.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">iseig</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">The band index for which wave functions 
+          are to be evaluated. Even if the wave function information is read 
+          from <TT><B>case.vectorf</B></TT>, iseig refers to the band index in the 
+          original <TT><B>case.vector</B></TT> file! If iseig is set to zero, all 
+          bands (for the selected <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point(s)) which can found in 
+          <TT><B>case.vector(f)</B></TT> are considered.</TD>
+</TR>
+</TABLE><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><B>line 8:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=3>format(A4) -- this line is optional</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">handle</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">augmentation coefficient control flag</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">SAVE or STOR(E)</TD>
+<TD ALIGN="LEFT">Augmentation coefficients are stored in 
+          <TT><B>case.abc</B></TT>). No wave function data is generated in this case.
+          This option is only allowed if a <I>single</I> wave function is
+          selected in the previous input line.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">READ or REPL(OT)</TD>
+<TD ALIGN="LEFT">Previously stored augmentation coefficients are
+          read in (from <TT><B>case.abc</B></TT>). This option is only allowed if the
+          <I>same</I> single wave function as the one who's augmentation 
+          coefficients are stored in <TT><B>case.abc</B></TT> is selected in the
+          previous input line.</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">anything else</TD>
+<TD ALIGN="LEFT">Augmentation coefficients are generated from the 
+                       wave function information in <TT><B>case.vector(f)</B></TT>.</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05590000000000000000"></A>
+<A NAME="sec:filtvec"></A>
+<BR>
+9 FILTVEC (wave function filter / reduction of case.vector)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+Uwe Birkenheuer \\[-.0ex]
+Max-Planck-Institut f\"ur Physik komplexer Systeme \\[-.0ex]
+N\"othnitzer Str.~38, D-01187 Dresden, Germany \\[-.0ex]
+email: birken@mpipks-dresden.mpg.de \\[-.0ex]
+and \\[-.0ex]
+Birgit Adolph \\[-.0ex]
+University of Toronto, T.O., Canada \\[0.2ex]
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="216" ALIGN="MIDDLE" BORDER="0"
+ SRC="img240.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Uwe Birkenheuer  [-.0ex]
+Max-Planck-Institut f...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The program <TT><B>filtvec</B></TT> reduces the information stored in 
+<TT><B>case.vector</B></TT> files by filtering out a user-specified selection of 
+wave functions. Either a fixed set of band indices can be selected which is 
+used for all selected <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points (global selection mode), or the band
+indices can be selected individually for each selected <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point
+(individual selection mode).
+The complete wave function and band structure information for the 
+selected <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points and bands is transferred to <TT><B>case.vectorf</B></TT>.
+The information on all other wave functions in the original file is 
+discarded. The structure of the generated <TT><B>case.vectorf</B></TT> file is 
+identical to that of the original <TT><B>case.vector</B></TT> file. Hence, it should 
+be possible to use <TT><B>case.vectorf</B></TT> as substitutes for <TT><B>case.vector</B></TT> 
+anywhere in the <B>WIEN</B> program package. (This has only been tested for 
+<TT><B>lapw7</B></TT>.and <TT><B>filtvec</B></TT>.)
+To filter vector files from spin-polarized calculations, <TT><B>filtvec</B></TT>
+has to be run separately for both the spin-up and the spin-down files.
+
+<P>
+<TT><B>filtvec</B></TT> has not yet been adapted for <EM>w2web</EM>.
+
+<P>
+
+<H2><A NAME="SECTION05591000000000000000"></A>
+<A NAME="sec:filtvec-exe"></A>
+<BR>
+1 Execution
+</H2>    
+
+<P>
+The program <TT><B>filtvec</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>filtvec filtvec.def</B></TT> or <TT><B>filtvecc filtvec.def</B></TT> or <TT><B>x filtvec [-c] [-up|dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+In accordance with the file handling for <TT><B>lapw1</B></TT> and <TT><B>lapw7</B></TT> the input 
+vector file <TT><B>case.vector</B></TT> is assumed to be located in the <TT>WIEN</TT>
+scratch directory, while the reduced output vector file <TT><B>case.vectorf</B></TT> is
+written to the current working directory. See <TT><B>filtvec.def</B></TT> for details.
+
+<P>
+
+<H2><A NAME="SECTION05592000000000000000"></A>
+<A NAME="sec:filtvec-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>    
+
+<P>
+The following parameters are listed in file <TT><B>param.inc_(r/c)</B></TT>:
+
+<P>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">NKPT</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">number of <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points</TD>
+</TR>
+<TR><TD ALIGN="LEFT">LMAX</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">maximum number of L values used (as in <TT><B>lapw1</B></TT>)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">LOMAX</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">maximum L value used for local orbitals (as in <TT><B>lapw1</B></TT>)</TD>
+</TR>
+</TABLE>
+
+<P>
+The parameter <TT>LMAX</TT> and <TT>LOMAX</TT> must be set precisely as in 
+<TT><B>lapw1</B></TT>; all other parameters must not be chosen smaller than the
+corresponding parameters in <TT><B>lapw1</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05593000000000000000"></A>
+<A NAME="sec:filtvec-in"></A>
+<BR>
+3 Input
+</H2>   
+
+<P>
+Two examples are given below. The first uses global selection mode; the 
+second individual selection mode.
+<BR>
+<BR>
+
+<P>
+I. Global Selection Mode
+
+<P>
+<BR>
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="CENTER" COLSPAN=4><TT>
+
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+3 </TT></TD>
+<TD ALIGN="LEFT"><TT> 1 17 33  </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # number of k-points, k-points </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+2 </TT></TD>
+<TD ALIGN="LEFT"><TT> 11 -18   </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # number of bands, band indices </TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=4><TT>
+
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<BR>
+<BR>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><B>line 1:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=2>free format</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">kmax  ik(1) ... ik(kmax)</TD>
+<TD ALIGN="LEFT">Number of <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point list items, followed by 
+          the list items themselves. Positive list items mean selection of 
+          the <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point with the specified index; negative list items mean
+          selection of a range of <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points with indices running from
+          the previous list item to the absolute value of the current one. 
+          E.g.&nbsp;the sequence 2&nbsp;-5 stands for 2, 3, 4, and 5.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 2:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=2>free format</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">nmax <IMG
+ WIDTH="7" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img247.png"
+ ALT="$ $"> ie(1) ... ie(nmax)</TD>
+<TD ALIGN="LEFT">Number of band index items, followed by 
+          the list items themselves. Again, positive list items mean selection
+          of a single band index; negative list items mean selection of 
+          a range of band indices.</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+
+<P>
+II. Individual Selection Mode
+
+<P>
+<BR>
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="CENTER" COLSPAN=5><TT>
+
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+2 : </TT></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # number of k-points </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+17  </TT></TD>
+<TD ALIGN="LEFT"><TT>  4 </TT></TD>
+<TD ALIGN="LEFT"><TT> 11 13 15 17 </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # k-point, number of bands, band indices </TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><TT>
+33  </TT></TD>
+<TD ALIGN="LEFT"><TT>  3 </TT></TD>
+<TD ALIGN="LEFT"><TT> 11 -14 18   </TT></TD>
+<TD></TD>
+<TD ALIGN="LEFT"><TT> # k-point, number of bands, band indices </TT></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=5><TT>
+
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -</TT></TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<BR>
+<BR>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT"><B>line 1:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=2>free format</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">kmax</TD>
+<TD ALIGN="LEFT">the number of individual <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-points to be
+          selected. This number must be followed by any text, e.g. 
+          'SELECTIONS' or simply ':', to indicate individual selection
+          mode.</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><B>line 2:</B></TD>
+<TD ALIGN="LEFT" COLSPAN=2>free format</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">ik  nmax  ie(1) ... ie(nmax)</TD>
+<TD ALIGN="LEFT">First the index of the selected <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point, 
+          then the number of band index items, followed by the list items for 
+          the current <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">-point themselves. Positive list items mean 
+          selection of the band with the specified index; negative list items 
+          mean selection of a range of band indices running from the previous 
+          list item to the absolute value of the current one. E.g.&nbsp;the 
+          sequence 3&nbsp;-7 stands for 3, 4, 5, and 7.
+<BR>
+This input line has to be repeated <I>kmax</I>-times.</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055100000000000000000"></A>
+<A NAME="sec:xspec"></A><A NAME="7189"></A><A NAME="7190"></A>
+<BR>
+10 XSPEC (calculation of X-ray Spectra)
+</H1>
+
+<P>
+This program calculates near edge structure of x-ray absorption or
+emission spectra according to the formalism described by Neckel et
+al.75, Schwarz et al. 79 and 80.  For a brief introduction see below. It uses the partial
+charges in <TT><B>case.qtl</B></TT>. This file must be generated separately
+using <TT><B>lapw2</B></TT>. Partial densities of states in <TT><B>case.dos1ev</B></TT>
+are generated using the <TT><B>tetra</B></TT> program.  Spectra are calculated for the
+dipole allowed transitions, generating matrix elements, which are
+multiplied with a radial transition probability and the partial
+densities of states. Unbroadened spectra are found in the file
+<TT><B>case.txspec</B></TT>, broadened spectra in the file <TT><B>case.xspec</B></TT>.
+Other generated files are: <TT><B>case.m1</B></TT> (matrix element for the
+selection rule L+1) and <TT><B>case.m2</B></TT> (matrix element for the
+selection rule L-1) and <TT><B>case.corewfx</B></TT> (radial function of the
+core state).  The calculation is done with several individual programs
+(<TT><B>initxspec</B></TT>, <TT><B>tetra</B></TT>, <TT><B>txspec</B></TT>, and <TT><B>lorentz</B></TT>).
+which are linked together with the c-shell script <TT><B>xspec</B></TT>.
+
+<P>
+It is strongly recommended that you use ``<I>Run Programs <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">
+  Tasks <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> X-ray spectra</I>'' from <EM>w2web</EM>.
+
+<P>
+
+<H2><A NAME="SECTION055101000000000000000"></A>
+<A NAME="sec:xspec-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+
+<H3><A NAME="SECTION055101100000000000000">
+1 Execution of the shell script xspec</A>
+</H3>
+The program <TT><B>xspec</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>xspec xspec.def </B></TT> or <TT><B> x xspec [-up|-dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H3><A NAME="SECTION055101200000000000000">
+2 Sequential execution of the programs</A>
+</H3>
+Besides calculating the X-ray spectra in one run using the
+<TT><B>xspec</B></TT> script, calculations can be done ``by hand``, i.e. step
+by step, for the sake of flexibility.
+
+<P>
+<DL>
+<DT><STRONG>initxspec</STRONG></DT>
+<DD>This program generates the appropriate input file
+  <TT><B>case.int</B></TT>, according to the dipole selection rule, for the
+  subsequent execution of the tetra program.
+
+<P>
+The program <TT><B>initxspec</B></TT> is executed by invoking the command:
+  <BLOCKQUOTE>
+<TT><B>initxspec xspec.def </B></TT> or <TT><B>x initxspec
+      [-up|-dn]</B></TT>
+  
+</BLOCKQUOTE>
+</DD>
+<DT><STRONG>tetra</STRONG></DT>
+<DD>The appropriate densities of states for (L+1) and (L-1)
+  states respectively are generated by execution of the <TT><B>tetra</B></TT>
+  program.
+
+<P>
+The program <TT><B>tetra</B></TT> is executed by invoking the command:
+  <BLOCKQUOTE>
+<TT><B>tetra tetra.def </B></TT> or <TT><B>x tetra [-up|-dn]</B></TT>
+  
+</BLOCKQUOTE>
+</DD>
+<DT><STRONG>txspec</STRONG></DT>
+<DD>This program calculates energy dependent dipole matrix
+  elements.  Theoretical X-ray spectra are generated using the partial
+  densities of states (in the <TT><B>case.dos1ev</B></TT> file) and multiplying
+  them with the corresponding dipole matrix elements.
+
+<P>
+The program <TT><B>txspec</B></TT> is executed by invoking the command:
+  <BLOCKQUOTE>
+<TT><B>txspec xspec.def </B></TT> or <TT><B>x txspec [-up|-dn]</B></TT>
+  
+</BLOCKQUOTE>
+</DD>
+<DT><STRONG>lorentz</STRONG></DT>
+<DD>The calculated spectra must be convoluted to account
+  for lifetime broadening and for a finite resolution of the
+  spectrometer before they can be compared with experimental spectra.
+  In the <TT><B>lorentz</B></TT> program a Lorentzian is used to achieve this
+  broadening.
+
+<P>
+The program <TT><B>lorentz</B></TT> is executed by invoking the command:
+  <BLOCKQUOTE>
+<TT><B>lorentz xspec.def </B></TT> or <TT><B>x lorentz [-up|-dn]</B></TT>
+  
+</BLOCKQUOTE>
+</DD>
+</DL>
+
+<P>
+
+<H2><A NAME="SECTION055102000000000000000"></A>
+<A NAME="sec:xspec-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following dimensioning parameters are collected
+in the files <TT><B>param.inc</B></TT> of <TT><B>SRC_txspec</B></TT> and <TT><B>SRC_lorentz</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>IEMAX0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>maximum number of energy steps in the spectrum (SRC_lorentz)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l+1 in basis function inside sphere  (consistent 
+  with input in case.in1)</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION055103000000000000000"></A>
+<A NAME="sec:xspec-in"></A>
+<BR>
+3 Input
+</H2>
+Two examples are given below; one for emission spectra and one for absorption spectra:
+
+<P>
+
+<H4><A NAME="SECTION055103010000000000000">
+1 Input for Emission Spectra:</A>
+</H4>
+
+<P>
+<PRE>
+---------------- top of file: nbc.inxs --------------------
+NbC: C K                (Title)
+2               (number of inequivalent atom)
+1               (n core)
+0               (l core)
+0,0.5,0.5       (split, int1, int2)
+-20,0.1,3       (EMIN,DE,EMAX   in eV)
+EMIS            (type of spectrum, EMIS or ABS)
+0.35            (S)
+0.25            (gamma0)
+0.3             (W)
+AUTO            (generate band ranges AUTOmatically or MANually
+-7.21           (E0 in eV)
+-10.04          (E1 in eV)
+-13.37          (E2 in eV)
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+
+<H4><A NAME="SECTION055103020000000000000">
+2 Input for Absorption Spectra:</A>
+</H4>
+
+<P>
+<PRE>
+---------------- top of file: nbc.inxs --------------------
+NbC: C K        (Title)
+2               (number of inequivalent atom)
+1               (n core)
+0               (l core)
+0,0.5,0.5       (split, int1, int2)
+-2,0.1,30       (EMIN,DE,EMAX   in eV)
+ABS             (type of spectrum)
+1.0             (S)
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on these files are as follows.
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TITLE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Title</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NATO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Number of the selected atom (in case.struct file)</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>principle quantum number of the core state</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>LC</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>azimuthal quantum number of the core state</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT></DT>
+<DD>The table below lists the  most commonly used
+  spectra:
+  <BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="7269"></A>
+<TABLE>
+<CAPTION><STRONG>Table 8.56:</STRONG>
+Quantum numbers of the core state involved in the x-ray spectra</CAPTION>
+<TR><TD>    <DIV ALIGN="CENTER">
+      <FONT SIZE="-2">      </FONT><TABLE CELLPADDING=3 BORDER="1" ALIGN="CENTER">
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2">
+        Spectrum </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> n </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> l</FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+        
+        <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$K$"> </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 1 </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 0 </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+        <IMG
+ WIDTH="52" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img248.png"
+ ALT="$L_{II, III}$"> </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 2 </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 1 </FONT></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><FONT SIZE="-2"> 
+        <IMG
+ WIDTH="31" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img249.png"
+ ALT="$M_V$"> </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 3 </FONT></TD>
+<TD ALIGN="RIGHT"><FONT SIZE="-2"> 2 </FONT></TD>
+</TR>
+</TABLE>
+      
+</DIV></TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+</DD>
+<DT><STRONG>line 5</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>SPLIT, INT1, INT2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>split in eV between e.g. <IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img250.png"
+ ALT="$L_{II}$"> and
+            <IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img3.png"
+ ALT="$L_{III}$"> spectrum (compare with the respective core eigenvalues),
+            INT1 and INT2 specifies the relative
+            intensity between these spectra. Values of 0, 0.5, 0.5
+            give unshifted spectra.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EMIN, DE, EMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>minimum energy, energy increment for spectrum, 
+                  maximum energy; all energies are in eV and with respect to the Fermi level</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>EMIN and EMAX are only used as limits if the energy range 
+           created by the <TT><B>lapw2</B></TT> calculation (using the QTL switch) is 
+           greater than the selected range.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 7:</STRONG></DT>
+<DD>Format A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TYPE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>EMIS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>X-ray emission spectrum</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>ABS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>X-ray absorption spectrum (default)</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 8:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>S</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>broadening parameter for the spectrometer broadening. For
+              absorption spectra S includes both experimental and core
+              broadening. Set S to zero for no broadening.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 9:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>GAMMA0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>broadening parameter for the life-time broadening
+                   of the core states. Set GAMMA0 to zero to avoid
+                   lifetime broadening of the core states.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 10:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>W</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>broadening parameter for the life-time broadening of
+              valence states. Set W to zero to avoid  lifetime broadening
+              of the valence states.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 11:</STRONG></DT>
+<DD>format A4
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>BANDRA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>AUTO</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>band ranges are determined AUTOmatically (default)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>MAN</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>band ranges have to be entered MANually</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 12:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>E0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Emission spectra: onset energy for broadening, 
+                E0, generated automatically if AUTO was set in line 10</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Absorption spectra: not used</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 13:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>E1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Emission spectra: onset energy for broadening, E1, 
+              generated automatically if AUTO was set in line 10</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Absorption spectra: not used</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 14:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>E2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Emission spectra: onset energy for broadening, E2, 
+              generated automatically if AUTO was set in line 10</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Absorption spectra: not used</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055110000000000000000"></A>
+<A NAME="sec:elnes"></A><A NAME="11772"></A><A NAME="11773"></A>
+<BR>
+11 TELNES.2 (calculation of energy loss near edge structure)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+  Kevin Jorissen\\
+  EMAT, University of Antwerp, Belgium\\
+  Kevin.Jorissen@ua.ac.be\\
+  C\'ecile H\'ebert\\
+  Inst. of solid state physics, Vienna University of Technology\\
+cecile.hebert@tuwien.ac.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="176" ALIGN="MIDDLE" BORDER="0"
+ SRC="img251.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Kevin Jorissen\\
+EMAT, University of Antwerp,...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The TELNES.2 program calculates the double differential scattering cross section (DDSCS) on a grid of energy loss values and scattering impulse vectors. This double differential cross section is integrated to yield a (single) differential cross section, which is written to file.  The cross section may be differential w.r.t. energy (ELNES integrated over Q) or w.r.t. to impulse transfer (ELNES integrated over E).  The latter case allows to study the angular behaviour of scattering.
+
+<P>
+Generally, the DDSCS is given by Jorissen, Luitz, H&#233;bert, Ultramicroscopy 2005. This formula takes into account the relative orientation between sample and beam.  If this is not necessary (because the crystal is isotropic, or the sample is polycrystalline), the formula may be integrated over 4<IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img237.png"
+ ALT="$\pi$">, giving a much simpler equation. Both equations are implemented in ELNES.
+
+<P>
+For the calculation of orientation sensitive spectra <TT><B>lapw2</B></TT> must be compiled with the parameter LXDOS set to 3 and one must use a ``full k-mesh'', i.e. run kgen with only the identity operation in case.struct.
+
+<P>
+
+<H2><A NAME="SECTION055111000000000000000"></A>
+<A NAME="sec:elnes-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+
+<H3><A NAME="SECTION055111100000000000000">
+1 Execution</A>
+</H3>
+The program <TT><B>telnes2</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>telnes2 telnes2.def </B></TT> or <TT><B>x telnes2 [-up|-dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055112000000000000000"></A>
+<A NAME="sec:telnes2-in"></A>
+<BR>
+2 Input
+</H2>
+
+<P>
+ELNES needs one input file - <TT><B>case.innes</B></TT>.  We recommend using <EM>InnesGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM>  to create this input file in a clear and intuitive way.  If you wish to manually edit the file,  please refer to the following description.
+
+<P>
+The file <TT><B>case.innes</B></TT> consists of two parts: a first block with required input, and a second block with optional input.  In fact, the second part may be omitted altogether. The simplest input file looks like this:
+
+<P>
+<PRE>
+Graphite C K edge of first atom.
+1         (atom)
+1, 0      (n, l core)
+285       (E-Loss of 1st edge in eV)
+300       (energy of the incident electrons in keV)
+5.0  1.87 (collection semiangle, convergence semiangle, both in mrad)
+5 3       (NR, NT, defining the integration mesh in the detector plane)
+0.8       (spectrometer broadening in eV)
+END
+</PRE> 
+
+<P>
+This first part of the file is not formatted and contains the following information:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">line</TD>
+<TD ALIGN="LEFT">value</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>explanation</TD>
+</TR>
+<TR><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">`Graphite ...'</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Title  (of no consequence for the calculation)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Atom number as given in case.struct (the index which numbers inequivalent atoms)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="LEFT">1 0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>main and orbital quantum number n and l of the core state; eg. 1 0 stands for 1 s</TD>
+</TR>
+<TR><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">285</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>energy of the edge onset in eV (here for the C K edge)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">300</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>beam energy in keV</TD>
+</TR>
+<TR><TD ALIGN="LEFT">6</TD>
+<TD ALIGN="LEFT">5.0 1.87</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>detector collection semiangle and microscope convergence semiangle in mrad</TD>
+</TR>
+<TR><TD ALIGN="LEFT">7</TD>
+<TD ALIGN="LEFT">5 3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>parameters NR and NT which determine the mesh used for sampling the distribution of Q-vectors allowed by collection and convergence angles</TD>
+</TR>
+<TR><TD ALIGN="LEFT">8</TD>
+<TD ALIGN="LEFT">0.8</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>spectrometer broadening FWHM in eV</TD>
+</TR>
+<TR><TD ALIGN="LEFT">9</TD>
+<TD ALIGN="LEFT">END</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>keyword telling the program that there is no more input to read. <B>Optional keywords and  values must be inserted before this line!</B></TD>
+</TR>
+</TABLE> 
+
+<P>
+There are many more parameters that specify the calculation, most of which are set to reasonable default values. To change these defaults, or to use advanced parameters, add corresponding lines <B>before</B> the END keyword. We recommend using <EM>InnesGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM>  to create this input file.
+
+<P>
+To use of these advanced option you must
+
+<P>
+
+<UL>
+<LI>start every line at the first position.
+</LI>
+<LI>use only capitals for KEYWORDS
+</LI>
+<LI>end your input with the END keyword.
+</LI>
+</UL> 
+
+<P>
+Although only the first four characters of the keyword are considered, I recommend using the full keyword for clarity.
+
+<P>
+Recognized keywords are :
+
+<P>
+<PRE>
+OUTPUT
+n               eg. : 1
+</PRE>
+
+<P>
+Specifies how much output you'll get.  n is an integer of value 0 (only basic output; default), 1 (medium output) or 2 (full output, including less useful and more technical information).
+
+<P>
+<PRE>
+ATOMS
+n1 n2            eg. : 1 3
+</PRE>
+In case.struct, the inequivalent atom number corresponds to a class of equivalent atoms.  Equivalent positions n1 to n2 will contribute to the spectrum (default : sum over all atoms in the equivalency class).  Since all equivalent atoms have identical electronic structure up to a symmetry operation, this will simply yield a prefactor *(n2-n1) for the orientation averaged spectrum, but as each equivalent atom has a different orientation w.r.t. the beam, this will change the shape of an orientation sensitive spectrum.
+
+<P>
+<PRE>
+ENERGY GRID
+emin emax estep  eg. : 0.0 25.0 0.02  (default : 0 15 0.05)
+</PRE>
+The energy grid on which the spectrum is evaluated, starting from emin and going to emax in steps of estep.  All values are in eV and are w.r.t. the Fermi energy == the threshold.
+
+<P>
+<PRE>
+DETECTOR POSITION
+qx qy            eg. : 0.5 0.5   (default : 0 0)
+</PRE>
+
+<P>
+It is possible to place the detector not in the 000 direction but move it away from the incoming beam.  Consider the center of the detector aperture as a point in a plane with the 000 spot as its origin; then qx, qy are the carthesian coordinates in mrad of this point.
+
+<P>
+<PRE>
+MODUS
+m                eg. : angles  (default is energy)
+</PRE>
+The scattering cross section is differential w.r.t. energy if m=energy and w.r.t. impuls transfer/scattering angle if m=angles.
+
+<P>
+<PRE>
+SPLIT
+splitting energy eg. : 2.7
+</PRE>
+
+<P>
+If the initial state has an orbital quantum number larger than 0, it will generate two superposed edges : one corresponding to <IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$j=l-1/2$">, and one corresponding to <IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img253.png"
+ ALT="$j=l+1/2$"> (eg., for the 2p initial state we have a L3 and a L2 edge).  The splitting energy sets the energy separation of the two edges and should be given in eV (here, L3 is at the energy specified in the beginning of case.innes, and L2 is 2.7 eV higher).
+By default (keyword omitted), the splitting energy is calculated by the program.
+
+<P>
+<PRE>
+BRANCHING RATIO
+branching ratio  eg. : 1.4
+</PRE>
+
+<P>
+The branching ratio is a scaling factor (eg., here the ratio of intensities L3/L2 would be set to 1.4).  By default (keyword omitted), the branching ratio is set to its statistical value of <IMG
+ WIDTH="78" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img254.png"
+ ALT="$(2l+2)/2l$">. 
+
+<P>
+<PRE>
+NONRELATIVISTIC
+</PRE>
+This key tells the program not to use the relativistic corrections to the scattering cross section.  This option allows to generate spectra identical to output of the old TELNES program.  By default (much recommended!!), the relativistic corrections are used.
+
+<P>
+<PRE>
+INITIALIZATION
+make_dos      write_dos      eg. N N (default : Y Y)
+make_rot.mat. write_rot.mat  eg. Y N (default : Y Y)
+</PRE>
+
+<P>
+TELNES.2 needs many ingredients for its calculations, and this key defines how it gets two ingredients : the (cross) density of states, and the rotation matrices (used for transforming Q-vectors from one atom to an equivalent atom).  On each line, the first entry says whether or not the ingredient has to be calculated (Y : calculate; N : read from file), and the second entry says whether or not the ingredient has to be written to file (Y : write; N : don't write).
+If make_dos=Y, a file case.qtl must be present from which the dos will be calculated.
+If make_dos=N, then either a file case.dos or a file case.xdos containing the (x)dos must be present.
+
+<P>
+If make_rot.mat=N, a file case.rotij containg the rotation matrices must be present.
+If write_rot.mat=Y, a file case.rotij is written.
+If write_dos=Y, a file case.dos or case.xdos will be written.
+The calculation of the rotation matrices is computationally negligible, but if orientation sensitive spectra are calculated, it is recommended to write the xdos to file and not calculate it over and over again.
+
+<P>
+<PRE>
+QGRID
+qmodus           eg. L    (U by default)
+(q0              eg. 0.05 (no default value)  )
+</PRE>
+
+<P>
+A collection angle <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"> and convergence angle <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img255.png"
+ ALT="$\beta$"> allow scattering angles up to <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img256.png"
+ ALT="$\alpha+\beta$"> and a corresponding set of Q-vectors.  This set (a disk of radius <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img256.png"
+ ALT="$\alpha+\beta$">) is sampled using a discrete mesh.  Three types of meshes are implemented :
+<DL>
+<DT><STRONG>U</STRONG></DT>
+<DD>a uniform grid, where each Q-vector samples an equally large part of the disk.  Sampling is performed by drawing NR circles inside the big circle, and choosing <IMG
+ WIDTH="83" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img257.png"
+ ALT="$(2i-1)NT$"> points on circle <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="$i$">, giving <IMG
+ WIDTH="79" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img258.png"
+ ALT="$NR^2*NT$"> points in total.
+</DD>
+<DT><STRONG>L</STRONG></DT>
+<DD>a logarithmic grid, with also <IMG
+ WIDTH="31" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img259.png"
+ ALT="$NR$"> circles; but now the distance between each circle increases exponentially.  There are still <IMG
+ WIDTH="83" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img257.png"
+ ALT="$(2i-1)NT$"> points on circle <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="$i$">, and <IMG
+ WIDTH="64" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img260.png"
+ ALT="$NR^2NT$"> points in total.  Circle <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="$i$"> is at radius <!-- MATH
+ $q0 e^{((i-1) dx)}$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img261.png"
+ ALT="$q0 e^{((i-1) dx)}$">, where <IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img262.png"
+ ALT="$dx$"> depends on <IMG
+ WIDTH="31" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img259.png"
+ ALT="$NR$">, <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img126.png"
+ ALT="$\alpha$"> and <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img255.png"
+ ALT="$\beta$">.
+</DD>
+<DT><STRONG>1</STRONG></DT>
+<DD>a one dimensional logarithmic mesh; there are <IMG
+ WIDTH="31" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img259.png"
+ ALT="$NR$"> circles at exponential positions, and only one point on each circle (so <IMG
+ WIDTH="31" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img259.png"
+ ALT="$NR$"> points in total).  This means we sample a line in the detector*beam plane.  An economic way of getting spectra as a function of scattering angle in cases with symmetric scattering.
+</DD>
+</DL> 
+The line specifying q0 is to be omitted for the U grid.
+
+<P>
+<PRE>
+ORIENTATION SENSITIVE
+g1 g2 g3        (eg. 0.0  40.0  0.0)  (no default value)
+</PRE>
+
+<P>
+This key tells the program not to average over sample to beam orientations, but to use the particular sample to beam orientation defined by the three Euler angles (to be given in degrees).  If the ORIENTATION SENSITIVE key is not set, the program will average over all orientations (this is the default behaviour).
+
+<P>
+<PRE>
+SELECTION RULE
+type            (eg. : q)  (default : d)
+</PRE>
+The formula for the ddscs contains an exponential factor in Q, which we expand using the Rayleigh expansion, and labeling the order of each term as lambda.  This key allows to keep some terms and discard others.  Possible settings for `type' are :
+<PRE>
+m   :  calculate monopole contribution only
+d   :  dipole only (this is default)
+q   :  quadrupole only
+o   :  octopole only
+n   :  no selection rule, calculate all transitions
+0-3 :  all transitions up to the specified value (eg., 1 means monopole + dipole)
+</PRE>
+
+<P>
+Be aware that the availability of the DOS limits the possible transitions (WIEN2k gives us the DOS only up to l=3).
+
+<P>
+<PRE>
+LSELECTION RULE  
+type            (eg. : q)  (default : d)
+</PRE>
+
+<P>
+Whereas the previous key selects transitions by the order of the interaction potential, this key selects them by the L-character of the final states. Possible settings for `type' are (the orbital momentum of the initial state being denoted with l):
+<PRE>
+m   :  L=l
+d   :  L=l +/- 1
+q   :  L=l +/- 2
+o   :  L=l +/- 3
+n   :  no selection rule, calculate all transitions
+0-3 :  |L-l| &lt;= type
+</PRE>
+
+<P>
+
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055120000000000000000"></A>
+<A NAME="sec:broadening"></A><A NAME="12034"></A><A NAME="12035"></A>
+<BR>
+12 BROADENING (apply broadening to calculated spectra)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+  Joachim Luitz\\
+  IAST Austria\\
+  wien2k@luitz.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="119" ALIGN="MIDDLE" BORDER="0"
+ SRC="img263.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Joachim Luitz\\
+IAST Austria\\
+wien2k@luitz...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The broadening program can be used in conjunction with the
+<TT><B>TELNES.2</B></TT> or the <TT><B>xspec</B></TT> program to broaden theoretical
+spectra by applying a lorentzian broadening for core and valence life
+times and a gaussian broadening for spectrometer broadening.
+
+<P>
+
+<H2><A NAME="SECTION055121000000000000000"></A>
+<A NAME="sec:broadening-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+
+<H3><A NAME="SECTION055121100000000000000">
+1 Execution</A>
+</H3>
+The program <TT><B>broadening</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>broadening broadening.def </B></TT> or <TT><B>x broadening</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055122000000000000000"></A>
+<A NAME="sec:broadening-in"></A>
+<BR>
+2 Input
+</H2>
+
+<P>
+<TT><B>broadening</B></TT> needs one input file - <TT><B>case.inb</B></TT>.  When running <TT><B>TELNES.2</B></TT> this input file is automatically created from settings given in <TT><B>case.innes</B></TT>.
+
+<P>
+<PRE>
+GaN                                                                            
+ELNES 
+1   1   0 
+0.0   1.0    0.0 
+0.116  0.116  
+1   2.15000000000000 
+0.6   
+dummy   
+0.0 
+0.0 
+0.0
+</PRE> 
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">line</TD>
+<TD ALIGN="LEFT">value</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>explanation</TD>
+</TR>
+<TR><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">`GaN ...'</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Title  (of no consequence for the calculation)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">ELNES | ABS | EMIS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Type of input spectrum</TD>
+</TR>
+<TR><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="LEFT">NC C1 C2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>specification of input file: NC number of columns to read, C1
+and C2 column to broaden (only in ``ELNES'' mode)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">SPLIT XINT1 XINT2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>split energy, XINT1|2 relative intensities of spectra in C1 and C2</TD>
+</TR>
+<TR><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">GA GB</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>core hole lifetime of the two edges</TD>
+</TR>
+<TR><TD ALIGN="LEFT">6</TD>
+<TD ALIGN="LEFT">W WSHIFT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>W: type of valence broadening (1: linear with <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img264.png"
+ ALT="$E/10$">, 2: Muller like <IMG
+ WIDTH="24" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img265.png"
+ ALT="$E^2$">), edge offset</TD>
+</TR>
+<TR><TD ALIGN="LEFT">7</TD>
+<TD ALIGN="LEFT">S</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>Spectrometer broadening FWHM in eV</TD>
+</TR>
+<TR><TD ALIGN="LEFT">8</TD>
+<TD ALIGN="LEFT">dummy</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>dummy keyword for compatibility with <TT><B>lorentz</B></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">9-11</TD>
+<TD ALIGN="LEFT">E0, E1, E2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=227>quadratic energy dependent broadening (only used for type ELNES and EMIS when selecting valence broadening type W=2)</TD>
+</TR>
+</TABLE> 
+
+<P>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055130000000000000000"></A>
+<A NAME="sec:optimize"></A><A NAME="12063"></A>
+<BR>
+13 OPTIMIZE (Volume, c/a or 2-4 dimensional lattice parameter optimization)
+</H1>
+
+<P>
+This program generates a series of new struct files corresponding to
+different volumes, c/a ratios, or otherwise different lattice parameters 
+(depending on your input choice) from
+an existing struct file (either <TT><B>case_initial.struct</B></TT> or
+<TT><B>case.struct</B></TT>). (When
+<TT><B>case_initial.struct</B></TT> is not present, it will be generated from
+the original <TT><B>case.struct</B></TT>.
+
+<P>
+Furthermore it produces a shell script <TT><B>optimize.job</B></TT>. You may
+modify this script and execute it. Further analysis of the results (at present
+only  equilibrium volume
+or c/a ratio are supported in w2web) allows to find the corresponding
+equillibrium parameters (see Sec.<A HREF="5Shell_scripts.html#sec:lattice-parameters">5.3.1</A>). 
+
+<P>
+
+<H2><A NAME="SECTION055131000000000000000"></A>
+<A NAME="sec:optimize-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>optimize</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>optimize optimize.def </B></TT> or <TT><B> x optimize</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055132000000000000000"></A>
+<A NAME="sec:optimize-in"></A>
+<BR>
+2 Input
+</H2>
+You have to specify interactively which task should be performed (volume, c/a,
+b/a optimization, or full optimization for tetragonal, orthorhombic or
+monoclinic structure), how many cases you want to do and how large the
+change (+/- xx %) should be for each case.
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055140000000000000000"></A>
+<A NAME="sec:elast"></A><A NAME="12083"></A>
+<BR>
+14 ELAST (Elastic constants for cubic cases)
+</H1>
+
+  This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+Thomas Charpin \\[-.0ex]
+Lab. Geomateriaux de l'IPGP, Paris, France \\[-.0ex]
+(In September 2001 we received the sad notice that Thomas Charpin died in a car accident).
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="138" ALIGN="MIDDLE" BORDER="0"
+ SRC="img266.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Thomas Charpin  [-.0ex]
+Lab. Geomateriaux de l...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This package calculates elastic constants for cubic crystals. It is described 
+in detail by the author in  Charpin 2001.
+
+<P>
+
+<H2><A NAME="SECTION055141000000000000000"></A>
+<A NAME="sec:elast-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The package is driven by three scripts:
+
+<P>
+
+<UL>
+<LI><TT><B>init_elast</B></TT>: 
+<BR>
+It prepares the whole calculation and should be run in a
+directory with a valid <TT><B>case.struct</B></TT> and <TT><B>case.inst</B></TT> file. It creates
+the necessary subdirectories <TT><B>elast</B></TT>, <TT><B>elast/eos</B></TT>, 
+<TT><B>elast/tetra</B></TT>, <TT><B>elast/rhomb</B></TT>, <TT><B>elast/result</B></TT>, 
+the templates for tetragonal and rhombohedral distortion and initializes
+the calculations using  <TT><B>init_lapw</B></TT>.
+
+<P>
+</LI>
+<LI><TT><B>elast_setup</B></TT>: 
+<BR>
+It should be run in the <TT><B>elast</B></TT> directory, generates
+the distorted struct-files and <TT><B>eos.job</B></TT>, <TT><B>rhomb.job</B></TT> and 
+<TT><B>tetra.job</B></TT>. These scripts must be adapted to your needs 
+(spin-polarization, convergence,...) and run. <TT><B>elast_setup</B></TT> can be 
+run several times (for different distortions,...).
+
+<P>
+</LI>
+<LI><TT><B>ana_elast</B></TT>: 
+<BR>
+Once all calculations are done, change into 
+<TT><B>elastresult</B></TT> and run this script. The final results are stored in
+<TT><B>elastresultoutputs</B></TT>.
+
+<P>
+</LI>
+<LI><TT><B>genetempl, setelast, anaelast</B></TT>: 
+<BR>
+These three small programs are called by the above scripts.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055150000000000000000"></A>
+<A NAME="sec:mini"></A><A NAME="12112"></A>
+<BR>
+15 MINI (Geometry minimization)
+</H1>
+
+<P>
+This program is usually called from the script <TT><B>min_lapw</B></TT> and
+performs movements of the atomic positions according to the calculated
+forces (please read Sec. <A HREF="5Shell_scripts.html#sec:min">5.3.2</A>). It generates a new <TT><B>case.struct</B></TT> file which can be used
+in the next geometry/time step. Depending on the input options,
+<TT><B>mini</B></TT> helps to find the equilibrium positions of the atoms
+or performs a molecular dynamics simulation (which might take very long time).
+
+<P>
+For finding the equilibrium positions different methods are available. We
+recommend PORT, a ``reverse-communication trust-region
+Quasi-Newton method'' from the Port library (http://www.bell-labs.com/project/PORT/doc/port3doc.tar.gz, Gay 1983), which was implemented by L.D.Marks
+(L-marks@northwestern.edu,  http://www.numis.northwestern.edu). Alternatively
+a sophisticated modified  steepest-descent method and a damped Newton dynamics  is also available.
+
+<P>
+The forces are read from a file
+<TT><B>case.finM</B></TT>, while the ``history'' of the geometry optimization
+or MD is stored in <TT><B>case.tmpM</B></TT>
+
+<P>
+One can constrain individual positions in <TT><B>case.inM</B></TT> or define 
+linear constrains for several positions using <TT><B>case.constraint</B></TT> 
+(thanks to B.Yanchitsky (Kiev, yan@imag.kiev.ua); for details see comments
+in the SRC_templates/case.constraint file).
+
+<P>
+<I>Note: We also tried several charge density extrapolation schemes, so
+  that the new scf-run can be performed with a better starting density.
+  However, they are currently not activated.</I>
+
+<P>
+
+<H2><A NAME="SECTION055151000000000000000"></A>
+<A NAME="sec:mini-exe"></A>
+<BR>
+1 Execution
+</H2>
+
+<P>
+The program <TT><B>mini</B></TT> is executed by invoking the command:
+
+<P>
+<BLOCKQUOTE>
+<TT><B>mini mini.def </B></TT> or <TT><B> x mini</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055152000000000000000"></A>
+<A NAME="sec:mini-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following dimensioning parameters are collected
+in the file <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MAXIT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>maximum number of geometry steps</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NCOM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of LM terms in density</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NNN</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of neighboring atoms for nn</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of pointgroup</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION055153000000000000000"></A>
+<A NAME="sec:mini-in"></A>
+<BR>
+3 Input
+</H2>
+Two examples are given below; one for a PORT geometry optimization, and one 
+for molecular dynamics using a NOSE thermostat:
+
+<P>
+
+<H4><A NAME="SECTION055153010000000000000">
+1 Input for geometry optimization:</A>
+</H4>
+
+<P>
+<PRE>
+---------------- top of file: xxx.inM --------------------
+PORT 2.0  0.25         (PORT/NEWT   tolf step0 (a4,2f5.2))
+1.0 1.0 1.0 3.0        ( 1..3:delta, 4:BO/eta(1=friction zero))
+1.0 1.0 1.0 6.0        ( 1..3=0 constraint)
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(a4,2f5.2)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>MINMOD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Modus of the calculation</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>PORT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Geometry optimization with reverse-communication trust-region
+Quasi-Newton routine from the Port library. Recommended option.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NEW1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Performs geometry optimization with "sophisticated" steepest-descent method with automatic adaptation of stepsize (still experimental, but when PORT fails, an interesting alternative)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NEWT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Performs geometry optimization with damped
+                  Newton scheme according to</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><!-- MATH
+ $R^{\tau+1}_m = R^\tau_m + \eta_m (R^\tau_m - 
+                  R^{\tau-1}_m) + \delta_m F^\tau_m$
+ -->
+<IMG
+ WIDTH="278" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img267.png"
+ ALT="$R^{\tau+1}_m = R^\tau_m + \eta_m (R^\tau_m -
+R^{\tau-1}_m) + \delta_m F^\tau_m $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>where <IMG
+ WIDTH="28" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img268.png"
+ ALT="$R^\tau_m$"> and <IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img269.png"
+ ALT="$F^\tau_m$"> are the coordinate and force
+                  at time step <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img270.png"
+ ALT="$\tau$">. When the force has changed its 
+                  direction from the last to the present timestep (or is 
+                  within the tolerance TOLF), <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img271.png"
+ ALT="$\eta_m$"> will be set 
+                  to <IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img272.png"
+ ALT="$1-\eta_m$">. Please see also the comments in Sect. <A HREF="5Shell_scripts.html#sec:min">5.3.2</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>BFGS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Performs geometry optimization with the variable metric 
+                  method of BFGS. This option works only when a 
+                  quadratic approximation is a good approximation
+                  to the specific potential surface. Obsolete.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TOLF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Force tolerance, geometry optimization will stop when all
+                  forces are below TOLF.</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>STEP0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Initial "Trust-region radius". Determines size of first geometry step.</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>DELTA(1-3)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>For PORT (and BFGS): Precondition parameters, determine the size 
+                  of the first geometry step</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>For NEWT/NEW1:  x,y,z-delta parameters. 
+                  Determines speed of motion. Good values must be found
+                  for each individual system. They depend on the atomic
+                  mass, the vibrational frequencies and the starting
+                  point (see Sect. <A HREF="5Shell_scripts.html#sec:min">5.3.2</A>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>DELTA(i) = 0 constrains the corresponding i-th
+                  coordinate. The delta-x,y,z
+                  correspond to the global coordinates (the same as the
+                  positions in <TT><B>case.struct</B></TT> and the forces <TT><B>:FGL</B></TT> 
+                  from <TT><B>case.scf</B></TT>).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312><I>Whenever you change these DELTA(i) you must remove
+ file <TT><B>case.tmpM</B></TT> ! </I></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ETA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>For PORT: Bond-order parameter: should be set approximately
+                  to the number of nearest neighbors (or left at 1.).</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>For NEWT: damping (friction) parameter. ETA=1 means no 
+                  friction, ETA=0 means no speed from previous time steps</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG> <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$"> line 2:</STRONG></DT>
+<DD>must be repeated for every atom
+<BR></DD>
+</DL>
+
+<P>
+
+<H4><A NAME="SECTION055153020000000000000">
+2 Input for Molecular dynamics:</A>
+</H4>
+
+<P>
+<PRE>
+---------------- top of file: nbc.inM --------------------
+NOSE                      (NOSE/MOLD (a4))
+58.9332 400. 1273. 5.0    (Masse, delta t, T, nose-frequency) 
+58.9332 400. 1273. 5.0    
+58.9332 400. 1273. 5.0    
+58.9332 400. 1273. 5.0
+58.9332 400. 1273. 5.0
+58.9332 400. 1273. 5.0
+------------------- bottom of file ------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows.
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>format(a4,f5.2)
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>MINMOD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Modus of the calculation</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>MOLD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Performs next molecular dynamics timestep</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>NOSE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Performs next molecular dynamics timestep using a 
+                  NOSE thermostat</TD>
+</TR>
+</TABLE>
+ 
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>MASS</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Atomic mass of <IMG
+ WIDTH="23" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img273.png"
+ ALT="$i^{th}$"> atom</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TIMESTEP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Time step of MD (in atomic units, depends on highest 
+                    vibrational frequencies)</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>TEMP</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Simulation Temperature (K)</TD>
+</TR>
+</TABLE>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>NOSF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Nose-frequency</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG><IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$&#187;&gt;$">line 2:</STRONG></DT>
+<DD>must be repeated for every atom
+<BR>
+<P>
+</DD>
+</DL>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION055160000000000000000"></A>
+<A NAME="sec:optic"></A><A NAME="12162"></A>
+<BR>
+16 OPTIC (calculating optical properties)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+        Claudia Ambrosch-Draxl\\
+        Atomistic Modelling and Design of Materials\\
+        University Leoben\\
+        A-8700 Leoben, AUSTRIA\\
+        email: cad@unileoben.ac.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The theoretical background is described in detail in Ref. Abt 1994 and Ambrosch-Draxl 06.
+The calculation of optical properties requires a dense mesh of
+eigenvalues and the corresponding eigenvectors. For that purpose start
+<TT><B>kgen</B></TT> and generate a fine k-mesh (with many k-points). Run <TT><B>lapw1</B></TT>
+and then <TT><B>lapw2</B></TT> with the option FERMI (<I>Note: You must also
+  put TETRA / with value=101. for metallic systems <TT><B>case.in2</B></TT>)</I> in order to generate the
+weight-file. After the vector-file has been generated by <TT><B>lapw1</B></TT> run
+<TT><B>optic</B></TT> in order to produce the momentum matrix elements. Then the
+program <TT><B>joint</B></TT> carries out the BZ integration and computes the
+imaginary part of the complex dielectric tensor.  In order to obtain
+the real part of the dielectric tensor <TT><B>kram</B></TT> may be executed which uses the Kramers-Kronig relations.
+
+<P>
+The program <TT><B>optic</B></TT> generates the symmetrized squared momentum matrix 
+elements
+
+<P>
+<!-- MATH
+ ${\bf M}_i = <n^{\prime}{\vec k} | {\vec p}.{\vec e}_i | \ n{\vec k}>^2$
+ -->
+<IMG
+ WIDTH="163" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img275.png"
+ ALT="$ {\bf M}_i = &lt;n^{\prime}{\vec k} \vert {\vec p}.{\vec e}_i \vert  n{\vec k}&gt;^2 $"> 
+
+<P>
+between all band combinations for each k-point given in the
+vector-file and stores them in <TT><B>case.symmat</B></TT>.  For the orthogonal lattices the squared diagonal
+components can be found in the file <TT><B>case.mat_diag</B></TT>. For
+non-orthogonal systems all 6 components <IMG
+ WIDTH="69" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img276.png"
+ ALT="$(M_j)^* M_k$"> can be calculated according to the symmetry of the crystal. In
+systems without inversion symmetry the complex version <TT><B>opticc</B></TT>
+must be executed.
+
+<P>
+The dielectric tensor components (and other quantities) are given per
+spin in case of the spin-polarized calculation and as a sum of both
+spin directions if the calculation is non-spinpolarized.
+
+<P>
+Due to spin-orbit coupling imaginary parts of the nondiagonal elements
+may occur in spinpolarized cases. Thus in general, up to 9 components can be calculated at
+the same time. 
+
+<P>
+<I>You must not use p-1/2 ``relativistic'' LOs in <TT><B>LAPWSO</B></TT>, since this basis
+is not supported on <TT><B>OPTICS</B></TT> yet.</I>
+
+<P>
+
+<H2><A NAME="SECTION055161000000000000000"></A>
+<A NAME="sec:optic-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>optic</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>optic(c) optic.def</B></TT> or <TT><B>x optic [-c -up|dn -so]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+Recommended procedure for spin-orbit coupling:
+
+<P>
+In order to get the correct matrix elements, the files
+<TT><B>case.vectorso[up|dn]</B></TT> have to be used. For that purpose the
+  following procedure is recommended:
+
+<P>
+
+<UL>
+<LI>run SCF cycle: <TT><B>run[sp]_lapw -so</B></TT>
+</LI>
+<LI>generate a fine k-mesh for the optics part: <TT><B>x kgen [-so (if
+    case.ksym has been created by symmetso) ]</B></TT>
+</LI>
+<LI>change TOT to FERMI in <TT><B>case.in2c</B></TT>
+</LI>
+<LI>execute  <TT><B>run[sp]_lapw -so -s lapw1 -e lcore</B></TT> with this fine k-mesh
+</LI>
+<LI>run optic: <TT><B>x opticc -so [-up]</B></TT>
+</LI>
+<LI>run joint: <TT><B>x joint  [-up]</B></TT>
+</LI>
+<LI>run kram: <TT><B>x kram  [-up]</B></TT>
+</LI>
+</UL>
+
+<P>
+In cases of non-spinpolarized calculations WITHOUT inversion symmetry AND 
+spin-orbit coupling, one must do some tricks and ``mimick'' a spinpolarized
+calculation:
+
+<P>
+
+<UL>
+<LI>cp case.vsp case.vspup
+</LI>
+<LI>cp case.vsp case.vspdn
+</LI>
+<LI>cp case.vectorso case.vectorsoup
+
+<P>
+</LI>
+<LI>x lapw2 -fermi -so -c
+</LI>
+<LI>cp case.weight case.weightup
+</LI>
+<LI>cp case.weight case.weightdn
+
+<P>
+</LI>
+<LI>x optic -so -up
+</LI>
+<LI>x joint -up
+</LI>
+</UL>
+
+<P>
+Due to the ``paramagnetic'' weight files (which are normalized to 2 electrons
+per band instead of one) all your results (joint/sigma...) must be divided
+by a factor of two.
+
+<P>
+<I>Note: In spin-polarized cases with spin-orbit only one call to
+  <TT><B>optic</B></TT>, <TT><B>joint</B></TT> and/or <TT><B>kram</B></TT> (either up or down) is
+  necessary, since the spins are not independent any more and both
+  vector-files are used at the same time.
+</I>
+
+<P>
+
+<H2><A NAME="SECTION055162000000000000000"></A>
+<A NAME="sec:optic-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following dimensioning parameters (listed in <TT><B>param.inc_r</B></TT>
+and <TT><B>param.inc_c</B></TT>) are used:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l+1 in basis function inside sphere  (consistent 
+  with input in case.in1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>LOMAX</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>highest l for local orbital basis  (consistent with input 
+  in case.in1)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NRAD</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of radial mesh points</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION055163000000000000000"></A>
+<A NAME="sec:optic-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+---------------- top of file: case.inop --------------------
+256 1            : NKMAX, NKFIRST
+-5.0 2.0         : EMIN, EMAX
+2                : number of choices (columns in *symmat)
+1                : Re xx
+3                : Re zz
+------------------- bottom of file -------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>nkmax, nkfirst</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>maximal number of k-points , number of 
+                     k-point to start calculation</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin, emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>absolute energy range (Ry) for which  matrix
+                   elements should be calculated</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ncol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of choices (columns in case.symmat)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4+:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>icol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>column to select. Choices are:</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>1 ...Re <IMG
+ WIDTH="89" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img277.png"
+ ALT="$&lt;x&gt;&lt;x&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>2 ...Re <IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img278.png"
+ ALT="$&lt;y&gt;&lt;y&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>3 ...Re <IMG
+ WIDTH="87" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img279.png"
+ ALT="$&lt;z&gt;&lt;z&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>4 ...Re <IMG
+ WIDTH="89" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img280.png"
+ ALT="$&lt;x&gt;&lt;y&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>5 ...Re <IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img281.png"
+ ALT="$&lt;x&gt;&lt;z&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>6 ...Re <IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img282.png"
+ ALT="$&lt;y&gt;&lt;z&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>7 ...Im <IMG
+ WIDTH="89" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img280.png"
+ ALT="$&lt;x&gt;&lt;y&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>8 ...Im <IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img281.png"
+ ALT="$&lt;x&gt;&lt;z&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>9 ...Im <IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img282.png"
+ ALT="$&lt;y&gt;&lt;z&gt;$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Options 7-9 apply only in presence of SO, options 4-6 only in non-orthogonal cases.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION055170000000000000000"></A>
+<A NAME="sec:joint"></A><A NAME="12225"></A>
+<BR>
+17 JOINT (Joint Density of States)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+        Claudia Ambrosch-Draxl\\
+        Atomistic Modelling and Design of Materials\\
+        University Leoben\\
+        A-8700 Leoben, AUSTRIA\\
+        email: cad@unileoben.ac.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+This program carries out the BZ integration using the momentum matrix
+elements calculated before by <TT><B>optic</B></TT>. The interband or the intraband
+contributions to the imaginary part of the dielectric tensor can be
+computed.  Alternatively, the DOS or the joint DOS can be derived.
+
+<P>
+The output in <TT><B>case.joint</B></TT> can be plotted with an xy-plotting
+package.
+
+<P>
+<I>Warning: Negative values for <IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img284.png"
+ ALT="$\epsilon_2$"> may occur due to negative
+weights in Bl&#246;chl's tetrahedron method.</I>
+
+<P>
+
+<H2><A NAME="SECTION055171000000000000000"></A>
+<A NAME="sec:joint-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>joint</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>joint joint.def</B></TT> or <TT><B>x joint [-up|dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055172000000000000000"></A>
+<A NAME="sec:joint-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameter is listend in files <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>NSYM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>order of point group</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MG0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>number of columns (usually 9)</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION055173000000000000000"></A>
+<A NAME="sec:joint-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+---------------- top of file: case.injoint -----------------------
+    1    40  8                : LOWER,UPPER,upper-valence BANDINDEX
+  -0.0000    0.00100   2.0000 : EMIN DE EMAX FOR ENERGYGRID IN ryd 
+eV                            : output units  eV / ryd  
+    4                         : SWITCH 
+    2                         : NUMBER OF COLUMNS
+   0.1  0.1  0.3              : BROADENING (FOR DRUDE MODEL - switch 6,7)
+------------------- bottom of file -------------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>b1, b2, b3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>lower, upper and (optional) upper-valence band index (Setting b3 may allow for additional analysis (restricting the occupied bands from b1-b3) and in big cases it will reduce memory requirements. Otherwise set b3 equal b2)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>emin, de, emax</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Energy window and increment in Ry (emin must not be negative)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>units</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>eV</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>output in units of eV</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>Ry</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>output in units of Ry</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>switch</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>joint DOS for each band combination</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>joint DOS as sum over all band combinations</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>DOS for each band</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>3</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>DOS as sum over all bands</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>4</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>imaginary part of the dielectric tensor (<IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img284.png"
+ ALT="$\epsilon_2$">)</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>5</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>imaginary part of the dielectric tensor for each band combination</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>6</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>intraband contributions: number of
+            ``free`` electrons per unit cell assuming bare electron mass
+            (calculated around <IMG
+ WIDTH="92" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img285.png"
+ ALT="$E_F \pm 10*de$"> as
+            defined in input line 4), plasma-frequency</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>7</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>in addition to switch 6 the contributions from different bands
+            to the plasma frequency are analyzed.</TD>
+</TR>
+</TABLE>
+
+<P>
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ncol</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>number of columns</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 6:</STRONG></DT>
+<DD>free format
+<BR>
+broadening
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>x,y,z</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>broadening parameters (in units defined in line 3) 
+                        for Drude-model</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+The band analysis for all options (switches 0, 2, 5, and 7) has been
+improved: For each tensor component additional files are created,
+where each column contains the contributions from a single band or
+band combination. The file names are e.g. <TT><B>.Im_eps_xx_1</B></TT>,
+<TT><B>.Im_eps_xx_2</B></TT>, or <TT><B>.jdos_1</B></TT> etc. where the
+number of files depend on the number of bands/band combinations.
+
+<P>
+<I>Warning: The number of band combinations might be quite large!</I>
+
+<P>
+
+<H1><A NAME="SECTION055180000000000000000"></A><A NAME="12992"></A>
+<A NAME="sec:kram"></A><A NAME="12263"></A>
+<BR>
+18 KRAM (Kramers-Kronig transformation)
+</H1>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+        Claudia Ambrosch-Draxl\\
+        Atomistic Modelling and Design of Materials\\
+        University Leoben\\
+        A-8700 Leoben, AUSTRIA\\
+        email: cad@unileoben.ac.at
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+The Kramers-Kronig analysis is carried out for the actual number of
+columns contained in the <TT><B>case.joint[up|dn]</B></TT> file. For each real
+component its imaginary counterpart is created and vice versa. All
+dielectric tensor components can be found in file
+<TT><B>case.epsilon[up|dn]</B></TT>. The real and imaginary parts of the
+optical conductivity (in <IMG
+ WIDTH="49" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img287.png"
+ ALT="$10^{15}/s$">) are written to file
+<TT><B>case.sigmak[up|dn]</B></TT>. In addition, file <TT><B>case.absorp</B></TT>
+contains the real parts of the optical conductivity (in <IMG
+ WIDTH="65" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img288.png"
+ ALT="$1/(\Omega cm)$">
+and the absorption coefficients. The loss function is also calculated 
+(<TT><B>case.eloss</B></TT>), where for the previously calculated Plasma-frequency 
+the intraband contributions can be added. The 3 sumrules are checked and 
+written to <TT><B>case.sumrules</B></TT>. 
+
+<P>
+The output in <TT><B>case.epsilon[up|dn]</B></TT> and <TT><B>case.sigmak[up|dn]</B></TT>
+can be plotted with an xy-plotting package.
+
+<P>
+
+<H2><A NAME="SECTION055181000000000000000"></A>
+<A NAME="sec:kram-exe"></A>
+<BR>
+1 Execution
+</H2>
+The program <TT><B>kram</B></TT> is executed by invoking the command:
+<BLOCKQUOTE>
+<TT><B>kram kram.def</B></TT> or <TT><B>x kram [-up|dn]</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION055182000000000000000"></A>
+<A NAME="sec:kram-dim"></A>
+<BR>
+2 Dimensioning parameters
+</H2>
+
+<P>
+The following parameters are listed in files <TT><B>param.inc</B></TT>:
+
+<P>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MAXDE</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>maximum number of points in energy mesh</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>MPOL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=354>fixed at 6</TD>
+</TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION055183000000000000000"></A>
+<A NAME="sec:kram-in"></A>
+<BR>
+3 Input
+</H2>
+
+<P>
+An example is given below:
+
+<P>
+<PRE>
+---------------- top of file: case.inkram -----------------------
+ 0.0    gamma for Lorentz broadening (in units selected in joint)
+ 0.0    energy shift (scissors operator) (in units selected in joint)
+  1      add intraband contributions? yes/no: 1/0
+ 12.60   plasma frequencies (for each ``column'' in case.injoint) 
+  0.20   Gammas for Drude terms (for each ``column'' in case.injoint) 
+------------------- bottom of file -------------------------------
+</PRE>
+
+<P>
+Interpretive comments on this file are as follows:
+
+<P>
+<DL>
+<DT><STRONG>line 1:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EGAMM</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Lorentz broadening (in energy units selected in joint)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 2:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>ESHIFT</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Energy shift (scissors operator) (in energy units 
+               selected in joint)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 3:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>INTRA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Intraband contributions are not added</TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>1</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Intraband contributions are added (requires plasma-frequencies
+  calculated by <TT><B>joint</B></TT> using switch ``6'') )</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 4:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EPL</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Plasma-frequencies (calculated by <TT><B>joint</B></TT> using SWITCH=6 for
+  all columns)</TD>
+</TR>
+</TABLE>
+
+</DD>
+<DT><STRONG>line 5:</STRONG></DT>
+<DD>free format
+<BR>
+
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=34>EDRU</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=28>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=312>Broadening for Drude terms (for all columns)</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION055190000000000000000"></A><A NAME="13082"></A>
+<A NAME="sec:fsgen"></A><A NAME="12300"></A>
+<BR>
+19 FSGEN (Fermi-surface generation)
+</H1>
+
+<P>
+Unfortunately there is no really versatile tool for Fermi surface generation
+or analyzing FS properties. We have collected here a series of small programs together with some
+description on how to proceed to generate 2D-Fermisurfaces within WIEN.
+
+<P>
+
+<UL>
+<LI>As usually, you have to run an scf cycle and determine a good Fermi-energy. 
+"Good" means here a Fermi-energy coming from a calculation with a dense k-mesh.
+
+<P>
+</LI>
+<LI>You should than create a mesh within a plane of the BZ, where you want to plot 
+the FS. Some utility programs like <TT><B>sc_fs_mesh</B></TT>, (fcc, bcc and hex are also available)
+may help you here, but only some planes of the BZ have  been implemented so far. Please check these 
+simple programs and modify them according to your needs. Insert the generated k-mesh <TT><B>fort.2</B></TT> into <TT><B>case.in1</B></TT>.
+
+<P>
+</LI>
+<LI>Run <TT><B>lapw1</B></TT> with this k-mesh.
+
+<P>
+</LI>
+<LI>Run <TT><B>spaghetti</B></TT> with input-options such that it prints the bands which intersect 
+EF to 
+<BR><TT><B>case.spaghetti_ene</B></TT> (line 10, see sec. <A HREF="#sec:spaghetti">8.3</A>)
+
+<P>
+</LI>
+<LI>Edit <TT><B>case.spaghetti_ene</B></TT> and insert a line at the top:
+<BR>
+NX, NY, x-len, y-len, NXinter, NYinter, Invers, Flip 
+<BR>
+where  
+<BR>
+NX, NY are the number of points in the two directions 
+<BR>
+x-len, y-len are the length of the two directions of the plane (in bohr<IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img289.png"
+ ALT="$^{-1}$">, you can find this in <TT><B>case.spaghetti_ene</B></TT>)
+<BR>
+NXinter, NYinter: interpolated mesh,  e.g. 2*NX-1 
+<BR>
+Invers: 0/1: mirrors x,y
+<BR>
+FLIP:   0/1: flips x,y to y,x
+
+<P>
+</LI>
+<LI>Run <TT><B>spagh2rho &lt; case.spaghetti_ene</B></TT> to convert from this format 
+into a format which is compatible
+with the <TT><B>case.rho</B></TT> file used for charge density plotting. It generates 
+files <TT><B>fort.11</B></TT>, <TT><B>fort.12</B></TT>, ... (for each band separately) and you 
+should use your favorite 
+plotting program to generate a contourplot of the FS (by using a contourlevel = 0). Alternatively you can use for plotting:
+
+<P>
+</LI>
+<LI>Run <TT><B>fsgen_lapw  11   xx   save_filename</B></TT>, which is a small shell 
+script that can plot all fermi 
+surfaces using the data-files  <TT><B>fort.11</B></TT>, <TT><B>fort.12</B></TT>, ... <TT><B>fort.xx</B></TT> generated
+in the previous steps. It requires the public domain package <TT><B>pgplot</B></TT>
+and the contour-plot program <TT><B>plotgenc</B></TT>. (The latter can be obtained from
+P. Blaha (pblaha@theochem.tuwien.ac.at), but you must have installed 
+<TT><B>pgplot</B></TT> before.)
+
+<P>
+</LI>
+</UL> 
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1300"
+  HREF="9Utility_Programs.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1296"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1290"
+  HREF="7SCF_cycle.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1298"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1301"
+  HREF="9Utility_Programs.html">9 Utility Programs</A>
+<B> Up:</B> <A NAME="tex2html1297"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1291"
+  HREF="7SCF_cycle.html">7 SCF cycle</A>
+ &nbsp; <B>  <A NAME="tex2html1299"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

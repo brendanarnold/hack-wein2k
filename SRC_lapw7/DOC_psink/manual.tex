@@ -1,0 +1,481 @@
+\documentclass[10pt,fleqn,a4paper,twosided]{article}
+% last changes: 21.07.00 (ba)
+%               12.11.00 (ub) updating the manual
+\usepackage{epsfig}
+\usepackage{amssymb}
+\usepackage{graphics}
+\usepackage{fancybox}
+\usepackage{german}
+\usepackage{color}
+\usepackage{latexsym}
+\textheight21cm
+\textwidth15cm
+%\renewcommand{\baselinestretch}{1.5}
+\oddsidemargin 1cm
+\evensidemargin 0cm
+\topmargin -.5cm
+\parindent0cm
+
+\begin{document}
+%\draft
+%\narrowtext
+%\sloppy
+
+
+\subsection{LAPW7 (wave functions on grids / plotting)}
+\vspace*{.5cm}
+
+This program was contributed by:
+
+\vspace*{.5cm}
+\hspace*{1.5cm}
+\fbox{
+\begin{minipage}{11.cm}
+Uwe Birkenheuer \\[-.0ex]
+Max-Planck-Institut f\"ur Physik komplexer Systeme \\[-.0ex]
+N\"othnitzer Str.~38, D-01187 Dresden, Germany \\[-.0ex]
+email: birken@mpipks-dresden.mpg.de \\[-.0ex]
+and \\[-.0ex]
+Birgit Adolph, \\[-.0ex]
+University of Toronto, T.O., Canada \\[0.2ex]
+{\small Please make comments or report problems with this program
+        to the authors.}
+\end{minipage}}
+\vspace*{.75cm}
+
+The program {\tt lapw7} generates wave function data on spatial grids
+for a given set of $k$-points and electronic bands. 
+{\tt lapw7} uses the wave function information stored in {\tt case.vector} 
+(or in reduced (filtered) form in {\tt case.vectorf} which can be obtained
+from {\tt case.vector} by running the program {\tt filtvec}).
+Depending on the options set in the input file {\tt case.in7(c)} one can
+generate the real or imaginary part of the wave functions, it's modulus
+(absolute value) or argument, or the complex wave function itself. 
+For scalar-relativistic calculations both the large and the small 
+component of the wave functions can be generated (only one at a time).
+The wave functions are generated on a grid which is to be specified in
+the input file(s). The grid can either be any arbitrary list of points
+(to be specified free-formatted in a separate file {\tt case.grid}) 
+or any $n$-dimensional grid ($n=0...3$). The operating mode and 
+grid parameters are specified in the input file {\tt case.in7(c)}.
+As output {\tt lapw7} writes the specified wave function data for further
+processing -- e.g. for plotting the wave functions with some graphical tools
+such as gnuplot -- in raw format to {\tt case.psink}. For quick inspection,
+a subset of this data is echoed to the standard output file
+{\tt case.outputf} (the amount of data can be controlled in the input).
+In case, {\tt lapw7} is called many times for one and the same wave function,
+program overhead can be reduced, by first storing the atomic augmentation
+coefficients $A_{lm}$, $B_{lm}$ (and $C_{lm}$) to a binary file {\tt case.abc}.
+For the spin-polarized case two different calculations have to be performed
+using either the spin-up or the spin-down wave function data as input.
+ 
+It should be easy to run {\tt lapw7} in parallel mode, and/or to apply it to
+wave function data obtained by a spin-orbit interaction calculation.
+None of these options have been implemented so far.
+Also, {\tt lapw7} has not yet been adapted for {\bf WIEN in a BOX}.
+
+
+\subsubsection{Execution}
+
+The program {\tt lapw7} is executed by invoking the command:
+
+\vspace*{.25cm}
+\hspace*{1.cm}
+{\tt lapw7 lapw7.def}\ \ \ or\ \ \ {\tt lapw7c lapw7.def}\ \ \ or\ \ \ 
+{\tt x lapw7 [-c] [-up|dn] [-sel]}
+
+\vspace*{.25cm}
+With the {\tt -sel} option {\tt lapw7} expects data from the reduced (filtered) 
+wave function file {\tt case.vectorf}, otherwise the standard wave function file
+{\tt case.vector} is used. The reduced vector file {\tt case.vectorf} is
+assumed to resist in the current working directory, while the standard 
+vector file {\tt case.vector} (which may become quite large) is looked for in
+the {\tt WIEN} scratch directory. For details see {\tt lapw7.def}.
+
+An example of {\tt lapw7.def} is given below.
+
+\vspace*{.25cm}
+{\tt \begin{tabular}{llll}
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -}\\[-.0ex]
+2  & ,'gaas.tmp'     & ,'unknown' & ,'formatted'   \\[-.0ex]
+5  & ,'gaas.in7c'    & ,'old'     & ,'formatted'   \\[-.0ex]
+6  & ,'gaas.output7' & ,'unknown' & ,'formatted'   \\[-.0ex]
+7  & ,'gaas.grid'    & ,'unknown' & ,'formatted'   \\[-.0ex]
+8  & ,'gaas.struct'  & ,'old'     & ,'formatted'   \\[-.0ex]
+10 & ,'gaas.vectorf' & ,'old'     & ,'unformatted' \\[-.0ex]
+12 & ,'gaas.abc'     & ,'unknown' & ,'unformatted' \\[-.0ex]
+18 & ,'gaas.vsp'     & ,'old'     & ,'formatted'   \\[-.0ex]
+21 & ,'gaas.psink'   & ,'unknown' & ,'formatted'   \\[-.0ex]
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -}\\
+\end{tabular}}
+
+
+\subsubsection{Dimensioning parameters}
+
+The following parameters are listed in file {\tt param.inc\_(r/c)}:
+
+\vspace*{.25cm}
+\begin{tabular}{lll}
+NATO  & & number of inequivalent atoms per unit cell \\[-.0ex]
+NDIF  & & total number of atoms per unit cell \\[-.0ex]
+NRAD  & & number of radial mesh points \\[-.0ex]
+NSYM  & & order of point group \\[-.0ex]
+NGDIM & & overall number of grid points \\[-.0ex]
+NMAT  & & total number of basis functions (matrix size) \\[-.0ex]
+NRMT  & & number of different muffin-tin radii \\ [-.0ex]
+LMAX7 & & maximum L value used for plane wave augmentation \\[-.0ex]
+LOMAX & & maximum L value used for local orbitals \\
+\end{tabular}
+\vspace*{.25cm}
+
+The meaning of {\tt LMAX7} is the same as that of {\tt LMAX2} in 
+{\tt lapw2} and that of {\tt LMAX-1} in {\tt lapw1}. Rather than being 
+an upper bound it directly defines the number of augmentation functions 
+to be used. It many be set different to {\tt LMAX2} in {\tt lapw2} or 
+{\tt LMAX-1} in {\tt lapw1}, but it must not exceed the latter one.
+Note that, the degree of continuity of the wave functions across the boundary
+of the muffin tin sphere is quite sensitive to the choice of the parameter 
+{\tt LMAX7}. A value of 8 for {\tt LMAX7} turned out to be a good compromise.
+
+
+\subsubsection{Input}
+
+A sample input is given below. It shows how to plot a set of wave 
+functions on a 2-dim.\ grid.
+
+\vspace*{.25cm}
+{\tt \begin{tabular}{lll}
+\multicolumn{3}{l}{
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -}\\[-.0ex]
+2D ORTHO         & & \textmd{\#} mode\ \ O(RTHOGONAL)|N(ON-ORTHOGONAL) \\[-.0ex]
+0 0 0 2          & & \textmd{\#} x, y, z, divisor of origin \\[-.0ex]
+3 3 0 2          & & \textmd{\#} x, y, z, divisor of x-end \\[-.0ex]
+0 0 3 2          & & \textmd{\#} x, y, z, divisor of y-end \\[-.0ex]
+141 101 35 25    & & \textmd{\#} grid points and echo increments \\[-.0ex]
+NO               & & \textmd{\#} DEP(HASING)|NO (POST-PROCESSING) \\[-.0ex]
+RE\ \ ANG\ LARGE & & \textmd{\#} switch\ \ ANG|ATU|AU\ \ LARGE|SMALL \\[-.0ex]
+1 0              & \hspace*{1.5cm} & \textmd{\#} k-point, band index \\[-.0ex]
+\multicolumn{3}{c}{
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -}\\
+\end{tabular}}
+\vspace*{.5cm}
+
+
+Interpretive comments on this file are as follows.
+
+\vspace*{.5cm}
+\begin{tabular}{llll}
+{\bf line 1:}
+        & \multicolumn{3}{l}{format(A3,A1)} \\
+        & \multicolumn{3}{l}{mode flag} \\
+        & mode   & & the type of grid to be used \\
+        &        & ANY
+        & \parbox[t]{7.7cm}{An arbitrary list of grid points is used.} \\
+        &        &0D, 1D, 2D, or 3D 
+        & \parbox[t]{7.7cm}{An $n$-dim.\ grid of points is used. 
+                            $n = 0, 1, 2, \mbox{or } 3$.} \\
+        & flag   & & orthogonality checking flag (for $n$-dim.\ grids only) \\
+        &        & N 
+        & \parbox[t]{7.7cm}{The axes of the $n$-dim.\ grid are allowed to
+          be non-orthogonal.} \\
+        &        & O or $\langle\mbox{blank}\rangle$
+        & \parbox[t]{7.7cm}{The axes of the $n$-dim.\ grid have to be mutual
+          orthogonal.} \\[18pt]
+{\bf line 2:}
+        & \multicolumn{3}{l}{free format --- (for $n$-dim.\ grids only)} \\
+        & ix iy iz idiv &
+        & \parbox[t]{7.7cm}{Coordinates of origin of the grid, where x=ix/idv
+          etc.\ in units of the {\it conventional} lattice vectors.} \\[18pt]
+{\bf line 3:}
+        & \multicolumn{3}{l}{free format --- (for $n$-dim.\ grids with $n>0$ 
+          only)} \\
+        & ix iy iz idiv &
+        & \parbox[t]{7.7cm}{Coordinates of the end points of each grid axis.\\
+          This input line has to be repeated $n$-times.} \\[18pt]
+{\bf line 4:}
+        & \multicolumn{3}{l}{free format --- (not for 0-dim.\ grids)} \\
+        & np ... npo ... &
+        & \parbox[t]{7.7cm}{In case of an $n$-dim.\ grid, first the number of
+          grid points along each axis, and then the increments for the output
+          echo for each axis. Zero increments means that only the first and
+          last point on each axis are taken. In case of an arbitrary list of
+          grid points, the total number of grid points and the increment for
+          the output echo. Again a zero increments means that only the first
+          and last grid point are taken. Hence, for $n$-dim.\ grids, altogether,
+          $2*n$ integers must be provided; for arbitrary lists of grid points
+          two intergers are expected.} \\[18pt]
+%
+\end{tabular}\newpage\begin{tabular}{llll}
+%
+{\bf line 5:}
+        & \multicolumn{3}{l}{format(A3)} \\
+%%%     & \multicolumn{3}{l}{tool} \\
+        & tool & & post-processing of the wave functions \\
+        &      & DEP
+        & \parbox[t]{7.7cm}{Each wave function is multiplied by a complex phase
+          factor to align it (as most as possible) along the real axis (the 
+          so-called DEP(hasing) option).} \\
+        &          & NO 
+        & \parbox[t]{7.7cm}{No post-processing is applied to the 
+                            wave functions.} \\[18pt]
+{\bf line 6:}
+        & \multicolumn{3}{l}{format(A3,1X,A3,1X,A5)} \\
+        & \multicolumn{3}{l}{switch iunit whpsi} \\
+        & switch & & the type of wave function data to generate \\
+        &        & RE
+        & \parbox[t]{7.7cm}{The real part of the wave functions is 
+                            evaluated.} \\[0.1ex]
+        &        & IM
+        & \parbox[t]{7.7cm}{The imaginary part of the wave functions is 
+                            evaluated.} \\[0.1ex]
+        &        & ABS
+        & \parbox[t]{7.7cm}{The absolute value of the wave functions is 
+                            evaluated.} \\[0.1ex]
+        &        & ARG
+        & \parbox[t]{7.7cm}{The argument the wave functions in the complex 
+                            plane is evaluated.} \\[0.1ex]
+        &        & PSI
+        & \parbox[t]{7.7cm}{The complex wave functions are evaluated.} \\
+        & iunit & & the physical units for wave function output \\
+        &       & ANG
+        & \parbox[t]{7.7cm}{{\AA} units are used for the wave functions.} \\
+        &       & AU or ATU
+        & \parbox[t]{7.7cm}{Atomic units are used for the wave functions.} \\
+        & whpsi  & & the relativistic component to be evaluated \\
+        &        & LARGE
+        &\parbox[t]{7.7cm}{The large relativistic component of wave function
+                           is evaluated.} \\[0.1ex]
+        &        & SMALL
+        &\parbox[t]{7.7cm}{The small relativistic component of wave function
+                           is evaluated.} \\[18pt]
+{\bf line 7:}
+        & \multicolumn{3}{l}{free format} \\
+        & \multicolumn{3}{l}{iskpt iseig} \\
+        & iskpt &
+        & \parbox[t]{7.7cm}{The $k$-points for which wave functions 
+          are to be evaluated. Even if the wave function information is read 
+          from {\tt case.vectorf}, iskpt refers to the index of the 
+          $k$-point in the original {\tt case.vector} file! If iskpt 
+          is set to zero, all $k$-points in {\tt case.vector(f)} are 
+          considered.} \\[0.1ex]
+        & iseig &
+        & \parbox[t]{7.7cm}{The band index for which wave functions 
+          are to be evaluated. Even if the wave function information is read 
+          from {\tt case.vectorf}, iseig refers to the band index in the 
+          original {\tt case.vector} file! If iseig is set to zero, all 
+          bands (for the selected $k$-point(s)) which can found in 
+          {\tt case.vector(f)} are considered.} \\[18pt]
+%
+\end{tabular}\newpage\begin{tabular}{llll}
+%
+{\bf line 8:}
+        & \multicolumn{3}{l}{format(A4) --- this line is optional} \\
+%%%     & \multicolumn{3}{l}{handle} \\
+        & handle & & augmentation coefficient control flag \\
+        &        & SAVE or STOR(E)
+        & \parbox[t]{7.7cm}{Augmentation coefficients are stored in 
+          {\tt case.abc}). No wave function data is generated in this case.
+          This option is only allowed if a {\it single} wave function is
+          selected in the previous input line.} \\[0.1ex]
+        &        & READ or REPL(OT)
+        & \parbox[t]{7.7cm}{Previously stored augmentation coefficients are
+          read in (from {\tt case.abc}). This option is only allowed if the
+          {\it same} single wave function as the one who's augmentation 
+          coefficients are stored in {\tt case.abc} is selected in the
+          previous input line.} \\[0.1ex]
+        &        & anything else
+        & \parbox[t]{7.7cm}{Augmentation coefficients are generated from the 
+                            wave function information in {\tt case.vector(f)}.} \\
+\end{tabular}
+\vspace*{1.0cm}
+
+On default {\tt lapw7} is provided in a memory saving mode in which 
+grid points and wave function data share memory. In that mode multiple
+state selection (by {\tt iseig=0} and/or {\tt iskpt=0}) is not possible
+and will result in the error
+message ''{\tt Multiple states not allowed with EQUIVALENCE (PSI,RGRID)}``.
+To allow multiple selection for the price of larger memory requirements
+just uncomment the line\newline
+\hspace*{1cm}{\tt EQUIVALENCE (PSI,RGRID)}\newline
+in subroutine {\tt main.frc} in {\tt SRC\_lapw7} before compilation of the
+code. The error message is suppressed automatically if you do so.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{FILTVEC (wave function filter / reduction of case.vector)}
+\vspace*{.5cm}
+
+This program was contributed by:
+
+\vspace*{.5cm}
+\hspace*{1.5cm}
+\fbox{
+\begin{minipage}{11.cm}
+Uwe Birkenheuer \\[-.0ex]
+Max-Planck-Institut f\"ur Physik komplexer Systeme \\[-.0ex]
+N\"othnitzer Str.~38, D-01187 Dresden, Germany \\[-.0ex]
+email: birken@mpipks-dresden.mpg.de \\[-.0ex]
+and \\[-.0ex]
+Birgit Adolph \\[-.0ex]
+University of Toronto, T.O., Canada \\[0.2ex]
+{\small Please make comments or report problems with this program
+        to the authors.}
+\end{minipage}}
+\vspace*{.75cm}
+
+The program {\tt filtvec} reduces the information stored in 
+{\tt case.vector} files by filtering out a user-specified selection of 
+wave functions. Either a fixed set of band indices can be selected which is 
+used for all selected $k$-points (global selection mode), or the band
+indices can be selected individually for each selected $k$-point
+(individual selection mode).
+The complete wave function and band structure information for the 
+selected $k$-points and bands is transferred to {\tt case.vectorf}.
+The information on all other wave functions in the original file is 
+discarded. The structure of the generated {\tt case.vectorf} file is 
+identical to that of the original {\tt case.vector} file. Hence, it should 
+be possible to use {\tt case.vectorf} as substitutes for {\tt case.vector} 
+anywhere in the {\bf WIEN} program package. (This has only been tested for 
+{\tt lapw7}.and {\tt filtvec}.)
+To filter vector files from spin-polarized calculations, {\tt filtvec}
+has to be run separately for both the spin-up and the spin-down files.
+
+{\tt filtvec} has not yet been adapted for {\bf WIEN in a BOX}.
+
+
+\subsubsection{Execution}
+
+The program {\tt filtvec} is executed by invoking the command:
+
+\vspace*{.25cm}
+\hspace*{1.cm}
+{\tt filtvec filtvec.def}\ \ \ or\ \ \ {\tt filtvecc filtvec.def}\ \ \ or\ \ \ 
+{\tt x filtvec [-c] [-up|dn]}
+
+\vspace*{.25cm}
+In accordance with the file handling for {\tt lapw1} and {\tt lapw7} the input 
+vector file {\tt case.vector} is assumed to be located in the {\tt WIEN}
+scratch directory, while the reduced output vector file {\tt case.vectorf} is
+written to the current working directory. See {\tt filtvec.def} for details.
+
+\vspace*{0.25cm}
+An example of {\tt filtvec.def} is given below.
+
+\vspace*{.25cm}
+{\tt \begin{tabular}{llll}
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -}\\[-.0ex]
+5  & ,'gaas.infc'    & ,'old'     & ,'formatted'   \\[-.0ex]
+6  & ,'gaas.outputf' & ,'unknown' & ,'formatted'   \\[-.0ex]
+10 & ,'/scratch/gaas.vector'  & ,'old'     & ,'unformatted' \\[-.0ex]
+12 & ,'gaas.vectorf' & ,'unknown' & ,'unformatted' \\[-.0ex]
+20 & ,'gaas.struct'  & ,'old'     & ,'formatted'   \\[-.0ex]
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -}\\
+\end{tabular}}
+\vspace*{.25cm}
+
+
+\subsubsection{Dimensioning parameters}
+
+The following parameters are listed in file {\tt param.inc\_(r/c)}:
+
+\vspace*{.25cm}
+\begin{tabular}{lll}
+NMAT  & & total number of basis functions (matrix size) \\[-.0ex]
+NUME  & & number of bands \\[-.0ex]
+NKPT  & & number of $k$-points \\ [-.0ex]
+LMAX  & & maximum number of L values used (as in {\tt lapw1}) \\[-.0ex]
+LOMAX & & maximum L value used for local orbitals (as in {\tt lapw1}) \\
+\end{tabular}
+\vspace*{.25cm}
+
+The parameter {\tt LMAX} and {\tt LOMAX} must be set precisely as in 
+{\tt lapw1}; all other parameters must not be chosen smaller than the
+corresponding parameters in {\tt lapw1}.
+
+\subsubsection{Input}
+
+Two examples are given below. The first uses global selection mode; the 
+second individual selection mode.\vspace{0.5cm}
+
+{\ \ I. Global Selection Mode}
+
+\vspace*{.25cm}
+{\tt \begin{tabular}{llll}
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -}\\[-.0ex]
+3 & 1 17 33  & & \textmd{\#} number of k-points, k-points \\[-.0ex]
+2 & 11 -18   & & \textmd{\#} number of bands, band indices \\[-.0ex]
+\multicolumn{4}{c}{
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -}\\
+\end{tabular}}
+\vspace*{.5cm}
+
+Interpretive comments on this file are as follows.
+
+\vspace*{.25cm}
+\begin{tabular}{lll}
+{\bf line 1:}
+        & \multicolumn{2}{l}{free format} \\
+        & kmax\ \ ik(1) ... ik(kmax)
+        & \parbox[t]{9.25cm}{Number of $k$-point list items, followed by 
+          the list items themselves. Positive list items mean selection of 
+          the $k$-point with the specified index; negative list items mean
+          selection of a range of $k$-points with indices running from
+          the previous list item to the absolute value of the current one. 
+          E.g.~the sequence 2~-5 stands for 2, 3, 4, and 5.} \\[18pt]
+{\bf line 2:}
+        & \multicolumn{2}{l}{free format} \\
+        &  nmax $\,$ ie(1) ... ie(nmax)
+        & \parbox[t]{9.25cm}{Number of band index items, followed by 
+          the list items themselves. Again, positive list items mean selection
+          of a single band index; negative list items mean selection of 
+          a range of band indices.} \\
+\end{tabular}
+\vspace*{.5cm}
+
+
+{\ \ II. Individual Selection Mode}
+
+\vspace*{.25cm}
+{\tt \begin{tabular}{lllll}
+\multicolumn{5}{c}{
+- - - - - - - - - - - - - - - - - top of file - - - - - - - - - - - - - - - - -}\\[-.0ex]
+2 : &      &             & & \textmd{\#} number of k-points \\[-.0ex]
+17  & \ 4\ & 11 13 15 17 & & \textmd{\#} k-point, number of bands, band indices \\[-.0ex]
+33  & \ 3\ & 11 -14 18   & & \textmd{\#} k-point, number of bands, band indices \\[-.0ex]
+\multicolumn{5}{c}{
+- - - - - - - - - - - - - - - - - end of file - - - - - - - - - - - - - - - - -}\\
+\end{tabular}}
+\vspace*{.5cm}
+
+Interpretive comments on this file are as follows.
+
+\vspace*{.25cm}
+\begin{tabular}{lll}
+{\bf line 1:}
+        & \multicolumn{2}{l}{free format} \\
+        & kmax 
+        & \parbox[t]{8.8cm}{the number of individual $k$-points to be
+          selected. This number must be followed by any text, e.g.\ 
+          'SELECTIONS' or simply ':', to indicate individual selection
+          mode.} \\[18pt]
+{\bf line 2:}
+        & \multicolumn{2}{l}{free format} \\
+        & ik\ \ nmax\ \ ie(1) ... ie(nmax)
+        & \parbox[t]{8.8cm}{First the index of the selected $k$-point, 
+          then the number of band index items, followed by the list items for 
+          the current $k$-point themselves. Positive list items mean 
+          selection of the band with the specified index; negative list items 
+          mean selection of a range of band indices running from the previous 
+          list item to the absolute value of the current one. E.g.~the 
+          sequence 3~-7 stands for 3, 4, 5, and 7.\\
+          This input line has to be repeated {\it kmax}-times.} \\
+\end{tabular}
+\vspace*{.5cm}
+
+\end{document}

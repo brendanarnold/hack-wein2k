@@ -1,0 +1,34 @@
+ 1.0  # rescal 
+ 1    # add periodic
+ 0.0 0.0 0.0 #translation
+# plot box  (for povray)
+ 1       # 1/0 yes/no  
+ 0.8 0.8 0.8   # rgb
+ 3             # finish
+ 0.1    # width  
+# plot xyz axes  (for povray   
+ 0         # 1/0 yes/no  
+ 0 1 0     # rgb
+ 1         # finish
+ 0.1 7.0  # width, length  
+# define supercell
+ 1 1 1
+# define finish and colors of atoms
+ 3       # finish
+ 1       # number of defs
+ '*' 0 0 1 # ind, rgb 
+# define radius of atoms
+ 1    # number of defs
+ '*' 0.6
+# define bonds
+  0 1 1 0.1 # 1/0 - use atom colors, use this rgb
+  3       # finish
+  0.1 0.15    # lenght of gradient for atom colors, bond width
+  1       # number of defs
+ '*' '*' 0.0d0
+# define color ... of momenta
+ 3            # finish
+ 0 0.5        # 0 - color as atom, scaled by factor, 1 defined bellow
+ 0 0 0        # rgb, valid only for 1    
+ 0.1 2.0 0.15 # min on pict, max on pict, min consid 
+ 0.2          # width of cylinder

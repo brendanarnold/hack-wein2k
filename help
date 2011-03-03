@@ -1,0 +1,18 @@
+#!/bin/csh -f 
+unalias rm
+
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+if !(-d $bin) set bin = .
+
+#
+if($?PDFREADER) then
+  $PDFREADER $bin/SRC/usersguide.pdf
+  else
+set a=`which acroread`
+if ($#a != 1) then
+  echo "You need acroread to view a pdf file or set variable PDFREADER to your reader"
+exit (1)
+endif
+    acroread $bin/SRC/usersguide.pdf
+endif

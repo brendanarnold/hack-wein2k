@@ -1,0 +1,5 @@
+-9.                      Emin cutoff energy
+ 2                       number of atoms for which density matrix is calculated
+ 1  1  2      index of 1st atom, number of L's, L1
+ 2  1  2      dtto for 2nd atom, repeat NATOM times
+ 0 0           r-index, (l,s)index  

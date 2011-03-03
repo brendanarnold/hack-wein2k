@@ -1,0 +1,514 @@
+blebleble                                                                      
+H                            6
+             RELA
+  6.028227  6.028227  9.805737 90.000000 90.000000120.000000
+      -1    0.33333334   0.66666668   0.50000000
+                1
+Ga         NPT=  781  R0=0.00005000 RMT=    1.9500   Z: 31.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+      -2    0.66666666   0.33333332   0.00000000
+                1
+Ga         NPT=  781  R0=0.00005000 RMT=    1.9500   Z: 31.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+      -3    0.33333334   0.66666668   0.85700000
+                1
+N          NPT=  781  R0=0.00010000 RMT=    1.5000   Z:  7.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+      -4    0.66666666   0.33333332   0.35700000
+                1
+N          NPT=  781  R0=0.00010000 RMT=    1.5000   Z:  7.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+      -5    0.10000000   0.10000000   0.10000000
+                6
+      -5    0.90000000   0.00000000   0.10000000
+      -5    0.00000000   0.10000000   0.10000000
+      -5    0.00000000   0.90000000   0.10000000
+      -5    0.90000000   0.90000000   0.10000000
+      -5    0.10000000   0.00000000   0.10000000
+He         NPT=  781  R0=0.00010000 RMT=    2.0000   Z:  2.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+      -6    0.00000000   0.10000000   0.60000000
+                6
+      -6    0.10000000   0.10000000   0.60000000
+      -6    0.90000000   0.90000000   0.60000000
+      -6    0.90000000   0.00000000   0.60000000
+      -6    0.10000000   0.00000000   0.60000000
+      -6    0.00000000   0.90000000   0.60000000
+He         NPT=  781  R0=0.00010000 RMT=    2.0000   Z:  2.0
+                     1.0000000 0.0000000 0.0000000
+                     0.0000000 1.0000000 0.0000000
+                     0.0000000 0.0000000 1.0000000
+ Bravais Matrix:
+        0.86603        0.00000        0.00000
+       -0.50000        1.00000        0.00000
+        0.00000        0.00000        1.00000
+
+ ATOM:  1  EQUIV.  1  Ga         AT   0.33333   0.66667   0.50000
+
+   ERROR !!!!!!!!!!!!!!!
+ RMT(  1)=1.95000 AND RMT(  6)=2.00000
+ SUMS TO 3.95000 GT NNN-DIST= 3.13116
+ ATOM:  6  He        AT  0.1000  1.0000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  6  He        AT  0.9000  1.0000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  6  He        AT  0.9000  0.9000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  6  He        AT  0.0000  0.9000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  6  He        AT  0.0000  0.1000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  6  He        AT  0.1000  0.1000  0.6000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  3  N         AT  0.3333  0.6667  0.8570 IS  3.50065 A.U.   1.85246 ANG
+ ATOM:  6  He        AT  0.1000  1.1000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  6  He        AT  1.0000  1.1000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  6  He        AT  1.0000  0.9000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  6  He        AT -0.1000  0.9000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  6  He        AT -0.1000  0.0000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  6  He        AT  0.1000  0.0000  0.6000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  4  N         AT  0.6667  1.3333  0.3570 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  4  N         AT  0.6667  0.3333  0.3570 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  4  N         AT -0.3333  0.3333  0.3570 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  6  He        AT  1.1000  1.1000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT  0.0000  1.1000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT -0.1000  1.0000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT  1.1000  1.0000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT  0.0000 -0.1000  0.6000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT  0.9000  1.0000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.1000  1.0000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.0000  0.9000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.9000  0.9000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.0000  0.1000  0.1000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  5  He        AT  0.1000  1.1000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT  1.0000  1.1000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT -0.1000  0.9000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT  1.0000  0.9000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT -0.1000  0.0000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT  0.1000  0.0000  0.1000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  5  He        AT  1.1000  1.1000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  5  He        AT  0.0000  1.1000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  5  He        AT  1.1000  1.0000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  5  He        AT -0.1000  1.0000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  5  He        AT  0.0000 -0.1000  0.1000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  2  Ga        AT  0.6667  1.3333  0.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT  0.6667  1.3333  1.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT  0.6667  0.3333  0.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT  0.6667  0.3333  1.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT -0.3333  0.3333  0.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT -0.3333  0.3333  1.0000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT -0.6667 -0.3333  0.5000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT -0.6667  0.6667  0.5000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT  0.3333 -0.3333  0.5000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT  0.3333  1.6667  0.5000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT  1.3333  0.6667  0.5000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT  1.3333  1.6667  0.5000 IS  6.02823 A.U.   3.19000 ANG
+
+ ATOM:  2  EQUIV.  1  Ga         AT   0.66667   0.33333   0.00000
+
+   ERROR !!!!!!!!!!!!!!!
+ RMT(  2)=1.95000 AND RMT(  5)=2.00000
+ SUMS TO 3.95000 GT NNN-DIST= 3.13116
+ ATOM:  5  He        AT  0.1000  0.0000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  5  He        AT  0.9000  0.0000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  5  He        AT  1.0000  0.1000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  5  He        AT  0.9000  0.9000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  5  He        AT  1.0000  0.9000  0.1000 IS  3.13116 A.U.   1.65694 ANG
+ ATOM:  4  N         AT  0.6667  0.3333  0.3570 IS  3.50065 A.U.   1.85246 ANG
+ ATOM:  5  He        AT  0.0000 -0.1000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  5  He        AT  0.9000 -0.1000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  5  He        AT  0.0000  0.1000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  5  He        AT  1.1000  0.1000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  5  He        AT  1.1000  1.0000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  5  He        AT  0.9000  1.0000  0.1000 IS  3.66580 A.U.   1.93986 ANG
+ ATOM:  3  N         AT  0.3333 -0.3333 -0.1430 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  3  N         AT  0.3333  0.6667 -0.1430 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  3  N         AT  1.3333  0.6667 -0.1430 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT  1.0000 -0.1000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT -0.1000  0.0000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT  1.1000  0.0000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT  1.1000  1.1000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  5  He        AT  1.0000  1.1000  0.1000 IS  4.13183 A.U.   2.18647 ANG
+ ATOM:  6  He        AT  0.9000  0.0000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  0.1000  0.0000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  0.1000  0.1000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  1.0000  0.1000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  0.9000  0.9000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  1.0000  0.9000 -0.4000 IS  4.92209 A.U.   2.60466 ANG
+ ATOM:  6  He        AT  0.9000 -0.1000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT  0.0000 -0.1000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT  0.0000  0.1000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT  1.1000  0.1000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT  0.9000  1.0000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT  1.1000  1.0000 -0.4000 IS  5.27835 A.U.   2.79318 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  6  He        AT  1.0000 -0.1000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  6  He        AT -0.1000  0.0000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  6  He        AT  1.1000  0.0000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  6  He        AT  1.0000  1.1000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  6  He        AT  1.1000  1.1000 -0.4000 IS  5.61203 A.U.   2.96976 ANG
+ ATOM:  1  Ga        AT  0.3333 -0.3333 -0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT  0.3333 -0.3333  0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT  0.3333  0.6667 -0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT  0.3333  0.6667  0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT  1.3333  0.6667 -0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  1  Ga        AT  1.3333  0.6667  0.5000 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  2  Ga        AT -0.3333 -0.6667  0.0000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT -0.3333  0.3333  0.0000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT  0.6667 -0.6667  0.0000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT  0.6667  1.3333  0.0000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT  1.6667  0.3333  0.0000 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT  1.6667  1.3333  0.0000 IS  6.02823 A.U.   3.19000 ANG
+
+ ATOM:  3  EQUIV.  1  N          AT   0.33333   0.66667   0.85700
+ RMT(  3)=1.50000 AND RMT(  1)=1.95000
+ SUMS TO 3.45000  LT.  NN-DIST= 3.50065
+ ATOM:  1  Ga        AT  0.3333  0.6667  0.5000 IS  3.50065 A.U.   1.85246 ANG
+ ATOM:  2  Ga        AT  0.6667  1.3333  1.0000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  2  Ga        AT  0.6667  0.3333  1.0000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  2  Ga        AT -0.3333  0.3333  1.0000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  5  He        AT  0.1000  1.0000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.9000  1.0000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.0000  0.9000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.9000  0.9000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.0000  0.1000  1.1000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  0.9000  1.0000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.1000  1.0000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.9000  0.9000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.0000  0.9000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.0000  0.1000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.1000  0.1000  0.6000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  0.1000  1.1000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT  1.0000  1.1000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT -0.1000  0.9000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT  1.0000  0.9000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT -0.1000  0.0000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT  0.1000  0.0000  1.1000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  0.1000  1.1000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT  1.0000  1.1000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT -0.1000  0.9000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT  1.0000  0.9000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT -0.1000  0.0000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT  0.1000  0.0000  0.6000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  1.1000  1.1000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT  0.0000  1.1000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT -0.1000  1.0000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT  1.1000  1.0000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT  0.0000 -0.1000  1.1000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT  0.0000  1.1000  0.6000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  6  He        AT  1.1000  1.1000  0.6000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  6  He        AT -0.1000  1.0000  0.6000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  6  He        AT  1.1000  1.0000  0.6000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  6  He        AT  0.0000 -0.1000  0.6000 IS  4.73934 A.U.   2.50795 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  4.73934 A.U.   2.50795 ANG
+ ATOM:  4  N         AT  0.6667  1.3333  0.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT  0.6667  1.3333  1.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT  0.6667  0.3333  0.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT  0.6667  0.3333  1.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT -0.3333  0.3333  0.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT -0.3333  0.3333  1.3570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT -0.6667 -0.3333  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  3  N         AT -0.6667  0.6667  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  3  N         AT  0.3333 -0.3333  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  3  N         AT  0.3333  1.6667  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  3  N         AT  1.3333  0.6667  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  3  N         AT  1.3333  1.6667  0.8570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  1  Ga        AT  0.3333  0.6667  1.5000 IS  6.30509 A.U.   3.33651 ANG
+ ATOM:  5  He        AT  0.9000  1.9000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT  1.0000  1.9000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT -0.9000  0.1000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT  1.0000  0.1000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT -0.9000  0.0000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT  0.9000  0.0000  1.1000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  0.9000  1.9000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  6  He        AT  1.0000  1.9000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  6  He        AT -0.9000  0.1000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  6  He        AT  1.0000  0.1000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  6  He        AT -0.9000  0.0000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  6  He        AT  0.9000  0.0000  0.6000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  1  Ga        AT -0.6667 -0.3333  0.5000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  1  Ga        AT -0.6667  0.6667  0.5000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  1  Ga        AT  1.3333  0.6667  0.5000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  1  Ga        AT  1.3333  1.6667  0.5000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  1  Ga        AT  0.3333 -0.3333  0.5000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  1  Ga        AT  0.3333  1.6667  0.5000 IS  6.97094 A.U.   3.68886 ANG
+
+ ATOM:  4  EQUIV.  1  N          AT   0.66667   0.33333   0.35700
+ RMT(  4)=1.50000 AND RMT(  2)=1.95000
+ SUMS TO 3.45000  LT.  NN-DIST= 3.50065
+ ATOM:  2  Ga        AT  0.6667  0.3333  0.0000 IS  3.50065 A.U.   1.85246 ANG
+ ATOM:  1  Ga        AT  0.3333 -0.3333  0.5000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  1  Ga        AT  0.3333  0.6667  0.5000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  1  Ga        AT  1.3333  0.6667  0.5000 IS  3.75225 A.U.   1.98561 ANG
+ ATOM:  6  He        AT  0.1000  0.0000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  0.9000  0.0000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  0.1000  0.1000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  1.0000  0.1000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  0.9000  0.9000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  6  He        AT  1.0000  0.9000  0.6000 IS  3.81055 A.U.   2.01646 ANG
+ ATOM:  5  He        AT  0.1000  0.0000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  0.9000  0.0000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  1.0000  0.1000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  0.9000  0.9000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  5  He        AT  1.0000  0.9000  0.1000 IS  3.89787 A.U.   2.06266 ANG
+ ATOM:  6  He        AT  0.0000 -0.1000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  0.9000 -0.1000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  0.0000  0.1000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  1.1000  0.1000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  0.9000  1.0000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  6  He        AT  1.1000  1.0000  0.6000 IS  4.26078 A.U.   2.25471 ANG
+ ATOM:  5  He        AT  0.0000 -0.1000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  0.9000 -0.1000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  0.0000  0.1000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  1.1000  0.1000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  1.1000  1.0000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  5  He        AT  0.9000  1.0000  0.1000 IS  4.33905 A.U.   2.29612 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT  1.0000 -0.1000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT -0.1000  0.0000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT  1.1000  0.0000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT  1.0000  1.1000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  6  He        AT  1.1000  1.1000  0.6000 IS  4.66779 A.U.   2.47009 ANG
+ ATOM:  5  He        AT  1.0000 -0.1000  0.1000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  5  He        AT -0.1000  0.0000  0.1000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  5  He        AT  1.1000  0.0000  0.1000 IS  4.73933 A.U.   2.50795 ANG
+ ATOM:  5  He        AT  1.1000  1.1000  0.1000 IS  4.73934 A.U.   2.50795 ANG
+ ATOM:  5  He        AT  1.0000  1.1000  0.1000 IS  4.73934 A.U.   2.50795 ANG
+ ATOM:  3  N         AT  0.3333 -0.3333 -0.1430 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT  0.3333 -0.3333  0.8570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT  0.3333  0.6667 -0.1430 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT  0.3333  0.6667  0.8570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT  1.3333  0.6667 -0.1430 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  3  N         AT  1.3333  0.6667  0.8570 IS  6.01259 A.U.   3.18173 ANG
+ ATOM:  4  N         AT -0.3333 -0.6667  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  4  N         AT -0.3333  0.3333  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  4  N         AT  0.6667 -0.6667  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  4  N         AT  0.6667  1.3333  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  4  N         AT  1.6667  0.3333  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  4  N         AT  1.6667  1.3333  0.3570 IS  6.02823 A.U.   3.19000 ANG
+ ATOM:  2  Ga        AT  0.6667  0.3333  1.0000 IS  6.30509 A.U.   3.33651 ANG
+ ATOM:  6  He        AT  0.1000 -0.9000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  0.0000 -0.9000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  0.0000  0.9000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  1.9000  0.9000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  0.1000  1.0000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  6  He        AT  1.9000  1.0000  0.6000 IS  6.87211 A.U.   3.63656 ANG
+ ATOM:  5  He        AT  0.1000 -0.9000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  5  He        AT  0.0000 -0.9000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  5  He        AT  0.0000  0.9000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  5  He        AT  1.9000  0.9000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  5  He        AT  0.1000  1.0000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  5  He        AT  1.9000  1.0000  0.1000 IS  6.92091 A.U.   3.66239 ANG
+ ATOM:  2  Ga        AT -0.3333 -0.6667  0.0000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  2  Ga        AT -0.3333  0.3333  0.0000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  2  Ga        AT  1.6667  0.3333  0.0000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  2  Ga        AT  1.6667  1.3333  0.0000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  2  Ga        AT  0.6667 -0.6667  0.0000 IS  6.97094 A.U.   3.68886 ANG
+ ATOM:  2  Ga        AT  0.6667  1.3333  0.0000 IS  6.97094 A.U.   3.68886 ANG
+
+ ATOM:  5  EQUIV.  1  He         AT   0.10000   0.10000   0.10000
+
+   ERROR !!!!!!!!!!!!!!!
+ RMT(  5)=2.00000 AND RMT(  5)=2.00000
+ SUMS TO 4.00000 GT NNN-DIST= 0.60282
+ ATOM:  5  He        AT  0.0000  0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  0.1000  0.0000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT -0.1000  0.0000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  0.0000 -0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  1.20565 A.U.   0.63800 ANG
+
+ ATOM:  5  EQUIV.  2  He         AT   0.90000   0.00000   0.10000
+ ATOM:  5  He        AT  0.9000 -0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  1.0000  0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  1.0000 -0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  1.1000  0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  5  EQUIV.  3  He         AT   0.00000   0.10000   0.10000
+ ATOM:  5  He        AT -0.1000  0.0000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  0.1000  0.0000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  5  EQUIV.  4  He         AT   0.00000   0.90000   0.10000
+ ATOM:  5  He        AT -0.1000  0.9000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  0.1000  1.0000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT -0.1000  1.0000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  0.1000  1.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  5  EQUIV.  5  He         AT   0.90000   0.90000   0.10000
+ ATOM:  5  He        AT  1.0000  0.9000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  0.9000  1.0000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  1.1000  1.0000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  1.0000  1.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  5  EQUIV.  6  He         AT   0.10000   0.00000   0.10000
+ ATOM:  5  He        AT  0.0000 -0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT  0.1000  0.1000  0.1000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  5  He        AT -0.1000 -0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  5  He        AT  0.0000  0.1000  0.1000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  6  EQUIV.  1  He         AT   0.00000   0.10000   0.60000
+
+   ERROR !!!!!!!!!!!!!!!
+ RMT(  6)=2.00000 AND RMT(  6)=2.00000
+ SUMS TO 4.00000 GT NNN-DIST= 0.60282
+ ATOM:  6  He        AT -0.1000  0.0000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  0.1000  0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  0.1000  0.0000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  6  EQUIV.  2  He         AT   0.10000   0.10000   0.60000
+ ATOM:  6  He        AT  0.0000  0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  0.1000  0.0000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT -0.1000  0.0000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  0.0000 -0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  1.20565 A.U.   0.63800 ANG
+
+ ATOM:  6  EQUIV.  3  He         AT   0.90000   0.90000   0.60000
+ ATOM:  6  He        AT  1.0000  0.9000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  0.9000  1.0000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  1.1000  1.0000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  1.0000  1.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  6  EQUIV.  4  He         AT   0.90000   0.00000   0.60000
+ ATOM:  6  He        AT  0.9000 -0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  1.0000  0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  1.0000 -0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  1.1000  0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  6  EQUIV.  5  He         AT   0.10000   0.00000   0.60000
+ ATOM:  6  He        AT  0.0000 -0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  0.1000  0.1000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT -0.1000 -0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  0.0000  0.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+
+ ATOM:  6  EQUIV.  6  He         AT   0.00000   0.90000   0.60000
+ ATOM:  6  He        AT -0.1000  0.9000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT  0.1000  1.0000  0.6000 IS  0.60282 A.U.   0.31900 ANG
+ ATOM:  6  He        AT -0.1000  1.0000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+ ATOM:  6  He        AT  0.1000  1.1000  0.6000 IS  1.04412 A.U.   0.55252 ANG
+
+
+SHELL STRUCTURE for all ATOMS:
+ATOM  | DISTANCE   #of NEIGHBORS   Z |
+  1 | 3.131  6   2.0| 3.501  1   7.0| 3.666  6   2.0| 3.752  3   7.0|
+  2 | 3.131  6   2.0| 3.501  1   7.0| 3.666  6   2.0| 3.752  3   7.0|
+  3 | 3.501  1  31.0| 3.752  3  31.0| 3.811  6   2.0| 3.898  6   2.0|
+  4 | 3.501  1  31.0| 3.752  3  31.0| 3.811  6   2.0| 3.898  6   2.0|
+  5 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+  6 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+  7 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+  8 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+  9 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 10 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 11 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 12 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 13 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 14 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 15 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 16 | 0.603  2   2.0| 1.044  2   2.0| 1.206  1   2.0| 3.131  1  31.0|
+ 
+
+LISTING of INDEX of all EQUIVALENT ATOMS:
+ 
+ ATOM:   1 and ATOM:   1 are equivalent
+ ATOM:   1 and ATOM:   2 are equivalent
+ 
+ ATOM:   3 and ATOM:   3 are equivalent
+ ATOM:   3 and ATOM:   4 are equivalent
+ 
+ ATOM:   5 and ATOM:   5 are equivalent
+ ATOM:   5 and ATOM:   6 are equivalent
+ ATOM:   5 and ATOM:   7 are equivalent
+ ATOM:   5 and ATOM:   8 are equivalent
+ ATOM:   5 and ATOM:   9 are equivalent
+ ATOM:   5 and ATOM:  10 are equivalent
+ ATOM:   5 and ATOM:  11 are equivalent
+ ATOM:   5 and ATOM:  12 are equivalent
+ ATOM:   5 and ATOM:  13 are equivalent
+ ATOM:   5 and ATOM:  14 are equivalent
+ ATOM:   5 and ATOM:  15 are equivalent
+ ATOM:   5 and ATOM:  16 are equivalent
+ 
+
+ ATOM KIND:   1  OLD and NEW MULTIPLICITY:     1   2
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+
+ ATOM KIND:   2  OLD and NEW MULTIPLICITY:     1   2
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+     ATOM INDEX:   2  OLD and NEW ATOM KIND:   2   1
+ WARNING: ITYP not equal. The new type is different from the old one
+
+ ATOM KIND:   3  OLD and NEW MULTIPLICITY:     1  12
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+     ATOM INDEX:   3  OLD and NEW ATOM KIND:   3   2
+ WARNING: ITYP not equal. The new type is different from the old one
+
+ ATOM KIND:   4  OLD and NEW MULTIPLICITY:     1   0
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+     ATOM INDEX:   4  OLD and NEW ATOM KIND:   4   2
+ WARNING: ITYP not equal. The new type is different from the old one
+
+ ATOM KIND:   5  OLD and NEW MULTIPLICITY:     6   0
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+     ATOM INDEX:   5  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:   6  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:   7  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:   8  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:   9  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  10  OLD and NEW ATOM KIND:   5   3
+ WARNING: ITYP not equal. The new type is different from the old one
+
+ ATOM KIND:   6  OLD and NEW MULTIPLICITY:     6   0
+ WARNING: MULT not equal. The new multiplicity is different from the old one
+     ATOM INDEX:  11  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  12  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  13  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  14  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  15  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+     ATOM INDEX:  16  OLD and NEW ATOM KIND:   6   3
+ WARNING: ITYP not equal. The new type is different from the old one
+ 
+ NEW LIST of EQUIVALENT POSITIONS written to case.struct_nn
+ 
+      -1    0.33333334   0.66666668   0.50000000     Ga         31.0
+      -1    0.66666666   0.33333332   0.00000000
+ 
+      -2    0.33333334   0.66666668   0.85700000     N           7.0
+      -2    0.66666666   0.33333332   0.35700000
+ 
+      -3    0.10000000   0.10000000   0.10000000     He          2.0
+      -3    0.90000000   0.00000000   0.10000000
+      -3    0.00000000   0.10000000   0.10000000
+      -3    0.00000000   0.90000000   0.10000000
+      -3    0.90000000   0.90000000   0.10000000
+      -3    0.10000000   0.00000000   0.10000000
+      -3    0.00000000   0.10000000   0.60000000
+      -3    0.10000000   0.10000000   0.60000000
+      -3    0.90000000   0.90000000   0.60000000
+      -3    0.90000000   0.00000000   0.60000000
+      -3    0.10000000   0.00000000   0.60000000
+      -3    0.00000000   0.90000000   0.60000000

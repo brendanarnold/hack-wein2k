@@ -1,0 +1,8 @@
+#!/bin/csh -f
+#
+#moving case.vect*.old to regular vector files
+# 
+foreach i (*.old)
+echo "moving $i to $i:r"
+mv $i $i:r
+end

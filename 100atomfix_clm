@@ -1,0 +1,27 @@
+#!/bin/csh -f
+#
+# usage: 100atomfix_clm_lapw    case.clmsum
+# find . -name '*.clm*' -exec 100atomfix_clm_lapw {} \;
+#
+set file=$argv
+echo -n .
+echo 's/ATOM NUMBER =/ATOM NUMBER  /g' > _tmp_.sed
+echo 's/ATOMNUMBER  =/ATOMNUMBER   /g' >> _tmp_.sed
+echo 's/NUMBER OF LM=/NUMBER OF LM /g' >> _tmp_.sed
+echo 's/LM(R) FOR L=/LM(R) FOR L /g' >> _tmp_.sed
+#clmsum files
+
+   sed -f _tmp_.sed $file > _tmp_ 
+   mv _tmp_  $file
+
+#   sed "s/ATOM NUMBER =/ATOM NUMBER  /g" $file > _tmp_ 
+#   mv _tmp_  $file
+#   sed "s/ATOMNUMBER  =/ATOMNUMBER   /g" $file > _tmp_ 
+#   mv _tmp_  $file
+#   sed "s/NUMBER OF LM=/NUMBER OF LM /g" $file > _tmp_ 
+#   mv _tmp_  $file
+#   sed "s/LM(R) FOR L=/LM(R) FOR L /g" $file > _tmp_ 
+#   mv _tmp_  $file
+
+exit 0
+

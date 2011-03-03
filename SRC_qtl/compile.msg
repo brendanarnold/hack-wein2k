@@ -1,0 +1,40 @@
+rm -f *.o *_tmp_.* *.P .sequential .parallel *.mod
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c reallocate.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c modules.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c angle.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c abcd.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c atpar.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dvbes1.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c errclr.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c errflg.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c gtfnam2.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c harmon.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inispl.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inverss.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c l2main.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c qtlmain.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c latgen.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c outerr.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c outwin.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ph.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c psplit.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rint13.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rotate.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c sphbes.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c symop.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c ylm.f
+icc  -c cputim.c
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c mknam.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c diracout.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c dergl.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c xsplt.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c sym.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c readc.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c outp.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c qtl.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c radint.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c rout.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c lomain.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inth.f
+ifort  -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -c inouh.f
+ifort -o ./qtl reallocate.o modules.o angle.o abcd.o atpar.o dvbes1.o errclr.o errflg.o gtfnam2.o harmon.o inispl.o inverss.o l2main.o qtlmain.o  latgen.o outerr.o outwin.o ph.o psplit.o rint13.o rotate.o sphbes.o symop.o ylm.o cputim.o mknam.o diracout.o dergl.o xsplt.o sym.o readc.o outp.o qtl.o radint.o rout.o lomain.o inth.o inouh.o -FR -mp1 -w -prec_div -pc80 -pad -ip -DINTEL_VML -L/opt/intel/mkl/9.0/lib/em64t -lpthread -lmkl_lapack64 -lmkl_em64t -lguide -lvml -pthread 

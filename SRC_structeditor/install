@@ -1,0 +1,9 @@
+#!/bin/tcsh -f
+
+foreach i ( ncmsymmetry readwrite struct2mol structgen )
+   cd SRC_$i
+   make clean
+   make
+   cp $i ../bin
+   cd ../
+end

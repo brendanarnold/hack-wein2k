@@ -1,0 +1,25 @@
+FC = _FC_
+FOPT     = _FOPT_
+FGEN     =
+LDFLAGS  = _LDFLAGS_     
+DESTDIR  = ./
+EXECN1 = cif2struct
+
+EXEC   = $(DESTDIR)$(EXECN1)
+
+OBJS =	module.o spacegroup.o getlattype.o getsgnum.o getsgname.o  getzz.o \
+        structgen.o scan_cif.o ciftbx.o hash_funcs.o test_sgname.o scan_in.o
+
+$(EXEC):	$(OBJS) 
+	$(FC) -o $(EXEC) $(FFLAGS) $(LDFLAGS) $(OBJS)
+
+$(OBJS):	Makefile
+
+clean:	  
+	-rm -f $(OBJS) 
+	@echo clean
+
+.f.o:
+	$(FC) -c $(FOPT) $<
+.f90.o:
+	$(FC) $(FOPT) -c $<

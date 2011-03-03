@@ -1,0 +1,69 @@
+This directory contains two programs:
+
+a) A small symmetry checker/repairer, run as
+        x patchsymm
+It will produce in case.struct_new a file with the correct symmetry
+for all atoms (in case something went wrong or the cif/amc file did
+not have enough symmetry). The file case.outputpatch gives information on
+how parameters changed.
+
+b) The pairhess initializer. This produces three output files:
+        .minpair        An initial estimate of the hessian cholesky,
+                        copy to .min_hess and/or .minrestart
+        case.inM_st     An appropriate template for case.inM with
+                        fixed variables having "0" multipliers, to
+                        kill any numerical errors.
+        case.outputpair Vaguely readable information
+
+The pairhess command (x pairhess) will, if nothing is there, use default
+values for parameters. If a case.inpair is present, it will have a
+structure (free format, defaults shown):
+
+10.0 2.0 0.25  (Rmax, Decay, ReScale)
+0.05 1.0 0     (Cutoff, Diag, mode)
+
+Rmax:   Maximum distance (a.u.) for considering neighbors. 8-12 is good.
+Decay:  Exponential decay applied to neighbors when calculating the
+        pairwise bond strenghts. 1.5-2.5 is reasonable.
+ReScale A scaling term to multiply the pairwise hessian by. This number
+        is rather important; 0.25 appears to be best, 0.35 is more conservative
+Cutoff  When the weighting (via an exponential decay) becomes smaller than this
+        number the pairwise bonds are ignored.
+Diag    The value to multiply a unitary matrix by, this is added to the hessian
+        estimate
+Mode    0       Harmonic model, works
+        1       Spring model, does not work (not sure why)
+
+Comments: Important numbers, which are output, are:
+        a) The condition number of the hessian estimate, 2-3 seems to be best
+        b) The min (always 1) and max of the eigenvalues. The latter should be
+           in the range of 2-3.
+Slightly surprisingly, the hessian seems to need to be a balance of two terms:
+        1) Correct coupling, i.e. off-diagonal elements.
+        2) Tight clustering of the eigenvalues.
+Point 1) is obvious. Point 2) appears to be a feature of BFGS which can be
+rationalized, but why is not clear. The two compete, so "best" is a compromise.
+
+For a reasonably wide range of structures it reduces the number of steps by about 1/3.
+case pairhess:
+
+Include in x_lapw:
+
+set exe = pairhess
+cat << theend > $def
+ 6,'$file.outputpair','unknown','formatted',0
+10,'$file.inpair',    'unknown',    'formatted',0
+20,'$file.struct',    'old',    'formatted',0
+21,'$file.inM_st',    'unknown',    'formatted',0
+22,'$file.hess',    'unknown',    'formatted',0
+theend
+breaksw
+
+case patchsymm:
+set exe = patchsymm
+cat << theend > $def
+ 6,'$file.outputpatch','unknown','formatted',0
+20,'$file.struct',    'old',    'formatted',0
+21,'$file.struct_new',    'unknown',    'formatted',0
+theend
+breaksw

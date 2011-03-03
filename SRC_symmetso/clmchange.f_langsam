@@ -1,0 +1,128 @@
+       subroutine  clmchange(ifile,ifw,nat,ieq,jrj,iord,iz,ksym)
+       implicit real*8(a-h,o-z)
+      INCLUDE 'param.inc'
+       integer iz(3,3,48),ksym(48),kv(3),kvtest(3)
+c this program serves to read clm files in FLAPW WIEN93 program
+c jri(nat) is number of radial points for atom nat
+        character a,al
+        dimension al(lmmx,111)
+        dimension lmmax(nato),jrj(*),rho(lmmx,nrad),a(111)
+        dimension kv1(3,nwav),ro1(2,nwav),ieq(nato)
+c        read(5,*)nat,(jri(j),j=1,nat)
+c        read(5,*)cclm1
+333     format(' number of atoms',i3,'number of points',2i7)
+444     format(' file 1 vsn*',f5.1)
+        read(ifile,1980,end=999,err=999)(a(i),i=1,30)
+        write(ifw,1980)(a(i),i=1,30)
+        read(ifile,1980)(a(i),i=1,30)
+        write(ifw,1980)(a(i),i=1,30)
+        read(ifile,1980)a(1)
+        write(ifw,1980)a(1)
+        jatso=0
+        do 80 jatom=1,nat
+        do 80 jeq=1,ieq(jatom)
+        jatso=jatso+1
+        if(jeq.eq.1) read(ifile,2000)(a(i),i=1,16),j
+       write(ifw,1990)jatso
+ 1990 FORMAT(3X,'ATOM NUMBER =',I2,5X,10A4)                             
+        if(jeq.eq.1)read(ifile,2000)(a(i),i=1,16),lmmax(jatom)
+       write(ifw  ,2111)lmmax(jatom)
+ 2111 FORMAT(3X,'NUMBER OF LM=',I2)                                   
+        if(jeq.eq.1)then
+        do 35 lm1=1,lmmax(jatom)
+       read(ifile,2000)a(1)
+       read(ifile,2000)a(1)
+        read(ifile,1980)(al(lm1,i),i=1,25)
+        read(ifile,1980)a(1)
+        read(ifile,2020)(rho(lm1,j),j=1,jrj(jatom))
+ 35     continue
+       endif
+       do 36 lm1=1,lmmax(jatom)
+       write(ifw,2000)a(1)
+       write(ifw,2000)a(1)
+       write(ifw    ,1980)(al(lm1,i),i=1,25)
+       write(ifw,    1980)a(1)
+        write(ifw,2020)(rho(lm1,j),j=1,jrj(jatom))
+36     continue
+       do 88 i=1,6
+       if(jeq.eq.1)read(ifile,1980)a(1)
+        write(ifw,1980)a(1)
+ 88    continue
+ 80     continue
+        read(ifile,1980)(a(i),i=1,42)
+        write(ifw,1980)(a(i),i=1,42)
+        read(ifile,1980)a(1)
+        write(ifw,1980)a(1)
+c
+        read(ifile,2030)(a(i),i=1,13),nwav1
+        do 140 j=1,nwav1
+ 140    read(ifile,2070)(kv1(jx,j),jx=1,3),(ro1(k,j),k=1,2)
+ 345    format(i5,2e15.7)
+ 2070  format(3x,3i5,2e19.12)
+ 2030   format(13a1,i6)
+ 1980   format(80a1)
+ 2000   format(16a1,i2)
+ 2020   format(3x,4e19.12)
+c  **** clm file read *****
+        nw=nwav1
+      write(6,*)' nw  k  j     knew      rhonew              kold'
+      print *, nwav1,iord,(ksym(i),i=1,iord)
+        do 20 j=1,nwav1
+c        do 20 j=1,10
+        do 21 k=1,iord
+c consider only those symmetry operation which are not compatible with s-o
+        if(ksym(k).eq.0)then
+        do 22 i1=1,3
+        kv(i1)=0
+        do 22 i2=1,3
+        kv(i1)=kv(i1)+iz(i1,i2,k)*kv1(i2,j)
+22      continue
+c        idif=0
+c        do  l=1,3
+c        if(kv(l).ne.kv1(l,j)) idif=1
+c        enddo
+c        write(*,'(2i4,3x,3i3,3x,3i3,i5)') j,k,kv,(kv1(i2,j),i2=1,3),idif
+c find out whether vector kv is already on the list
+        list=0
+        i=j
+            do k1=1,iord
+            if(ksym(k1).eq.1)then
+              do  i1=1,3
+              kvtest(i1)=0
+              do  i2=1,3
+              kvtest(i1)=kvtest(i1)+iz(i1,i2,k1)*kv1(i2,i)
+              enddo
+              enddo
+              if(kvtest(1).eq.kv(1).and.kvtest(2).eq.kv(2).and.
+     &           kvtest(3).eq.kv(3)) goto 21
+            endif
+            enddo
+        do 23 i=nwav1,nw
+            do k1=1,iord
+            if(ksym(k1).eq.1)then
+              do  i1=1,3
+              kvtest(i1)=0
+              do  i2=1,3
+              kvtest(i1)=kvtest(i1)+iz(i1,i2,k1)*kv1(i2,i)
+              enddo
+              enddo
+              if(kvtest(1).eq.kv(1).and.kvtest(2).eq.kv(2).and.
+     &           kvtest(3).eq.kv(3)) goto 21
+            endif
+            enddo
+23      continue
+c vector kv is new
+        nw=nw+1
+        do 25 l=1,3
+        kv1(l,nw)=kv(l)
+        if(l.lt.3)ro1(l,nw)=ro1(l,j)
+25      continue
+        write(6,500)nw,j,k,(kv1(l,nw),l=1,3),(ro1(l,nw),l=1,2),
+     &  (kv1(l,j),l=1,3)
+500     format(3i4,3x,3i3,2f10.6,3i3)
+        endif
+21      continue
+20      continue
+ 999    return
+        stop
+        end

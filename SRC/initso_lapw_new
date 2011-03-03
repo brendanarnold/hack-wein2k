@@ -1,0 +1,154 @@
+#!/bin/csh -f
+unalias rm
+
+set name      = $0
+set bin       = $name:h		    #directory of WIEN-executables
+if !(-d $bin) set bin = .
+set template  = $bin/SRC_templates
+set name      = $name:t 	    #name of this script-file
+set logfile   = :log
+set tmp       = (:$name)	    #temporary files
+set file      = `pwd`
+set file      = $file:t		    #tail of file-names
+set sleep     = 1                   # use 0 for fast machines
+set cmplx=
+
+#---> functions & subroutines
+alias	teststatus	'if ($status) goto error'
+alias	exec		'($bin/x \!:*) ;'\
+			'teststatus'
+
+
+#alias editor emacs
+if($?EDITOR) then
+  if ("$EDITOR" == vi ) then
+    alias editor 'xterm -e vi'
+  else
+    alias editor '$EDITOR'
+  endif
+else
+  alias editor emacs
+endif
+
+#---> default flags
+unset help		#set -> help output
+
+#---> handling of input options
+echo ">   ($name) options: $argv"	>> $logfile
+alias sb 'shift; breaksw'	#definition used in switch
+while ($#argv)
+  switch ($1)
+  case -[H|h]:
+    set help; sb
+  case -e: 
+    shift; set stopafter = $1; sb
+  case -s:
+    shift; set next  = $1; sb
+  default: 
+    echo "ERROR: option $1 does not exist!!"; sb
+  endsw
+end
+if ($?help) goto help
+
+
+if (! -e $file.inso || -z $file.inso ) cp $template/case.inso $file.inso
+#if (! -e $file.inaverx || -z $file.inaverx) cp $template/case.inaverx $file.inaverx
+
+
+cat<<EOF
+  Edit input file $file.inso  and $file.in1
+  In particular select the direction of the moment ( h k l ) 
+  and a larger emax value for the energy window in $file.in1   
+EOF
+
+
+sleep $sleep
+editor $file.inso
+#editor $file.inaverx
+if(-e $file.in1c && ! -z $file.in1c) then
+set cmplx='-c'
+editor $file.in1c
+else
+editor $file.in1
+endif
+
+cat<<EOF
+
+In spinpolarized case SO may reduce symmetry. 
+
+The program symmetso dedects the proper symmetry and creates new struct and
+input files. (Note, equivalent atoms could become inequivalent in some cases). 
+
+EOF
+
+echo -n "Do you have a spinpolarized case (and want to run symmetso) ? (y/N)"
+set yn = ($<)
+if ($yn == y || $yn == Y) then
+    x symmetso $cmplx
+    editor $file.outsymso
+    echo " A new structure for SO calculations has been created (_so)."
+    echo " If you commit it will create new  $file.struct, in1(c), in2c, inc," 
+    echo " clmsum/up/dn, vspup/dn and vnsup/dn files. (Please SAVE any previous"
+    echo " calculations)"
+    echo -n "Do you want to use the new structure for SO calculations ? (y/N)"
+    set yn = ($<)
+    if ($yn == y || $yn == Y) then
+        if(! -z $file.ksym ) then
+          echo ""
+          echo " initso dedected $file.ksym, which contains proper symmetryoperations"
+          echo " for KGEN. NOTE: WHEN YOU CHANGE THE KMESH LATER ON, YOU MUST RUN:"
+          echo " x kgen -so ;  to use the symmetry operations in $file.ksym"
+rerunkgen:
+        x kgen -so
+        editor $file.klist
+    echo -n "Do you want to rerun kgen ? (y/N)"
+    set yn = ($<)
+    if ($yn == y || $yn == Y) then
+     goto rerunkgen
+    endif
+        endif
+        cp $file.struct_so $file.struct
+        if(! -z $file.inc_so ) cp $file.inc_so $file.inc
+        if(! -z $file.in2c_so ) cp $file.in2c_so $file.in2c
+        if(! -z $file.in1c_so ) cp $file.in1c_so $file.in1c
+        if(! -z $file.in1_so ) cp $file.in1_so $file.in1
+        if(! -z $file.clmsum_so ) cp $file.clmsum_so $file.clmsum
+        if(! -z $file.clmup_so ) cp $file.clmup_so $file.clmup
+        if(! -z $file.clmdn_so ) cp $file.clmdn_so $file.clmdn
+        if(! -z $file.vspup_so ) cp $file.vspup_so $file.vspup
+        if(! -z $file.vspdn_so ) cp $file.vspdn_so $file.vspdn
+        if(! -z $file.vnsup_so ) cp $file.vnsup_so $file.vnsup
+        if(! -z $file.vnsdn_so ) cp $file.vnsdn_so $file.vnsdn
+    endif
+endif
+
+cat<<EOF
+
+Spinorbit is now ready to run.
+EOF
+
+exit 0
+
+error:
+    echo "An error has occured"
+exit 1
+
+help:					#help exit 
+cat << theend 
+
+PROGRAM:	$0
+
+PURPOSE:	initialisation of spinorbit
+		to be called within the case-directory
+
+USAGE:		$name
+
+FLAGS:
+-h/-H ->	help
+		
+theend
+
+exit 1
+
+
+

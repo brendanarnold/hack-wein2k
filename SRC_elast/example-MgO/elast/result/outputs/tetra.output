@@ -1,0 +1,12 @@
+Polynomial fit or tetragonal strain done
+A RMS of 0.508423E-13 was achieved using a polynome of degree     :  4
+
+At volume= 121.80976 bohr^3
+C11-C12 is: 0.016041 u.a or   235.974 GPa
+ 
+         Strain       energy          dE
+    0.00675698   -548.936534  0.000000E+00
+    0.01370077   -548.935681  0.000000E+00
+    0.00000000   -548.936806  0.000000E+00
+   -0.00657906   -548.936558 -0.113687E-12
+   -0.01298784   -548.935864  0.000000E+00

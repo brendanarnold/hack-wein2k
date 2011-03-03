@@ -1,0 +1,85 @@
+Program QTL is designed to calculate partial densities of states projeceted
+on a given basis (within orbital quantum number l subspace) in a given atomic sphere.
+Similar densities of states are
+calculated so far in lapw2 with option QTL. The main aim of this code is to 
+calculate the destities projected on relativistic states (the use of the code 
+is however more general ). The structure of the code is based on the fact that
+the densities of the states can be obtained from the spectral decomposition of
+the occupation number matrix (OCNM). The diagonal elements of the OCNM 
+correspond to the partial densities of states projected on the basis functions.
+Therefor it is possible to obtain the density of any state ( within l subspace )
+once we know the spectral decomposition of OCNM by a unitary
+transformation to the appropriate basis and looking at the diagonal elements.
+
+The key part of the code is the symmetrization over the k-points, i.e. extracting information
+about the whole BZ from its irreducible part. When working with relativistic states
+( which are spin mixed ) the whole OCNM (i.e. also its elemnts between opposite spin functions)
+must be symmetrized properly. This means that also the spinor part of the symmetry
+operations must be taken into account.
+
+There are 3 main input files to the code. 
+1)case.inq (all lines are free format)
+SUMA/FULL      (see below)
+DOSYM/NOSYM    ( symmetrization is/is not performed )
+emin, emax     (energy window)
+e_fermi        (fermi energy)
+ncases         (number of atoms for which the densities are calculated)
+jatom  latom   (index of ineq. atom, orbital quantum number - only one per atom)
+
+2)case.struct
+The choice of the locall rotation matrix ( which can be changed after calculating 
+the vectors ) defines the l,m basis of internal OCNM with respect to global coordinate system.
+The spin coordinate system is set in lapwso ( is in general different from
+orbital coordinate system ).
+
+2)case.cf1,..,case.cf$ncases
+The unitary transformation matrix from internal OCNM nl,m,spin basis to
+the output basis (e.g. j,jz basis in the relativistic case). 
+The * marks have meaning when SUMA in line 1 case.inq. They mark which diagonal
+matrix elements should be summed over to obtaine e.g. total j=1/2 density instead
+of the projection 1/2,-1/2 and 1/2,1/2. The latter are obtained when FULL is on.
+
+DOSYM/NOSYM if the desities of states are calculated on the basis which is 
+rotationally invariant along local axis (l,m,spin or j,jz) symmetrization
+is not necessary and may be switched off to save the time.
+
+The use of case.cf file makes the code flexible.
+It assumes making a small database with case.cf files for given 
+symmetry of output states. I include the the file for relativstic
+(j,j_z) basis ( p,d,f states ). Here is one important note. The included
+case.cf files correspond to the case when the spin and local coordinate systems
+are the same ( collinear z axes are not enough ). This must be done by hand.
+However, the spin coordinate matrix is at the output of the program and
+this matrix should be equal to the local rotation matrix for the results to be
+correct.
+
+OUTPUT:
+case.qtl1,...,case.qtl$ncases
+these files are to be processed with tetra
+
+The code can proccess paralel vector files when called as
+qtl qtl.def $MAXPROC 
+
+The part of x script to produce the def files is:
+case qtl:
+set exe = $command
+cat << theend > $def
+ 4,'$file.inso',   'unknown',    'formatted',0
+ 5,'$file.inq',   'old',    'formatted',0
+ 6,'$file.outputq','unknown','formatted',0
+ 9,'$file.vectorsoup', 'unknown','unformatted',9000
+10,'$file.vectorsodn', 'unknown','unformatted',9000
+18,'$file.vspup',       'old',    'formatted',0
+19,'$file.vspdn',       'unknown','formatted',0
+20,'$file.struct',         'old',    'formatted',0
+theend
+set natom=`head -5 $file.inq | tail -1 | cut -c0-10`
+set iatom=1
+while ($iatom <= $natom)
+set help=`expr 30 + $iatom`
+set cf=`expr 50 + $iatom`
+     echo "$help,'$file.qtl$iatom','unknown','formatted',0">>$def
+     echo "$cf,'$file.cf$iatom','unknown','formatted',0">>$def
+   @ iatom ++
+end
+breaksw

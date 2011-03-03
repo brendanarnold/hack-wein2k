@@ -1,0 +1,7 @@
+WFFIL
+ 4  1  0                      llmax,ipr,kpot 
+ -10.0000   1.50000           emin,emax (output energy window)
+   0.  0.  1.                 direction of magnetization (lattice vectors)
+ NX                           number of atoms for which RLO is added
+ NX1   -4.97      0.005       atom number,e-lo,de (case.in1), repeat NX times
+ 0 0 0 0 0                    number of atoms for which SO is switch off; atoms

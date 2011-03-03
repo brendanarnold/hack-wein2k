@@ -1,0 +1,41 @@
+
+INTERNATIONAL TABLES SETTING
+     *'Triclinic',
+     *'Monoclinic Axis c',
+     *'Base-a Monocl. Axis c',
+     *'Orthorhombic',
+     *'Base-centered (C) Orthorhom',
+     *'Face-centered Orthorhombic',
+     *'Body-centered Orthorhombic',
+     *'Tetragonal',
+     *'Body-centered Tetragonal',
+     *'Body-centered Tetragonal',
+     *'Cubic',
+     *'Body-centered Cubic',
+     *'Face-centered Cubic',
+     *'Rhomohedric',
+     *'Hexagonal',
+     *'Monoclinic Axis b',
+     *'Base-c Monocl. Axis b',
+     *'Base-centered (C) Orthorhom',
+     *'Base-centered (A) Orthorhom',
+     *'Trigonal, Hexagonal axes',
+     *'Trigonal, Rhombohedral axes'
+
+
+KOVALEV setting
+     *'Triclinic',
+     *'Monoclinic',
+     *'Base center.(A) Monoclinic',
+     *'Orthorhombic',
+     *'Base-cent.(C) Orthorhombic',
+     *'Face-centered Orthorhombic',
+     *'Body-centered Orthorhombic',
+     *'Tetragonal',
+     *'Body-centered Tetragonal',
+     *'Body-centered Tetragonal(b)',
+     *'Cubic',
+     *'Body-centered Cubic',
+     *'Face-centered Cubic',
+     *'Rhombohedric',
+     *'Hexagonal'

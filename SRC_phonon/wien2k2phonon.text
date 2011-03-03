@@ -1,0 +1,37 @@
+WIEN2k
+
+
+http://www.wien2k.at
+
+WIEN2k is a full-potential "Augmented Plane Wave plus Local Orbitals Program" 
+(APW+lo) for the calculation of the electronic structure in solids [1]. It is 
+based on density functional theory (DFT) and one can make calculations based
+on LDA (LSDA) and GGA functionals, but also more advanced schemes like LDA+U
+for correlated electronic states are available. The APW method is well suited 
+for all elements of the periodic table and is considered as one of the most 
+accurate methods, with a possible drawback of increased computational costs.
+
+Use PHONON to define a supercell and generate a "<project>.d45" file with the 
+WIEN2k format. This file should be transfered to a new directory on a UNIX 
+computer where WIEN2k (Version WIEN2k_03 or higher) is installed. Use
+"init_phonon_lapw " to create a series of "case_xx" directories 
+and to initialize all required input files. In addition a shell-script 
+"run_phonon" is created (you may have to modify it for spin-polarized cases
+or to select special options) and should be executed. Once the calculations
+have finished (and are checked for convergence, in particular with respect to 
+k-mesh and RKmax) you can generate a PHONON "Hellman-Feynman file" 
+<project>.dat (or <project>.dsy when you have + and - discplacements) 
+using "analyse_phonon_lapw". This file can be directly imported
+by PHONON.
+
+WIEN2k supports FC and BC cells, but PHONON does not support that.
+Thus use only cartesian P type lattices. If possible, WIEN2k will 
+use any remaining symmetry of the supercell with the displaced atoms.
+
+An example of a WIEN2k <project>.d45 file is in Utility.
+
+
+[1] P.Blaha, K.Schwarz, G.K.H.Madsen, D.Kvasnicka and J.Luitz: WIEN2k, An
+Augmented  Plane Wave plus Local Orbitals Program for Calculating Crystal 
+Properties. (Karlheinz Schwarz, Techn. Universität WIEN, Austria), 2001. 
+ISBN 3-9501031-1-2.

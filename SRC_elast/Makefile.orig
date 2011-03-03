@@ -1,0 +1,38 @@
+FC = _FC_
+FOPT     = _FOPT_
+LDFLAGS  = _LDFLAGS_
+DESTDIR  = ../
+#LDDIR = -L./
+#LIB = -lpolfit
+EXECN1 = genetempl
+EXECN2 = setelast
+EXECN3 = anaelast
+
+EXEC   = $(DESTDIR)$(EXECN1)
+EXEC2   = $(DESTDIR)$(EXECN2)
+EXEC3   = $(DESTDIR)$(EXECN3)
+
+OBJS =	genetempl.o c2rh.o c2te.o xc2rh.o
+OBJS2 =	setelast.o c2rh.o c2te.o
+OBJS3 = anaelast.o lmdif.o
+OBJS4 = fdump.o i1mach.o j4save.o dpolft.o dp1vlu.o xercnt.o xerhlt.o \
+	xermsg.o xerprn.o xersve.o xgetua.o
+
+$(EXEC):	$(OBJS) $(OBJS2) $(OBJS3)  $(OBJS4)
+	$(FC) $(FOPT) -o $(EXEC) $(OBJS) $(LDFLAGS)
+	$(FC) $(FOPT) -o $(EXEC2) $(OBJS2) $(LDFLAGS)
+	$(FC) $(FOPT) -o $(EXEC3) $(OBJS3) $(OBJS4) $(LDFLAGS)
+
+$(OBJS):	Makefile
+$(OBJS2):	Makefile
+$(OBJS3):	Makefile
+$(OBJS4):	Makefile
+
+clean:	  
+	-rm  *.o
+	@echo clean
+
+.f.o:
+	$(FC) $(FOPT) -c $<
+.f90.o:
+	$(FC) $(FOPT) -c $<

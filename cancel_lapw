@@ -1,0 +1,166 @@
+#!/bin/csh -f 
+
+switch ( $1 )
+	case -f:
+		unset confirm
+		shift 
+	breaksw
+	case -h:
+		goto syntax
+		shift 
+	breaksw
+	case -d:
+		shift; set file = $1
+		shift 
+	breaksw
+	default:
+		set confirm
+	breaksw
+endsw
+if ( $#argv  != 0 ) goto syntax
+
+if !($?file) then 
+set file    = `pwd`
+#set file    = $file:t		#tail of file-names
+endif
+
+cd $file
+set a=`ls .running.*`
+
+if($#a == 0) then
+  echo no running WIEN2k job in    $file
+  exit 0
+endif
+
+foreach i ( $a )
+  set exe=`tail -1 $i`
+  echo checking ${i}\: `tail -1 $i`
+  echo ' '
+
+  if (-z $i ) then
+    echo $i is empty, removed
+    rm $i
+
+  else
+
+    set test=`echo $i | cut -d. -f3`
+    ps -ef |grep "$test " | grep -v grep
+    echo ' '
+    set test1=`ps -ef |grep "$test " | grep -v grep |tail -1`
+
+    if($#test1 == 0) then
+      echo ps does not show process $test. 
+      if ( $?confirm ) then
+		echo -n "Do you want to remove $i ? [y/n] "
+		set a=$<
+		if ( $a != 'y' ) continue 
+      endif 
+      rm $i 
+    else
+      if ( $?confirm ) then
+		echo -n "Do you want to kill process $test ? [y/n] "
+		set a=$<
+		if ( $a != 'y' ) goto cont
+      endif 
+      kill $test
+      rm $i
+    endif
+cont:
+  endif
+
+#check for parallel jobs
+  set exepara=(lapw1para lapw1cpara lapw2para lapw2cpara lapwsopara lapwdmpara lapwdmcpara opticpara opticcpara irreppara)
+
+  foreach k ($exepara)
+
+   if($exe[1] == $k) goto para1
+  end
+  goto sequ 
+para1:
+    unset remove
+
+    if($#test1 != 0) then
+      if ( $?confirm ) then
+		echo -n "Do you want to kill process $test1[2] ? [y/n] "
+		set a=$<
+		if ( $a == 'y' ) kill $test1[2]
+      else
+                kill $test1[2]
+      endif 
+    endif
+
+
+    set jj=`wc .$exe[1].*`
+    if($#jj == 0) then
+      echo Parallel jobs not found in .$exe[1].*
+      exit 1
+    endif
+    set j=$jj[1]
+    set jj=1
+    while ( $j >= $jj )
+      set test=(`head -$jj .$exe[1].* |tail -1| cut -c3-30`)
+      set test=`echo $test |cut -f3 -d' ' `
+      echo ' '
+      ps -ef |grep $test| grep -v grep |grep -v defunct
+      echo ' '
+      set test1=`ps -ef |grep $test| grep -v grep`
+
+      if($#test1 == 0) then
+        echo ps does not show process $test of .$exe[1].*
+        set remove
+      else
+        if ( $?confirm ) then
+		echo -n "Do you want to kill process $test ? [y/n] "
+		set a=$<
+		if ( $a != 'y' ) goto cont_para
+        endif 
+      set remove
+      kill $test
+      endif
+cont_para:
+    @ jj ++
+    end
+
+    if($?remove) then
+        if ( $?confirm ) then
+               echo -n "Do you want to remove .$exe[1].* ? [y/n] "
+               set a=$<
+               if ( $a != 'y' ) continue
+        endif
+        rm .$exe[1].*
+        rm .lock_*
+    endif
+##  endif
+
+#kill paralleljobs on remote machines
+  set hosts=`cat .processes | grep init|cut -f 2 -d : `
+  foreach h ( $hosts )
+    ssh $h "pslapw"
+    set id=`ssh $h "pslapw|grep -v csh| grep -v grep|grep -v ssh"`
+    if($#id >= 2 ) then
+        if ( $?confirm ) then
+               echo    "Do you want to kill on host $h"
+               echo -n "$id    ? [y/n] "
+               set a=$<
+               if ( $a != 'y' ) continue
+               ssh $h kill $id[2]
+               echo "kill on $h  $id[2]"
+        else
+               ssh $h kill $id[2]
+               echo "kill on $h  $id[2]"
+        endif
+    endif
+  end
+#end of remote kills
+
+sequ:
+#end of exepara loop
+
+end
+
+exit 0
+
+syntax:	
+echo ' cancel_lapw kills running WIEN2k job as defined in .running.* files within the current directory'
+echo ' syntax:		cancel_lapw [-f] [-d full_path_directory] 	(-f  does not ask for confirmation to kill any jobs in this directory )'
+exit 1	

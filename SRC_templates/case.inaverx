@@ -1,0 +1,17 @@
+WFFIL
+ 4  0  1  3                      lmax,imag, ind of Rad.Oper, Ind.of LS-oper 
+ -10.0000   10.0000    5.0000    emin,emax,de
+     0.        0.      1.        direction of magnetization (lattice vectors)
+
+
+
+#
+#  Table for ind of Rad.Oper, Ind.of LS-oper 
+Rad.Oper    Index        LS Oper   Index
+  I          1              I       1          (I...Identity)
+  1/r^3      2              I       1          (1/r^3 expectation value)
+             1             s_z      2          (spin moment projection)
+             1             l_z      3          (orbital moment projection)
+  S~/r^3     3             l_z      3          (orbital part of HFF)
+  S~/r^3     3       l(l+1)-3l_z^2  5          (dipolar part of HFF, (besides
+                                                a constant))

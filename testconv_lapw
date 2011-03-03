@@ -1,0 +1,165 @@
+#!/bin/csh -f
+# testconv now completely as a shell script using `bc`
+#
+unalias rm
+
+set name  = $0
+set name  = $name:t 		#name of executable
+set tmp   = tmp1$$ 		#temporary files
+
+#default
+set cut = 0.0001		#upper limit for convergence
+set para = ":ENE"			#dayfile-parameter being tested
+unset conv
+unset help
+unset output
+unset file
+goto weiter
+
+testconv1:
+                    set iflag = 0
+		    set diff = 0
+		    set cut  = `head -1 $tmp `
+		    set v1   = `tail -1 $tmp `
+		    set lines = `cat $tmp |wc -l`
+		    if ($lines > 3) then
+		      set v2   = `tail -2 $tmp |head -1`
+		      set v3   = `tail -3 $tmp |head -1`
+# for :DIS
+        if ($para == :DIS ) then
+        set iflag = `echo "if ($v1 < $cut)1;if ($v1 >= $cut)0"|bc`
+        set diff = `echo "scale =16; ( $v1 - $cut )  "|bc`
+        goto $returnlabel
+        endif
+#
+		      set dv1  = `echo "scale = 16;$v3 - $v1"|bc`
+		      set dv2  = `echo "scale = 16;$v2 - $v1"|bc`
+#		      set diff = `echo "scale =16;sqrt ( $dv1^2 + $dv2^2)"|bc`
+#fix for bc problem: sqrt(1.2099),sqrt(0.9998),...
+        set dv1 = ` echo "if ($dv1<0) {  - $dv1 }; if ($dv1>=0)  $dv1 " | bc`
+        set dv2 = ` echo "if ($dv2<0) {  - $dv2 }; if ($dv2>=0)  $dv2 " | bc`
+        set diff = `echo "scale =16; ( $dv1 + $dv2 ) / 2 "|bc`
+        set iflag = `echo "if ($diff < $cut)1;if ($diff >= $cut)0"|bc`
+
+#        set fix1 = `echo "scale =16; ( $dv1^2 + $dv2^2)"|bc`
+#echo $fix1
+#        set fix2 = `echo "if ($fix1 < 1.20989)1;if ($fix1 > 1.21 )1"|bc`
+#        if ( $fix2 ) then
+#        set fix2 = `echo "if ($fix1 < 0.9998)1;if ($fix1 > 1.000 )1"|bc`
+#         if ( $fix2 ) then
+#		      set diff = `echo "scale =16;sqrt ( $dv1^2 + $dv2^2)"|bc`
+#		      set iflag = `echo "if ($diff < $cut)1;if ($diff >= $cut)0"|bc`
+#         else
+#		      set diff = `echo "scale =16; ( $dv1^2 + $dv2^2)"|bc`
+#		      set iflag = `echo "if ($diff < $cut * $cut)1;if ($diff >= $cut * $cut)0"|bc`
+#echo $iflag
+#         endif
+#        else
+#		      set diff = `echo "scale =16; ( $dv1^2 + $dv2^2)"|bc`
+#		      set iflag = `echo "if ($diff < $cut * $cut)1;if ($diff >= $cut * $cut)0"|bc`
+#echo $iflag
+#        endif
+		    endif
+goto $returnlabel
+
+weiter:
+#handling of input options
+while ($#argv)
+  switch ($1)
+  case -c:
+#    shift; set cut = `echo "scale = 16;$1 * $1" | bc`
+    shift; set cut = $1 
+    shift; breaksw
+  case -p: 
+    shift; set para = $1
+    shift; breaksw
+  case -f: 
+    shift; set file = $1
+    shift; breaksw
+  case -[h|H]:
+  default:
+    set help
+    shift; breaksw
+  endsw
+end
+
+#---> path- and file-names
+if !($?file) then
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+endif
+
+if ($?help) goto help
+
+echo $cut 				> $tmp	
+set para1=`echo $para | cut -c1-4`
+if ($para1 == :FOR ) then
+   grep $para $file.scf | cut  -c33-47 >> $tmp
+   set returnlabel = forx
+   goto testconv1   
+forx:
+   set flagx = (`echo $iflag $cut $diff $v1`)
+   echo $cut 				> $tmp	
+   grep $para $file.scf | cut  -c48-62 >> $tmp
+   set returnlabel = fory
+   goto testconv1  
+fory:
+   set flagy = (`echo $iflag $cut $diff $v1`)
+   echo $cut 				> $tmp	
+   grep $para $file.scf | cut  -c63-77 >> $tmp
+   set returnlabel = forz
+   goto testconv1 
+forz:
+   set flagz = (`echo $iflag $cut $diff $v1`)
+
+   set flagx[4] = XCO
+   if !($flagy[1]) then
+      set flagx = ($flagy)
+      set flagx[4] = YCO
+   else 
+      if !($flagz[1]) then
+         set flagx = ($flagz)
+         set flagx[4] = ZCO
+      endif
+   endif
+   rm $tmp
+   echo " $flagx" 
+   exit 0
+else
+   grep $para $file.scf |awk '{print $NF}'	>> $tmp
+   set returnlabel = ene
+   goto testconv1 
+ene:
+   echo $iflag $cut $diff $v1
+#    source /zeus/lapw/testconv2
+   rm $tmp
+#   echo " <- flag, cut, diff, last value" 
+endif
+exit 0
+
+
+help: 
+
+cat << theend
+PROGRAM:	$0
+
+PURPOSE:	test of variable convergence within WIEN95. 
+
+OPTIONS:
+-c NUMBER ->	convergence criteria ($cut) 
+-p PATTERN ->	pattern ($para) used in scf-file;
+		e.g. :ENE, :FER, :FOR01, ...
+-f FILE ->	use FILE.scf for convergence test
+
+FLAGS:
+-h/-H ->	help
+
+OUTPUT: 	
+
+theend
+
+exit 1
+
+
+
+

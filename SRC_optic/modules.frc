@@ -1,0 +1,72 @@
+       module xa3
+!_REAL      REAL*8,allocatable::             A(:,:)
+!_COMPLEX      COMPLEX*16,allocatable::         A(:,:)
+       REAL*8,allocatable::   BKX(:),BKY(:),BKZ(:)
+       integer,allocatable::  KX(:),KY(:),KZ(:)   
+       REAL*8,allocatable::   FJ(:,:),DFJ(:,:),E(:)
+       end module xa3
+
+       module mxyz
+       COMPLEX*16,allocatable::  MX_(:),MY_(:),MZ_(:),SX_(:),SY_(:),SZ_(:)
+       end module mxyz
+
+       module ablm
+       COMPLEX*16,allocatable::  ALM(:,:),BLM(:,:),cLM(:,:)
+       end module ablm
+
+       module OPME
+       COMPLEX*16,allocatable::  OPMATX(:),OPMATY(:),OPMATZ(:)
+       end module OPME
+
+       module BINDEX     
+       integer,allocatable ::  N_(:),NN_(:),NIN(:,:)
+       end module BINDEX
+
+       module struk
+       real*8 AA,BB,CC,ALPHA(3),VOL,PIA(3)
+       real*8,allocatable :: POS(:,:),RMT(:),V(:),ZZ(:)
+       integer,allocatable:: IATNR(:),MULT(:),ISPLIT(:)      
+       CHARACTER*10,allocatable::     ANAME(:)
+       end module struk
+    
+       module potnlc
+       real*8,allocatable :: Rnot(:),DX(:)
+       integer,allocatable :: JRI(:)  
+       end module potnlc
+
+       module lologo
+       integer,allocatable:: nloO(:),nlovO(:),nlonO(:),iloO(:,:)
+       logical,allocatable:: lapwO(:,:),loorO(:,:)
+       end module lologo
+
+       module loabco
+       real*8,allocatable::  aloO(:,:,:,:), &
+                       bloO(:,:,:,:), &
+                       cloO(:,:,:,:), &
+                       eloO(:,:,:),ploO(:,:,:), &
+                       dploO(:,:,:),peloO(:,:,:), &
+                       dpeloO(:,:,:),peiloO(:,:,:), &
+                       pi12lA(:,:,:),pe12lA(:,:,:)
+       endmodule loabco
+
+       module INTU
+       real*8,allocatable:: Duu1(:,:,:),Duu2(:,:,:), &
+                    Duup1(:,:,:),Duup2(:,:,:), &
+                    Dupu1(:,:,:),Dupu2(:,:,:), &
+                    Dupup1(:,:,:),Dupup2(:,:,:), &
+                    Ruu(:,:,:),Ruup(:,:,:), &
+                    Rupu(:,:,:),Rupup(:,:,:)
+       real*8,allocatable:: Duul1(:,:,:), Duul2(:,:,:), &
+                     Dulup1(:,:,:),Dulup2(:,:,:), &
+                     Dupul1(:,:,:),Dupul2(:,:,:), &
+                     Dulu1(:,:,:), Dulu2(:,:,:), &
+                     Dulul1(:,:,:),Dulul2(:,:,:), &
+                     Ruul(:,:,:),  Rulu(:,:,:), &
+                     Rupul(:,:,:), Rulup(:,:,:), &
+                     Rulul(:,:,:)
+       end module intu
+
+       module atspa
+       real*8,allocatable::   Pn(:,:,:),DPn(:,:,:), &
+                              PEn(:,:,:),DPEn(:,:,:),PEIn(:,:,:)
+       end module atspa

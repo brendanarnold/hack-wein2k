@@ -1,0 +1,24 @@
+!
+!     Constant parameter definition
+!
+      INTEGER            KMAX1START, KMAX2START, KMAX3START, LMAX,  LMMX, LOMAX
+      INTEGER            NATO, NDIF,  NGAU, NKPTSTART, NMATMAX,  NRAD
+      INTEGER            NSLMAX, NSYM, NUME,NVEC1, NVEC2, NVEC3
+      INTEGER            NWAV,NMATIT,NUMEIT,HB,NMATBL,nloat
+      PARAMETER          (KMAX1START=   50)
+      PARAMETER          (KMAX2START=   50)
+      PARAMETER          (KMAX3START=   50)
+      PARAMETER          (LMAX=   13)
+      PARAMETER          (LMMX=  120)
+      PARAMETER          (LOMAX=   3) 
+      PARAMETER          (NGAU= 2350)
+      PARAMETER          (NKPTSTART= 100)
+      PARAMETER          (NMATMAX=   13000)
+      PARAMETER          (NRAD=  881)
+      PARAMETER          (NSLMAX=  5)
+      PARAMETER          (NSYM=   48)
+      PARAMETER          (NUME=   1000)
+      PARAMETER          (NVEC1=  25)
+      PARAMETER          (NVEC2=  25)
+      PARAMETER          (NVEC3=   95)
+      PARAMETER          (nloat= 3)    

@@ -1,0 +1,107 @@
+#  
+#  
+#  atomic radii
+#  
+#  
+object   1
+class array     type float     rank 0     items   10
+data follows
+     2.01000000     2.01000000     2.01000000     2.01000000     1.40000000     1.40000000     1.40000000     1.40000000     1.40000000     1.40000000
+attribute "dep" string "positions"
+#  
+#  
+#  atomic colors
+#  
+#  
+object   2
+class array type float rank 1 shape 3 items   10
+data follows
+     0.34000000     0.92600000     0.80400000     0.34000000     0.92600000     0.80400000     0.34000000     0.92600000     0.80400000     0.34000000
+     0.92600000     0.80400000     0.98500000     0.30100000     0.24000000     0.98500000     0.30100000     0.24000000     0.98500000     0.30100000
+     0.24000000     0.98500000     0.30100000     0.24000000     0.98500000     0.30100000     0.24000000     0.98500000     0.30100000     0.24000000
+attribute "dep" string "positions"
+#  
+#  
+#  atomic positions
+#  
+#  
+object   3
+class array type float rank 1 shape 3 items   10
+data follows
+     0.00000000     0.00000000     4.54180079     0.00000000     0.00000000     8.25200425     0.00000000     0.00000000    10.93870330     0.00000000
+     0.00000000     1.85510173     1.35268813     0.92311228     7.46305294    -1.35268813    -0.92311228     5.33075210     0.12309462    -1.63301842
+     7.46305294    -0.12309462     1.63301842     5.33075210    -1.47578275     0.70990614     7.46305294     1.47578275    -0.70990614     5.33075210
+attribute "dep" string "positions"
+#  
+#  
+#  atomic momenta
+#  
+#  
+object   4
+class array type float rank 1 shape 3 items   10
+data follows
+     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000     0.00000000
+attribute "dep" string "positions"
+#  
+#  
+#  bonds
+#  
+#  
+object   5
+class array type int rank 1 shape 2 items    6
+data follows
+    4    1    5    0    6    1    7    0    8    1
+    9    0
+attribute "ref" string "positions"
+attribute "element type" string "lines"
+#  
+#  
+#  unit cell
+#  
+#  
+object   6
+class array type float rank 1 shape 3 items 8
+data follows
+     0.00000000     0.00000000     0.00000000
+     1.35268813    -2.34292456     4.26460168
+     1.35268813     2.34292456     4.26460168
+     2.70537625     0.00000000     8.52920336
+    -2.70537625     0.00000000     4.26460168
+    -1.35268813    -2.34292456     8.52920336
+    -1.35268813     2.34292456     8.52920336
+     0.00000000     0.00000000    12.79380503
+#  
+#  
+#  atom names
+#  
+#  
+object   7
+class array type string rank 1 shape    3   items   10
+data follows
+"Al"  "Al"  "Al"  "Al"  "O "  "O "  "O "  "O "  "O "  "O "  
+attribute "dep" string "positions"
+#  
+object "ballstick"
+class field
+component "data" value          1
+component "colors" value         2
+component "positions" value          3
+component "connections" value          5
+component "box" value          6
+attribute "name" string "atoms"
+#
+object "ballstick_ncm"
+class field
+component "positions" value          3
+component "data" value          4
+attribute "name" string "atoms"
+#
+object "names"
+class field
+component "positions" value          3
+component "data" value          7
+attribute "name" string "atoms"
+#
+ end

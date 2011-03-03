@@ -1,0 +1,269 @@
+#!/bin/csh -f
+#
+# run lapw0 in parallel mode
+#
+# (C)1997 by Joachim Luitz
+#
+# $Author: jluitz $
+# $State: Exp $
+#
+
+set tmp = .tmp_lapw0para.$$
+set tmp2 = .tmp_testpara_new.$$_2
+onintr exit
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+unalias rm
+alias   testinput       'if (! -e \!:1 || -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+alias	teststatus	'if ($status) goto error'
+
+############################################################################
+# First we set up some variables
+#
+
+set t 		= time
+set log         = :parallel_lapw0
+set remote = ssh
+
+############################################################################
+#In this section use 0 to turn of an option, 1 to turn it on, 
+#respectively choose a value
+
+set sleepy      = 1             # additional sleep before checking
+set debug       = 0             # verbosity of debugging output
+
+############################################################################
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+	source $bin/parallel_options
+endif
+
+if ( $?WIEN_MPIRUN ) then
+  set mpirun = "$WIEN_MPIRUN"
+else
+  set mpirun='mpirun -np _NP_ _EXEC_'
+endif
+
+############################################################################
+
+
+#which def-file are we using?
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit 
+endif
+
+#correct PWD variable if using the amd-daemon
+# we assume that any /tmp_mnt/xxx directory will be mounted
+# as /xxx!!!!!
+#setenv PWD `pwd|sed "s/tmp_mnt\///"`
+
+setenv PWD $cwd
+# echo $PWD
+#if (-e .processes) rm .processes
+touch .lock_
+foreach i (.lock_*)
+    rm $i
+end
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+set exe = $bin/lapw0
+set exe = lapw0
+echo "** " Error in Parallel lapw0 >$def.error
+
+#are we running parallel?
+testinput .machines single
+echo "starting parallel lapw0 at `date`"
+echo "starting parallel lapw0 at `date`" >>$log
+
+echo "RUNNING" >.lapw0para
+
+#before we start, we wipe away all parallel  files
+if ( -e lapw0.error ) rm *lapw0*.error
+
+#get name of case
+set case    = `pwd`
+set case    = $case:t 
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+
+set remove
+set remove=`grep in0eece $def.def`
+if ( $#remove == 0 ) then
+touch $case.vsp $case.vspdn $case.vspup $case.vns $case.vnsup $case.vnsdn
+rm $case.vsp $case.vspdn $case.vspup $case.vns $case.vnsup $case.vnsdn
+endif
+
+if ($debug > 0) echo `date`" ->" Setting up case $case for parallel execution
+if ($debug > 0) echo `date`" ->" of lapw0
+if ($debug > 0) echo `date`" ->" ""
+#
+#get machine names and weighs, set up 
+#proper junks for parallel execution
+
+#grep : $tmp |grep -v '#' | grep -v granular | grep -v residue |grep -v extrafine >$tmp2
+
+
+# a valid .machines file could look like
+#
+#  # This is a valid .machines file 
+#  #
+#  granularity:1
+#  1:alpha
+#  1:beta 
+#  3:gamma:2 delta 
+#  3:delta:1 epsilon:4 
+#  residue:delta:2 
+#  lapw0:gamma:2 delta:2 epsilon:4 
+#
+set TMP=.machinetmp
+#
+# for lapw0 use only the line starting with 'lapw0'
+grep '^lapw0:' .machines | sed -e 's/^lapw0://' -e 's/ *$//' >$TMP
+set weight_per_job=1
+#cat $TMP
+#
+# count the number of parallel jobs, i.e. the number of lines of the
+# (stripped) .machines file
+set number_of_p_jobs=`wc -l $TMP | sed -e 's/^ *//' | cut -d ' ' -f 1`
+#fix after Kevin Jorissen
+sed -e 's/\-/\./g' $TMP > .machinetmp222
+set TMP222=.machinetmp222
+# put the number of processors per parallel job into the array $number_per_job
+set number_per_job=`sed -e 's/[ 	]*$//' -e 's/^[ 	]*//' -e 's/[a-zA-Z0-9\.]*:\([0-9]*\)/\1/g' -e 's/[ ^]*[a-zA-Z][a-zA-Z0-9\.]*/ 1/g' $TMP222 | sed -e 's/^ //' -e 's/  */+/g' |bc`
+rm $TMP222
+#
+# create a series of .machine[$i] files
+set i = 1
+while ($i <= $number_of_p_jobs)
+# convert the single lines with multiple entries to
+# a file with one entry per line
+sed -e "${i}p" -e 'd' $TMP | sed -e '/\(^[a-zA-Z0-9]*$\)/p' -e '/\(^[a-zA-Z0-9]*:[0-9]*$\)/p' -e "s/  */\\
+/gp" -e 'd' >.machine$i
+echo -------- .machine$i : $number_per_job[$i] processors
+cat .machine$i
+@ i ++
+end
+echo --------
+rm $TMP
+# 
+# NOW WE HAVE:
+#   .machine$i files hold the machinefiles used by MPI
+#   $number_of_p_jobs is the number of k-point parallel jobs
+#                            (sequential plus MPI jobs)
+#   $number_per_job[$i] is the number of processors per k-point parallel job
+#   $weight_per_job[$i] is the k-point weight per job
+#
+
+# convert each line 'host:x' to x lines 'host'
+set i=1
+while ($i <= $number_of_p_jobs)
+#  echo -------- .machine$i : $number_per_job[$i] processors : weight $weight_per_job[$i]
+#  cat .machine$i
+  set x=`cut -d: -f2 -s .machine$i`
+#  echo $x
+  if ("$x" != '') then
+    set machine_i=`cat .machine$i`
+    rm .machine$i
+#    echo $machine_i
+    set ii=1
+    foreach s ($x)
+      set iii=1
+#      echo s=$s
+      while ($iii <= $s)
+	echo $machine_i[$ii] |cut -d: -f1 >>.machine$i
+	@ iii ++
+      end
+      @ ii ++
+    end
+#    cat .machine$i
+  endif
+  @ i ++  
+end
+# NOW WE HAVE 
+# machinefiles which do not distiguish 
+# between shared and distributed memory. 
+# This means, that clusters of shared memory computers will communicate
+# only via sockets, also between the processors of one computer.
+
+if($#number_per_job == 0) then
+  goto single
+endif
+if($#number_of_p_jobs == 1 && $number_per_job[1] == 1) then
+  goto singleT
+endif
+
+#insert $WIENROOT, since some stupid mpi clusters don't propagate the PATH
+set ttt=(`echo $mpirun | sed -e "s^_NP_^$number_per_job[1]^" -e "s^_EXEC_^$WIENROOT/${exe}_mpi ${def}.def^" -e "s^_HOSTS_^.machine1^"`)
+
+$ttt
+if ($status) exit(9)
+
+#  $mpirun $mpirunparameter $mpinumberofprocessors $number_per_job[1] $machinefile .machine1 ${exe}_mpi $def.def
+
+if ($debug > 0) echo `date`" ->" "all processes done."
+sleep $sleepy
+
+testerror ${def}
+
+#cpu summary:
+if ($debug > 0) echo `date`" ->" CPU TIME summary:
+if ($debug > 0) echo `date`" ->" ================
+
+echo "<- " done at `date`>>$log
+echo "-----------------------------------------------------------------">>$log
+if ( -e $def.error )rm $def.error
+touch $def.error
+echo "DONE" >.lapw0para
+exit 0
+
+error:
+echo "** " lapw0 crashed!
+echo "** " lapw0 STOPPED at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " Error in Parallel lapw0 >$def.error
+echo "** " lapw0 STOPPED at `date`>>$def.error
+echo "** " check ERROR FILES! >>$def.error
+cat ${def}_*.error >>$def.error
+echo "ERROR" >.lapw0para
+exit 1
+
+singleT:
+set machine=`cat .machine1`
+echo running $exe remotely on $machine
+set machine=`cat .machine1`
+#rm $def.error
+#echo $def.def $PWD
+($remote $machine "cd $PWD;$t $exe $def.def")
+if ($status) exit(9)
+testerror $def
+exit 0
+
+single:
+echo running $exe in single mode
+$exe $def.def
+if ($status) exit(9)
+testerror ${def}
+
+exit:
+

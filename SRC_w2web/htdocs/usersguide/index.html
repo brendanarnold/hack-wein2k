@@ -1,0 +1,851 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>usersguide</TITLE>
+<META NAME="description" CONTENT="usersguide">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="Contents.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html218"
+  HREF="Contents.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png"> 
+<A NAME="tex2html216"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html219"
+  HREF="Contents.html">Contents</A>
+ &nbsp; <B>  <A NAME="tex2html217"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<P>
+
+<P>
+<DIV ALIGN="CENTER">
+<BR></DIV>
+<P>
+<DIV ALIGN="CENTER"><!-- MATH
+ $\rotatebox{0}{\epsfig{figure=figs/wien_hex_logo3, width=8cm}}$
+ -->
+<IMG
+ WIDTH="359" HEIGHT="406" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="\rotatebox{0}{\epsfig{figure=figs/wien_hex_logo3, width=8cm}}">
+</DIV>
+<P>
+<DIV ALIGN="CENTER">
+<BR>
+<BR>
+<BR>
+<IMG
+ WIDTH="452" HEIGHT="99" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="{\fa WIEN\hspace{-1mm}2k}">
+<BR>
+<BR>
+<BR>
+<BR>
+<FONT SIZE="+1">An Augmented Plane Wave Plus Local Orbitals Program
+<BR>
+for Calculating Crystal Properties</FONT>
+<BR>
+<BR>
+<BR>
+<BR>
+<B><FONT SIZE="+1">User's Guide, November 2001</FONT></B>
+<BR>
+<BR>
+<BR>
+<BR>
+<FONT SIZE="+2"><B>Peter Blaha</B>
+<BR><B>Karlheinz Schwarz</B>
+<BR><B>Georg Madsen</B>
+<BR><B>Dieter Kvasnicka</B>
+<BR><B>Joachim Luitz</B>
+<BR></FONT>
+<BR>
+<BR>
+<BR>
+Vienna  University of Technology
+<BR>
+Inst. of Physical and Theoretical Chemistry
+<BR>
+Getreidemarkt 9/156, A-1060 Vienna/Austria
+<BR>
+
+</DIV>
+
+<P>
+
+<!-- MATH
+ $\framebox{
+\parbox{13cm}{
+\small
+\textbf{Peter Blaha, Karlheinz Schwarz, Georg K. H. Madsen, Dieter Kvasnicka, Joachim Luitz:}\\
+{\em WIEN2k}\\
+An Augmented Plane Wave + Local Orbitals Program
+for Calculating Crystal Properties\medskip\\
+\textit{revised edition June 2002}\medskip\\
+Univ. Prof. Dr. Karlheinz Schwarz\\
+Techn. Universit\"at Wien\\
+Institut f\"ur Physikalische und Theoretische Chemie\\
+Getreidemarkt 9/156\\
+A-1060 Wien/Austria\\
+ISBN 3-9501031-1-2
+}}$
+ -->
+<IMG
+ WIDTH="607" HEIGHT="215" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="\framebox{
+\parbox{13cm}{
+\small
+\textbf{Peter Blaha, Karlheinz Schwarz, Georg K...
+...he Chemie\\
+Getreidemarkt 9/156\\
+A-1060 Wien/Austria\\
+ISBN 3-9501031-1-2
+}}">
+
+<FONT SIZE="+1"><TT>ISBN 3-9501031-1-2</TT></FONT>
+
+<P>
+
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"></A>
+
+<UL>
+<LI><A NAME="tex2html220"
+  HREF="Contents.html">Contents</A>
+<LI><A NAME="tex2html221"
+  HREF="List_Tables.html">List of Tables</A>
+<LI><A NAME="tex2html222"
+  HREF="List_Figures.html">List of Figures</A>
+<UL>
+<LI><A NAME="tex2html223"
+  HREF="List_Figures.html#SECTION03010000000000000000">DEFINITIONS:</A>
+<LI><A NAME="tex2html224"
+  HREF="List_Figures.html#SECTION03020000000000000000">MANDATORY TERMS AND CONDITIONS:</A>
+<LI><A NAME="tex2html225"
+  HREF="1Introduction.html">1 Introduction</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html226"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the <EM>WIEN2k</EM> package</A>
+<UL>
+<LI><A NAME="tex2html227"
+  HREF="2Basic_concepts.html">2 Basic concepts</A>
+<UL>
+<LI><A NAME="tex2html228"
+  HREF="2Basic_concepts.html#SECTION04110000000000000000">1 Density Functional Theory</A>
+<LI><A NAME="tex2html229"
+  HREF="2Basic_concepts.html#SECTION04120000000000000000">2 The APW Methods</A>
+<UL>
+<LI><A NAME="tex2html230"
+  HREF="2Basic_concepts.html#SECTION04121000000000000000">1 The LAPW Method</A>
+<LI><A NAME="tex2html231"
+  HREF="2Basic_concepts.html#SECTION04122000000000000000">2 The APW+lo Method</A>
+<LI><A NAME="tex2html232"
+  HREF="2Basic_concepts.html#SECTION04123000000000000000">3 General considerations</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html233"
+  HREF="3Quick_Start.html">3 Quick Start</A>
+<UL>
+<LI><A NAME="tex2html234"
+  HREF="3Quick_Start.html#SECTION04210000000000000000">1 Naming conventions</A>
+<LI><A NAME="tex2html235"
+  HREF="3Quick_Start.html#SECTION04220000000000000000">2 Starting the server</A>
+<LI><A NAME="tex2html236"
+  HREF="3Quick_Start.html#SECTION04230000000000000000">3 Connecting to the <EM>w2web</EM> server</A>
+<LI><A NAME="tex2html237"
+  HREF="3Quick_Start.html#SECTION04240000000000000000">4 Creating a new session</A>
+<LI><A NAME="tex2html238"
+  HREF="3Quick_Start.html#SECTION04250000000000000000">5 Creating a new case</A>
+<LI><A NAME="tex2html239"
+  HREF="3Quick_Start.html#SECTION04260000000000000000">6 Creating the struct file</A>
+<LI><A NAME="tex2html240"
+  HREF="3Quick_Start.html#SECTION04270000000000000000">7 Initialization</A>
+<LI><A NAME="tex2html241"
+  HREF="3Quick_Start.html#SECTION04280000000000000000">8 The SCF calculation</A>
+<LI><A NAME="tex2html242"
+  HREF="3Quick_Start.html#SECTION04290000000000000000">9 The case.scf file</A>
+<LI><A NAME="tex2html243"
+  HREF="3Quick_Start.html#SECTION042100000000000000000">10 Saving a calculation</A>
+<LI><A NAME="tex2html244"
+  HREF="3Quick_Start.html#SECTION042110000000000000000">11 Calculating properties</A>
+<UL>
+<LI><A NAME="tex2html245"
+  HREF="3Quick_Start.html#SECTION042111000000000000000">1 Electron density plots</A>
+<LI><A NAME="tex2html246"
+  HREF="3Quick_Start.html#SECTION042112000000000000000">2 Density of States (DOS)</A>
+<LI><A NAME="tex2html247"
+  HREF="3Quick_Start.html#SECTION042113000000000000000">3 X-ray spectra</A>
+<LI><A NAME="tex2html248"
+  HREF="3Quick_Start.html#SECTION042114000000000000000">4 Bandstructure</A>
+<LI><A NAME="tex2html249"
+  HREF="3Quick_Start.html#SECTION042115000000000000000">5 Bandstructure with band character plotting / full lines </A>
+<LI><A NAME="tex2html250"
+  HREF="3Quick_Start.html#SECTION042116000000000000000">6 Volume Optimization</A>
+</UL>
+<LI><A NAME="tex2html251"
+  HREF="3Quick_Start.html#SECTION042120000000000000000">12 Setting up a new case</A>
+<UL>
+<LI><A NAME="tex2html252"
+  HREF="3Quick_Start.html#SECTION042121000000000000000">1 Manual setup</A>
+<LI><A NAME="tex2html253"
+  HREF="3Quick_Start.html#SECTION042122000000000000000">2 Setting up a new case using <EM>w2web</EM></A>
+</UL>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html254"
+  HREF="2Detailed_description.html">2 Detailed description of the files and programs of the <EM>WIEN2k</EM> package</A>
+<UL>
+<LI><A NAME="tex2html255"
+  HREF="4Files_Program.html">4 Files and Program Flow</A>
+<UL>
+<LI><A NAME="tex2html256"
+  HREF="4Files_Program.html#SECTION05110000000000000000">1 Flow of input and output files</A>
+<LI><A NAME="tex2html257"
+  HREF="4Files_Program.html#SECTION05120000000000000000">2 Input/Output files</A>
+<LI><A NAME="tex2html258"
+  HREF="4Files_Program.html#SECTION05130000000000000000">3 The case.struct.file</A>
+<LI><A NAME="tex2html259"
+  HREF="4Files_Program.html#SECTION05140000000000000000">4 The case.scf file</A>
+<LI><A NAME="tex2html260"
+  HREF="4Files_Program.html#SECTION05150000000000000000">5 Flow of programs</A>
+<UL>
+<LI><A NAME="tex2html261"
+  HREF="4Files_Program.html#SECTION05151000000000000000">1 Core, semi-core and valence states</A>
+<LI><A NAME="tex2html262"
+  HREF="4Files_Program.html#SECTION05152000000000000000">2 Spin-polarized calculation</A>
+<LI><A NAME="tex2html263"
+  HREF="4Files_Program.html#SECTION05153000000000000000">3 Fixed-spin-moment (FSM) calculations</A>
+<LI><A NAME="tex2html264"
+  HREF="4Files_Program.html#SECTION05154000000000000000">4 Antiferromagnetic (AFM) calculations</A>
+<LI><A NAME="tex2html265"
+  HREF="4Files_Program.html#SECTION05155000000000000000">5 Spin-orbit interaction</A>
+<LI><A NAME="tex2html266"
+  HREF="4Files_Program.html#SECTION05156000000000000000">6 Orbital potentials</A>
+<LI><A NAME="tex2html267"
+  HREF="4Files_Program.html#SECTION05157000000000000000">7 Exact-exchange and Hybrid functionals for correlated electrons</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html268"
+  HREF="5Shell_scripts.html">5 Shell scripts</A>
+<UL>
+<LI><A NAME="tex2html269"
+  HREF="5Shell_scripts.html#SECTION05210000000000000000">1 Job control</A>
+<UL>
+<LI><A NAME="tex2html270"
+  HREF="5Shell_scripts.html#SECTION05211000000000000000">1 Main execution script (x_lapw)</A>
+<LI><A NAME="tex2html271"
+  HREF="5Shell_scripts.html#SECTION05212000000000000000">2 Job control for initialization (init_lapw)</A>
+<LI><A NAME="tex2html272"
+  HREF="5Shell_scripts.html#SECTION05213000000000000000">3 Job control for iteration (run_lapw or 
+  runsp_lapw)</A>
+</UL>
+<LI><A NAME="tex2html273"
+  HREF="5Shell_scripts.html#SECTION05220000000000000000">2 Utility scripts</A>
+<UL>
+<LI><A NAME="tex2html274"
+  HREF="5Shell_scripts.html#SECTION05221000000000000000">1 Save a calculation (save_lapw)</A>
+<LI><A NAME="tex2html275"
+  HREF="5Shell_scripts.html#SECTION05222000000000000000">2 Restoring a calculation (restore_lapw)</A>
+<LI><A NAME="tex2html276"
+  HREF="5Shell_scripts.html#SECTION05223000000000000000">3 Remove unnecessary files (clean_lapw)</A>
+<LI><A NAME="tex2html277"
+  HREF="5Shell_scripts.html#SECTION05224000000000000000">4 Migrate a case to/from a remote computer (migrate_lapw)</A>
+<LI><A NAME="tex2html278"
+  HREF="5Shell_scripts.html#SECTION05225000000000000000">5 Generate case.inst (instgen_lapw)</A>
+<LI><A NAME="tex2html279"
+  HREF="5Shell_scripts.html#SECTION05226000000000000000">6 Set R-MT values in your case.struct file (setrmt_lapw)</A>
+<LI><A NAME="tex2html280"
+  HREF="5Shell_scripts.html#SECTION05227000000000000000">7 Check for running WIEN jobs (check_lapw)</A>
+<LI><A NAME="tex2html281"
+  HREF="5Shell_scripts.html#SECTION05228000000000000000">8 Cancel (kill) running WIEN jobs (cancel_lapw)</A>
+<LI><A NAME="tex2html282"
+  HREF="5Shell_scripts.html#SECTION05229000000000000000">9 Extract critical points from a Bader analysis (extractaim_lapw)</A>
+<LI><A NAME="tex2html283"
+  HREF="5Shell_scripts.html#SECTION052210000000000000000">10 scfmonitor_lapw</A>
+<LI><A NAME="tex2html284"
+  HREF="5Shell_scripts.html#SECTION052211000000000000000">11 analyse_lapw</A>
+<LI><A NAME="tex2html285"
+  HREF="5Shell_scripts.html#SECTION052212000000000000000">12 Check parallel execution (testpara_lapw)</A>
+<LI><A NAME="tex2html286"
+  HREF="5Shell_scripts.html#SECTION052213000000000000000">13 Check parallel execution of lapw1 (testpara1_lapw)</A>
+<LI><A NAME="tex2html287"
+  HREF="5Shell_scripts.html#SECTION052214000000000000000">14 Check parallel execution of lapw2 (testpara2_lapw)</A>
+<LI><A NAME="tex2html288"
+  HREF="5Shell_scripts.html#SECTION052215000000000000000">15 grepline_lapw</A>
+<LI><A NAME="tex2html289"
+  HREF="5Shell_scripts.html#SECTION052216000000000000000">16 initso_lapw</A>
+<LI><A NAME="tex2html290"
+  HREF="5Shell_scripts.html#SECTION052217000000000000000">17 oldvec2vec_lapw</A>
+</UL>
+<LI><A NAME="tex2html291"
+  HREF="5Shell_scripts.html#SECTION05230000000000000000">3 Structure optimization</A>
+<UL>
+<LI><A NAME="tex2html292"
+  HREF="5Shell_scripts.html#SECTION05231000000000000000">1 Lattice parameters (Volume, c/a, lattice parameters)</A>
+<LI><A NAME="tex2html293"
+  HREF="5Shell_scripts.html#SECTION05232000000000000000">2 Minimization of internal parameters (min_lapw)</A>
+</UL>
+<LI><A NAME="tex2html294"
+  HREF="5Shell_scripts.html#SECTION05240000000000000000">4 Phonon calculations</A>
+<UL>
+<LI><A NAME="tex2html295"
+  HREF="5Shell_scripts.html#SECTION05241000000000000000">1 init_phonon_lapw</A>
+<LI><A NAME="tex2html296"
+  HREF="5Shell_scripts.html#SECTION05242000000000000000">2 analyse_phonon_lapw</A>
+</UL>
+<LI><A NAME="tex2html297"
+  HREF="5Shell_scripts.html#SECTION05250000000000000000">5 Parallel Execution</A>
+<UL>
+<LI><A NAME="tex2html298"
+  HREF="5Shell_scripts.html#SECTION05251000000000000000">1 k-Point Parallelization</A>
+<LI><A NAME="tex2html299"
+  HREF="5Shell_scripts.html#SECTION05252000000000000000">2 Fine grained parallelization</A>
+<LI><A NAME="tex2html300"
+  HREF="5Shell_scripts.html#SECTION05253000000000000000">3 How to use <EM>WIEN2k</EM> as a parallel program</A>
+<LI><A NAME="tex2html301"
+  HREF="5Shell_scripts.html#SECTION05254000000000000000">4 The <TT><B>.machines</B></TT> file</A>
+<LI><A NAME="tex2html302"
+  HREF="5Shell_scripts.html#SECTION05255000000000000000">5 How the list of k-points is split</A>
+<LI><A NAME="tex2html303"
+  HREF="5Shell_scripts.html#SECTION05256000000000000000">6 Flow chart of the parallel scripts</A>
+<LI><A NAME="tex2html304"
+  HREF="5Shell_scripts.html#SECTION05257000000000000000">7 On the fine grained parallelization</A>
+</UL>
+<LI><A NAME="tex2html305"
+  HREF="5Shell_scripts.html#SECTION05260000000000000000">6 Getting on-line help</A>
+<LI><A NAME="tex2html306"
+  HREF="5Shell_scripts.html#SECTION05270000000000000000">7 Interface scripts</A>
+<UL>
+<LI><A NAME="tex2html307"
+  HREF="5Shell_scripts.html#SECTION05271000000000000000">1 eplot_lapw</A>
+<LI><A NAME="tex2html308"
+  HREF="5Shell_scripts.html#SECTION05272000000000000000">2 parabolfit_lapw</A>
+<LI><A NAME="tex2html309"
+  HREF="5Shell_scripts.html#SECTION05273000000000000000">3 dosplot_lapw</A>
+<LI><A NAME="tex2html310"
+  HREF="5Shell_scripts.html#SECTION05274000000000000000">4 specplot_lapw</A>
+<LI><A NAME="tex2html311"
+  HREF="5Shell_scripts.html#SECTION05275000000000000000">5 rhoplot_lapw</A>
+<LI><A NAME="tex2html312"
+  HREF="5Shell_scripts.html#SECTION05276000000000000000">6 opticplot_lapw</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html313"
+  HREF="6Initialization.html">6 Initialization</A>
+<UL>
+<LI><A NAME="tex2html314"
+  HREF="6Initialization.html#SECTION05310000000000000000">1 NN</A>
+<UL>
+<LI><A NAME="tex2html315"
+  HREF="6Initialization.html#SECTION05311000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html316"
+  HREF="6Initialization.html#SECTION05320000000000000000">2 SGROUP</A>
+<UL>
+<LI><A NAME="tex2html317"
+  HREF="6Initialization.html#SECTION05321000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html318"
+  HREF="6Initialization.html#SECTION05330000000000000000">3 SYMMETRY</A>
+<UL>
+<LI><A NAME="tex2html319"
+  HREF="6Initialization.html#SECTION05331000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html320"
+  HREF="6Initialization.html#SECTION05340000000000000000">4 LSTART</A>
+<UL>
+<LI><A NAME="tex2html321"
+  HREF="6Initialization.html#SECTION05341000000000000000">1 Execution</A>
+<LI><A NAME="tex2html322"
+  HREF="6Initialization.html#SECTION05342000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html323"
+  HREF="6Initialization.html#SECTION05343000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html324"
+  HREF="6Initialization.html#SECTION05350000000000000000">5 KGEN</A>
+<UL>
+<LI><A NAME="tex2html325"
+  HREF="6Initialization.html#SECTION05351000000000000000">1 Execution</A>
+<LI><A NAME="tex2html326"
+  HREF="6Initialization.html#SECTION05352000000000000000">2 Dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html327"
+  HREF="6Initialization.html#SECTION05360000000000000000">6 DSTART</A>
+<UL>
+<LI><A NAME="tex2html328"
+  HREF="6Initialization.html#SECTION05361000000000000000">1 Execution</A>
+<LI><A NAME="tex2html329"
+  HREF="6Initialization.html#SECTION05362000000000000000">2 Dimensioning parameters</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html330"
+  HREF="7SCF_cycle.html">7 SCF cycle</A>
+<UL>
+<LI><A NAME="tex2html331"
+  HREF="7SCF_cycle.html#SECTION05410000000000000000">1 LAPW0</A>
+<UL>
+<LI><A NAME="tex2html332"
+  HREF="7SCF_cycle.html#SECTION05411000000000000000">1 Execution</A>
+<LI><A NAME="tex2html333"
+  HREF="7SCF_cycle.html#SECTION05412000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html334"
+  HREF="7SCF_cycle.html#SECTION05413000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html335"
+  HREF="7SCF_cycle.html#SECTION05420000000000000000">2 ORB</A>
+<UL>
+<LI><A NAME="tex2html336"
+  HREF="7SCF_cycle.html#SECTION05421000000000000000">1 Execution</A>
+<LI><A NAME="tex2html337"
+  HREF="7SCF_cycle.html#SECTION05422000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html338"
+  HREF="7SCF_cycle.html#SECTION05423000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html339"
+  HREF="7SCF_cycle.html#SECTION05430000000000000000">3 LAPW1</A>
+<UL>
+<LI><A NAME="tex2html340"
+  HREF="7SCF_cycle.html#SECTION05431000000000000000">1 Execution</A>
+<LI><A NAME="tex2html341"
+  HREF="7SCF_cycle.html#SECTION05432000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html342"
+  HREF="7SCF_cycle.html#SECTION05433000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html343"
+  HREF="7SCF_cycle.html#SECTION05440000000000000000">4 LAPWSO</A>
+<UL>
+<LI><A NAME="tex2html344"
+  HREF="7SCF_cycle.html#SECTION05441000000000000000">1 Execution</A>
+<LI><A NAME="tex2html345"
+  HREF="7SCF_cycle.html#SECTION05442000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html346"
+  HREF="7SCF_cycle.html#SECTION05443000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html347"
+  HREF="7SCF_cycle.html#SECTION05450000000000000000">5 LAPW2</A>
+<UL>
+<LI><A NAME="tex2html348"
+  HREF="7SCF_cycle.html#SECTION05451000000000000000">1 Execution</A>
+<LI><A NAME="tex2html349"
+  HREF="7SCF_cycle.html#SECTION05452000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html350"
+  HREF="7SCF_cycle.html#SECTION05453000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html351"
+  HREF="7SCF_cycle.html#SECTION05460000000000000000">6 SUMPARA</A>
+<UL>
+<LI><A NAME="tex2html352"
+  HREF="7SCF_cycle.html#SECTION05461000000000000000">1 Execution</A>
+<LI><A NAME="tex2html353"
+  HREF="7SCF_cycle.html#SECTION05462000000000000000">2 Dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html354"
+  HREF="7SCF_cycle.html#SECTION05470000000000000000">7 LAPWDM</A>
+<UL>
+<LI><A NAME="tex2html355"
+  HREF="7SCF_cycle.html#SECTION05471000000000000000">1 Execution</A>
+<LI><A NAME="tex2html356"
+  HREF="7SCF_cycle.html#SECTION05472000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html357"
+  HREF="7SCF_cycle.html#SECTION05473000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html358"
+  HREF="7SCF_cycle.html#SECTION05480000000000000000">8 LCORE</A>
+<UL>
+<LI><A NAME="tex2html359"
+  HREF="7SCF_cycle.html#SECTION05481000000000000000">1 Execution</A>
+<LI><A NAME="tex2html360"
+  HREF="7SCF_cycle.html#SECTION05482000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html361"
+  HREF="7SCF_cycle.html#SECTION05483000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html362"
+  HREF="7SCF_cycle.html#SECTION05490000000000000000">9 MIXER</A>
+<UL>
+<LI><A NAME="tex2html363"
+  HREF="7SCF_cycle.html#SECTION05491000000000000000">1 Execution</A>
+<LI><A NAME="tex2html364"
+  HREF="7SCF_cycle.html#SECTION05492000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html365"
+  HREF="7SCF_cycle.html#SECTION05493000000000000000">3 Input</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html366"
+  HREF="8Analysis_Properties.html">8 Analysis, Properties and Optimization</A>
+<UL>
+<LI><A NAME="tex2html367"
+  HREF="8Analysis_Properties.html#SECTION05510000000000000000">1 TETRA</A>
+<UL>
+<LI><A NAME="tex2html368"
+  HREF="8Analysis_Properties.html#SECTION05511000000000000000">1 Execution</A>
+<LI><A NAME="tex2html369"
+  HREF="8Analysis_Properties.html#SECTION05512000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html370"
+  HREF="8Analysis_Properties.html#SECTION05513000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html371"
+  HREF="8Analysis_Properties.html#SECTION05520000000000000000">2 QTL</A>
+<UL>
+<LI><A NAME="tex2html372"
+  HREF="8Analysis_Properties.html#SECTION05521000000000000000">1 Execution</A>
+<LI><A NAME="tex2html373"
+  HREF="8Analysis_Properties.html#SECTION05522000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html374"
+  HREF="8Analysis_Properties.html#SECTION05523000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html375"
+  HREF="8Analysis_Properties.html#SECTION05530000000000000000">3 SPAGHETTI</A>
+<UL>
+<LI><A NAME="tex2html376"
+  HREF="8Analysis_Properties.html#SECTION05531000000000000000">1 Execution</A>
+<LI><A NAME="tex2html377"
+  HREF="8Analysis_Properties.html#SECTION05532000000000000000">2 Input</A>
+</UL>
+<LI><A NAME="tex2html378"
+  HREF="8Analysis_Properties.html#SECTION05540000000000000000">4 IRREP</A>
+<UL>
+<LI><A NAME="tex2html379"
+  HREF="8Analysis_Properties.html#SECTION05541000000000000000">1 Execution</A>
+<LI><A NAME="tex2html380"
+  HREF="8Analysis_Properties.html#SECTION05542000000000000000">2 Dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html381"
+  HREF="8Analysis_Properties.html#SECTION05550000000000000000">5 LAPW3</A>
+<UL>
+<LI><A NAME="tex2html382"
+  HREF="8Analysis_Properties.html#SECTION05551000000000000000">1 Execution</A>
+<LI><A NAME="tex2html383"
+  HREF="8Analysis_Properties.html#SECTION05552000000000000000">2 Dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html384"
+  HREF="8Analysis_Properties.html#SECTION05560000000000000000">6 LAPW5</A>
+<UL>
+<LI><A NAME="tex2html385"
+  HREF="8Analysis_Properties.html#SECTION05561000000000000000">1 Execution</A>
+<LI><A NAME="tex2html386"
+  HREF="8Analysis_Properties.html#SECTION05562000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html387"
+  HREF="8Analysis_Properties.html#SECTION05563000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html388"
+  HREF="8Analysis_Properties.html#SECTION05570000000000000000">7 AIM</A>
+<UL>
+<LI><A NAME="tex2html389"
+  HREF="8Analysis_Properties.html#SECTION05571000000000000000">1 Execution</A>
+<LI><A NAME="tex2html390"
+  HREF="8Analysis_Properties.html#SECTION05572000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html391"
+  HREF="8Analysis_Properties.html#SECTION05573000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html392"
+  HREF="8Analysis_Properties.html#SECTION05580000000000000000">8 LAPW7</A>
+<UL>
+<LI><A NAME="tex2html393"
+  HREF="8Analysis_Properties.html#SECTION05581000000000000000">1 Execution</A>
+<LI><A NAME="tex2html394"
+  HREF="8Analysis_Properties.html#SECTION05582000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html395"
+  HREF="8Analysis_Properties.html#SECTION05583000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html396"
+  HREF="8Analysis_Properties.html#SECTION05590000000000000000">9 FILTVEC</A>
+<UL>
+<LI><A NAME="tex2html397"
+  HREF="8Analysis_Properties.html#SECTION05591000000000000000">1 Execution</A>
+<LI><A NAME="tex2html398"
+  HREF="8Analysis_Properties.html#SECTION05592000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html399"
+  HREF="8Analysis_Properties.html#SECTION05593000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html400"
+  HREF="8Analysis_Properties.html#SECTION055100000000000000000">10 XSPEC</A>
+<UL>
+<LI><A NAME="tex2html401"
+  HREF="8Analysis_Properties.html#SECTION055101000000000000000">1 Execution</A>
+<LI><A NAME="tex2html402"
+  HREF="8Analysis_Properties.html#SECTION055102000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html403"
+  HREF="8Analysis_Properties.html#SECTION055103000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html404"
+  HREF="8Analysis_Properties.html#SECTION055110000000000000000">11 TELNES.2</A>
+<UL>
+<LI><A NAME="tex2html405"
+  HREF="8Analysis_Properties.html#SECTION055111000000000000000">1 Execution</A>
+<LI><A NAME="tex2html406"
+  HREF="8Analysis_Properties.html#SECTION055112000000000000000">2 Input</A>
+</UL>
+<LI><A NAME="tex2html407"
+  HREF="8Analysis_Properties.html#SECTION055120000000000000000">12 BROADENING</A>
+<UL>
+<LI><A NAME="tex2html408"
+  HREF="8Analysis_Properties.html#SECTION055121000000000000000">1 Execution</A>
+<LI><A NAME="tex2html409"
+  HREF="8Analysis_Properties.html#SECTION055122000000000000000">2 Input</A>
+</UL>
+<LI><A NAME="tex2html410"
+  HREF="8Analysis_Properties.html#SECTION055130000000000000000">13 OPTIMIZE</A>
+<UL>
+<LI><A NAME="tex2html411"
+  HREF="8Analysis_Properties.html#SECTION055131000000000000000">1 Execution</A>
+<LI><A NAME="tex2html412"
+  HREF="8Analysis_Properties.html#SECTION055132000000000000000">2 Input</A>
+</UL>
+<LI><A NAME="tex2html413"
+  HREF="8Analysis_Properties.html#SECTION055140000000000000000">14 ELAST</A>
+<UL>
+<LI><A NAME="tex2html414"
+  HREF="8Analysis_Properties.html#SECTION055141000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html415"
+  HREF="8Analysis_Properties.html#SECTION055150000000000000000">15 MINI</A>
+<UL>
+<LI><A NAME="tex2html416"
+  HREF="8Analysis_Properties.html#SECTION055151000000000000000">1 Execution</A>
+<LI><A NAME="tex2html417"
+  HREF="8Analysis_Properties.html#SECTION055152000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html418"
+  HREF="8Analysis_Properties.html#SECTION055153000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html419"
+  HREF="8Analysis_Properties.html#SECTION055160000000000000000">16 OPTIC</A>
+<UL>
+<LI><A NAME="tex2html420"
+  HREF="8Analysis_Properties.html#SECTION055161000000000000000">1 Execution</A>
+<LI><A NAME="tex2html421"
+  HREF="8Analysis_Properties.html#SECTION055162000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html422"
+  HREF="8Analysis_Properties.html#SECTION055163000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html423"
+  HREF="8Analysis_Properties.html#SECTION055170000000000000000">17 JOINT</A>
+<UL>
+<LI><A NAME="tex2html424"
+  HREF="8Analysis_Properties.html#SECTION055171000000000000000">1 Execution</A>
+<LI><A NAME="tex2html425"
+  HREF="8Analysis_Properties.html#SECTION055172000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html426"
+  HREF="8Analysis_Properties.html#SECTION055173000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html427"
+  HREF="8Analysis_Properties.html#SECTION055180000000000000000">18 KRAM</A>
+<UL>
+<LI><A NAME="tex2html428"
+  HREF="8Analysis_Properties.html#SECTION055181000000000000000">1 Execution</A>
+<LI><A NAME="tex2html429"
+  HREF="8Analysis_Properties.html#SECTION055182000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html430"
+  HREF="8Analysis_Properties.html#SECTION055183000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html431"
+  HREF="8Analysis_Properties.html#SECTION055190000000000000000">19 FSGEN</A>
+</UL>
+<LI><A NAME="tex2html432"
+  HREF="9Utility_Programs.html">9 Utility Programs</A>
+<UL>
+<LI><A NAME="tex2html433"
+  HREF="9Utility_Programs.html#SECTION05610000000000000000">1 symmetso</A>
+<UL>
+<LI><A NAME="tex2html434"
+  HREF="9Utility_Programs.html#SECTION05611000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html435"
+  HREF="9Utility_Programs.html#SECTION05620000000000000000">2 pairhess</A>
+<UL>
+<LI><A NAME="tex2html436"
+  HREF="9Utility_Programs.html#SECTION05621000000000000000">1 Execution</A>
+<LI><A NAME="tex2html437"
+  HREF="9Utility_Programs.html#SECTION05622000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html438"
+  HREF="9Utility_Programs.html#SECTION05623000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html439"
+  HREF="9Utility_Programs.html#SECTION05630000000000000000">3 afminput</A>
+<UL>
+<LI><A NAME="tex2html440"
+  HREF="9Utility_Programs.html#SECTION05631000000000000000">1 Execution</A>
+<LI><A NAME="tex2html441"
+  HREF="9Utility_Programs.html#SECTION05632000000000000000">2 Dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html442"
+  HREF="9Utility_Programs.html#SECTION05640000000000000000">4 clmcopy</A>
+<UL>
+<LI><A NAME="tex2html443"
+  HREF="9Utility_Programs.html#SECTION05641000000000000000">1 Execution</A>
+<LI><A NAME="tex2html444"
+  HREF="9Utility_Programs.html#SECTION05642000000000000000">2 Dimensioning parameters</A>
+<LI><A NAME="tex2html445"
+  HREF="9Utility_Programs.html#SECTION05643000000000000000">3 Input</A>
+</UL>
+<LI><A NAME="tex2html446"
+  HREF="9Utility_Programs.html#SECTION05650000000000000000">5 reformat</A>
+<LI><A NAME="tex2html447"
+  HREF="9Utility_Programs.html#SECTION05660000000000000000">6 hex2rhomb and rhomb_in5</A>
+<LI><A NAME="tex2html448"
+  HREF="9Utility_Programs.html#SECTION05670000000000000000">7 plane</A>
+<LI><A NAME="tex2html449"
+  HREF="9Utility_Programs.html#SECTION05680000000000000000">8 clminter</A>
+<LI><A NAME="tex2html450"
+  HREF="9Utility_Programs.html#SECTION05690000000000000000">9 eosfit</A>
+<LI><A NAME="tex2html451"
+  HREF="9Utility_Programs.html#SECTION056100000000000000000">10 eosfit6</A>
+<LI><A NAME="tex2html452"
+  HREF="9Utility_Programs.html#SECTION056110000000000000000">11 spacegroup</A>
+<LI><A NAME="tex2html453"
+  HREF="9Utility_Programs.html#SECTION056120000000000000000">12 xyz2struct</A>
+<LI><A NAME="tex2html454"
+  HREF="9Utility_Programs.html#SECTION056130000000000000000">13 cif2struct</A>
+<LI><A NAME="tex2html455"
+  HREF="9Utility_Programs.html#SECTION056140000000000000000">14 <EM>StructGen<!-- MATH
+ $^{\mbox{\textsc{TM}}}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$^{\mbox{\textsc{TM}}}$"></EM> of <EM>w2web</EM></A>
+<LI><A NAME="tex2html456"
+  HREF="9Utility_Programs.html#SECTION056150000000000000000">15 supercell</A>
+<UL>
+<LI><A NAME="tex2html457"
+  HREF="9Utility_Programs.html#SECTION056151000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html458"
+  HREF="9Utility_Programs.html#SECTION056160000000000000000">16 structeditor</A>
+<UL>
+<LI><A NAME="tex2html459"
+  HREF="9Utility_Programs.html#SECTION056161000000000000000">1 Execution</A>
+</UL>
+<LI><A NAME="tex2html460"
+  HREF="9Utility_Programs.html#SECTION056170000000000000000">17 Visualization</A>
+<UL>
+<LI><A NAME="tex2html461"
+  HREF="9Utility_Programs.html#SECTION056171000000000000000">1 BALSAC</A>
+<LI><A NAME="tex2html462"
+  HREF="9Utility_Programs.html#SECTION056172000000000000000">2 XCrysDen</A>
+</UL>
+</UL>
+<LI><A NAME="tex2html463"
+  HREF="10Examples.html">10 Examples</A>
+<UL>
+<LI><A NAME="tex2html464"
+  HREF="10Examples.html#SECTION05710000000000000000">1 TiC</A>
+<LI><A NAME="tex2html465"
+  HREF="10Examples.html#SECTION05720000000000000000">2 FCC Nickel</A>
+<LI><A NAME="tex2html466"
+  HREF="10Examples.html#SECTION05730000000000000000">3 Rutile</A>
+<LI><A NAME="tex2html467"
+  HREF="10Examples.html#SECTION05740000000000000000">4 supercell calc</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html468"
+  HREF="3Installation_WIEN2k.html">3 Installation of the <EM>WIEN2k</EM> package and Dimensioning of programs</A>
+<UL>
+<LI><A NAME="tex2html469"
+  HREF="11Installation_Dimensioning.html">11 Installation and Dimensioning</A>
+<UL>
+<LI><A NAME="tex2html470"
+  HREF="11Installation_Dimensioning.html#SECTION06110000000000000000">1 Requirements</A>
+<LI><A NAME="tex2html471"
+  HREF="11Installation_Dimensioning.html#SECTION06120000000000000000">2 Installation of <EM>WIEN2k</EM></A>
+<UL>
+<LI><A NAME="tex2html472"
+  HREF="11Installation_Dimensioning.html#SECTION06121000000000000000">1 Expanding the <EM>WIEN2k</EM> distribution</A>
+<LI><A NAME="tex2html473"
+  HREF="11Installation_Dimensioning.html#SECTION06122000000000000000">2 Site configuration for <EM>WIEN2k</EM></A>
+<LI><A NAME="tex2html474"
+  HREF="11Installation_Dimensioning.html#SECTION06123000000000000000">3 User configuration</A>
+<LI><A NAME="tex2html475"
+  HREF="11Installation_Dimensioning.html#SECTION06124000000000000000">4 Performance and special considerations</A>
+<LI><A NAME="tex2html476"
+  HREF="11Installation_Dimensioning.html#SECTION06125000000000000000">5 Global dimensioning parameters</A>
+</UL>
+<LI><A NAME="tex2html477"
+  HREF="11Installation_Dimensioning.html#SECTION06130000000000000000">3 <EM>w2web</EM></A>
+<UL>
+<LI><A NAME="tex2html478"
+  HREF="11Installation_Dimensioning.html#SECTION06131000000000000000">1 General issues</A>
+<LI><A NAME="tex2html479"
+  HREF="11Installation_Dimensioning.html#SECTION06132000000000000000">2 How does <EM>w2web</EM>  work?</A>
+<LI><A NAME="tex2html480"
+  HREF="11Installation_Dimensioning.html#SECTION06133000000000000000">3 <EM>w2web</EM>-files in you home directory</A>
+<LI><A NAME="tex2html481"
+  HREF="11Installation_Dimensioning.html#SECTION06134000000000000000">4 The configuration file conf/w2web.conf</A>
+<LI><A NAME="tex2html482"
+  HREF="11Installation_Dimensioning.html#SECTION06135000000000000000">5 The password file conf/w2web.users</A>
+<LI><A NAME="tex2html483"
+  HREF="11Installation_Dimensioning.html#SECTION06136000000000000000">6 Using the https-protocol with <EM>w2web</EM></A>
+</UL>
+<LI><A NAME="tex2html484"
+  HREF="11Installation_Dimensioning.html#SECTION06140000000000000000">4 Environment Variables</A>
+</UL>
+<LI><A NAME="tex2html485"
+  HREF="12Trouble_shooting.html">12 Trouble shooting</A>
+<UL>
+<LI><A NAME="tex2html486"
+  HREF="12Trouble_shooting.html#SECTION06210000000000000000">1 Ghost bands</A>
+</UL>
+<LI><A NAME="tex2html487"
+  HREF="13References.html">13 References</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html488"
+  HREF="4Appendix.html">4 Appendix</A>
+<UL>
+<LI><A NAME="tex2html489"
+  HREF="A_Local_rotation.html">A. Local rotation matrices</A>
+<UL>
+<LI><A NAME="tex2html490"
+  HREF="A_Local_rotation.html#SECTION07110000000000000000">1 Rutile (<IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$TiO_2$">)</A>
+<LI><A NAME="tex2html491"
+  HREF="A_Local_rotation.html#SECTION07120000000000000000">2 Si <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$\Gamma$">-phonon</A>
+<LI><A NAME="tex2html492"
+  HREF="A_Local_rotation.html#SECTION07130000000000000000">3 Trigonal Selenium</A>
+</UL>
+<LI><A NAME="tex2html493"
+  HREF="B_Periodic_Table.html">B. Periodic Table</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

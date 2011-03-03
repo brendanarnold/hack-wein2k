@@ -1,0 +1,24 @@
+FC = _FC_
+FOPT     = _FOPT_
+FGEN     =
+LDFLAGS  = _LDFLAGS_     
+DESTDIR  = ./
+EXECN1 = spacegroup
+
+EXEC   = $(DESTDIR)$(EXECN1)
+
+OBJS =	spacegroup.o
+
+$(EXEC):	$(OBJS) 
+	$(FC) -o $(EXEC) $(FFLAGS) $(LDFLAGS) $(OBJS) 
+
+$(OBJS):	Makefile
+
+clean:	  
+	-rm -f $(OBJS) 
+	@echo clean
+
+.f.o:
+	$(FC) -c $(FOPT) $<
+.f90.o:
+	$(FC) $(FOPT) -c $<

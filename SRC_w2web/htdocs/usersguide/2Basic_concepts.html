@@ -1,0 +1,898 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2 Basic concepts</TITLE>
+<META NAME="description" CONTENT="2 Basic concepts">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="3Quick_Start.html">
+<LINK REL="previous" HREF="1Introduction_WIEN2k.html">
+<LINK REL="up" HREF="1Introduction_WIEN2k.html">
+<LINK REL="next" HREF="3Quick_Start.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html861"
+  HREF="3Quick_Start.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html857"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html851"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html859"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html862"
+  HREF="3Quick_Start.html">3 Quick Start</A>
+<B> Up:</B> <A NAME="tex2html858"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html852"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+ &nbsp; <B>  <A NAME="tex2html860"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html863"
+  HREF="2Basic_concepts.html#SECTION04110000000000000000">1 Density Functional Theory</A>
+<LI><A NAME="tex2html864"
+  HREF="2Basic_concepts.html#SECTION04120000000000000000">2 The APW Methods</A>
+<UL>
+<LI><A NAME="tex2html865"
+  HREF="2Basic_concepts.html#SECTION04121000000000000000">1 The LAPW Method</A>
+<LI><A NAME="tex2html866"
+  HREF="2Basic_concepts.html#SECTION04122000000000000000">2 The APW+lo Method</A>
+<LI><A NAME="tex2html867"
+  HREF="2Basic_concepts.html#SECTION04123000000000000000">3 General considerations</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION04100000000000000000"></A>
+<A NAME="cha:basics"></A>
+<BR>
+2 The basic concepts of the 
+  present band theory approach
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION04110000000000000000"></A>
+<A NAME="sec:dft"></A>
+<BR>
+1 The density functional theory
+</H1>
+
+<P>
+An efficient and accurate scheme for solving the many-electron 
+problem of a crystal (with nuclei at fixed positions) is the 
+local spin density approximation (LSDA) within density functional 
+theory (Hohenberg and Kohn 64, Kohn and Sham 65). Therein the 
+key quantities are the spin densities  <!-- MATH
+ $\rho_\sigma (r)$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$\rho_\sigma (r)$"> in terms of which 
+the total energy is
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eq:E_tot"></A>
+<!-- MATH
+ \begin{eqnarray}
+E_{tot}(\rho_{\uparrow},\rho_{\downarrow})=
+  &T_s(\rho_{\uparrow},\rho_{\downarrow})+
+  E_{ee}(\rho_{\uparrow},\rho_{\downarrow})+\nonumber
+  &E_{Ne}(\rho_{\uparrow},\rho_{\downarrow})+
+  E_{xc}(\rho_{\uparrow},\rho_{\downarrow})+E_{NN}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="100" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img15.png"
+ ALT="$\displaystyle E_{tot}(\rho_{\uparrow},\rho_{\downarrow})=$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="178" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img16.png"
+ ALT="$\textstyle T_s(\rho_{\uparrow},\rho_{\downarrow})+
+E_{ee}(\rho_{\uparrow},\rho_{\downarrow})+$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="234" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img17.png"
+ ALT="$\displaystyle E_{Ne}(\rho_{\uparrow},\rho_{\downarrow})+
+E_{xc}(\rho_{\uparrow},\rho_{\downarrow})+E_{NN}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+with <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img18.png"
+ ALT="$E_{NN}$"> the repulsive Coulomb energy of the fixed nuclei and the
+electronic contributions, labelled conventionally as, respectively, the
+kinetic energy (of the non-interacting particles), the
+electron-electron repulsion, nuclear-electron attraction, and
+exchange-correlation energies. Two approximations comprise the LSDA,
+i), the assumption that <IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$E_{xc}$"> can be written in terms of a local
+exchange-correlation energy density <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$\mu_{xc}$"> times the total
+(spin-up plus spin-down) electron density as
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+E_{xc}  = \int \mu_{xc} (\rho_{\uparrow} ,\rho_{\downarrow} ) *
+         [ \rho_{\uparrow} +  \rho\downarrow ] d r
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:E_xc"></A><IMG
+ WIDTH="595" HEIGHT="80" BORDER="0"
+ SRC="img21.png"
+ ALT="\begin{displaymath}
+E_{xc} = \int \mu_{xc} (\rho_{\uparrow} ,\rho_{\downarrow} ) *
+[ \rho_{\uparrow} + \rho\downarrow ] d r
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(1)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+and ii), the particular form chosen for that <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$\mu_{xc}$">.  Several
+forms exist in literature, we use the most recent and accurate fit to the 
+Monte-Carlo simulations of Ceperly and Alder  by Perdew and Wang 92.  <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$E_{tot}$"> has a variational
+equivalent with the familiar Rayleigh-Ritz principle. The most
+effective way known to minimize <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$E_{tot}$"> by means of the variational
+principle is to introduce orbitals <!-- MATH
+ $\chi_{ik}^\sigma$
+ -->
+<IMG
+ WIDTH="26" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$\chi_{ik}^\sigma$"> constrained to
+construct the spin densities as
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\rho_{\sigma} (r) = \sum_{i,k}\rho_{ik}^\sigma 
+        \vert \chi_{ik}^\sigma (r) \vert^2
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:rho_sigma"></A><IMG
+ WIDTH="608" HEIGHT="83" BORDER="0"
+ SRC="img24.png"
+ ALT="\begin{displaymath}
+\rho_{\sigma} (r) = \sum_{i,k}\rho_{ik}^\sigma
+\vert \chi_{ik}^\sigma (r) \vert^2
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Here, the <!-- MATH
+ $\rho_{ik}^\sigma$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="$\rho_{ik}^\sigma$"> are occupation numbers such that 
+<!-- MATH
+ $0\leq \rho_{ik}^\sigma \leq 1/w_k$
+ -->
+<IMG
+ WIDTH="110" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img26.png"
+ ALT="$0\leq \rho_{ik}^\sigma \leq 1/w_k$">, 
+where <IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$w_k$"> is the symmetry-required weight of point <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$k$">. Then variation 
+of <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$E_{tot}$"> gives the Kohn-Sham equations (in Ry atomic units),
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+[- \nabla^2 + V_{Ne} +V_{ee} + V_{xc}^\sigma] 
+  \chi_{ik}^\sigma (r) = \epsilon_{ik}^\sigma  
+  \chi_{ik}^\sigma (r)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:kohn-sham"></A><IMG
+ WIDTH="566" HEIGHT="80" BORDER="0"
+ SRC="img29.png"
+ ALT="\begin{displaymath}[- \nabla^2 + V_{Ne} +V_{ee} + V_{xc}^\sigma]
+\chi_{ik}^\sigma (r) = \epsilon_{ik}^\sigma
+\chi_{ik}^\sigma (r)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(3)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+which must be solved and thus constitute the primary computational
+task. This Kohn-Sham equations must be solved self-consistently in an
+iterative process, since finding the Kohn-Sham orbitals requires the
+knowledge of the potentials which themselves depend on the (spin-)
+density and thus on the orbitals again.
+
+<P>
+Recent progress has been made going beyond the LSDA by adding 
+gradient terms of the electron density to the exchange-correlation 
+energy or its corresponding potential. This has led to the generalized 
+gradient approximation (GGA) in various parameterizations, e.g. 
+the one by Perdew et al 92 or Perdew, Burke and Ernzerhof (PBE) 96, which is the recommended option.
+
+<P>
+A recent version called meta-GGA by Perdew et al (1999) and Tao et al. (2003) employes for 
+the evaluation of the exchange-correlation energy not only
+the gradient of the density, but also the kinetic energy density <IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \tau (r) $">.
+ Unfortunately, such 
+schemes are not yet self-consistent. 
+
+<P>
+
+<H1><A NAME="SECTION04120000000000000000"></A>
+<A NAME="sec:lapw"></A>
+<BR>
+2 The Full Potential APW methods
+</H1>
+
+<P>
+Recently, the development of the Augmented Plane Wave (APW) methods from 
+Slater's APW, to LAPW and the new APW+lo was described by Schwarz et al. 2001.
+
+<P>
+
+<H2><A NAME="SECTION04121000000000000000">
+1 The LAPW method</A>
+</H2>
+
+<P>
+The linearized augmented plane wave (LAPW) method is among the most
+accurate methods for performing electronic structure calculations for
+crystals. It is based on the density functional theory for the
+treatment of exchange and correlation and uses e.g. the local spin
+density approximation (LSDA).  Several forms of LSDA potentials exist
+in the literature , but recent improvements using the generalized
+gradient approximation (GGA) are available too (see sec.
+<A HREF="#sec:dft">2.1</A>).  For valence states relativistic effects can be
+included either in a scalar relativistic treatment (Koelling and
+Harmon 77) or with the second variational method including spin-orbit
+coupling (Macdonald 80, Nov&#225;k 97).  
+Core states are treated fully relativistically
+(Desclaux 69).
+
+<P>
+A description of this method to linearize Slater's old APW method 
+(i.e. the LAPW formalism) and further programming hints are found
+in many references: Andersen 73, 75, Koelling 72, Koelling and Arbman
+75, Wimmer et al. 81, Weinert 81, Weinert et al. 82, Blaha and Schwarz
+83, Blaha et al. 85, Wei et al. 85, Mattheiss and Hamann 86, Jansen
+and Freeman 84, Schwarz and Blaha 96). An excellent book by
+D. Singh (Singh 94) describes all the details of the LAPW method 
+and is highly recommended to the
+interested reader. Here only the basic ideas are summarized; details
+are left to those references.
+
+<P>
+Like most ``energy-band methods``, the LAPW method is a procedure for
+solving the Kohn-Sham equations for the ground state density, total
+energy, and (Kohn-Sham) eigenvalues (energy bands) of a many-electron
+system (here a crystal) by introducing a basis set which is especially
+adapted to the problem.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:lapw_unitcell"></A><A NAME="603"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.1:</STRONG>
+Partitioning of the unit cell into atomic spheres (I) 
+      and an interstitial region (II) </CAPTION>
+<TR><TD><IMG
+ WIDTH="216" HEIGHT="130" BORDER="0"
+ SRC="img31.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/unitcell}}
+\par\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+This adaptation is achieved by dividing the unit cell into (I) 
+non-overlapping atomic spheres (centered at the atomic sites) 
+and (II) an interstitial region. In the two types of regions different 
+basis sets are used:
+
+<P>
+
+<OL>
+<LI>(I) inside atomic sphere <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img32.png"
+ ALT="$t$">, of radius <IMG
+ WIDTH="22" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$R_t$">, a linear combination 
+  of radial functions times spherical harmonics <IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.png"
+ ALT="$Y_{lm}(r)$"> is used 
+  (we omit the index <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img32.png"
+ ALT="$t$"> when it is clear from the context)
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\phi_{{\bf k}_n} = \sum_{lm} [ A_{lm,{\bf k}_n} u_l(r,E_l) + 
+    B_{lm,{\bf k}_n} \dot u_l(r,E_l) ] Y_{lm}(\hat{\bf r})
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:atomic-basis"></A><IMG
+ WIDTH="597" HEIGHT="80" BORDER="0"
+ SRC="img35.png"
+ ALT="\begin{displaymath}
+\phi_{{\bf k}_n} = \sum_{lm} [ A_{lm,{\bf k}_n} u_l(r,E_l) +
+B_{lm,{\bf k}_n} \dot u_l(r,E_l) ] Y_{lm}(\hat{\bf r})
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(4)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+where <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$u_l(r,E_l)$"> is the (at the origin) regular solution of the
+  radial Schroedinger equation for energy <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> (chosen normally at
+  the center of the corresponding band with l-like character) and the
+  spherical part of the potential inside sphere <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img32.png"
+ ALT="$t$">; <!-- MATH
+ $\dot u_l(r,E_l)$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img37.png"
+ ALT="$\dot u_l(r,E_l)$">
+  is the energy derivative of <IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$u_l$"> evaluated at the same energy <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$">.
+  A linear combination of these two functions  
+  constitute the linearization of the radial function; the
+  coefficients <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.png"
+ ALT="$A_{lm}$"> and <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$B_{lm}$"> are functions of <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$k_n$"> (see
+  below) determined by requiring that this basis function matches (in
+  value and slope) each plane wave (PW) the corresponding basis function of the
+  interstitial region; <IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$u_l$"> and <IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$\dot u_l$"> are obtained by numerical
+  integration of the radial Schroedinger equation on a radial mesh
+  inside the sphere.
+<BR>
+<P>
+</LI>
+<LI>(II) in the interstitial region a plane wave expansion is used
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\phi_{{\bf k}_n} = \frac{1}{\sqrt \omega} e^{i {\bf k}_n\cdot {\bf r}}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:basis-interstitial"></A><IMG
+ WIDTH="596" HEIGHT="83" BORDER="0"
+ SRC="img43.png"
+ ALT="\begin{displaymath}
+\phi_{{\bf k}_n} = \frac{1}{\sqrt \omega} e^{i {\bf k}_n\cdot {\bf r}}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(5)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+where <!-- MATH
+ ${\bf k}_n={\bf k}+{\bf K}_n$
+ -->
+<IMG
+ WIDTH="96" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img44.png"
+ ALT="${\bf k}_n={\bf k}+{\bf K}_n$">; <IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="${\bf K}_n$"> are the reciprocal lattice vectors and <IMG
+ WIDTH="14" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img46.png"
+ ALT="${\bf k}$"> is 
+the wave vector inside the first Brillouin zone. Each plane 
+wave is augmented by an atomic-like function in every atomic 
+sphere.
+
+<P>
+</LI>
+</OL>
+
+<P>
+The solutions to the Kohn-Sham equations are expanded in this 
+combined basis set of LAPW's according to the linear variation method
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\psi_{\bf k} = \sum_n c_n \phi_{{\bf k}_n}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:basis"></A><IMG
+ WIDTH="590" HEIGHT="80" BORDER="0"
+ SRC="img47.png"
+ ALT="\begin{displaymath}
+\psi_{\bf k} = \sum_n c_n \phi_{{\bf k}_n}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(6)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+and the coefficients <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$c_n$"> are determined by the Rayleigh-Ritz variational 
+principle. The convergence of this basis set is controlled by 
+a cutoff parameter <IMG
+ WIDTH="73" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$R_{mt}K_{max}$"> = 6 - 9, where <IMG
+ WIDTH="33" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$R_{mt}$"> is the smallest 
+atomic sphere radius in the unit cell and <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$K_{max}$"> is the magnitude 
+of the largest <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="$K$"> vector in equation (<A HREF="#eq:basis">2.6</A>). 
+
+<P>
+In order to improve upon the linearization (i.e. to increase the
+flexibility of the basis) and to make possible a consistent treatment
+of semicore and valence states in one energy window (to ensure
+orthogonality) additional (<IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$k_n$"> independent) basis functions can be
+added. They are called ``local orbitals (LO)`` (Singh 91) and consist of a
+linear combination of 2 radial functions at 2 different energies (e.g.
+at the <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="$3s$"> and <IMG
+ WIDTH="19" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$4s$"> energy) and one energy derivative (at one of
+these energies):
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\phi_{lm}^{LO} = [ A_{lm} u_l(r,E_{1,l}) + B_{lm} \dot u_l(r,E_{1,l}) + 
+  C_{lm} u_l(r,E_{2,l}) ] Y_{lm} (\hat r)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:LOs"></A><IMG
+ WIDTH="599" HEIGHT="82" BORDER="0"
+ SRC="img55.png"
+ ALT="\begin{displaymath}
+\phi_{lm}^{LO} = [ A_{lm} u_l(r,E_{1,l}) + B_{lm} \dot u_l(r,E_{1,l}) +
+C_{lm} u_l(r,E_{2,l}) ] Y_{lm} (\hat r)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(7)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+The coefficients <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.png"
+ ALT="$A_{lm}$">, <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$B_{lm}$"> and <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img56.png"
+ ALT="$C_{lm}$"> are determined by 
+the requirements that  <IMG
+ WIDTH="33" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="$\phi^{LO}$"> should be normalized and has zero value 
+and slope at the sphere boundary. 
+
+<P>
+
+<H2><A NAME="SECTION04122000000000000000">
+2 The APW+lo method</A>
+</H2>
+
+<P>
+Sj&#246;stedt, Nordstr&#246;m and Singh (2000) have shown
+that the standard LAPW method with the additional constraint on the PWs 
+of matching in value AND slope to the solution inside the sphere is not
+the most efficient way to linearize Slater's APW method. It can be
+made much more efficient when one uses the standard APW basis, but of 
+course with <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$u_l(r,E_l)$"> at a fixed energy <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$E_l$"> in order to keep the 
+linear eigenvalue problem. One then adds a new local 
+orbital (<IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$lo$">) to have enough variational flexibility in the radial 
+basisfunctions:
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\phi_{{\bf k}_n} = \sum_{lm} [ A_{lm,{\bf k}_n} u_l(r,E_l) ] Y_{lm}(\hat{\bf r})
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:apwbasis"></A><IMG
+ WIDTH="597" HEIGHT="80" BORDER="0"
+ SRC="img59.png"
+ ALT="\begin{displaymath}
+\phi_{{\bf k}_n} = \sum_{lm} [ A_{lm,{\bf k}_n} u_l(r,E_l) ] Y_{lm}(\hat{\bf r})
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(8)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\phi_{lm}^{lo} = [ A_{lm} u_l(r,E_{1,l}) + B_{lm} \dot u_l(r,E_{1,l})  
+   ] Y_{lm} (\hat{\bf r})
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eq:apwbasislo"></A><IMG
+ WIDTH="596" HEIGHT="82" BORDER="0"
+ SRC="img60.png"
+ ALT="\begin{displaymath}
+\phi_{lm}^{lo} = [ A_{lm} u_l(r,E_{1,l}) + B_{lm} \dot u_l(r,E_{1,l})
+] Y_{lm} (\hat{\bf r})
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(9)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+This new <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$lo$"> (denoted with lower case to distinguish it from the LO given in
+equ. <A HREF="#eq:LOs">2.7</A>) looks almost like the old ``LAPW''-basis set, but here the
+<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.png"
+ ALT="$A_{lm}$"> and <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$B_{lm}$"> do not depend on <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$k_n$"> and are determined by the 
+requirement that the <IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$lo$"> is zero at the sphere boundary and normalized.
+
+<P>
+Thus we construct  basis functions that have ``kinks'' at the sphere boundary, 
+which makes it
+necessary to include surface terms in the kinetic energy part of the
+Hamiltonian. Note, however, that the total wavefunction is of course smooth and 
+differentiable.
+
+<P>
+As shown by Madsen et al. (2001) this new scheme converges practically to identical
+results as the LAPW method, but allows to reduce ``RKmax'' by about one,
+leading to significantly smaller basis sets (up to 50 %) and thus the corresponding
+computational time is drastically reduced (up to an order of magnitude). 
+Within one calculation a mixed ``LAPW and APW+lo''
+basis can be used for different atoms and even different
+<IMG
+ WIDTH="9" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$l$">-values for the same atom (Madsen et al. 2001). In general one describes  
+by APW+lo those orbitals which
+converge most slowly with the number of PWs (such as TM 3d states) or the 
+atoms with a small sphere size, but the rest with ordinary LAPWs.
+ One can also add a second LO at a different energy
+so that both, semicore and valence states, can be described simultaneously.
+
+<P>
+
+<H2><A NAME="SECTION04123000000000000000">
+3 General considerations</A>
+</H2>
+
+<P>
+In its general form the LAPW (APW+lo) method expands the potential in 
+the following form
+
+<P>
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eq:potential"></A>
+<!-- MATH
+ \begin{eqnarray}
+V({\bf r})=\left\{ {\begin{array}{ll} \sum
+    \limits_{LM}V_{LM}(r)Y_{LM}(\hat{\bf r})  & \mbox{inside sphere}\\
+\sum \limits_{\bf K} V_{\bf K} e^{i{\bf K}\cdot {\bf r}}  &       \mbox{outside sphere}
+    \end{array} 
+    }\right.
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="338" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$\displaystyle V({\bf r})=\left\{ {\begin{array}{ll} \sum
+\limits_{LM}V_{LM}(r)Y...
+...V_{\bf K} e^{i{\bf K}\cdot {\bf r}} &amp; \mbox{outside sphere}
+\end{array}}\right.$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(10)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+and the charge densities analogously.  Thus no shape approximations 
+are made, a procedure frequently called a ``full-potential`` method. 
+
+<P>
+The ``muffin-tin`` approximation used in early band calculations
+corresponds to retaining only the <IMG
+ WIDTH="38" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img63.png"
+ ALT="$l=0$"> component in the
+first expression of equ. <A HREF="#eq:potential">2.10</A> and only the <IMG
+ WIDTH="48" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img64.png"
+ ALT="$K=0$">
+component in the second.  This (much older) procedure corresponds to
+taking the spherical average inside the spheres and the volume average
+in the interstitial region.
+
+<P>
+The total energy is computed according to Weinert et al. 82.
+
+<P>
+Rydberg atomic units are used except internally in the atomic-like 
+programs (LSTART and LCORE)  or in subroutine outwin (LAPW1, LAPW2), 
+where Hartree units are used.  The output is always given in 
+Rydberg units.
+
+<P>
+The forces at the atoms are calculated according to Yu et al 
+(91). For the implementation of this formalism in WIEN see 
+Kohler et al (96) and Madsen et al. 2001. An alternative formulation by Soler and Williams 
+(89)  has also been tested and found to be equivalent, both in 
+computationally efficiency and numerical accuracy  (Krimmel et al 94). 
+
+<P>
+The Fermi energy and the weights of each band state can be calculated
+using a modified tetrahedron method (Bl&#246;chl et al. 94), a Gaussian or
+a temperature broadening scheme.
+
+<P>
+Spin-orbit interactions can be considered via a second variational step
+using the scalar-relativistic eigenfunctions as basis (see Macdonald 80, Singh 94 and
+Nov&#225;k 97). In order to overcome the problems due to the missing
+<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$"> radial basis function in the scalar-relativistic basis (which corresponds to  <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$p_{3/2}$">), we have 
+recently extended the standard LAPW basis by an additional ``<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$">-local orbital'', i.e. a LO with 
+a <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$"> basis function, which is added in the 
+second-variational SO calculation (Kune&#353; et al. 2001).
+
+<P>
+It is well known that for localized electrons (like the 4f states in lanthanides
+or 3d states in some TM-oxides) the LDA (GGA) method is not accurate enough
+for a proper description. Thus we have implemented various forms of the 
+LDA+U method as well as the ``Orbital polarization method'' (OP) 
+(see Nov&#225;k 2001 and references therein). In addition you can also calculate
+exact-exchange inside the spheres and apply various hybrid functionals (see
+Tran et al. 2006 for details).
+
+<P>
+One can also consider interactions with an external magnetic (see Nov&#225;k 2001)
+or electric field (via a supercell approach, see Stahn et al. 2000).
+
+<P>
+PROPERTIES:
+
+<P>
+The density of states (DOS) can be calculated using the modified tetrahedron 
+method of Bl&#246;chl et al. 94.
+
+<P>
+X-ray absorption and emission spectra are determined using Fermi's golden 
+rule and dipole matrix elements (between a core and valence or conduction 
+band state respectively). (Neckel et al. 75, Schwarz et al 79,80)
+
+<P>
+X-ray structure factors are obtained by Fourier Transformation of the charge
+density.
+
+<P>
+Optical properties are obtained using the ``Joint density of states'' modified
+with the respective dipole matrix elements according to Ambrosch et al. 95,
+Abt et al. 94, Abt 97. and in particular Ambrosch 06. A Kramers-Kronig transformation is also possible.
+
+<P>
+An analysis of the electron density according to Bader's ``atoms in molecules''
+theory can be made using a program by J. Sofo and J. Fuhr (2001)
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html861"
+  HREF="3Quick_Start.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html857"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html851"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html859"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html862"
+  HREF="3Quick_Start.html">3 Quick Start</A>
+<B> Up:</B> <A NAME="tex2html858"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Previous:</B> <A NAME="tex2html852"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+ &nbsp; <B>  <A NAME="tex2html860"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

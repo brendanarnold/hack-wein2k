@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1 Introduction</TITLE>
+<META NAME="description" CONTENT="1 Introduction">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="previous" HREF="List_Figures.html">
+<LINK REL="up" HREF="List_Figures.html">
+<LINK REL="next" HREF="1Introduction_WIEN2k.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html810"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html806"
+  HREF="List_Figures.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html802"
+  HREF="List_Figures.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html808"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html811"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Up:</B> <A NAME="tex2html807"
+  HREF="List_Figures.html">List of Figures</A>
+<B> Previous:</B> <A NAME="tex2html803"
+  HREF="List_Figures.html">List of Figures</A>
+ &nbsp; <B>  <A NAME="tex2html809"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION03100000000000000000"></A>
+<A NAME="cha:introduction"></A>
+<BR>
+1 Introduction
+</H1>
+
+<P>
+The Linearized Augmented Plane Wave (LAPW) method has proven to be one
+of the most accurate methods for the computation of the electronic
+structure of solids within density functional theory. A full-potential
+LAPW-code for crystalline solids has been developed over a period of
+more than twenty years. A first copyrighted version was called
+<TT><B>WIEN</B></TT> and it was published by
+
+<P>
+<BLOCKQUOTE>
+P. Blaha, K. Schwarz, P. Sorantin, and S. B. Trickey, in
+<BR>
+Comput.
+  Phys. Commun. 59, 399 (1990).
+
+</BLOCKQUOTE>
+
+<P>
+In the following years significantly improved and updated UNIX versions of 
+the original <TT><B>WIEN</B></TT>-code were developed, which were called <TT><B>WIEN93</B></TT>, 
+<TT><B>WIEN95</B></TT> and <TT><B>WIEN97</B></TT>.
+Now a new version, <EM>WIEN2k</EM>, is available, which is based on an alternative
+basis set. This allows a significant improvement, especially in terms of
+speed, universality, user-friendliness and new features.
+
+<P>
+<EM>WIEN2k</EM> is written in FORTRAN 90  and
+requires a UNIX operating system since the programs are linked
+together via C-shell scripts.  It has been implemented successfully on
+the following computer systems: Pentium  systems running under
+Linux, IBM RS6000, HP , SGI , Compac DEC Alpha, and SUN. It is expected
+to run on any modern UNIX (LINUX) system.
+
+<P>
+Hardware requirements will change from case to case (small cases with
+10 atoms per unit cell can be run on any Pentium PC with 128 Mb under
+Linux), but generally we recommend a powerful PC or workstation with at
+least 256 Mb (better 512 Mb or more) memory and 1 Gb (better a few Gb)
+of disk space. For coarse grain parallization on the k-point level, a 
+cluster of PCs with a 100 Mb/s network is sufficient. Faster communication 
+is recommended for the fine grain (single k-point) parallel version.
+
+<P>
+In order to use all options and features (such as the new graphical
+user interface <EM>w2web</EM> or some of its plotting tools) the following public 
+domain program packages in addition to a F90 compiler
+must be installed:
+
+<UL>
+<LI>perl 5 or higher (for <EM>w2web</EM> only)
+</LI>
+<LI>emacs or another editor of your choice
+</LI>
+<LI>ghostscript (with jpg support)
+</LI>
+<LI>gnuplot (with png support)
+</LI>
+<LI>www-browser 
+</LI>
+<LI>pdf-reader (acroread,...)
+</LI>
+<LI>MPI+SCALAPACK (on parallel computers only)
+</LI>
+</UL>
+Usually these packages should be available on modern systems. 
+If one of these packages is not available, it can either be installed
+from public domain sources (see Chapt.  <A HREF="11Installation_Dimensioning.html#cha:installation">11</A>) or the
+corresponding configuration may be changed (e.g. using vi instead of
+emacs). None of the principal components of <EM>WIEN2k</EM> requires these
+packages, only for advanced features or <EM>w2web</EM> they are needed.
+
+<P>
+<EM>WIEN2k</EM> has the following features that are new with respect to <TT><B>WIEN97</B></TT>:
+
+<P>
+
+<UL>
+<LI>due to the new APW+lo basis set it is significantly faster 
+(up to an order of magnitude). Optimizations in the most time consuming parts 
+of LAPW1 and LAPW2 have been made. 
+</LI>
+<LI>iterative diagonalization (for cases with large matrices and few eigenvalues)
+</LI>
+<LI>beside the k-point parallelization (including heterogeneous workstation 
+clusters) a fine grain parallelization based on MPI is also available.
+</LI>
+<LI>A new web-based graphical user interface <EM>w2web</EM> has been developed. 
+It does NOT require an X-environment and thus <EM>WIEN2k</EM> can be controlled from 
+(but not run on !) any Windows-PC. This
+  should particularly help the novice to get acquainted with <EM>WIEN2k</EM>
+  but it should be useful for the regular user as well.
+
+<P>
+</LI>
+<LI>support for AFM and FSM calculations
+</LI>
+<LI>spin-orbit coupling, including a new <IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$p_{1/2}$">-LO for higher accuracy
+</LI>
+<LI>wavefunction plotting
+</LI>
+<LI>determination of irreducible representations
+</LI>
+<LI>elastic constants (cubic cases only)
+</LI>
+<LI>Topological analysis based on Bader's ``atoms in molecules'' concept
+</LI>
+<LI>LDA+U, orbital polarization (OP), magnetic and electric fields
+</LI>
+<LI>Exact-exchange and Hybrid functionals inside spheres
+</LI>
+<LI>new PKZB and TPSS meta-GGA functionals
+</LI>
+</UL>
+
+<P>
+The development of <EM>WIEN2k</EM> was made possible by support from many
+sources. We try to give credit to all who have contributed. We
+hope not to have forgotten anyone who made an important
+contribution for the development or the improvement of the <EM>WIEN2k</EM>
+code. If we did, please let us know (we apologize and will 
+correct it). The main developers in addition to the authors
+are the following groups:
+
+<UL>
+<LI>C. Ambrosch-Draxl (Univ. Graz, Austria) and her group 
+</LI>
+<LI>U. Birkenheuer (Dresden), wave function plotting
+</LI>
+<LI>T. Charpin (Paris), elastic constants
+</LI>
+<LI>R. Dohmen und J. Pichlmeier (RZG, Garching), parallelization 
+</LI>
+<LI>P. Nov&#225;k and J. Kune&#353; (Prague), LDA+U, SO
+</LI>
+<LI>C. Persson (Uppsala), irreducible representations
+</LI>
+<LI>M. Scheffler (Fritz Haber Inst., Berlin) and his group 
+</LI>
+<LI>E. Sj&#246;stedt and L Nordstr&#246;m  (Uppsala, Sweden), APW+lo 
+</LI>
+<LI>J. Sofo and J. Fuhr (Barriloche), Bader analysis
+</LI>
+<LI>B. Yanchitsky and A. Timoshevskii (Kiev), sgroup 
+</LI>
+</UL>
+
+<P>
+We want to thank those <EM>WIEN97</EM> users, who reported bugs or
+made suggestions and thus contributed to the new version as well as 
+persons who have made major
+contributions in the development of previous versions of the code:
+
+<UL>
+<LI>R. Augustyn (Vienna), U. Birkenheuer (Munich), P. Bl&#246;chl (IBM Z&#252;rich), F. Boucher (Nantes), A. Chizmeshsya (Arizona), P. Dufek (Vienna), H. Ebert
+  (Munich), E. Engel (Frankfurt), H. Enkisch (Dortmund), M. F&#228;hnle (MPI Stuttgart), S. Kohlhammer (Stuttgart), T. Kokalj (Ljubljana), H. Krimmel (Stuttgart), P. Louf (Vienna), I. Mazin (Washington), M. Nelhiebel (Vienna), V. Petricek (Prague), C.
+  Rodrigues (La Plata, Argentina), P. Schattschneider (Vienna), R. Schmid (Frankfurt), D. Singh (Washington), H. Smolinski (Dortmund), T. Soldner
+  (Leipzig), P. Sorantin (Vienna), S. Trickey (Gainesville), S. Wilke (Exxon, USA), B. Winkler (Kiel)
+</LI>
+</UL>
+
+<P>
+
+<P>
+This work was supported by the following institutions:
+
+<UL>
+<LI>Austrian Science Foundation (FWF-Projects P5939, P7063,
+  P8176, SFB08-11)
+</LI>
+<LI>Siemens Nixdorf (WIEN93)
+</LI>
+<LI>IBM (WIEN)
+</LI>
+</UL>
+
+<P>
+<BR>
+<BR>
+<BR>
+
+<P>
+<DIV ALIGN="CENTER">
+<B> <FONT SIZE="+1">We take this opportunity to thank for all
+      contributions.</FONT>
+<BR>
+For suggestions or bug reports please contact the authors by
+    email:</B>
+<BR>
+<BR>
+
+  <!-- MATH
+ $\framebox{
+    \parbox[c]{7cm}{
+      \begin{center}        \texttt{\textbf{pblaha@theochem.tuwien.ac.at}}\\
+        \texttt{\textbf{kschwarz@theochem.tuwien.ac.at}}\\
+      \end{center}
+      }
+    }$
+ -->
+<IMG
+ WIDTH="344" HEIGHT="93" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="\framebox{
+\parbox[c]{7cm}{
+\begin{center}\texttt{\textbf{pblaha@theochem.tuwi...
+....at}}\\
+\texttt{\textbf{kschwarz@theochem.tuwien.ac.at}}\\
+\end{center} }
+}">
+<BR>
+<BR>
+<BR>
+
+</DIV>
+
+<P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html810"
+  HREF="1Introduction_WIEN2k.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html806"
+  HREF="List_Figures.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html802"
+  HREF="List_Figures.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html808"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html811"
+  HREF="1Introduction_WIEN2k.html">1 Introduction to the</A>
+<B> Up:</B> <A NAME="tex2html807"
+  HREF="List_Figures.html">List of Figures</A>
+<B> Previous:</B> <A NAME="tex2html803"
+  HREF="List_Figures.html">List of Figures</A>
+ &nbsp; <B>  <A NAME="tex2html809"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

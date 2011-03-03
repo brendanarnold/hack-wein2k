@@ -1,0 +1,280 @@
+#!/bin/csh -f
+# interface for plotting DOS
+# created with "tetra"
+#
+# (C)1997 by J. Luitz
+#
+unalias rm
+
+echo ""
+echo ""
+echo "####################################"
+echo "#                                  #"
+echo "#           DOS  PLOT              #"
+echo "#                                  #"
+echo "####################################"
+echo ""
+echo ""
+set updn = ""
+unset help
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    set help
+    shift; breaksw
+  case -i:
+    set ignore
+    shift; breaksw
+  case -up:
+    set updn = up
+    shift; breaksw
+  case -dn:
+    set updn = dn
+    shift; breaksw
+  default:
+    shift; breaksw
+  endsw
+end
+if ($?help) goto help
+
+set defaults = dosplot.ini
+
+set file    = `pwd`
+set file    = $file:t
+
+set print = dosplot$updn.ps
+
+set xmin
+set xmax
+set ymin
+set ymax
+set out
+
+echo "NOTE: this plotting interface only functions"
+echo "      correctly if you have followed the"
+echo "      guidelines from the User Interface"
+echo "      Wien in a BOX\!"
+echo ""
+echo ""
+if !($?ignore) then
+	if (-e $defaults) then
+		echo "  ... using defaults set in file $defaults"
+		cat $defaults
+		echo ""
+		echo ""    
+		source $defaults
+	endif
+endif
+set print1 = $print:r
+
+
+
+if !($?line) then
+    echo -n "Which DOS to plot? (a (for all); or list of numbers= lines in $file.int)"
+    set line=($<)
+      if($#line == 1 ) then
+        if( $line == 'a' ) then
+           set test=` head -3 $file.int|tail -1 ` 
+           set i=1
+           set line
+           while ($i <= $test[1])
+             set line=($line $i)
+             @ i ++
+           end
+        endif
+      endif
+endif
+
+if !($?units) then
+    echo ""
+    echo "Which units?"
+    echo "     Ryd .. 0 (default)"
+    echo "     eV  .. 1"  
+    set units =($<)
+endif
+
+if ($units == 1) then
+    set units  = ev
+    set xlabel = "Energy [eV]"
+    set axis   = "yzeroaxis"
+else
+    set units  = ""
+    set xlabel = "Energy [Ryd]"
+    set axis   = "noyzeroaxis"
+endif
+set ylabel = "DOS"
+
+if !($?noview) then
+    echo ""
+    echo "     Preview on screen (default) .. 0"
+    echo "     Produce only ps files ........ 1"
+    set noview1 =($<)
+    if($noview1 == '1' ) set noview
+endif
+
+ 
+
+foreach index ($line)
+    set filext = 1
+#    if ($index > 7 ) then
+#	set filext = 2
+#	if ($index > 14) then
+#	    set filext = 3
+#	endif
+#    endif
+
+@ filext = $index - 1
+@ filext = $filext / 7
+@ filext ++
+    @ col =  $index % 7
+    if ($col == 0) then
+	set col = 8
+    else
+	@ col = $col + 1
+    endif
+#echo ind fil col $index $filext $col
+    set dosfile =  ${file}.dos${filext}${units}${updn}
+    if !(-e $dosfile) goto error
+    set grepline = $index
+    @ grepline = $grepline + 3
+    set atom = `head -$grepline <$file.int|tail -1|awk '{print $1}'`
+    set qtl  = `head -$grepline <$file.int|tail -1|awk '{print $2}'`
+
+    set label
+    if ($atom == 0) then
+	set label = "total DOS"
+    else
+	set atomname = `grep Z: $file.struct|head -$atom|tail -1|cut -f1 -d" " `
+#	@ atom ++
+	set label = `grep JATOM $file.qtl$updn | head -$atom | tail -1 | cut -c32- | cut -f$qtl -d,`
+	switch ($label)
+	case 0:
+	    set label = S
+	    breaksw
+	case 1:
+	    set label = P
+	    breaksw
+	case 2:
+	    set label = D
+	    breaksw
+	case 3:
+	    set label = F
+	    breaksw
+	default:
+	    breaksw
+	endsw
+	set label = `echo $label | tr "A-Z" "a-z"`
+	set label = "partial DOS: $atomname $label"
+    endif
+
+    set tmp1 = :dos1
+    set tmp2 = :dos2
+    set title = $dosfile
+
+    sed "1,3d" $dosfile >$tmp1
+
+replot:
+
+    if ($?noview) goto jump2
+    cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set ylabel "$ylabel"
+set $axis
+plot "$tmp1" using 1:$col title "$label"
+pause -1
+EOF
+
+    echo ""
+    echo "Showing $label"
+    echo ""
+    echo "Press RETURN to continue"
+    gnuplot $tmp2
+
+    echo -n "Do you want to set ranges? (y/N)"
+    set yn = ($<)
+    if ($yn == y) then
+	unset yn
+	echo -n "     Limit x-range? (y/N)"
+	set yn = ($<)
+	if ($yn == y) then
+	    unset yn
+	    echo -n "       xmin="
+	    set xmin = ($<)
+	    echo -n "       xmax="
+	    set xmax = ($<)
+	endif
+	echo -n "     Limit y-range? (y/N)"
+	set yn = ($<)
+	if ($yn == y) then
+	    unset yn
+	    echo -n "       ymin="
+	    set ymin = ($<)
+	    echo -n "       ymax="
+	    set ymax = ($<)
+	endif
+	goto replot
+    endif
+
+    echo -n "Do you want a hardcopy? (y/N)"
+    set hardcopy = ($<)
+    if ($hardcopy == y) then
+	echo -n "Specify a filename (default is $print)"
+	set out = ($<)
+jump2:
+	if ($out == "") set out = "$print"
+        if ( $?noview ) set out = "${print1}_$index.ps"
+	echo "Printing #${index}: $label    to file  $out"
+	cat <<EOF >$tmp2
+set title '$title'
+set data style lines
+set terminal postscript
+set output "$out"
+set xrange [${xmin}:${xmax}]
+set yrange [${ymin}:${ymax}]
+set xlabel "$xlabel"
+set ylabel "$ylabel"
+set $axis
+plot "$tmp1" using 1:$col title "$label"
+EOF
+	gnuplot $tmp2
+    endif
+    rm $tmp1 $tmp2
+end
+exit(0)
+
+error:
+
+echo ">>>"
+echo ">>> ERROR: $dosfile not found\!"
+echo ">>>"
+exit(1)
+
+help:
+
+cat <<EOF 
+DOSPLOT is an interface script to plot (partial) DOS
+from the case.dos[1,2,3][ev] files using gnuplot.
+
+Basically DOSPLOT interactively asks for information
+which is used for plotting.
+
+To use DOSPLOT in a batch like manner create the file
+dosplot.ini in which you can set various parameters
+in csh-style, these parameter are:
+
+    set line = "1"         # which lines to plot (from case.int), 
+                           # more than one line can be given
+    set xmin = -15         # with xmin, xmax, ymin, ymax you
+    set xmax = 15          # can specify plotting ranges
+    set units = 1          # 0 = Ryd; 1 = eV
+    set print = "file"     # file to be used for plotting
+    set noview=y             # set to skip preview and directly print
+                           
+To ignore the startup file use
+	dosplot -i
+EOF

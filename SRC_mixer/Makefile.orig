@@ -1,0 +1,78 @@
+###############################################################################
+#                                                                             #
+#  make              ... generate executable                                  #
+#  make clean        ... delete unnecessary files                             #
+#  make check        ... check static semantics of the FORTRAN routines       #
+#  make xref         ... generate a cross reference listing                   #
+#                                                                             #
+###############################################################################
+
+#------------------------------------------------------------------------------
+#
+#                          IBM RS6000  AIX 3.2
+#
+# FC ......... compiler name
+# FOPT ....... optimization flags
+# FGEN ....... code generation flags (flags not related to optimization)
+# LDFLAGS .... linker flags
+# LIBS ....... libraries needed to build the executable
+# DESTDIR .... directory where the executable should go (incl. trailing '/'!)
+# EXECNAME ... name of the resulting executable (without prefixed path!)
+#
+#------------------------------------------------------------------------------
+FC = _FC_
+CC = _CC_
+FOPT     = _FOPT_
+FGEN     = 
+LDFLAGS  = _LDFLAGS_
+LIBS     =
+DESTDIR  = ./
+EXECNAME = mixer
+
+###############################################################################
+###############################################################################
+
+FFLAGS = $(FGEN) $(FOPT)
+EXEC   = $(DESTDIR)$(EXECNAME)
+
+#..............................................................................
+#
+#  Routines which can be compiled unmodified
+#
+OBJS  =	charge.o distan.o eqival.o errclr.o errflg.o gtfnam.o hyper.o  \
+        iffpar.o integr.o latgen.o mixer.o  nn.o     normal.o outerr.o \
+        qmix5.o  read_denmat.o rean0a.o  rean3.o  scfana.o setffx.o stern.o forcint.o \
+        invmat.o write_denmat.o
+#..............................................................................
+#
+#  Build executable
+#
+$(EXEC):	$(OBJS)
+	$(FC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(LIBS)
+
+#..............................................................................
+#
+#  All routines depend upon an include file (contains common PARAMETERS)
+#
+$(OBJS):	param.inc Makefile 
+
+#..............................................................................
+
+#..............................................................................
+#
+#  remove unnecessary files (executable(s) are not removed)
+#
+clean:
+	rm -f *.o *_tmp_.* *.P *.mod
+#..............................................................................
+#
+#  define rules for generating files needed to check the static semantics
+#  of the FORTRAN source code and for generating object files from source files
+#
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+.c.o:
+	$(CC)  -c $<
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $<

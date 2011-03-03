@@ -1,0 +1,221 @@
+      SUBROUTINE FOURIR                                          
+      use atomgrid
+      use kgrid
+      use reallocate
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.inc'
+!                                     
+      CHARACTER*19     nkktext
+      CHARACTER*80     TITLE    
+      CHARACTER*4      LATTIC
+      COMMON /CHAR/   TITLE,LATTIC                    
+      LOGICAL REL,ORTHO                                                      
+      COMMON /ORTH/   ORTHO                                            
+      COMMON /COM/ XWT,EMIN,EF,ELECN,REL,MODUS,NBAND,NAT                
+      COMMON /GENER/ BR1(3,3),BR2(3,3)                                  
+      COMMON /STRUK/ AA,BB,CC,alpha(3),PIA(3),VOL,ndif
+      COMPLEX*16          TAUP
+      COMMON /FOUR/ M(3),NST,ISTM(3,48),TAUP(48)                        
+      COMMON /SYM2/ IORD,IZ(3,3,48),ITAU,TAU(3,48)                      
+      COMMON /CUBWK2/ SK(3)                                   
+      DIMENSION KZZ1(3)
+      logical,allocatable :: rzero(:)
+!_REAL      real*8,allocatable :: rhouse(:)
+!_COMPLEX   complex*16, allocatable :: rhouse(:)
+!_COMPLEX      COMPLEX*16 RHOK1,F,U,TMPR
+!      DATA PI/3.141592653898d0/          
+      PI=4.D0*DATAN(1.D0)
+!                                                                       
+        assign 2021 to iform1
+        assign 2071 to iform2
+ 2021 FORMAT(3X,4E19.12)                                                
+ 2071 FORMAT(3X,3I5,2E19.12)                                            
+!..... GENERATE RECIPROCAL LATTIC VECTORS                               
+!..... READ IN SYMMETRY OPERATIONS AND NONPRIMITIVE TRANSLATIONS        
+!..... NK .. NUMBER OF STRUCTURFACTORS; NKK .. NUMBER OF FOURIER COEF   
+      NKK=1                                                             
+      WRITE(*,*)'Specify max sin(theta/lambda) value (A-1):'                  
+      read(*,*) sinth
+      GMAX=sinth*4.d0*PI*0.5291772083d0
+      if (ortho.or.lattic(1:1).eq.'R') then
+         call deter (gmax,pia,BR2,kxmax,kymax,kzmax,lattic)
+      else
+        kxmax=gmax*aa/2.d0/pi+1
+        kymax=gmax*bb/2.d0/pi+1
+        kzmax=gmax*cc/2.d0/pi+1
+      endif
+         if (lattic(1:1).eq.'R') then
+            KXMAX=max(kxmax,int(GMAX*AA/2.d0/PI+1))
+            KYMAX=max(kymax,int(GMAX*BB/2.d0/PI+1))
+            KZMAX=max(kzmax,int(GMAX*CC/6.d0/PI+1))
+         endif
+!  1   READ(*,*) NK                                                      
+!      IF(NKD.LT.NK) THEN                                                
+!      WRITE(*,*) 'NK TO LARGE:',NK,'   MAX=',NKD                        
+!      GOTO 1                                                            
+!      END IF                                                            
+      CALL RECPR(NKK,INDMAX,KXMAX,KYMAX,KZMAX,gmax)                  
+!      print*, 'Done Recpr 1'
+      allocate (strf(nk))
+      nkfirst=nk
+      DO 6 I=1,NK                                                       
+!_REAL   6  STRF(I)=0.0d0                                                
+!_COMPLEX   6  STRF(I)=(0.0d0,0.d0)                                            
+!                                                                       
+      DO 26 JATOM=1,NAT                                                 
+   26 V(JATOM)=4.d0*PI*RMT(JATOM)**3/3.d0/VOL                               
+      CALL STRFAC                                        
+!       print*, 'Done Strfac'
+!                                                                       
+!.... STRUCTUREFACTORS FOR SPHERES                                      
+!....STRUCTURFACTOR CALCULATION                                         
+!....    FOR OUT                                                        
+!                                                                       
+      READ(8,1980)                                                      
+!      READ(8,200) NKK                                                   
+   read(8,'(/,a19)') nkktext
+  read(nkktext,'(9x,i10)',err=6767) nkk
+  goto 6768
+ 6767 read(nkktext,'(13x,i6)') nkk
+ 6768 continue
+!      NKKX=NKK                                                         
+!      IF(NKK.GT.NK) NKKX=NK                                            
+      NKKy=NK                                                           
+      NKKX=NKK      
+      nk=max(nkky,nkkx)                                                 
+      if(nk.gt.nkd)  then
+            nkd=nk
+          call doreallocate(absk,nkd+1)
+          call doreallocate(inst,nkd)
+          call doreallocate(kzz,3,nkd+1)
+          write(66,*) 'nkd lt nk',nkd,nk
+!          stop 'nkd too small'
+      endif                                                
+      nkkx=nk
+!     gmax should be read form in2 file !
+                      gmax = 20.d0
+      read(4,*)      
+      read(4,*)      
+      read(4,*)      
+      do 14 i=1,nat
+  14  read(4,*)
+      read(4,*) gmax      
+      if (ortho.or.lattic(1:1).eq.'R') then
+         call deter (gmax,pia,BR2,kxmax,kymax,kzmax,lattic)
+      else
+        kxmax=gmax*aa/2.d0/pi+1
+        kymax=gmax*bb/2.d0/pi+1
+        kzmax=gmax*cc/2.d0/pi+1
+      endif
+         if (lattic(1:1).eq.'R') then
+            KXMAX=max(kxmax,int(GMAX*AA/2.d0/PI+1))
+            KYMAX=max(kymax,int(GMAX*BB/2.d0/PI+1))
+            KZMAX=max(kzmax,int(GMAX*CC/6.d0/PI+1))
+         endif
+!        write(*,*) 'ortho',ortho,kxmax,kymax,kzmax,gmax,aa,lattic(1:1)
+      CALL RECPR2(NKKX,INDMAX,KXMAX,KYMAX,KZMAX,gmax)  
+!      print*, 'Done Recpr 2'
+      allocate (rhok(nk))               
+      do i=1,nk 
+      RHOK(i)=(0.0d0,0.d0)
+      enddo               
+      if(nkfirst.lt.nk) then
+      call doreallocate (strf,nk)
+        do i=nkfirst+1,nk
+        strf(i)=0.d0
+        enddo
+      endif
+      write(66,*) ' nk,nkk,indmax:',nk,nkk,indmax
+  200 FORMAT(/,13X,I6)                                                  
+ 1980 FORMAT(3X)
+      allocate (rzero(nkk))
+      NNOTZ=1
+      DO 21 J=1,NKK                                                     
+      READ(8,iform2) (KZZ1(I),I=1,3),RHOK1
+      if(abs(rhok1).gt.1d-15)then
+        rzero(j)=.false.
+        NOTZERO=J
+      else
+        rzero(j)=.true.
+      endif                              
+  998 FORMAT(3X,3I5,E15.7)                                              
+      DO 22 JJ=1,NK                                                     
+      DO 23 I=1,3                                                       
+  23  IF(KZZ1(I).NE.KZZ(I,JJ)) GOTO 22                                  
+      RHOK(JJ)=RHOK1                                                    
+      GOTO 21                                                           
+  22  CONTINUE                                                          
+          WRITE(66,*) 'KVEC ',(KZZ1(I),I=1,3),'IN DENSITY'               &
+          ,' LIST NOT FOUND IN GENERATED K LIST'                        
+  21  CONTINUE                                                          
+!      print *, 'Done Angst check'
+!     This is the slow section
+!      print *, 'Slow part ',nk,indmax
+      nk=nkky
+      WRITE(66,101)                                                     
+  101 FORMAT(//,' STRUCTURFACTORS FOR OUT:',/)                            
+
+!     This is the slow part, indmax, NK are big
+!     Should really convert it to real space
+!     FFT, multiply by spheres, back FFT
+!
+!     Trim down first the values, and get rid of those which are small
+      allocate(rhouse(INDMAX))
+      NUSE=0
+      KPP=0
+      IIZ=1
+      DO KP=1,INDMAX
+        if(rzero(iiz).and.kpp.ne.inst(iiz))then
+                KPP=KPP+1
+        else
+!       We are going to use this one
+                NUSE=NUSE+1
+!       Shuffle indices down
+                DO I=1,3
+                        KREC(I,NUSE)=KREC(I,KP)
+                ENDDO
+                KPP=KPP+1                                                         
+                IF(KPP.GT.INST(IIZ)) THEN                                         
+                  KPP=1                                                             
+                  IIZ=IIZ+1                                                         
+                  IF(IIZ.GT.NOTZERO) goto 360
+                END IF                     
+                rhouse(NUSE)=RHOK(IIZ)/INST(IIZ)*TAUK(KP)
+        endif
+     ENDDO
+360  CONTINUE
+      write(66,*)'Number of hkl trimmed down to',nuse
+!     Now the convolution, trimmed down a lot
+      DO 30 K=1,NK
+        F=0.0D0
+        DO 35 KP=1,NUSE
+           DO 31 I=1,3                                                       
+  31       SK(I)=(KREC(I,KP)-KZZ(I,K))
+           CALL USTPHX(SK,U,NAT)
+           F=F+RHOUSE(KP)*U
+  35    ENDDO   
+
+  36  F=F*VOL                                              
+!     conjg introduced after test with GaN             
+!_REAL      if (k.lt.101) WRITE(66,997) (KZZ(I,K),I=1,3),F,ABSK(K)/4.d0/PI/0.5291772083d0
+!_REAL      STRF(K)=STRF(K)+F                             
+!_COMPLEX      if (k.lt.101) WRITE(66,997) (KZZ(I,K),I=1,3),conjg(F),ABSK(K)/4.d0/PI/0.5291772083d0
+!_COMPLEX      STRF(K)=STRF(K)+conjg(F)
+      if(1000*(k/1000).eq.k)write(66,*)'Done ',k,'of',nk                               
+  30  CONTINUE                                                          
+!                                                                       
+       ENDFILE 8                                                        
+      WRITE(66,1050)                                                    
+!      WRITE(8,1050)                                                    
+ 1050 FORMAT(///' X - RAY STRUCTURFACTORS ',//,'  K-VECTOR',            &
+      5X,'SIN O/L (A-1)',8X,'F'/)                                       
+      DO 1060 I=1,NK                                                    
+      XX=ABSK(I)/4.d0/PI/0.5291772083d0                                        
+!      WRITE(8,1046) (KZZ(JJ,I),JJ=1,3),XX,STRF(I)                      
+ 1060 WRITE(66,1046) (KZZ(JJ,I),JJ=1,3),XX,STRF(I)                      
+ 1046 FORMAT(3I5,F12.7,2F20.10)                                          
+      RETURN                                                            
+  997 FORMAT(3I5,3F24.16)                                                 
+      END                                                               
+
+

@@ -1,0 +1,20 @@
+    1  9999 9999              : LOWER,UPPER and (optional) UPPER-VAL BANDINDEX
+   0.0000    0.00100   1.0000 : EMIN DE EMAX FOR ENERGYGRID IN ryd 
+eV                            : output units  eV / ryd  / cm-1
+     4                        : SWITCH  
+     2                        : NUMBER OF COLUMNS
+   0.1  0.1  0.3              : BROADENING (FOR DRUDE MODEL - switch 6,7 - 
+ONLY)
+
+SWITCH:
+
+   0...JOINTDOS FOR EACH BAND COMBINATION  
+   1...JOINTDOS AS SUM OVER ALL BAND COMBINATIONS
+   2...DOS FOR EACH BAND 
+   3...DOS AS SUM OVER ALL BANDS
+   4...Im(EPSILON)  
+   5...Im(EPSILON) for each band combination
+   6...INTRABAND contributions
+   7...INTRABAND contributions including band analysis
+  
+

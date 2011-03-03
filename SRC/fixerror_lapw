@@ -1,0 +1,10 @@
+#!/bin/csh -f
+#
+# checks for error file, when existing, but empty, remove and touch it
+# fix for slow NFS
+#
+unalias rm
+if ( -e $1.error && -z $1.error ) then
+   rm $1.error
+   touch $1.error
+endif

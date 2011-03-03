@@ -1,0 +1,5 @@
+  0.1    Gamma: broadening of interband spectrum
+  0.0    energy shift (scissors operator)
+  0      add intraband contributions? yes/no: 1/0
+ 12.60   plasma frequencies  (from joint, opt 6)
+  0.20   Gammas for Drude terms 

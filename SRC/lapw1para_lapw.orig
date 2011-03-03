@@ -1,0 +1,557 @@
+#!/bin/csh -f
+#
+# run lapw1 in parallel mode
+#
+# (C)1997 by Joachim Luitz
+#
+# $Author: jluitz $
+# $State: Exp $
+#
+set tmp = .tmp_lapw1para.$$
+set tmp2 = .tmp_testpara_new.$$_2
+onintr exit
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+unalias rm
+alias   testinput       'if (! -e \!:1 || -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+############################################################################
+# First we set up some variables
+#
+
+set updn			# spinpolarization switch
+set dnup	= 'dn'		# spinpolarization switch
+set sc				# semicore-switch
+set cmplx
+set t 		= time
+set remote = rsh
+set log         = :parallel
+set granular    = granularity:
+set res         = residue:
+set ef          = extrafine:
+set kpl
+unset resok
+unset extrafine
+set granularity = 3            # higher values split k-list into more
+                               # junks, however, each vector will produce
+                               # its own clmval file!!!
+                               # Granularity 3 yields approx. 3 files per
+                               # processor. To override default granularity
+			       # of 3 insert a line in .machines with the
+                               # following format:
+                               # granularity:new_value
+
+############################################################################
+#In this section use 0 to turn of an option, 1 to turn it on, 
+#respectively choose a value
+
+set useremote   = 1             # using remote shell to launch processes
+set delay       = 1             # delay launching of processes by n seconds
+set sleepy      = 1             # additional sleep before checking
+set debug       = 0             # verbosity of debugging output
+
+############################################################################
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+	source $bin/parallel_options
+endif
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+if ( $?WIEN_GRANULARITY ) then
+        set granularity = $WIEN_GRANULARITY
+endif
+if ( $?WIEN_EXTRAFINE ) then
+        set extrafine
+endif
+
+if ( $?WIEN_MPIRUN ) then
+  set mpirun = "$WIEN_MPIRUN"
+else
+  set mpirun='mpirun -np _NP_ _EXEC_'
+endif
+
+############################################################################
+
+
+#which def-file are we using?
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit 
+endif
+
+#correct PWD variable if using the amd-daemon
+# we assume that any /tmp_mnt/xxx directory will be mounted
+# as /xxx!!!!!
+
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+# echo $PWD
+if (-e .processes) rm .processes
+touch .lock_
+foreach i (.lock_*)
+    rm $i
+end
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -up:
+    set updn = up
+    set dnup = dn
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -sc:
+    set sc = 's'
+    shift; breaksw
+  case -c:
+    set cmplx = c
+    shift; breaksw
+  case -so:
+    set so = 'so'
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+set exe = $bin/lapw1$cmplx
+set exe = lapw1$cmplx
+echo "** " Error in Parallel LAPW1 >$def.error
+
+#are we running parallel?
+testinput .machines single
+echo "starting parallel lapw1 at `date`"
+echo "starting parallel lapw1 at `date`" >>$log
+
+echo "RUNNING" >.lapw1para
+
+#before we start, we wipe away all parallel  files
+if ( -e lapw1.error ) rm *lapw1*.error
+if ( -e uplapw1.error ) rm *lapw1*.error
+if ( -e dnlapw1.error ) rm *lapw1*.error
+
+if ( -e lapw1_1.error ) rm *lapw1_*.error
+if ( -e uplapw1_1.error ) rm *lapw1_*.error
+if ( -e dnlapw1_1.error ) rm *lapw1_*.error
+if ( -e .time1_1) rm .time1_*
+
+#get name of case
+set case    = `pwd`
+set case    = $case:t 
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+
+#check if klist is read from unit 4
+#else quit!
+set test = `grep "K-VECTORS" $case.in1${cmplx}|cut -c21`
+if ($test != 4) then
+  echo "   K-Vectors must be read from unit 4"
+  echo "   for parallel execution! "
+  echo "   Change setting in $case.in1${cmplx}! "
+  exit 1
+endif
+
+echo "->  starting parallel LAPW1 jobs at `date`"
+
+if ($debug > 0) echo `date`" ->" Setting up case $case for parallel execution
+if ($debug > 0) echo `date`" ->" of LAPW1
+if ($debug > 0) echo `date`" ->" ""
+#
+#get machine names and weighs, set up 
+#proper junks for parallel execution
+#in case of a spin polarized calculation
+#ensure both up and down are done with the
+#same number of k-points; first calc. generates
+#file .machines.help
+
+if ($updn == 'up' || $updn == 'dn') then
+  if ($debug > 1) echo `date`" ->" sp
+  if (-e .machines.help && $updn == 'dn') then
+    cp .machines.help $tmp
+    echo "running LAPW1 in parallel mode (using .machines.help)"
+  else
+    cp .machines $tmp
+    cp $tmp .machines.help
+    echo "running LAPW1 in parallel mode (using .machines)"
+  endif
+else
+  if ($debug > 1) echo `date`" ->" non sp
+  cp .machines $tmp
+  echo "running LAPW1 in parallel mode (using .machines)"
+endif
+
+
+
+grep : $tmp |grep -v '#' |grep -v lapw0| grep -v granular | grep -v residue |grep -v extrafine >$tmp2
+
+
+awk -F: '{print "init:" $2}' < $tmp2 >.processes
+set weigh    = `cut -f1 -d: $tmp2 | xargs`
+set machine  = `cut -f2 -d: $tmp2 | xargs`
+set lockfile = `cut -f2 -d: $tmp2 | awk '{print $1 NR}'|xargs`
+set wweigh   = ($weigh)
+set mist     = `wc $tmp2 `
+set proc     = $mist[1]
+unset mist
+set mist     = `grep $granular $tmp | grep -v '#'| cut -f2 -d:`
+if ($mist != "") then 
+    if ($debug > 0) echo "Granularity set to $mist"
+    set granularity = $mist
+endif
+set mist     = `grep $ef $tmp |grep -v '#'| cut -f2 -d:`
+if ($mist == 1) then 
+    if ($debug >0) echo "Extrafine set"
+    set extrafine
+else if( $?extrafine ) then
+    if ($debug >0) echo "Extrafine set"
+else
+    if ($debug >0) echo "Extrafine unset"
+    unset extrafine
+endif
+set mist     = `grep $res $tmp |grep -v '#'| cut -f2 -d:`
+if ($mist != "") then 
+    if ($debug > 0) echo "Residue set to $mist"
+    set residue = $mist
+    echo "residue:$residue" >>.processes
+else
+    unset residue
+endif
+unset mist
+    
+set i          = 0
+set sumw       = `awk -F: '{sumw += $1};END {print sumw}' $tmp`
+sed "/END/q" <$case.klist >$case.klist.tmp
+set mist = `wc $case.klist.tmp`
+set klist = $mist[1]
+@ klist -- 
+# modify weights
+set i = 1
+set sumn = 0
+while ($i <= $#weigh)
+    @ weigh[$i] *= $klist
+    @ weigh[$i] /= $sumw
+    @ weigh[$i] /= $granularity
+    if ($weigh[$i] == 0 ) then
+	@  weigh[$i] ++  # oops, we divided by too big a number
+    endif
+    @ sumn += $weigh[$i]
+    @ i ++
+end
+# check for residue
+if ($?residue) then
+    @ resk = $klist % $sumn
+    if ($resk == 0) unset residue
+endif
+if ($debug > 0) then
+    if ($?residue) then
+    echo "    klist:       $klist + $resk"
+    else
+    echo `date`" -> klist:       $klist"
+    endif
+    echo `date`" -> machines:    $machine"
+    echo `date`" -> procs:       $proc"
+    if ($?residue) then
+    echo "    residue:     $residue ($resk k)"
+    endif
+    echo `date`" -> weigh(old):  $wweigh"
+    echo `date`" -> sumw:        $sumw"
+    echo `date`" -> granularity: $granularity"
+    echo `date`" -> weigh(new):  $weigh"
+endif
+
+# now we add our residue as first machine
+if ($?residue) then
+    set machine  = `echo "$residue $machine" |xargs`
+    set weigh    = `echo "$resk $weigh" | xargs`
+    set lockfile = (${residue}0 $lockfile)
+    @ proc ++
+endif
+if ($debug > 0) echo `date`" -> Splitting $case.klist.tmp into junks"
+
+head -1 $case.klist.tmp|cut -c36->head.diff
+cat <<$EOF >script
+1N
+s/\n//
+$EOF
+
+@ multi = $proc * $granularity
+
+# a valid .machines file could look like
+#
+#  # This is a valid .machines file 
+#  #
+#  granularity:1
+#  1:alpha
+#  1:beta 
+#  3:gamma:2 delta 
+#  3:delta:1 epsilon:4 
+#  residue:delta:2 
+#  lapw0:gamma:2 delta:2 epsilon:4 
+#
+set TMP=.machinetmp
+#
+# get only those lines of the .machines file which contribute 
+# to a parallel execution, and rip them of the weight parameter
+#grep '^[0-9]*:.* [a-zA-Z][a-zA-Z]*' .machines | sed -e 's/^[0-9]*://' >$TMP
+if($?residue) then
+  grep '^residue:' .machines |sed -e 's/^residue://' -e 's/ *$//' >$TMP
+endif
+grep '^[0-9][0-9]*:.*' .machines | sed -e 's/^[0-9]*://' -e 's/^ *//' \
+  -e 's/ *$//' >>$TMP
+# get the weight parameters and write them into the array $weight_per_job
+set weight_per_job=`grep '^[0-9][0-9]*:.*' .machines | sed -e 's/^\([0-9]*\):.*/\1/' | bc`
+#
+#
+# alternatively, for lapw0 use only the line starting with 'lapw0'
+#grep '^lapw0:' .machines | sed -e 's/^lapw0://' -e 's/ *$//' >$TMP
+#set weight_per_job=1
+#cat $TMP
+#
+#
+# count the number of parallel jobs, i.e. the number of lines of the
+# (stripped) .machines file
+set number_of_p_jobs=`wc -l $TMP | sed -e 's/^ *//' | cut -d ' ' -f 1`
+# put the number of processors per parallel job into the array $number_per_job
+set number_per_job=`sed -e 's/[ 	]*$//' -e 's/^[ 	]*//' -e 's/[a-zA-Z0-9\.]*:\([0-9]*\)/\1/g' -e 's/[ ^]*[a-zA-Z][a-zA-Z0-9\.]*/ 1/g' $TMP | sed -e 's/^ //' -e 's/  */+/g' |bc`
+#
+# create a series of .machine[$i] files
+set i = 1
+echo $number_of_p_jobs number_of_parallel_jobs
+while ($i <= $number_of_p_jobs)
+# convert the single lines with multiple entries to
+# a file with one entry per line
+#echo $TMP
+#cat $TMP
+sed -e "${i}p" -e 'd' $TMP | sed -e '/\(^[a-zA-Z0-9]*$\)/p' -e '/\(^[a-zA-Z0-9]*:[0-9]*$\)/p' -e "s/  */\\
+/gp" -e 'd' >.machine$i
+#echo -------- .machine$i : $number_per_job[$i] processors
+#cat .machine$i
+@ i ++
+end
+#echo --------
+rm $TMP
+# 
+# NOW WE HAVE:
+#   .machine$i files hold the machinefiles used by MPI
+#   $number_of_p_jobs is the number of k-point parallel jobs
+#                            (sequential plus MPI jobs)
+#   $number_per_job[$i] is the number of processors per k-point parallel job
+#   $weight_per_job[$i] is the k-point weight per job
+#
+
+# convert each line 'host:x' to x lines 'host'
+set i=1
+while ($i <= $number_of_p_jobs)
+#  echo -------- .machine$i : $number_per_job[$i] processors : weight $weight_per_job[$i]
+#  cat .machine$i
+  set x=`cut -d: -f2 -s .machine$i`
+#  echo $x
+  if ("$x" != '') then
+    set machine_i=`cat .machine$i`
+    rm .machine$i
+#    echo $machine_i
+    set ii=1
+    foreach s ($x)
+      set iii=1
+#      echo s=$s
+      while ($iii <= $s)
+	echo $machine_i[$ii] |cut -d: -f1 >>.machine$i
+	@ iii ++
+      end
+      @ ii ++
+    end
+#    cat .machine$i
+  endif
+  @ i ++  
+end
+# NOW WE HAVE 
+# machinefiles which do not distiguish 
+# between shared and distributed memory. 
+# This means, that clusters of shared memory computers will communicate
+# only via sockets, also between the processors of one computer.
+ 
+set loop    = 0
+set kbegin  = 1
+set endloop = 0
+
+kloop:
+    set p = 1
+    if ($?residue && $?resok) set p = 2
+    while ($p <= $proc)
+
+    if !(-e .lock_$lockfile[$p]) then
+	if ($kbegin > $klist) goto endkloop
+        @ loop ++
+	
+	if ($debug > 0) echo prepare $loop on $machine[$p]
+	
+	if ($debug > 0) echo `date`" -> Creating klist $loop "
+	set kold = $kbegin
+	if ($loop > $multi && $?extrafine) then
+	    @ head = $kbegin
+	    set tail = 1
+	    @ kbegin = $kbegin + 1
+	else 
+    	    @ head = $kbegin + $weigh[$p] - 1
+	    set tail = $weigh[$p]
+	    @ kbegin = $kbegin + $weigh[$p]
+	endif
+
+
+	if ($head >= $klist) then
+	    set head    = $klist
+	    @ tail = $klist - $kold - 1
+	endif
+	set kpl = ($kpl $tail)
+	if ($debug > 1) echo  "$loop : ${kpl[$loop]}k ($machine[$p], $weigh[$p])"
+	
+	head -$head $case.klist.tmp | tail -$tail > $case.klist_$loop
+	echo "END" >>$case.klist_$loop
+	cut -c-35 $case.klist_$loop |sed "1r head.diff" >$tmp
+	sed -f script $tmp >$case.klist_$loop
+
+	#creating def files
+	if ($debug > 1) echo `date`" ->" " "
+	if ($debug > 1) echo `date`" ->"  "creating "$def"_$loop.def:  "  
+
+
+	cp $def.def $tmp
+	#subsituting in files:  
+	cat <<$EOF >.script
+s/klist/&_$loop/w .mist
+s/output1$updn/&_$loop/w .mist
+s/vector$updn/&_$loop/w .mist
+s/scf1$updn/&_$loop/w .mist
+s/energy$updn/&_$loop/w .mist
+$EOF
+	sed -f .script $tmp > "$def"_$loop.def
+        if($loop != 1 ) then
+	cat <<$EOF >.script
+/71,
+d
+w
+q
+$EOF
+        ed "$def"_$loop.def <.script >& .mist
+        endif
+	rm .mist $tmp
+
+	    echo -n "$machine[$p](${kpl[$loop]}) " >.time1_$loop
+	    echo "$loop : $machine[$p] :  $tail : $number_per_job[$p] : $p" >>.processes
+	    echo "" > .lock_$lockfile[$p]
+	    if($number_per_job[$p] == 1 ) then
+	      if ($useremote == 1) then
+		  ($remote $machine[$p] "cd $PWD;$t $exe ${def}_$loop.def;rm -f .lock_$lockfile[$p]") >>.time1_$loop &
+	      else
+		  (cd $PWD;$t $exe ${def}_$loop.def;rm -f .lock_$lockfile[$p]) >>.time1_$loop &
+	      endif
+	    else
+              set ttt=(`echo $mpirun | sed -e "s^_NP_^$number_per_job[$p]^" -e "s^_EXEC_^${exe}_mpi ${def}_$loop.def^" -e "s^_HOSTS_^.machine[$p]^"`)
+	      (cd $PWD;$t $ttt;rm -f .lock_$lockfile[$p]) >>.time1_$loop &
+	    endif
+    endif
+    @ p ++
+    if ($?residue) then
+       # now a job on residue machine has started
+       set resok
+    endif
+    sleep $delay
+    end
+    sleep $sleepy
+    #echo try again
+goto kloop
+
+endkloop:
+if ($debug > 0) echo waiting for all processes to complete
+wait
+
+
+
+if ($debug > 0) echo `date`" ->" "all processes done."
+sleep $sleepy
+
+set counter = 0
+while ($counter < $loop)
+    @ counter ++
+    if ($debug > 1) echo testerror ${def}_$counter
+    testerror ${def}_$counter
+end
+
+# correct number of k-points in scf1-file
+
+sed "/NUMBER OF K-POINTS:/s/[0-9].*/$klist/" < $case.scf1${updn}_1 >$case.scf1$updn
+#cp $case.scf1${updn}_1 $case.scf1$updn
+
+#cpu summary:
+if ($debug > 0) echo `date`" ->" CPU TIME summary:
+if ($debug > 0) echo `date`" ->" ================
+set counter = 0
+while ($counter < $loop)
+    @ counter ++
+    echo -n "     "
+    cat .time1_$counter
+    echo -n "     " >>$log
+    cat .time1_$counter >>$log
+end
+
+# postanalysis
+echo "   Summary of lapw1para:"> $tmp
+set p = 1
+while ($p <= $proc) 
+    set m = $machine[$p]
+    cat .time1_*| grep $m | tr "():" " " | \
+	    awk '{k += $2;u += $3; cl += 60*$5+$6} \
+		END {print "   '$m'\t k=" k "\t user=" u "\t wallclock=" cl}' >> $tmp
+    @ p ++
+end
+# remove multiple entries of multiproc. machines
+uniq < $tmp | tee -a $log
+
+
+echo "<- " done at `date`>>$log
+echo "-----------------------------------------------------------------">>$log
+if ( -e $def.error )rm $def.error
+touch $def.error
+echo "DONE" >.lapw1para
+rm $tmp $tmp2 >&/dev/null
+exit 0
+
+error:
+echo "** " LAPW1 crashed!
+echo "** " LAPW1 STOPPED at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " Error in Parallel LAPW1 >$def.error
+echo "** " LAPW1 STOPPED at `date`>>$def.error
+echo "** " check ERROR FILES! >>$def.error
+cat ${def}_*.error >>$def.error
+echo "ERROR" >.lapw1para
+rm $tmp $tmp2 >&/dev/null
+exit 1
+
+
+single:
+echo running $exe in single mode
+#ensure lapw2 also runs in single mode!
+echo > .processes
+rm .processes
+$exe $def.def
+
+exit:
+   rm $tmp $tmp2 >&/dev/null
+

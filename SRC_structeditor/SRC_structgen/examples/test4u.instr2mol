@@ -1,0 +1,43 @@
+ 1.0                              # rescal 
+ 1                                # add periodic
+ 0.0 0.0 0.0                      #translation
+# plot box (for povray)
+ 1                                # 1/0 yes/no  
+ 0.8 0.8 0.8                      # rgb
+ 3                                # finish
+ 0.1                              # width  
+# plot xyz axes (for povray)
+ 0                                # 1/0 yes/no
+ 0 1 0                            # rgb
+ 1                                # finish
+ 0.1 7.0                          # width, length
+# define supercell
+ 1 1 1
+# define finish and colors of atoms
+ 3                                # finish
+    3                             #  number of defs
+'O3*'   0.000  0.000  0.985     # atom name, rgb
+'O*'    0.985  0.301  0.240     # atom name, rgb
+'Ta*'   0.099  0.526  0.661     # atom name, rgb
+# define radius of atoms
+    3                             #  number of defs
+'O3*'   1.000               # atom name, vdwr
+'O*'    1.400               # atom name, vdwr
+'Ta*'   2.130               # atom name, vdwr
+# define bonds
+  0 1 1 0.1                       # 1/0 - use atom colors, use this rgb
+  3                               # finish
+  0.1 0.15                         # lenght of gradient for atom colors, bond width
+    6                             #  number of defs
+'O3*' 'O3*'   0.200             # atoms names, distans
+'O3*' 'O*'    0.830             # atoms names, distans
+'O3*' 'Ta*'   1.530             # atoms names, distans
+'O*'  'O*'    1.460             # atoms names, distans
+'O*'  'Ta*'   2.160             # atoms names, distans
+'Ta*' 'Ta*'   2.860             # atoms names, distans
+# define color ... of momenta
+ 3                                # finish
+ 0 0.5                            # 0 - color as atom, scaled by factor, 1 defined bellow
+ 0 0 0                            # rgb, valid only for 1    
+ 0.1 2.0 0.15                     # min on pict, max on pict, min consid 
+ 0.2                              # width of cylinder

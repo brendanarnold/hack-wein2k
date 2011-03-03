@@ -1,0 +1,409 @@
+      program phonon2wien2k
+!     ########################################      
+!
+!     Program generates WIEN struct files + job from phonon-file.
+!
+!     ########################################
+      implicit real*8(a-h,o-z)
+      character*79    fname2,prob
+      
+      character*4     LATTIC, IREL,CFORM, UNIT
+      real*8          ROTLOC(3,3)
+
+      character*79    fname
+      character*80    TITLE
+      character       ch
+      character,allocatable::    phNAME(:)
+      character*2,allocatable::    ANAME(:)
+      integer,allocatable::        IATNR(:),izz(:),inum(:),ityp(:),natdispl(:)
+      dimension       cmat(3,3),pmat(3,3),tmat(3,3)
+      real*8, allocatable:: pos(:,:),displ(:,:)
+      
+!     ### program input
+
+      write(*,*) 'Program generates  WIEN struct files from phonon file.'
+      write(*,*)
+      write (*,*) 'Filename of phonon file: '
+      read (*,17) fname
+   17 format(A79)
+
+      open (20,FILE=fname,STATUS='old',FORM='formatted',ERR=500)
+ 100  read(20,'(a80)',end=999) title
+      if(title(3:7).ne.'ATOMS') goto 100
+        read(20,*,err=999) nequ_at
+        read(20,*,err=999) nat
+        allocate (aname(nequ_at),phname(nequ_at),izz(nequ_at),iatnr(nequ_at))
+        allocate (inum(nequ_at))
+        read(20,'(a80)',err=999) title
+        do i=1,nequ_at
+          read(20,*) iatnr(i),izz(i),aname(i)
+        enddo
+        read(20,'(a80)',err=999) title
+        do i=1,nequ_at
+          read(20,*) iatnr(i),phname(i),aname(i)
+        enddo
+        read(20,'(a80)',err=999) title
+        read(20,*) (inum(i),i=1,nequ_at)
+        read(20,'(a80)',err=999) title
+        read(20,*) lattic
+        read(20,'(a80)',err=999) title
+        do i=1,3
+          read(20,*) (cmat(i,j),j=1,3)
+        enddo
+        read(20,'(a80)',err=999) title
+        do i=1,3
+          read(20,*) (pmat(i,j),j=1,3)
+        enddo
+        read(20,'(a80)',err=999) title
+        do i=1,3
+          read(20,*) (tmat(i,j),j=1,3)
+        enddo
+!
+        pmat=0
+        do i=1,3
+          do j=1,3
+            do k=1,3
+            pmat(i,j)=pmat(i,j)+cmat(i,k)*tmat(k,j)
+            enddo
+          enddo
+        enddo
+      aa=sqrt(pmat(1,1)**2+pmat(1,2)**2+pmat(1,3)**2)
+      bb=sqrt(pmat(2,1)**2+pmat(2,2)**2+pmat(2,3)**2)
+      cc=sqrt(pmat(3,1)**2+pmat(3,2)**2+pmat(3,3)**2)
+      alpha=(pmat(1,2)*pmat(1,3)+pmat(2,2)*pmat(2,3)+pmat(3,2)*pmat(3,3))/bb/cc
+      beta=(pmat(1,1)*pmat(1,3)+pmat(2,1)*pmat(2,3)+pmat(3,1)*pmat(3,3))/aa/cc
+      gamma=(pmat(1,2)*pmat(1,1)+pmat(2,2)*pmat(2,1)+pmat(3,2)*pmat(3,1))/bb/aa
+      pi=acos(-1.d0)
+      alpha=acos(alpha)*180.d0/pi
+      beta=acos(beta)*180.d0/pi
+      gamma=acos(gamma)*180.d0/pi
+      aa=aa/0.529177
+      bb=bb/0.529177
+      cc=cc/0.529177
+      write(*,*) aa,bb,cc,alpha,beta,gamma
+!
+        allocate (pos(3,nat),ityp(nat))
+        read(20,'(a80)',err=999) title
+        read(20,'(a80)',err=999) title
+        do i=1,nat
+          read(20,*) (pos(j,i),j=1,3),ityp(i)
+        enddo
+        read(20,'(a80)',err=999) title
+        read(20,*) ndispl
+        allocate (displ(3,ndispl),natdispl(ndispl))
+        read(20,'(a80)',err=999) title
+        do i=1,ndispl
+          read(20,*) (displ(j,i),j=1,3),ch,natdispl(i)
+        enddo
+
+      cform=''
+      irel='RELA'
+      unit='ang'
+      jri=781
+      rmt=2.0d0
+      rotloc=0.d0
+      rotloc(1,1)=1.d0
+      rotloc(2,2)=1.d0
+      rotloc(3,3)=1.d0
+!
+   do idispl=1,ndispl
+      if(idispl.lt.10) write(fname2,'(a5,i1,a7)') 'case_',idispl,'.struct'   
+      if(idispl.gt.9) write(fname2,'(a5,i2,a7)') 'case_',idispl,'.struct'   
+      write(*,*) 'generating ',fname2
+      open (22,FILE=fname2,STATUS='unknown',FORM='formatted',ERR=500)
+      write(22,*) 'Phonon-file by phonon2wien2k from ',fname(1:40)
+      write(22,2010) 'P   ',NAT,CFORM,IREL,UNIT
+      write(22,2020) AA,BB,CC,ALPHA,beta,gamma
+      do i=1,nat
+        if(natdispl(idispl).eq.i) then
+          write(22,2030) -i,(POS(k,i)+displ(k,idispl),k=1,3),1,8
+        else
+          write(22,2030) -i,(POS(k,i),k=1,3),1,8
+        endif
+         r0=0.000005d0
+         if(izz(ityp(i)).le.71)   r0=0.00001d0
+         if(izz(ityp(i)).le.36)   r0=0.00005d0
+         if(izz(ityp(i)).le.18)   r0=0.0001d0
+        prob=aname(ityp(i))
+        if(prob(2:2).eq.' ') then
+         write(22,3050) ANAME(ityp(i)),JRI,R0,RMT,dble(iZZ(ityp(i))) 	
+        else
+         write(22,2050) ANAME(ityp(i)),JRI,R0,RMT,dble(iZZ(ityp(i))) 	
+        endif
+        write(22,2051) ((ROTLOC(k,j),k=1,3),j=1,3)
+      enddo
+      
+!     ### set symmetry operations to zero
+      write(22,2060) 1
+      write(22,'(3i2,f10.7)') 1, 0, 0, 0.0000000
+      write(22,'(3i2,f10.7)') 0, 1, 0, 0.0000000
+      write(22,'(3i2,f10.7)') 0, 0, 1, 0.0000000
+      write(22,'(i8)')       1
+      
+      close (22)
+   enddo
+
+      stop
+
+
+!     ### errors leading to termination of program
+  500 prob='Error accessing file: ' // fname
+      call faterror(prob)
+      stop
+  999 prob='Error reading file: ' // fname
+      call faterror(prob)
+      stop
+
+
+ 1000 FORMAT(A80)
+ 1010 FORMAT(A4,24X,I2,1X,A4,/,13X,A4,6X,A4)
+ 2010 FORMAT(A4,'LATTICE,NONEQUIV. ATOMS',I3,1X,A4,/,'MODE OF CALC=',A4,' unit=',A4)
+ 1020 FORMAT(6F10.6)
+ 2020 FORMAT(6F10.6)
+ 1030 FORMAT(5X,I3,4X,F10.8,3X,F10.8,3X,F10.8,/,15X,I2,17X,I2)
+ 1031 FORMAT(5X,I3,4X,F10.8,3X,F10.8,3X,F10.8)
+ 1050 FORMAT(A10,5X,I5,5X,F10.9,5X,F10.5,5X,F10.5)
+ 1051 FORMAT(20X,3F10.8)
+ 2060 FORMAT(I4,6X,'NUMBER OF SYMMETRY OPERATIONS')
+ 2030 FORMAT('ATOM=',I3,': X=',F10.8,' Y=',F10.8,' Z=',F10.8,/,10X,'MULT=',I2,10X,'ISPLIT=',I2)
+ 2031 FORMAT('ATOM=',I3,': X=',F10.8,' Y=',F10.8,' Z=',F10.8)
+ 2050 FORMAT(A2,9X,'NPT=',I5,2X,'R0=',F10.8,1X,'RMT=',F10.4,3X,'Z:',F5.1)
+ 3050 FORMAT(A1,10X,'NPT=',I5,2X,'R0=',F10.8,1X,'RMT=',F10.4,3X,'Z:',F5.1)
+ 2051 FORMAT('LOCAL ROT MATRIX:',3X,3F10.7,/,20X,3F10.7,/,20X,3F10.7)
+ 
+      end
+
+      subroutine faterror(prob)
+        character*80 prob
+        write(*,*)
+        write(*,*) 'Fatal Error occured:'
+        write(*,*) prob
+        write(*,*) 'Program terminated.'
+        write(*,*)
+        return
+      end
+
+      
+      
+!     ###      
+!     ### converts integer to a string
+      character*4 function intstr(i)
+        integer i
+        if (i.lt.10) then
+          write(intstr,'(I1)') i
+        else if (i.lt.100) then
+          write(intstr,'(I2)') i
+        else if (i.lt.1000) then
+          write(intstr,'(i3)') i
+        else
+          write(intstr,'(i4)') i
+        end if
+      end
+      
+
+      
+!     ###
+!     ### transform body-centered or face-centered cells to primitive cells,
+!     ### then call supercell for multiplication and reducing to target lattice type as necessary
+      subroutine startcell(fname2,maxnum,numx,numy,numz,iatom,  &
+         NAT,ROTLOC,ISPLIT,MULT,IATNR,POS,oldpos,bakpos,vacfac, &
+         ANAME,JRI,R0,RMT,ZZ,ATNR,LATTIC,lattar,toplayer)
+        integer       maxnum,IATNR(maxnum),MULT,ISPLIT,JRI,NAT,ATNR
+        integer       i,j,iatom,nlatA,nlatB
+        integer       numx,numy,numz,iname
+        real*8        POS(3,maxnum),oldpos(3,maxnum),bakpos(3,maxnum)
+        real*8        RMT,R0,ZZ,ROTLOC(3,3)
+        real*8        vacfac(3),latAdd(3,7)
+        character*10  ANAME
+        character*70  fname2
+        character*4   LATTIC,lattar
+        character*1   toplayer(3)
+
+!       ### get from body-cenetred or face-centered lattice type to primitive lattice type by generating appropriate atoms 
+        
+!       ## primitive: atom1=atom 
+        latAdd(1,1)=0.d0
+        latAdd(2,1)=0.d0
+        latAdd(3,1)=0.d0
+
+!       ## body-centered: atom1=atom, atom2=atom+(1/2,1/2,1/2)        
+        latAdd(1,2)=0.d0
+        latAdd(2,2)=0.d0
+        latAdd(3,2)=0.d0
+        latAdd(1,3)=0.5d0
+        latAdd(2,3)=0.5d0
+        latAdd(3,3)=0.5d0
+        
+!       ## face-centered: atom1=atom, atom2=atom+(1/2,1/2,0), atom3=atom+(1/2,0,1/2), atom4=atom+(0,1/2,1/2)
+        latAdd(1,4)=0.d0
+        latAdd(2,4)=0.d0
+        latAdd(3,4)=0.d0
+        latAdd(1,5)=0.5d0
+        latAdd(2,5)=0.5d0
+        latAdd(3,5)=0.d0
+        latAdd(1,6)=0.5d0
+        latAdd(2,6)=0.d0
+        latAdd(3,6)=0.5d0
+        latAdd(1,7)=0.d0
+        latAdd(2,7)=0.5d0
+        latAdd(3,7)=0.5d0
+
+        if (LATTIC.eq.'B') then
+          nlatA=2
+          nlatB=3
+        else if (LATTIC.eq.'F') then
+          nlatA=4
+          nlatB=7
+        else
+          nlatA=1
+          nlatB=1
+        end if
+
+        
+!       ### save old coordinates
+        do i=1,MULT
+          do j=1,3
+            bakpos(j,i)=POS(j,i)
+          end do
+        end do
+        
+        iname=0 
+
+!       ### add positions and call makecell
+        do i=nlatA,nlatB
+          do iatom=1,MULT
+            do j=1,3
+              POS(j,iatom)=bakpos(j,iatom)+latAdd(j,i)
+              if (POS(j,iatom).ge.1) POS(j,iatom)=POS(j,iatom)-1 
+            end do
+          end do
+          call makecell(fname2,maxnum,numx,numy,numz,iatom,NAT, &
+            ROTLOC,ISPLIT,MULT,IATNR,POS,oldpos,vacfac,         &
+            ANAME,JRI,R0,RMT,ZZ,ATNR,LATTIC,lattar,iname,toplayer)
+        end do
+        
+        return
+      end
+      
+
+      
+!     ###
+!     ### make supercell
+      subroutine makecell(fname2,maxnum,numx,numy,numz,iatom, &
+         NAT,ROTLOC,ISPLIT,MULT,IATNR,POS,oldpos,vacfac,      &
+         ANAME,JRI,R0,RMT,ZZ,ATNR,LATTIC,lattar,iname,toplayer)
+        integer       maxnum,IATNR(maxnum),MULT,ISPLIT,JRI,NAT,ATNR
+        integer       i,j,ix,iy,iz,iatom
+        integer       laname,iname,curmul
+        integer       numx,numy,numz
+        real*8        POS(3,maxnum),oldpos(3,maxnum)
+        real*8        posx,posy,posz,vacfac(3)
+        real*8        RMT,R0,ZZ,ROTLOC(3,3)
+        character*10  ANAME,aname2
+        character*100 prob
+        character*70  fname2
+        character*4   intstr
+        character*4   LATTIC,lattar
+        character*1   toplayer(3)
+        logical       cut           
+
+!       ### strip whitspaces from ANAME
+        laname=1
+        do i=1,len(ANAME)
+          if (ANAME(i:i).ne.' ') laname=i
+        end do
+        if (laname.gt.8) laname=8
+!       ### names should not be changed to third position (otherwise they would not be interpeted correctly)	
+	      if (laname.lt.3) laname=3
+
+!       ### save old coordinates
+        do i=1,iatom
+          do j=1,3
+            oldpos(j,i)=POS(j,i)
+          end do
+        end do
+        
+        iz1=numz-1
+        iy1=numy-1
+        ix1=numx-1
+        if(toplayer(1).eq.'Y') ix1=numx
+        if(toplayer(2).eq.'Y') iy1=numy
+        if(toplayer(3).eq.'Y') iz1=numz
+!       ### calculate new coordinates now
+        do iz=0,numz
+          do iy=0,numy
+            do ix=0,numx
+            
+!             ### check if some atoms should be "reduced", when transforming to a face-centered or body-centered type lattice
+              iatom=1
+              iatom1=1
+              curmul=MULT
+              do i=1,MULT
+                cut=.false.
+        if((iz.eq.numz).and.(toplayer(3).ne.'Y'.or.oldpos(3,iatom).ne.0.d0)) cut=.true.
+        if((iy.eq.numy).and.(toplayer(2).ne.'Y'.or.oldpos(2,iatom).ne.0.d0)) cut=.true.
+        if((ix.eq.numx).and.(toplayer(1).ne.'Y'.or.oldpos(1,iatom).ne.0.d0)) cut=.true.
+                posx=0.d0+oldpos(1,iatom)/numx+1.d0*ix/numx
+                posy=0.d0+oldpos(2,iatom)/numy+1.d0*iy/numy
+                posz=0.d0+oldpos(3,iatom)/numz+1.d0*iz/numz
+                iatom=iatom+1
+                if (lattar.eq.'B') then
+                  if (posz.ge.0.5d0) cut=.true.
+                else if (lattar.eq.'F') then
+                  if (posz.ge.0.5d0 .or. posy.ge.0.5d0) cut=.true.
+                end if
+                if (cut) then
+                  curmul=curmul-1
+                  goto 201
+                end if
+                POS(1,iatom1)=posx*vacfac(1)
+                POS(2,iatom1)=posy*vacfac(2)
+                POS(3,iatom1)=posz*vacfac(3)
+                iatom1=iatom1+1
+  201         end do
+              
+              if (curmul.lt.1) goto 202
+              
+!             ### get name of atom              
+              ATNR=ATNR+1
+              iname=iname+1
+              if (iname.gt.100) then
+                if (laname.gt.6) laname=6
+                    end if
+              if (iname.gt.10) then
+                if (laname.gt.7) laname=7
+              end if
+              aname2= ANAME(1:laname) // '_' // intstr(iname)
+
+!             ## write to file
+              do i=1,curmul
+                if (i.eq.1) then
+                  write(21,2030,ERR=625) ATNR,(POS(k,i),k=1,3),curmul,ISPLIT
+                else
+                  write(21,2031,ERR=625)ATNR,(POS(k,i),k=1,3)
+                end if
+              end do
+              write(21,2050,ERR=625) aname,JRI,R0,RMT,ZZ 	
+              write(21,2051,ERR=625) ((ROTLOC(k,j),k=1,3),j=1,3)
+
+  202       end do
+          end do
+        end do
+
+        return
+        
+!       ### has to be defined here again
+
+ 2030   FORMAT('ATOM=',I3,': X=',F10.8,' Y=',F10.8,' Z=',F10.8,/,10X, &
+               'MULT=',I2,10X,'ISPLIT=',I2)
+ 2031   FORMAT('ATOM=',I3,': X=',F10.8,' Y=',F10.8,' Z=',F10.8)
+ 2050   FORMAT(A10,1X,'NPT=',I5,2X,'R0=',F10.8,1X,'RMT=',F10.4,3X,'Z:',F5.1)
+ 2051   FORMAT('LOCAL ROT MATRIX:',3X,3F10.7,/,20X,3F10.7,/,20X,3F10.7)
+ 
+  625   prob='Error writing to file: ' // fname2
+        call faterror(prob)
+        stop
+
+      end
+
+

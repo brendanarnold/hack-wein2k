@@ -1,0 +1,30 @@
+      SUBROUTINE SUM(RHO,ANG,CHG,LMMAX)                                 
+      IMPLICIT REAL*8 (A-H,O-Z)
+      DIMENSION RHO(6),ANG(6)                                           
+C .... NOTE THIS SUBROUTINE IS ONLY FOR CUBIC FCC, NACL, CSCL OR        
+C ....ANTIFLUORIT - STRUCTUR                                            
+C.....K0(R)=1/SQRT(4PI)                                                 
+C.....K4(R)=SQRT(7/12)Y40(R) + SQRT(5/24)*(Y44(R) + Y4-4(R))            
+C.....K6(R)=SQRT(2)/4*Y60(R) - SQRT(7)/4* (Y64(R) + Y6-4(R))            
+C ....K7(R)=(-I)*(Y32(R)-Y3-2(R))  FOR ME IN ANFL STRUCTUR              
+C.....CSO=SQRT(2)/4                                                     
+C.....CFO=SQRT(7/12)                                                    
+C.....CFF=SQRT(5/12)                                                    
+C.....CSO=-SQRT(14)/4                                                   
+      CHG=0.0                                                           
+      CFO=.763762616                                                    
+      CFF=.645497224                                                    
+      CSO=.35355339                                                     
+      CSF=-.93541435                                                    
+      CHG=CHG + (RHO(1) * ANG(1))                                       
+      FORK= (CFO*ANG(2)) + (CFF*ANG(3))                                 
+      FRHO= (CFO*RHO(2)) + (CFF*RHO(3))                                 
+      CHG=CHG + (FORK*FRHO)                                             
+      SIXK= (CSO*ANG(4)) + (CSF*ANG(5))                                 
+      SRHO= (CSO*RHO(4)) + (CSF*RHO(5))                                 
+      CHG=CHG + (SIXK*SRHO)                                             
+      IF(LMMAX.EQ.5) RETURN                                             
+      CHG=CHG+RHO(6)*ANG(6)
+      RETURN                                                            
+C......THUY, NOTE.. YOU WILL HAVE TO ADD YOUR FACTORS OF SQRT(5/12)...  
+      END                                                               

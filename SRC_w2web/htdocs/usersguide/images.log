@@ -1,0 +1,60 @@
+This is TeX, Version 3.14159 (Web2C 7.4.5) (format=images 2005.5.24)  21 AUG 2006 22:02
+**&./images ./images.tex
+(./images.tex
+(./images.aux (/area51/WIEN2k_06/usersguide/terms.aux) (/area51/WIEN2k_06/users
+guide/intro.aux) (/area51/WIEN2k_06/usersguide/basics.aux) (/area51/WIEN2k_06/u
+sersguide/quickstart.aux) (/area51/WIEN2k_06/usersguide/file-structure.aux) (/a
+rea51/WIEN2k_06/usersguide/scripts.aux) (/area51/WIEN2k_06/usersguide/programs.
+aux) (/area51/WIEN2k_06/usersguide/examples.aux) (/area51/WIEN2k_06/usersguide/
+install.aux) (/area51/WIEN2k_06/usersguide/trouble.aux) (/area51/WIEN2k_06/user
+sguide/references.aux) (/area51/WIEN2k_06/usersguide/appendix.aux))
+\openout1 = `images.aux'.
+
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 192.
+
+(/usr/share/texmf/tex/latex/psnfss/ot1ppl.fd
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+
+latex2htmlLength hsize=349.0pt
+
+latex2htmlLength vsize=701.36243pt
+
+latex2htmlLength hoffset=0.0pt
+
+latex2htmlLength voffset=0.0pt
+
+latex2htmlLength topmargin=0.0pt
+
+latex2htmlLength topskip=0.00003pt
+
+latex2htmlLength headheight=0.0pt
+
+latex2htmlLength headsep=0.0pt
+
+latex2htmlLength parskip=5.0pt plus 2.0pt minus 1.0pt
+
+latex2htmlLength oddsidemargin=11.29597pt
+
+latex2htmlLength evensidemargin=8.67792pt
+
+l2hSize :tex2html_wrap_inline13788:47.4747pt::47.4747pt::354.62361pt.
+
+Overfull \hbox (8.62363pt too wide) in paragraph at lines 644--645
+[]|[] 
+ []
+
+[1
+
+
+] (./images.aux) ) 
+Here is how much of TeX's memory you used:
+ 547 strings out of 93479
+ 7226 string characters out of 1168090
+ 89529 words of memory out of 1000001
+ 5766 multiletter control sequences out of 10000+50000
+ 7439 words of font info for 28 fonts, out of 500000 for 1000
+ 26 hyphenation exceptions out of 1000
+ 17i,5n,16p,404b,225s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on images.dvi (1 page, 784 bytes).

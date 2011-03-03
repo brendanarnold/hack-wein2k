@@ -1,0 +1,1686 @@
+#!/bin/csh -f
+#
+# site_config_lapw
+#
+# $Revision: 2.0 $
+# $Author: jluitz $
+# $State: Exp $
+
+unalias rm
+
+set name  = $0
+set bin         = $name:h       #default directory for WIEN-executables
+if !(-d $bin) set bin = .
+cd $bin
+set bin   = `pwd`	        #directory of WIEN-executables
+
+set FC
+set MPF
+set CC
+set FOPT
+set R_FOPT
+set FPOPT
+set R_FPOPT
+set LDFLAGS
+set R_LDFLAGS
+set DPARALLEL
+set R_DPARALLEL
+set R_LIBS
+set R_R_LIBS
+set RP_LIBS
+set R_RP_LIBS
+set remote = ssh
+unset mpi
+set MPIRUN
+set R_MPIRUN
+
+set recompile
+unset firstinstall
+unset suggestall
+unset compiled
+
+set counter = 0
+set nextlist = (intro system compiler compopts2 parallel dimension \
+    recompile perl bye)
+
+
+if !(-d $bin) set bin = .
+set name  = $name:t 		#name of this script-file
+set logfile = :log
+
+alias updat         'date >$bin/INSTALLDATE'
+alias wait          'echo "";echo "     Press RETURN to continue";'\
+		    'set yn = ($<)'
+
+#check locale
+set test=`printf "%5.3f \n" 0.15 | grep , |wc`
+if ($test[1] != 0 ) then
+  echo You must change your LOCALE !
+  echo The command   'printf "%5.3f" 0.15'   prints 0,15 instead of 0.15
+  echo Set LC_NUMERIC globally or in your startup files, like: 
+  echo     setenv LC_NUMERIC en_US       in .cshrc or
+  echo     export LC_NUMERIC=en_US       in .bashrc
+  echo siteconfig can only continue when your LOCALE is corrected
+  exit 9
+endif
+
+main:
+if (-e $bin/INSTALLDATE) then
+    set instdate = `cat $bin/INSTALLDATE`
+else
+    set instdate = "not yet configured"
+    set firstinstall
+    updat
+endif
+if ( -e $bin/VERSION ) then
+    set version = `cat $bin/VERSION`
+else
+    set version = "unknown"
+endif
+if ( -e $bin/SYSTEM ) then
+    set system = `cat $bin/SYSTEM`
+    set R_FC = `awk -F: '$1 ~ /'$system'/ && $2 ~ /FC/ {print $3}' <$0`
+    set R_MPF = `awk -F: '$1 ~ /'$system'/ && $2 ~ /MPF/ {print $3}' <$0`
+    set R_CC = `awk -F: '$1 ~ /'$system'/ && $2 ~ /CC/ {print $3}' <$0`
+#    set R_FOPT = `awk -F: '$1 ~ /^'$system'$/ && $2 ~ /FOPT/ {print $3}' <$0`
+    set R_FOPT = `grep FOPT: $0 | grep $system | cut -d : -f 3-` 
+    set R_FPOPT = `grep FPOPT $0 | grep $system | cut -d : -f 3-` 
+#    set R_LDFLAGS = `awk -F: '$1 ~ /^'$system'$/ && $2 ~ /LDFLAGS/ {print $3}' <$0`
+    set R_LDFLAGS = `grep LDFLAGS $0 | grep $system | cut -d : -f 3-` 
+    set R_DPARALLEL = `awk -F: '$1 ~ /^'$system'$/ && $2 ~ /DPARALLEL/ {print $3}' <$0`
+    set R_R_LIBS = `awk -F: '$1 ~ /^'$system'$/ && $2 ~ /R_LIBS/ {print $3}' <$0`
+    set R_RP_LIBS = `awk -F: '$1 ~ /^'$system'$/ && $2 ~ /RP_LIBS/ {print $3}' <$0`
+    set R_MPIRUN = `grep MPIRUN $0 | grep $system | cut -d : -f 3-` 
+    set FC = "$R_FC"
+    set MPF = "$R_MPF"
+    set CC = "$R_CC"
+    set FOPT = "$R_FOPT"
+    set FPOPT = "$R_FPOPT"
+    set LDFLAGS = "$R_LDFLAGS"
+    set DPARALLEL = "$R_DPARALLEL"
+    set R_LIBS = "$R_R_LIBS"
+    set RP_LIBS = "$R_RP_LIBS"
+    set MPIRUN = "$R_MPIRUN"
+else
+    set system = "unknown"
+endif
+
+if ( -e $bin/MPI ) then
+    set mpi = `cat $bin/MPI`
+    if ($mpi == '') then
+     unset mpi
+    endif
+endif
+if ( -e $bin/COMPILER ) then
+    set f77 = `cat $bin/COMPILER`
+endif
+if (-e $bin/COMPILERC) then
+    set c77 = `cat $bin/COMPILERC`
+endif
+
+if (-e $bin/COMPILERP) then
+    set MPF = `cat $bin/COMPILERP`
+endif
+
+if ( -e $bin/OPTIONS ) then
+#    set FOPT = `awk -F: '$1 ~ /current/ && $2 ~ /FOPT/ {print $3}' <$bin/OPTIONS`
+    set FOPT = ` grep FOPT: $bin/OPTIONS |cut -d : -f 3- `
+    set FPOPT = ` grep FPOPT $bin/OPTIONS |cut -d : -f 3- `
+#    set LDFLAGS = `awk -F: '$1 ~ /current/ && $2 ~ /LDFLAGS/ {print $3}' <$bin/OPTIONS`
+    set LDFLAGS = ` grep LDFLAGS $bin/OPTIONS |cut -d : -f 3- `
+    set DPARALLEL = `awk -F: '$1 ~ /current/ && $2 ~ /DPARALLEL/ {print $3}' <$bin/OPTIONS`
+    set R_LIBS = `awk -F: '$1 ~ /current/ && $2 ~ /R_LIBS/ {print $3}' <$bin/OPTIONS`
+    set RP_LIBS = `awk -F: '$1 ~ /current/ && $2 ~ /RP_LIBS/ {print $3}' <$bin/OPTIONS`
+    set MPIRUN = `grep MPIRUN $bin/OPTIONS | cut -d : -f 3-` 
+endif
+
+if ($?firstinstall) then
+    @ counter ++
+    goto $nextlist[$counter]
+endif
+
+clear
+cat <<EOF
+
+
+   *********************************************************
+   *                        W I E N                        *
+   *                  site configuration                   *
+   *********************************************************
+
+      Last configuration: $instdate
+                      Wien Version: $version
+                      System: $system
+
+
+EOF
+
+
+
+cat <<EOF
+      S   specify a system
+      C   specify compiler
+      O   specify compiler options, BLAS and LAPACK
+      P   configure Parallel execution
+      D   Dimension Parameters
+      R   Compile/Recompile
+      U   Update a package
+      L   Perl path (if not in /usr/bin/perl)
+      Q   Quit
+
+EOF
+echo -n "  Selection: "
+set select = ($<)
+
+switch ($select)
+    case [s|S]:
+	set next = system
+	breaksw
+    case [c|C]:
+	set next = compiler
+	breaksw
+    case [l|L]:
+	set next = perl
+	breaksw
+    case [u|U]:
+	set next = update
+	breaksw
+    case [o|O]:
+	set next = compopts2
+	breaksw
+    case [p|P]:
+	set next = parallel
+	breaksw
+    case [d|D]:
+	set next = dimension
+	breaksw
+    case [r|R]:
+	set next = recompile
+	breaksw
+    case [q|Q]:
+	set next = quit
+	breaksw
+    default:
+	set next = main
+	breaksw
+endsw	
+	
+goto $next
+
+
+#########################################################
+perl:
+clear
+cat <<EOF
+
+Specify the path of the perl program. The default is 
+
+		    /usr/bin/perl
+
+EOF
+set perlpath='/usr/bin/perl'
+echo -n " Please enter the full path of the perl program: "
+
+set input = ($<)
+if !("$input" == "") then
+    set perlpath = "$input"
+endif
+          cd $bin/SRC_w2web
+          foreach ii ( w2web bin/w2web */*.pl */*/*.pl */*.cgi */*/*.cgi */*/*.wml )
+            sed -e "s^/usr/bin/perl^$perlpath^" $ii >$ii.tmp
+            mv $ii.tmp $ii
+            chmod +x $ii
+          end
+        echo "The perlpath has been changed in all perl and cgi scripts of SRC_w2web "
+        cd $bin
+wait
+goto main
+#########################################################
+system:
+
+selectsystem:
+clear
+cat <<EOF
+
+   **********************
+   *  Specify a system  *
+   **********************
+
+   Current system is: $system
+
+     A    AIX
+     D    DEC
+     G    GENERIC (should work on any platform)
+     H    HP
+     I    Linux (Intel ifc 7.1 compiler + mkl 7.0 )
+     J    Linux (Intel ifort 8 or 9 compiler + mkl 8.0 )
+     L    Linux (PGI compiler)
+     W    Linux (G95 compiler + gotolib)
+     S    SGI (Origin)    
+     U    SUN     
+     N    NEC
+     L1   Linux (Lahey LF97 compiler)
+     M    Mac   (mac g4 + absoft compiler)
+     S1   SGI Altix 350/3000 with Intel 7.1 compiler)
+EOF
+
+if !($?firstinstall) then
+     echo "     Q   Quit"
+     echo ""
+endif
+
+echo -n "  Selection: "
+
+set select = ($<)
+set oldsystem = $system
+
+switch ($select)
+    case [a|A]:
+	set system = aix
+	set cpfile = aix
+	breaksw
+    case [a|A]2:
+	set system = pwr2
+	set cpfile = aix
+	breaksw
+    case [d|D]:
+	set system = dec
+	set cpfile = dec
+	breaksw
+    case [d|D]2:
+	set system = de3c
+	set cpfile = dec
+	breaksw
+    case [d|D]3:
+	set system = de2cc
+	set cpfile = dec
+	breaksw
+    case [g|G]:
+	set system = generic
+	set cpfile = generic
+	set 
+	breaksw
+    case [h|H]:
+	set system = hp
+	set cpfile = hp
+	breaksw
+    case [l|L]:
+	set system = linuxpgi
+	set cpfile = generic
+	breaksw
+    case [i|I]:
+	set system = linuxifc
+	set cpfile = generic
+	breaksw
+    case [j|J]:
+	set system = linuxif8
+	set cpfile = generic
+        echo
+        echo "Please note: The present ifort 8 or 9 versions cannot produce static executables" 
+        echo "therefore dynamic linking is done. You must have a proper LD_LIBRARY_PATH"
+        echo "on all your machines"
+	breaksw
+    case [w|W]:
+	set system = linuxg95
+	set cpfile = generic
+	breaksw
+    case [l|L]1:
+	set system = linux2
+	set cpfile = generic
+	breaksw
+    case [m|M]:
+	set system = macg4
+	set cpfile = macg4
+	breaksw
+    case [n|N]:
+	set system = nec
+	set cpfile = nec
+	breaksw
+    case [s|S]:
+	set system = sgi
+	set cpfile = sgi
+	breaksw
+    case [u|U]:
+	set system = sun
+	set cpfile = generic
+	breaksw
+    case [s|S]1:
+        set system = altix
+        set cpfile = generic
+	breaksw
+    case [q|Q]:
+	goto main
+	breaksw
+    default:
+	goto selectsystem
+	breaksw
+endsw	
+
+if ($system == $oldsystem) then
+    echo "     System $system is already selected"
+    wait
+    goto main
+endif
+
+echo "     Selecting system $system, please wait ..."
+echo ""
+cd $bin
+set count = 0
+        if ($system == sun ) then
+          echo "On some SUN compilers   -free  is not accepted, so one can"
+          echo "change xx.f to xx.f90  here."
+          echo "Does your SUN compiler accept   -free  (y/n) "
+          set sunyn = ($<)
+        endif
+foreach i (SRC_*)
+    if (-d $i) then
+	cd $i
+	touch _$cpfile.
+	if (-e cputim.c) rm cputim.c
+	if (-e cputim.f) rm cputim.f
+	foreach j (*_$cpfile.*)
+	    if !($j == _$cpfile.) then
+		set old = $j
+		set new = `echo $old| sed -e "s/_.*\./\./"`
+		echo "     $i   $old -> $new"
+		cp $old $new
+		@ count ++
+	    endif
+	end	  
+	rm _$cpfile.
+        if ($system == sun ) then
+            if( $sunyn == 'n' ) then
+          set a=(`ls *.[fF] *.frc`)
+          foreach ii ($a)
+            set newname= ($ii\90)
+            mv $ii $newname
+          end
+          if ($i == SRC_lib) then
+            cd blas_lapw
+            set a=(`ls *.[fF] *.frc`)
+            foreach ii ($a)
+                set newname= ($ii\90)
+                mv $ii $newname
+            end
+            cd ../lapack_lapw
+            set a=(`ls *.[fF] *.frc`)
+            foreach ii ($a)
+                set newname= ($ii\90)
+                mv $ii $newname
+            end
+            cd ..
+          endif
+        echo "All *.f *.F and *.frc files changed to f90, F90, frc90 in $i"
+            endif
+        endif
+        
+
+	cd ..
+    endif
+end
+
+echo ""
+echo "     System $system selected."
+echo "     $count $system-specific files were copied."
+echo $system >$bin/SYSTEM
+if ($?firstinstall) then
+    set R_FC = `awk -F: '$1 ~ /'$system'/ && $2 ~ /FC/ {print $3}' <$0`
+    set R_MPF = `awk -F: '$1 ~ /'$system'/ && $2 ~ /MPF/ {print $3}' <$0`
+    set R_CC = `awk -F: '$1 ~ /'$system'/ && $2 ~ /CC/ {print $3}' <$0`
+    set R_FOPT = `grep FOPT: $0 | grep $system | cut -d : -f 3-` 
+    set R_FPOPT = `grep FPOPT $0 | grep $system | cut -d : -f 3-` 
+    set R_LDFLAGS = `grep LDFLAGS $0 | grep $system | cut -d : -f 3-` 
+    set R_DPARALLEL = `awk -F: '$1 ~ /'$system'/ && $2 ~ /DPARALLEL/ {print $3}' <$0`
+    set R_R_LIBS = `awk -F: '$1 ~ /'$system'/ && $2 ~ /R_LIBS/ {print $3}' <$0`
+    set R_RP_LIBS = `awk -F: '$1 ~ /'$system'/ && $2 ~ /RP_LIBS/ {print $3}' <$0`
+    set R_MPIRUN = `grep MPIRUN $0 | grep $system | cut -d : -f 3-` 
+    set FOPT = "$R_FOPT "
+    set FPOPT = "$R_FPOPT "
+    set LDFLAGS = "$R_LDFLAGS"
+    set DPARALLEL = "$R_DPARALLEL"
+    set R_LIBS = "$R_R_LIBS"
+    set RP_LIBS = "$R_RP_LIBS"
+    set FC = "$R_FC"
+    set MPF = "$R_MPF"
+    set CC = "$R_CC"
+    set MPIRUN = "$R_MPIRUN"
+endif
+set suggestall
+
+wait
+
+goto main
+
+
+compiler:
+clear
+cat <<EOF
+
+   ***********************
+   *  Specify compilers  *
+   ***********************
+
+EOF
+set f77 = f90
+set c77 = cc
+#set f77 =
+#set c77 =
+if (-e $bin/COMPILER) then
+    set f77 = `cat $bin/COMPILER`
+endif
+if (-e $bin/COMPILERC) then
+    set c77 = `cat $bin/COMPILERC`
+endif
+echo "     Recommended setting for f90 compiler: $FC"
+echo "     Current selection:   $f77"
+echo ""
+echo -n "     Your compiler: "
+set input = ($<)
+if !("$input" == "") then
+    set f77 = "$input"
+endif
+    echo ""
+    echo "     Changing Compiler to $f77 "
+    cd $bin
+    set suggestall
+    echo $f77 >$bin/COMPILER
+echo "     Recommended setting for C compiler: $CC"
+echo "     Current selection:   $c77"
+echo ""
+echo -n "     Your compiler: "
+set input = ($<)
+if !("$input" == "") then
+    set c77 = "$input"
+endif
+    echo ""
+   echo "     Changing Compiler to $c77 :"
+    echo $c77 >$bin/COMPILERC
+    cd $bin
+   echo "     Changing Compilers to $f77 and $c77 in:"
+    foreach i (SRC_* SRC_lib/* SRC_structeditor/*SRC_* )
+	if (-d $i) then
+	    cd $i
+	    if (-e Makefile.orig) then
+		echo "        $i"
+	sed -e "s^_FOPT_^$FOPT^" <Makefile.orig | sed -e "s^_FPOPT_^$FPOPT^" |\
+        sed -e "s^_LDFLAGS_^$LDFLAGS^" | sed -e "s^_DPARALLEL_^$DPARALLEL^" | \
+	sed -e "s^_R_LIBS_^$R_LIBS^"   | sed -e "s^_RP_LIBS_^$RP_LIBS^"|\
+        sed -e "s^_FC_^$f77^"          | sed -e "s^_MPF_^$MPF^"        | \
+        sed -e "s^_CC_^$c77^" >Makefile
+
+#		sed -e "s/CC .*=.*"'$'"/CC = $c77/" <Makefile.orig >tmp1
+#		mv tmp1 Makefile.orig
+
+	    endif
+	    cd $bin
+	endif
+    end
+    set suggestall
+echo ""
+echo "     Your Fortran compiler will be $f77."
+echo "     Your C compiler will be $c77."
+
+wait
+goto main
+
+update:
+clear
+update1:
+cat <<EOF
+
+   **************************************************
+   *  Update a package from its SRC_XX.tar.gz file  *
+   **************************************************
+Available packages:
+EOF
+    cd $bin
+    ls SRC_*.gz
+echo -n "     Specify the name of the package XX (e.g. lapw1): "
+set input = ($<)
+if ("$input" == "") goto main
+    set update = "$input"
+    if (! -e SRC_$update.tar.gz) then
+      echo SRC_$update.tar.gz does not exist. Please check.
+      goto update1
+    endif
+    gunzip SRC_$update.tar.gz
+    tar -xvf SRC_$update.tar
+
+   echo "     Updating Makefile in:"
+    foreach i ( SRC_$update )
+	if (-d $i) then
+	    cd $i
+	    if (-e Makefile.orig) then
+		echo "        $i"
+	sed -e "s^_FOPT_^$FOPT^" <Makefile.orig | sed -e "s^_FPOPT_^$FPOPT^" |\
+        sed -e "s^_LDFLAGS_^$LDFLAGS^" | sed -e "s^_DPARALLEL_^$DPARALLEL^" | \
+	sed -e "s^_R_LIBS_^$R_LIBS^"   | sed -e "s^_RP_LIBS_^$RP_LIBS^"|\
+        sed -e "s^_FC_^$f77^"          | sed -e "s^_MPF_^$MPF^"        | \
+        sed -e "s^_CC_^$c77^" >Makefile
+	    endif
+	    cd $bin
+	endif
+    end
+set recompile=SRC_$update
+wait
+goto recompile
+
+compopts2:
+clear
+cat <<EOF
+   ******************************
+   *  Specify compiler options  *
+   ******************************
+
+PLEASE NOTE: Better performance can be obtained with processor specific
+options (e.g. for a P4, which will, however, not run on a PIII)  
+Very important for speed-up is using a vendor optimized BLAS, 
+or the ATLAS-BLAS (www.netlib.org) instead of the simple "-lblas_lapw"
+
+For more info see  http://www.wien2k.at/reg_user/faq
+searching ....
+EOF
+if ($system == "linuxifc" || $system == "linuxif8" ) then
+     set mkllibs=`find /opt -name 'libmkl*'`
+     if ($#mkllibs == 0 ) then
+     echo " I could not find the mkl-library in /opt"
+     echo " Please check whether mkl is installed at all and where"
+     echo " (You can download mkl from www.intel.com (similar as ifort )"
+     echo " Without mkl you should install the ATLAS-blas or you must use the blas_lapw"
+     echo " library (performance loss)"
+     else
+     echo "You have the following mkl libraries in /opt:"
+     find /opt -name 'libmkl*'
+     find /opt -name '*lapack*'
+     echo "On the next screen you must choose suitable mkl and lapack "
+     echo "libraries for your system (32 or em64t bit )"
+     endif
+echo -n "Hit "Enter" to continue "
+set selection = ($<)
+endif
+
+if ($system == "linuxg95" ) then
+     set mkllibs=`find /opt -name 'libgoto*'`
+     if ($#mkllibs == 0 ) then
+     echo " I could not find the goto-library in /opt"
+     echo " Please check whether gotolibrary is installed at all and where"
+     echo " (You can download libgoto from http://www.tacc.utexas.edu/resources/software/software.php"
+     echo " Without gotolib you should install the ATLAS-blas or you must use the blas_lapw"
+     echo " library (performance loss)"
+     else
+     echo "You have the following goto libraries in /opt:"
+     find /opt -name 'libgoto*'
+     echo "On the next screen you must choose suitable gotolib  "
+     echo "libraries for your system (32 or em64t bit )"
+     endif
+echo -n "Hit "Enter" to continue "
+set selection = ($<)
+endif
+
+compopts:
+
+if ($system == "unknown") then
+    echo "     You have to specify a system first\!"
+    wait
+    goto main
+endif
+
+
+cat <<EOF
+
+   Recommended options for system $system are:
+         Compiler options:        $R_FOPT
+         Linker Flags:            $R_LDFLAGS
+         Preprocessor flags:      $R_DPARALLEL
+         R_LIB (LAPACK+BLAS):     $R_R_LIBS
+
+   Current settings:
+     O   Compiler options:        $FOPT
+     L   Linker Flags:            $LDFLAGS
+     P   Preprocessor flags       $DPARALLEL
+     R   R_LIB (LAPACK+BLAS):     $R_LIBS
+
+     S   Save and Quit
+EOF
+if !($?firstinstall) echo "     Q   Quit abandon changes"
+cat <<EOF
+
+     To change an item select option.
+
+EOF
+echo -n "Selection: "
+set selection = ($<)
+
+switch ($selection)
+    case [o|O]:
+	goto FOPT
+	breaksw
+    case [l|L]:
+	goto LDFLAGS
+	breaksw
+    case [p|P]:
+	goto DPARALLEL
+	breaksw
+    case [r|R]:
+	goto R_LIBS
+	breaksw
+    case [c|C]:
+	goto C_LIBS
+	breaksw
+    case [r|R][p|P]:
+	goto RP_LIBS
+	breaksw
+    case [c|C][p|P]:
+	goto CP_LIBS
+	breaksw
+    case [i|I][s|S]:
+	goto SLMAKE
+	breaksw
+    case [s|S]:
+	goto saveopts
+	breaksw
+    case [q|Q]:
+	goto main
+	breaksw
+    default:
+	breaksw
+endsw
+goto compopts
+
+FOPT:
+set old = "$FOPT"
+echo -n "     Compiler options="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set FOPT = "$input"
+goto compopts
+
+LDFLAGS:
+set old = "$LDFLAGS"
+echo -n "     Linker Flags="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set LDFLAGS = "$input"
+goto compopts
+
+DPARALLEL:
+set old = "$DPARALLEL"
+echo -n "     Linker Flags="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set DPARALLEL = "$input"
+goto compopts
+
+R_LIBS:
+set old = "$R_LIBS"
+echo -n "     Real libraries="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set R_LIBS = "$input"
+goto compopts
+
+C_LIBS:
+set old = "$C_LIBS"
+echo -n "     Complex libraries="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set C_LIBS = "$input"
+goto compopts
+
+CP_LIBS:
+set old = "$CP_LIBS"
+echo -n "Parallel  Complex libraries="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set CP_LIBS = "$input"
+goto compopts
+
+SLMAKE:
+set old = "$INCLUDE_SLMAKE"
+echo -n "SLmake.inc pathname"
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set INCLUDE_SLMAKE = "$input"
+goto compopts
+
+saveopts:
+clear
+cat <<EOF
+   *******************************
+   *  Changing compiler options  *
+   *******************************
+
+EOF
+
+cd $bin
+set mist = "SRC_*"
+foreach i ( SRC_lib/blas_lapw SRC_lib/lapack_lapw SRC_structeditor/SRC_* $mist)
+  if (-d $i) then
+    set dir = $i
+    cd $dir
+    if (-e Makefile.orig) then
+	echo "    changing Makefile in $dir"
+	sed -e "s^_FOPT_^$FOPT^" <Makefile.orig | sed -e "s^_FPOPT_^$FPOPT^" |\
+        sed -e "s^_LDFLAGS_^$LDFLAGS^" | sed -e "s^_DPARALLEL_^$DPARALLEL^" | \
+	sed -e "s^_R_LIBS_^$R_LIBS^"   | sed -e "s^_RP_LIBS_^$RP_LIBS^"|\
+        sed -e "s^_FC_^$f77^"          | sed -e "s^_MPF_^$MPF^"        | \
+        sed -e "s^_CC_^$c77^" >Makefile
+    else
+	echo "    No Makefile.orig in $i, leaving directory."
+    endif	
+    cd $bin
+  endif
+end
+cat <<EOF >OPTIONS
+current:FOPT:$FOPT
+current:FPOPT:$FPOPT
+current:LDFLAGS:$LDFLAGS
+current:DPARALLEL:$DPARALLEL
+current:R_LIBS:$R_LIBS
+current:RP_LIBS:$RP_LIBS
+EOF
+
+wait
+goto main
+
+parallel:
+unset shmem
+clear
+cat <<EOF
+
+   **********************************
+   *  Configure parallel execution  *
+   **********************************  
+       
+   Do you use a shared memory parallel architecture?
+
+   On shared memory system it is normally better to 
+   start jobs in the background rather than using
+   remote commands. If you select a shared memory system
+   WIEN will by default not use remote shell and set
+   the default granularity to 1. 
+   
+   You still can override this default granularity 
+   from your .machines file.
+   
+EOF
+echo -n "  Shared Memory Architecture? (y/n):"
+set input = ($<)
+if !("$input" == "") then
+	if ($input == "y" || $input == "Y") then
+	  echo "setenv USE_REMOTE 0" >parallel_options
+	  echo "setenv WIEN_GRANULARITY 1" >>parallel_options
+	  set shmem
+	else
+	  echo "setenv USE_REMOTE 1" >parallel_options
+	  echo "setenv WIEN_GRANULARITY 3" >>parallel_options
+	endif
+
+if !($?shmem) then
+clear
+cat <<EOF
+
+   **********************************
+   *  Configure parallel execution  *
+   **********************************
+
+EOF
+
+if ($system == hp) set remote = remsh
+
+cat <<EOF
+     Parallel execution makes use of remote shells.
+     On most computers these are named "rsh or ssh". However
+     on some machines "rsh" is used for restricted shells.
+
+     Please specify the name of the remote shell command:
+
+     On $system systems the remote shell normally  is $remote,
+     which will be used as default.
+
+EOF
+echo -n "     Remote shell (default is $remote) = "
+set input = ($<)
+if !("$input" == "") then 
+    cd $bin
+    echo "     Changing lapw1para"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <lapw1para_lapw >tmp
+    mv tmp lapw1para_lapw
+    echo "     Changing lapwsopara"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <lapwsopara_lapw >tmp
+    mv tmp lapwsopara_lapw
+    echo "     Changing lapw2para"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <lapw2para_lapw >tmp
+    mv tmp lapw2para_lapw
+    echo "     Changing lapwdmpara"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <lapwdmpara_lapw >tmp
+    mv tmp lapwdmpara_lapw
+    echo "     Changing opticpara"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <opticpara_lapw >tmp
+    mv tmp opticpara_lapw
+    echo "     Changing irreppara"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <irreppara_lapw >tmp
+    mv tmp irreppara_lapw
+    echo "     Changing qtlpara"
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <qtlpara_lapw >tmp
+    mv tmp qtlpara_lapw
+    echo "     Changing runafm" 
+    sed -e "s/set remote.*"'$'"/set remote = $input/" <runafm_lapw >tmp
+    mv tmp runafm_lapw
+#
+    chmod +x lapw1para_lapw
+    chmod +x lapw2para_lapw
+    chmod +x lapwsopara_lapw
+    chmod +x lapwdmpara_lapw
+    chmod +x opticpara_lapw
+    chmod +x irreppara_lapw
+    chmod +x qtlpara_lapw
+    chmod +x runafm_lapw
+    echo ""
+    echo "     Done."
+    
+    wait
+endif
+endif
+endif
+
+cat <<EOF
+
+   ********************************************************
+   Do you have MPI and Scalapack installed and intend to run
+   finegrained parallel? (This is usefull only for BIG cases)!
+EOF
+echo -n "   (y/n) "
+unset mpi
+echo " " > $bin/MPI
+set input = ($<)
+if ("$input" == "y") then 
+set mpi
+echo MPI > $bin/MPI
+  echo "     Recommended setting for parallel f90 compiler: $MPF"
+  echo "     Current selection:   "
+  echo ""
+  echo -n "     Your compiler: "
+  set input = ($<)
+  if !("$input" == "") then
+    set MPF = "$input"
+    echo ""
+    cd $bin
+    set suggestall
+    echo $MPF >$bin/COMPILERP
+  endif
+  echo ""
+
+compopts1:
+cat <<EOF
+   You need to specify MPI and Scalapack libraries      in RP_LIBS,
+                       options for parallel compilation in FPOPT
+                       how to run mpi jobs              in MPIRUN
+   (during execution _NP_ will be substituted by the "number of processors"
+                     _EXEC_                   by the "executable"
+                 and _HOSTS_                  by the machines filename) 
+
+   Recommended options for system $system are:
+         RP_LIB(SCALAPACK+PBLAS): $R_RP_LIBS
+         FPOPT(par.comp.options): $R_FPOPT
+         MPIRUN commando        : $R_MPIRUN
+
+   Current settings:
+     RP  RP_LIB(SCALAPACK+PBLAS): $RP_LIBS
+     FP  FPOPT(par.comp.options): $FPOPT
+     MP  MPIRUN commando        : $MPIRUN
+
+     S   Save and Quit
+EOF
+if !($?firstinstall) echo "     Q   Quit abandon changes"
+cat <<EOF
+
+     To change an item select option.
+
+EOF
+echo -n "Selection: "
+set selection = ($<)
+
+switch ($selection)
+    case [f|F][p|P]:
+	goto fpopt
+	breaksw
+    case [r|R][p|P]:
+	goto RP_libs
+	breaksw
+    case [m|M][p|P]:
+	goto mpirun
+	breaksw
+    case [s|S]:
+	goto saveopts1
+	breaksw
+    case [q|Q]:
+	goto main
+	breaksw
+    default:
+	breaksw
+endsw
+goto compopts1
+
+
+RP_libs:
+set old = "$RP_LIBS"
+echo -n "Parallel  libraries="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set RP_LIBS = "$input"
+goto compopts1
+
+fpopt:
+set old = "$FPOPT"
+echo -n "Parallel compiler options="
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set FPOPT = "$input"
+goto compopts1
+
+mpirun:
+set old = "$MPIRUN"
+echo -n "Commando to execute mpi jobs:"
+set input = ($<)
+if ("$input" == "") then
+    set input = "$old"
+endif
+set MPIRUN = "$input"
+goto compopts1
+
+saveopts1:
+clear
+cat <<EOF
+   *******************************
+   *  Changing compiler options  *
+   *******************************
+
+EOF
+
+cd $bin
+set mist = "SRC_*"
+foreach i ( SRC_lapw0 SRC_lapw1 SRC_lapw2)
+  if (-d $i) then
+    set dir = $i
+    cd $dir
+    if (-e Makefile.orig) then
+	echo "    changing Makefile in $dir"
+	sed -e "s^_FOPT_^$FOPT^" <Makefile.orig | sed -e "s^_FPOPT_^$FPOPT^" |\
+        sed -e "s^_LDFLAGS_^$LDFLAGS^" | sed -e "s^_DPARALLEL_^$DPARALLEL^" | \
+	sed -e "s^_R_LIBS_^$R_LIBS^"   | sed -e "s^_RP_LIBS_^$RP_LIBS^"|\
+        sed -e "s^_FC_^$f77^"          | sed -e "s^_MPF_^$MPF^"        | \
+        sed -e "s^_CC_^$c77^" >Makefile
+    else
+	echo "    No Makefile.orig in $i, leaving directory."
+    endif	
+    cd $bin
+  endif
+end
+ echo setenv WIEN_MPIRUN \"$MPIRUN\"  >>parallel_options
+cat <<EOF >OPTIONS
+current:FOPT:$FOPT
+current:FPOPT:$FPOPT
+current:LDFLAGS:$LDFLAGS
+current:DPARALLEL:$DPARALLEL
+current:R_LIBS:$R_LIBS
+current:RP_LIBS:$RP_LIBS
+current:MPIRUN:$MPIRUN
+EOF
+
+wait
+goto main
+
+
+
+
+endif
+
+goto main
+
+dimension:
+clear
+cat <<EOF
+   ***********************************
+   *    (Re-)Dimension parameters    *
+   ***********************************
+
+EOF
+if ($?firstinstall) then
+cat <<EOF
+WIEN2k uses dynamical allocation of most arrays according to the
+request of your example. However, to avoid that the programs grow 
+larger than the memory of your computer, there are two limiting
+parameters, NMATMAX (the maximum matrix size) and NUME (number of
+eigenvalues), which should be set corresponding to your hardware. 
+
+A matrix of 10000x10000 requires 1 (2) Gb of memory (using 10 (20) bytes 
+instead of 8 /16 bytes/real (complex) number to account for overheads). 
+
+Thus set NMATMAX to  sqrt(MEMORY/10) or sqrt(MEMORY/20) (MEMORY in Bytes)
+
+NMATMAX=10000 ==>   1GB (real) (==> cells with about 80-150 atoms/unitcell)
+
+NUME determines the number of states to output. As a rule of thumb one can say
+that a very good calculation will use 30 basis functions pr. state, so set
+NUME=NMATMAX/30.
+EOF
+endif
+cat <<EOF
+
+    Change parameters in:
+
+    A   all programs
+    B   all programs but not in lapw1c and lapw2c
+    C   lapw1c (e.g. NMATMAX, NUME)
+    R   lapw1  (e.g. NMATMAX, NUME)
+
+    Q   to quit
+
+EOF
+echo -n "     Selection: "
+set chagein
+set selection = ($<)
+switch ($selection)
+    case [a|A]:
+	set changein = a
+	breaksw
+    case [b|B]:
+	set changein = b
+	breaksw
+    case [c|C]:
+	set changein = c
+	breaksw
+    case [r|R]:
+	set changein = r
+	breaksw
+    case [q|Q]:
+	goto main
+	breaksw
+    default:
+	goto dimension
+	breaksw
+endsw
+
+echo
+if ( $changein == c ) then
+  grep '(NMATMAX=' ./SRC_lapw1/param.inc_c
+  grep '(NUME=' ./SRC_lapw1/param.inc_c
+else
+  grep '(NMATMAX=' ./SRC_lapw1/param.inc_r
+  grep '(NUME=' ./SRC_lapw1/param.inc_r
+endif
+set parameter 
+echo
+echo -n "Which parameter to change? (q to quit): "
+set parameter = ($<)
+set parameter = `echo $parameter|tr 'a-z' 'A-Z'`
+echo 
+if ($parameter == "") goto dimension
+if ($parameter == "q" || $parameter == "Q") goto main
+
+echo ""
+echo -n "     set value for $parameter="
+set value = ($<)
+
+echo change $parameter to $value in $changein 
+
+if !($changein == a || $changein == b||$changein == A || $changein == B) goto change12
+
+cd $bin
+set searchlist = "param.inc param.inc_r param.inc_c"
+if ($changein == b) set searchlist = "param.inc param.inc_r"
+echo ""
+echo "     ... searching"
+
+foreach i ($bin/SRC_*)
+  if (-d $i) then
+    cd $i
+    foreach j ($searchlist)
+	if (-e $j) then 
+	set count = `grep -i "($parameter=" $j|wc -l`
+	    if !($count == 0) then
+		echo "     changing $parameter in: $i $j"
+		sed -e "s/.*($parameter=.*/      PARAMETER          ($parameter=   $value)/" <$j >tmp1
+		mv tmp1 $j
+                foreach rc ($recompile)
+                    if ( $rc == $i:t ) goto label9
+                end
+		set recompile = `echo $recompile $i:t|sort|uniq`
+label9:
+	     endif	    
+	endif
+    end
+    cd ..
+    endif
+end
+
+echo ""
+echo "     Parameter $parameter changed to $value"
+echo "Recompile: $recompile"
+wait
+goto dimension
+
+
+change12:
+if ($changein == r || $changein == R) set searchlist = "param.inc_r"
+if ($changein == c || $changein == C) set searchlist = "param.inc_c"
+echo ""
+echo "     ... searching"
+cd $bin
+foreach i ($bin/SRC_lapw[12])
+  if (-d $i) then
+    cd $i
+    foreach j ($searchlist)
+	if (-e $j) then 
+	set count = `grep "($parameter=" $j|wc -l`
+	    if !($count == 0) then
+		echo "     changing $parameter in: ${i}/$j"
+		sed -e "s/.*($parameter=.*/      PARAMETER          ($parameter=   $value)/" <$j >tmp1
+		mv tmp1 $j
+                foreach rc ($recompile)
+		    if ( $rc == $i:t ) goto label8
+                end
+		set recompile = `echo $recompile $i:t|sort|uniq`
+label8:
+	    endif	    
+	endif
+    end
+    cd ..
+    endif
+end
+
+echo ""
+echo "     Parameter $parameter changed to $value"
+wait
+goto dimension
+
+
+recompile:
+clear
+cat <<EOF
+
+   ************************************
+   *    Compile/Recompile programs    *
+   ************************************
+
+EOF
+
+if !("$recompile" == "") echo "     M   Compile programs with modified parameters"
+echo -n "     A   Compile all programs"
+if ($?suggestall) then
+    echo " (suggested)"
+else
+    echo ""
+endif
+if !($?firstinstall) then
+    echo "     S   Select program"
+endif
+echo ""
+echo "     Q   Quit"
+echo ""
+
+echo -n "     Selection: "
+set selection = ($<)
+switch ($selection)
+    case [a|A]:
+	set sel = a
+	breaksw
+    case [m|M]
+	set sel = m
+	breaksw
+    case [s|S]  
+	set sel = s
+	breaksw
+    case [q|Q]:
+	goto main
+	breaksw
+    default:
+	goto recompile
+	breaksw
+endsw
+
+comp:
+cd $bin
+# if ($?firstinstall) then
+if ($sel == a) then
+    if (-e compile.msg) rm compile.msg
+    cd $bin
+    cd SRC_lib/blas_lapw
+    make clean
+    make  |& tee -a compile.msg
+    cd $bin
+    cd SRC_lib/lapack_lapw 
+    make clean 
+    make |& tee -a compile.msg
+    cd $bin
+endif
+
+if ($sel == a) set dirlist = SRC_*
+if ($sel == m) set dirlist = "$recompile"
+if ($sel == s) then
+	echo -n "   Which program to recompile? "
+	set dirlist = ($<)
+	set dirlist = "SRC_$dirlist"
+endif
+if !($#dirlist == 0) then
+foreach i ($dirlist)
+    if (-d $i) then
+	cd $i
+	echo ""
+	echo  "$i ..."
+        if (-e compile.msg) rm compile.msg
+	if ($sel == a) make clean |& tee -a compile.msg
+	make |& tee -a compile.msg
+           touch test_mist.frc
+           set test_mist=`ls *.frc *.F`
+           if ( $#test_mist > 1 ) make complex |& tee -a compile.msg
+           rm test_mist.frc
+        if ( $?mpi ) then
+	   if ($i:t == SRC_lapw1 ) then
+             make rp |& tee -a compile.msg;make cp |& tee -a compile.msg
+           endif   
+	   if ($i:t == SRC_lapw2 ) then
+             make rp |& tee -a compile.msg;make cp |& tee -a compile.msg
+           endif   
+	   if ($i:t == SRC_lapw0 ) then
+             make para |& tee -a compile.msg
+        endif
+           endif   
+#	if ($i:t == SRC_lapw3 ) make complex |& tee -a compile.msg
+#	if ($i:t == SRC_lapw5 ) make complex |& tee -a compile.msg
+#	if ($i:t == SRC_optic ) make complex |& tee -a compile.msg
+	cd $bin
+    endif
+end
+endif
+
+echo "Copying programs"
+cd $bin
+foreach i ($dirlist)
+    if (-d $i) then
+        set prog = `echo $i | sed -e "s/SRC_//"`
+	if (-x $i/$prog) then
+	    echo "  $i/$prog"
+	    cp $i/$prog $bin/$prog
+            if(-e "$i/$prog"c) then
+	      echo "  $i/$prog"c
+	      cp $i/${prog}c ${prog}c
+	    endif   
+            if(-e "$i/$prog"_mpi) then
+	      echo "  $i/$prog"_mpi
+	      cp $i/${prog}_mpi ${prog}_mpi
+	    endif   
+            if(-e "$i/$prog"c_mpi) then
+	      echo "  $i/$prog"c_mpi
+	      cp $i/${prog}c_mpi ${prog}c_mpi
+	    endif   
+	endif   
+    endif
+end	
+cat <<EOF
+
+done.
+
+Compile messages for each SRC_* directory can be found in the
+file "compile.msg".
+
+Compile time errors (if any) were:
+EOF
+
+
+cd $bin
+grep -i "error" */compile.msg | grep -v arguments |grep -v know
+grep -i "error" SRC_structeditor/SRC_*/compile.msg | grep -v arguments |grep -v know
+echo ""
+echo "" 
+
+set recompile
+set compiled
+if !($?firstinstall) date >$bin/INSTALLDATE
+
+wait
+goto main
+
+quit:
+if !("$recompile" == "") then
+    clear
+    echo "Recompilation suggested in:" 
+    echo ""
+    printf "     %-20s%-20s\n" $recompile
+    echo ""
+    echo -n "Do you want to recompile? (Y/n)"
+    set yn =($<)
+    if !($yn == n || $yn == N) then
+	set sel
+	set dirlist = "$recompile"
+	goto comp
+    else
+	echo " "
+	echo "   WARNING!"
+	echo "   You did not recompile the programs"
+	echo "   with changed parameters!"
+	echo " "
+    endif
+else
+    if ($?firstinstall) then
+	echo " "
+	echo " "
+	echo "     WIEN2k is now configured."
+	updat
+    else
+	echo " "
+	echo " "
+	echo "    site_config_lapw done."
+    endif
+endif
+exit 0
+
+intro:
+clear
+cat<<EOF
+
+   *********************************************************
+   *                        WIEN 2k                        *
+   *                  site configuration                   *
+   *********************************************************
+
+
+   This is the first time that you install WIEN2k on this
+   computer. Please follow the subsequent steps to set up 
+   WIEN2k. 
+
+
+EOF
+wait
+    if (-e SYSTEM) rm SYSTEM
+goto main
+
+bye:
+if !($?compiled) then
+    cat<<EOF
+
+
+   site_config_lapw aborted.
+
+
+EOF
+    exit 1
+endif
+
+cat <<EOF
+
+
+   *********************************************************
+   *                        WIEN 2k                        *
+   *                  site configuration                   *
+   *********************************************************
+
+   Please check in SRC_*/compile.msg if any serious errors 
+   were encountered during compilation. In case of errors
+   fix the compiler options,check the system configuation,
+   and rerun ./siteconfig_lapw.
+
+   If no errors occured, your WIEN2k site is now configured. 
+
+   To set up the environment for WIEN users, each  user 
+   should execute $bin/userconfig_lapw
+
+
+   We wish you GOOD LUCK with your calculations.
+
+   PS: If you want to use this WIEN2k version for cases created 
+   with pre-WIEN2k_03 versions, you must run "100atomfix_lapw"
+   (see www.wien2k.at/reg_user/faq/100_atom_fix)
+
+EOF
+if(`date +%d` == 01 && `date +%m` == 04) then
+sleep 1
+cat <<hugo
+   (Believe us, you will NEED all the LUCK you can get.)
+hugo
+sleep 1
+endif
+cat <<EOF
+   Your friendly WIEN2k Team
+
+
+
+   
+
+EOF
+updat
+exit 0
+
+########################
+# compiler options:    #
+########################
+
+# IBM AIX system
+aix:FC:xlf90
+aix:MPF:mpxlf90
+aix:CC:xlc -q64
+aix:FOPT:-O5 -qarch=pwr5  -q64
+aix:FPOPT:-O5 -qarch=pwr5  -q64
+aix:LDFLAGS:-L../SRC_lib  -q64 
+aix:DPARALLEL:'-WF,-DParallel'
+aix:R_LIBS:-lessl -llapack_lapw
+aix:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+aix:MPIRUN:poe _EXEC_ -shared_memory yes -procs _NP_ -hfile _HOSTS_
+
+# Generic should work on all platforms,
+# but performance is far from optimal because of blaslib
+generic:FC:f90
+generic:MPF:f90
+generic:CC:gcc
+generic:FOPT:-O
+generic:FPOPT:-O
+generic:DPARALLEL:'-DParallel'
+generic:LDFLAGS:-L../SRC_lib
+generic:R_LIBS:-llapack_lapw -lblas_lapw 
+generic:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+generic:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+#HP System
+hp:FC:f90
+hp:MPF:f90
+hp:CC:cc 
+hp:FOPT:+O3 +U77 +source=free
+hp:FPOPT:+O3 +U77 +source=free
+hp:LDFLAGS:-Wl,-L/usr/local/lib +U77
+hp:R_LIBS:-llapack -lblas 
+hp:DPARALLEL:'-DParallel'
+hp:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+hp:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# SGI System
+sgi:FC:f90
+sgi:MPF:f90
+sgi:CC:cc -64
+sgi:FOPT:-O -mips4 -r10000 -freeform -64
+sgi:FPOPT:-O -mips4 -r10000 -freeform -64
+sgi:LDFLAGS: -mips4 -r10000 -64
+sgi:R_LIBS:-lcomplib.sgimath
+sgi:DPARALLEL:'-DParallel'
+sgi:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+sgi:MPIRUN:mpirun -miser -np _NP_ _EXEC_
+
+# original DEC System
+dec:FC:f90
+dec:MPF:f90
+dec:CC:cc
+dec:FOPT:-O  -convert big_endian -free
+dec:FPOPT:-O  -convert big_endian -free
+dec:LDFLAGS:-L../SRC_lib 
+dec:R_LIBS:-ldxml 
+dec:DPARALLEL:'-DParallel'
+dec:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+dec:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# Linux system with PGI compiler
+linuxpgi:FC:pgf90
+linuxpgi:MPF:pgf90
+linuxpgi:CC:pgcc
+linuxpgi:FOPT:-Mfreeform -fast -Kieee 
+linuxpgi:FPOPT:-Mfreeform -fast -Kieee 
+linuxpgi:LDFLAGS:-L../SRC_lib
+linuxpgi:R_LIBS:-llapack_lapw -lblas 
+linuxpgi:DPARALLEL:'-DParallel'
+linuxpgi:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+linuxpgi:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# Linux PC system with IFC 7.1 compiler (-lguide from mkl 5.2 on)
+linuxifc:FC:ifc
+linuxifc:MPF:ifc
+linuxifc:CC:cc
+linuxifc:FOPT:-FR -mp1 -w -prec_div  -pc80 -pad -ip -DINTEL_VML
+linuxifc:FPOPT:-FR  -mp1 -w -prec_div  -pc80 -pad -ip  -DINTEL_VML
+linuxifc:LDFLAGS:  $(FOPT) -L/opt/intel/mkl70/lib/32 -Vaxlib -static -pthread
+linuxifc:R_LIBS:-lmkl_lapack -lmkl_ia32 -lguide 
+linuxifc:DPARALLEL:'-DParallel'
+linuxifc:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+linuxifc:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# Linux PC system with IFC 8-9 compiler (-lguide from mkl 5.2 on)
+linuxif8:FC:ifort
+linuxif8:MPF:ifort
+linuxif8:CC:cc
+linuxif8:FOPT:-FR -mp1 -w -prec_div  -pc80 -pad -ip -DINTEL_VML
+linuxif8:FPOPT:-FR  -mp1 -w -prec_div  -pc80 -pad -ip  -DINTEL_VML
+linuxif8:LDFLAGS:  $(FOPT) -L/opt/intel/mkl/8.0/lib/em64t  -lpthread
+linuxif8:R_LIBS:-lmkl_lapack64 -lmkl_em64t -lguide  -lvml -pthread
+linuxif8:DPARALLEL:'-DParallel'
+linuxif8:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+linuxif8:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# Linux PC system with g95 compiler 
+linuxg95:FC:g95
+linuxg95:MPF:g95
+linuxg95:CC:cc
+linuxg95:FOPT:-ffree-form -ffree-line-length-huge -fsloppy-char -O2
+linuxg95:FPOPT:-ffree-form -ffree-line-length-huge -fsloppy-char -O2
+linuxg95:LDFLAGS:  $(FOPT) -L../SRC_lib  -lpthread
+linuxg95:R_LIBS:-llapack_lapw -lgoto -llapack_lapw 
+linuxg95:DPARALLEL:'-DParallel'
+linuxg95:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+linuxg95:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# Linux system with LF95 compiler (suggested by nluo <nluo@ux1.cso.uiuc.edu> )
+linux2:FC:lf95
+linux2:MPF:lf95
+linux2:CC:gcc
+linux2:FOPT:--nfix -O 
+linux2:FPOPT:--nfix -O  
+linux2:LDFLAGS:-L../SRC_lib
+linux2:R_LIBS:-llapack_lapw -lblas_lapw -llapack_lapw -lblas_lapw 
+linux2:DPARALLEL:'-DParallel'
+linux2:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+linux2:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# 
+sun:FC:f90
+sun:MPF:f90
+sun:CC:cc -xarch=amd64
+sun:FOPT: -xarch=amd64 -dalign -O3  -free
+sun:FPOPT: -xarch=amd64 -dalign -O3  -free
+sun:LDFLAGS:-L../SRC_lib -xarch=amd64 -xlic_lib=sunperf 
+sun:R_LIBS: -llapack_lapw
+sun:DPARALLEL:'-DParallel'
+sun:RP_LIBS:-L /usr/local/SCALAPACK -L /usr/local/BLACS/LIB -lpblas -lredist -ltools -lscalapack -lfblacs -lblacs  -lmpi
+sun:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+# as suggested by Gilles Hug  gilles.hug@onera.fr
+macg4:FC:f95
+macg4:MPF:f95
+macg4:CC:cc
+macg4:FOPT:-O1 -cons -lU77 -w -ffree -N11 -YEXT_SFX='_' -YEXT_NAMES=LCS
+macg4:FPOPT:
+macg4:LDFLAGS:-llapack -lf90math_altivec -lblas_altivec -lfio -lf77math -lU77 
+macg4:R_LIBS: -llapack -lf90math_altivec -lblas_altivec -lfio -lf77math -lU77
+macg4:DPARALLEL:
+macg4:RP_LIBS:
+macg4:MPIRUN:mpirun -np _NP_ -machinefile _HOSTS_ _EXEC_
+
+
+
+
+
+# NEC SX4  not tested
+nec:FC:f77
+nec:FOPT:-C hopt -Eo
+nec:LDFLAGS:-L/usr/local/lib 
+nec:R_LIBS: -lnag -llapack -lblas
+nec:C_LIBS: -lnag -llapack -lblas
+
+# plain linux system with GNU compiler
+linuxgnu:FC:g77
+linuxgnu:FOPT:-O
+linuxgnu:LDFLAGS:-L../SRC_lib
+linuxgnu:R_LIBS:-llapack_lapw -lblas_lapw -llapack_lapw -lblas_lapw
+linuxgnu:C_LIBS:-llapack_lapw -lblas_lapw -llapack_lapw -lblas_lapw
+
+# IBM Power II architecture
+pwr2:FC:xlf90
+pwr2:CC:gcc
+pwr2:FOPT:-O3 -qarch=pwr2 -bmaxdata:0x80000000
+pwr2:LDFLAGS:-L../SRC_lib
+pwr2:DPARALLEL:'-DParallel'
+pwr2:R_LIBS:-lesslp2 -llapack_lapw
+pwr2:C_LIBS:-lesslp2 -llapack_lapw 
+pwr2:INCLUDE_SLMAKE:include SLmake.inc
+pwr2:RP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+pwr2:CP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+
+# Linux Alpha system with Compaq compiler
+de2cc:FC:fort
+de2cc:FOPT:-O  -convert big_endian -free
+de2cc:LDFLAGS:-L../SRC_lib 
+de2cc:R_LIBS:-llapack_lapw -lblas_lapw_dec -llapack_lapw
+de2cc:C_LIBS:-llapack_lapw -lblas_lapw -llapack_lapw 
+de2cc:DPARALLEL:'-DParallel'
+de2cc:INCLUDE_SLMAKE:#include SLmake.inc
+de2cc:RP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+de2cc:CP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+
+# Linux Alpha system with Compaq compiler and CXML library
+de3c:FC:fort
+de3c:FOPT:-O  -convert big_endian -free
+de3c:LDFLAGS:-L../SRC_lib 
+de3c:R_LIBS:-lcxml
+de3c:C_LIBS:-lcxml
+de3c:DPARALLEL:'-DParallel'
+de3c:INCLUDE_SLMAKE:#include SLmake.inc
+de3c:RP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+de3c:CP_LIBS:$(SCALAPACKLIB) $(PBLIBS)
+
+
+# SGI Altix 350/3000 with Intel 7.1 compiler and SCSL library
+# '-lsdsm' is for the scaLAPACK part of SCSL, you need SCSL 1.5 or higher.
+altix:FC:efc
+altix:MPF:efc
+altix:CC:ecc
+altix:FOPT:-O3 -tpp2 -ftz -ip -fno-alias -cm -w -FR -DALTIX  -DINTEL_VML 
+altix:FPOPT:-O3 -tpp2 -ftz -ip -fno-alias -cm -w -FR -DALTIX  -DINTEL_VML
+altix:LDFLAGS: -L../SRC_lib  -Vaxlib
+altix:R_LIBS:-L/opt/goto/lib -lgoto_it2 -lscs -L/opt/intel/mkl70/lib/64 -lvml
+altix:DPARALLEL:'-DParallel'
+altix:RP_LIBS:-sdsm -lmpi
+altix:MPIRUN:mpirun -np _NP_ dplace -s1 _EXEC_

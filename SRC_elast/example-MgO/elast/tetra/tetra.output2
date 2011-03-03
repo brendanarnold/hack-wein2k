@@ -1,0 +1,56 @@
+ Running LAPW2 on            3 processors
+  
+  Modus: FERMI
+ RECPR LIST: FILE
+
+
+
+
+                              --------------------------------------------------
+                                 S T R U C T U R A L   I N F O R M A T I O N
+                              --------------------------------------------------
+
+
+   SUBSTANCE                    = MgO-B1                                                                          
+
+   LATTICE                      = F   
+   LATTICE CONSTANTS ARE        =    7.7666950   7.7666950   8.0773630
+   NUMBER OF ATOMS IN UNITCELL  =   2
+   MODE OF CALCULATION IS       = RELA
+   TYPE OF COORDINATES IN DSPLIT=      
+   BZ-integration with TETRA-program. icor=:           1
+ ILOOP            1
+ opening 
+ ./tetra.vector_1                                                                
+ opening 
+ ./tetra.vectordn_1                                                              
+ ILOOP            2
+ opening 
+ ./tetra.vector_2                                                                
+ opening 
+ ./tetra.vectordn_2                                                              
+ ILOOP            3
+ opening 
+ ./tetra.vector_3                                                                
+ opening 
+ ./tetra.vectordn_3                                                              
+ call eord...
+ call dos...
+   FERMI ENERGY AT   0.3544197378363513     
+   SUM RULE OF TETRAHEDRON INTEGRATION CHECKED 
+ call eweigh...
+   number of occupied bands:           8
+   highest energy:  0.3499594603838145     
+
+
+:NOE  : NUMBER OF ELECTRONS          =  16.000
+
+:FER  : F E R M I - ENERGY(TETRAH.M.)=   0.35442
+ writing 
+ tetra.weigh_1                                                                   
+ writing 
+ tetra.weigh_2                                                                   
+ writing 
+ tetra.weigh_3                                                                   
+ reading recprlist from file
+ NK         405

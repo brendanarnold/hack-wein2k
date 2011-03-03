@@ -1,0 +1,335 @@
+#!/bin/csh -fx
+unalias rm
+set input = scfmonitor.input
+#
+# Hartmut Enkisch, University of Dortmund, 25.10.1999 
+#
+
+cat <<end0
+        #####################################
+        #           SCF MONITOR             #
+        #####################################
+end0
+
+#echo "$*"
+
+set file = `pwd`
+set file    = $file:t
+set file    = $file.scf
+unset terminal
+set ite = 0
+set arg
+
+while ($#argv)
+  switch ($1)
+  case -h:
+    goto help
+    shift; breaksw
+  case -a:
+    goto args
+    shift; breaksw
+  case -i:
+    shift
+    set ite = $1
+    shift; breaksw
+  case -f:
+    shift
+    set file = $1
+    shift; breaksw
+  case -p:
+#    shift
+    set terminal = png
+    shift; breaksw
+  default:
+    set arg=($arg $1)
+    shift; breaksw
+  endsw
+end
+
+if ("$arg" == "" ) goto help
+
+# check whether case.scf file exist
+#set exist = `ls | grep $file | wc -l`
+#if ($exist == 0) goto nofile
+#if ($exist == 2) rm $file~
+ls $file >>/dev/null
+if (! $status == 0 ) goto nofile
+echo " "
+
+#test if label really exists
+foreach i ( $arg )
+set j=`echo $i|cut -c1-7`
+set test=`grep -i $j $file |wc -l`
+if ($test == 0 ) then
+  echo "$i does not exist in $file; exit"
+  exit(3)
+endif
+end
+
+set number = $#arg
+if ($number == 0) goto error
+
+echo "You monitor $number quantities: $arg from $file "
+
+
+# Preparation fo GNUPLOT 
+# general settings
+cat <<end1 > $input
+!analyse_lapw $file '$arg' 
+end1
+
+if ($ite > 0 ) then
+cat <<end1a >> $input
+!cat analyse.out | tail -$ite >analyse.out2
+end1a
+else
+cat <<end1b >> $input
+!cat analyse.out >analyse.out2
+end1b
+endif
+
+if ($ite <= 5 ) then
+cat <<end1c >> $input
+set xtics 1
+end1c
+else
+cat <<end1d >> $input
+set xtics
+end1d
+endif
+
+if ( $?terminal ) then
+echo scfmonitor.png has been created
+cat <<end7 >>$input
+set terminal png
+set output 'scfmonitor.png'
+end7
+endif
+
+cat <<end2 >> $input
+set multiplot
+#  set noytics
+#  set y2tics mirror
+  set format y2 "%-12.12g"
+  set nokey
+  set xlabel "# of Iteration" 
+end2
+
+# settings for the individual plots
+if ($number == 1) then
+cat <<end3 >> $input
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+end3
+endif
+if ($number == 2) then
+cat <<end4 >> $input
+  set size 1,0.5
+  set origin 0.0,0.5 
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+  set title "$arg[2]"
+  set origin 0.0,0.0
+  plot "analyse.out2" us 1:3 wi lp
+end4
+endif
+if ($number == 3)then
+cat <<end5 >> $input
+  set size 0.5,0.5
+  set origin 0.0,0.5
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+  set origin 0.5,0.5
+  set title "$arg[2]"
+  plot "analyse.out2" us 1:3 wi lp
+  set origin 0.0,0.0
+  set title "$arg[3]"
+  plot "analyse.out2" us 1:4 wi lp
+end5
+endif
+if ($number == 4)then
+cat <<end6 >> $input
+  set size 0.5,0.5
+  set origin 0.0,0.5
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+  set origin 0.5,0.5
+  set title "$arg[2]"
+  plot "analyse.out2" us 1:3 wi lp
+  set origin 0.0,0.0
+  set title "$arg[3]"
+  plot "analyse.out2" us 1:4 wi lp
+  set origin 0.5,0.0
+  set title "$arg[4]"
+  plot "analyse.out2" us 1:5 wi lp
+end6
+endif
+
+if ($number == 5)then
+cat <<end6 >> $input
+  set size 0.5,0.33
+  set origin 0.0,0.66
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+  set origin 0.5,0.66
+  set title "$arg[2]"
+  plot "analyse.out2" us 1:3 wi lp
+  set origin 0.0,0.33
+  set title "$arg[3]"
+  plot "analyse.out2" us 1:4 wi lp
+  set origin 0.5,0.33
+  set title "$arg[4]"
+  plot "analyse.out2" us 1:5 wi lp
+  set origin 0.0,0.0
+  set title "$arg[5]"
+  plot "analyse.out2" us 1:6 wi lp
+end6
+endif
+
+if ($number >= 6)then
+cat <<end6 >> $input
+  set size 0.5,0.33
+  set origin 0.0,0.66
+  set title "$arg[1]"
+  plot "analyse.out2" us 1:2 wi lp
+  set origin 0.5,0.66
+  set title "$arg[2]"
+  plot "analyse.out2" us 1:3 wi lp
+  set origin 0.0,0.33
+  set title "$arg[3]"
+  plot "analyse.out2" us 1:4 wi lp
+  set origin 0.5,0.33
+  set title "$arg[4]"
+  plot "analyse.out2" us 1:5 wi lp
+  set origin 0.0,0.0
+  set title "$arg[5]"
+  plot "analyse.out2" us 1:6 wi lp
+  set origin 0.5,0.0
+  set title "$arg[6]"
+  plot "analyse.out2" us 1:7 wi lp
+end6
+endif
+
+if ( ! $?terminal ) then
+cat <<end7 >>$input
+set nomultiplot
+pause 2
+load '$input'
+end7
+endif
+
+gnuplot -geometry 650x850 $input 
+
+exit(0)
+
+error:
+cat <<end8
+
+ERROR: You have to give a list of arguments specifying the 
+       quantities you want to moitor during the SCF process:
+
+       scfmonitor :ENE :DIS :POS001y :CTO002       
+
+       To get the help function type "scfmonitor -h".  
+       To get a list of the possible arguments type "scfmonitor -a".
+
+end8
+exit(0)
+
+
+help:
+cat << end9
+
+Aim:    A plot of some quantities from the case.scf file that are specifyed 
+        by the user that updates after every iteration to allow for an 
+        in time controle how the case does converge.
+
+Method: The case.scf file is determined using the pwd command or by the
+        command line argument "-f file.scf".
+        The labels of the quantities of interest have to given to SCFMONITOR as
+        arguments, for example:
+
+        scfmonitor :DIS :FER :CTO001 :CTO002
+
+        SCFMONITOR gives those arguments together with the case.scf file to 
+        the script ANALYSE.
+        ANALYSE searches the case.scf file for lines that contain the 
+        labels that belong to the quantities that are to be monitored.
+
+        ANALYSE knows what format to use in the read process for the
+        respective quantity and writes all required data into a file called
+        "analyse.out". It contains:
+         -for each iteration one line,
+         -in the first column the number of the iteration,
+         -in the following columns the monitored quantities.
+        A list of the quantities ANALYSE knows to handle can be found at the
+        bottom of this help menu. The user may add some more quantities by
+        editing "analyse_lapw".  
+
+        The "analyse.out" is plotted using GNUPLOT. The necessary input for
+        GNUPLOT is also created by SCFMONITOR and is written into the file
+        "scfmonitor.input". If more than one quantity is to be monitored a 
+        multiplot is used. SCFMONITOR can handle up to four different values 
+        at a time.
+
+        Making use of the LOAD and the PAUSE command of GNUPLOT "input" 
+        is reread every 2 seconds leading to the continuous reexecution 
+        of ANALYSE and of the PLOT command.
+        - If you want to change the time delay between two updates of
+          SCFMONITOR search this file for "pause".   
+
+        - If you want to run SCFMONITOR statically just once and produce 
+          scfmonitor.png specify "-p"  
+
+
+Hints:  - It does not make sense to start SCFMONITOR before the first cycle
+          has finished because then there exists no "case.scf" file.
+
+        - If you start SCFMONITOR before the second iteration is completed
+          GNUPLOT has to plot only one point per plot, leading to warnings:
+
+          Warning: empty x range [1:1], adjusting to [0.9:1.1]
+          Warning: empty y range [-8.48751:-8.48751], adjusting to ...
+
+          Those warnings are merely annoying and can be ignored.
+          If you know how to get rid of them I would be very grateful
+          to get a hint from you.
+
+        - If a "case.scf" file is incomplete (some lines in some cycle are
+          missing due to whatever reason) it may happen that you get an 
+          error message from ANALYSE:
+
+           Argument "xxxxx" was not found in case.scf
+
+          This does not only happen if the respective quantity does not
+          appear at all but also if the quantity is missing in one cycle only.
+
+        - If you only want to get the analyse.out file you may execute
+          ANALYSE directly using
+     
+          analyse case.scf arg1 arg2 ...
+
+          ANALYSE itself can handle up to 10 arguments.
+
+        - If you want SCFMONITOR to plot only the data from the last n
+          iterations you may use 
+
+          scfmonitor -i n arg1 arg2 ... 
+
+Usage:    scfmonitor [-i n] [-f case.scf] [-p] arg1 [arg2 arg3 arg4]
+end9
+analyse_lapw -h
+exit(0)
+
+args:
+analyse_lapw -h
+exit(0)
+
+
+nofile:
+cat <<end11
+
+ERROR: $file does not exist.
+
+end11
+exit(0)

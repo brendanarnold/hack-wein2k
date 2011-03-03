@@ -1,0 +1,6 @@
+SUMA        /FULL      ( j=1/2 or 1/2,-1/2 and 1/2,1/2 extra)
+DOSYM       /NOSYM     ( symmetrization is/is not performed )
+-9. 9.                 ( energy window)
+0.                     ( fermi energy)
+1                      ( number of atoms for which the DOS are calculated)
+1 1                    ( jatom  latom   (index of ineq. atom, orbital quantum number - only one per atom)

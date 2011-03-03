@@ -1,0 +1,313 @@
+#!/bin/csh -f
+#
+# Run optic in parallel mode
+#
+# $Author: M.Lee $
+# 
+
+set tmp  = /tmp/opticpara.$$
+set tmp2 = /tmp/opticpara.$$_2
+touch .lock_
+foreach i (.lock_*)
+    rm $i
+end
+
+onintr exit
+set name	= $0
+set bin         = $name:h       #default directory for WIEN-executables
+if !(-d $bin) set bin = .
+set name	= $name:t
+
+unalias rm
+alias   testinput       'if (! -e \!:1 ||  -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+set t	    = time  
+set cmplx
+set log     = :parallel
+set defmach = `hostname`
+set updn			# spinpolarization switch
+set dnup    = 'dn'	        # spinpolarization switch
+set sc				# semicore-switch
+set so				# spinorbit-switch
+set remote = ssh
+set init = init:
+set res  = residue:
+set scratch =      
+
+if ( $?SCRATCH ) then
+  set scratch=`echo $SCRATCH  | sed -e 's/\/$//'`/ # we are afraid
+                                # different settings in different
+                                # computing centers
+                                #use global variable for scratch if set
+endif
+
+
+############################################################################
+# In this section use 0 to turn of an option, 1 to turn it on, 
+# respectively choose a value
+
+set useremote   = 1             # using remote shell to launch processes
+set delay       = 1             # delay launching of processes by n seconds
+set debug       = 0             # set verbosity of debugging output
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+      source $bin/parallel_options
+endif
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+############################################################################
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit
+endif
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -c:
+    set cmplx = c
+    shift; breaksw
+  case -up:
+    set updn = 'up'
+    set dnup = 'dn'
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -so:
+    set so = 'so'
+    shift; breaksw
+  case -sc:
+    set sc = 's'
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+
+set exe = $bin/optic$cmplx
+set exe = optic$cmplx
+
+#are we running parallel?
+testinput .processes single
+echo "running OPTIC in parallel mode"
+echo "RUNNING" >.opticpara
+
+#before we start, we wipe away all parallel error files
+if ( -e optic_1.error ) rm *optic_*.error
+if ( -e .timeop_1) rm .timeop_*
+
+if (-e .machines.help) rm .machines.help
+
+grep -v $init .processes|grep : | grep -v $res >$tmp2
+set mist     = `wc $tmp2 `
+set maxproc  = $mist[1]
+set machine  = `grep $init .processes |cut -f2 -d: | xargs`
+set lockfile = `cut -f2 -d: $tmp2 | awk '{print $1 NR}'|xargs`
+set residue  = `grep $res .processes|cut -f2 -d:`
+if ($residue == "") unset residue
+
+if ($debug > 0) echo machines: $machine
+
+echo "** " Error in Parallel OPTIC >$def.error
+
+#get name of case
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+#echo $PWD
+setenv PWD $cwd
+set case    = $PWD
+set case    = $case:t          
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+set case    = $case:r           #head of file-names
+if ($debug > 0) echo Setting up case $case for parallel execution
+if ($debug > 0) echo of OPTIC
+if ($debug > 0) echo "  "
+#
+
+#creating  def files
+if ($debug > 0) echo " "
+if ($debug > 0) echo -n "creating "$def"_*.def:  "
+set i = 1
+while ($i <= $maxproc)
+  if ($debug > 0) echo -n "$i "
+  cp $def.def .tmp
+  #subsituting in files:
+  cat <<theend >.script
+s/vector$so$dnup/&_$i/w .mist
+s/vector$so$updn/&_$i/w .mist
+s/outputop/&_$i/w .mist
+s/symmat/&_$i/w .mist
+s/mommat/&_$i/w .mist
+s/mat_diag/&_$i/w .mist
+s/mme/&_$i/w .mist
+s/symop/&_$i/w .mist
+
+theend
+
+  sed -f .script .tmp > .tmp1
+  sed "s/vector_${i}_$i\&dn/vectordn_$i/" .tmp1>.tmp2 
+  sed "s/vector_${i}_$i\&up/vectorup_$i/" .tmp2>.tmp1
+  sed "s/vector_${i}_$i/vector_$i/" .tmp1> "$def"_$i.def
+#similar fix for SO necessary
+
+  @ i ++
+end
+if ($debug > 0) echo " "
+
+
+#starting processes
+if ($debug > 0) echo " "
+if ($debug > 0) echo "starting process:  "
+
+echo "->  "starting parallel optic at `date` >>$log
+
+set loop    = 0
+set endloop = 0
+set runmach = ""
+echo "files:$maxproc" >.processes2
+# change working dir because of problems with automounted directories
+#   cd $cwd
+while ($loop < $maxproc)
+  set p = 1
+  if ($?residue && $?resok) set p = 2
+  while ($p <= $#machine)
+    if ($loop < $maxproc) then
+	if !(-e .lock_$lockfile[$p]) then
+	    @ loop ++
+	    echo "${loop}:${maxproc}" >.processes2
+	    if ($debug > 0) echo prepare $loop on $machine[$p]
+	    set runmach = ($runmach $machine[$p])
+	    echo $runmach >>.processes2
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]"
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]">>$log
+	    if ($useremote == 1) then
+	    if ($debug > 1) echo use remote
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] ">.timeop_$loop
+		($remote $machine[$p] "cd $PWD;$t $exe ${def}_${loop}.def;rm -f .lock_$lockfile[$p]") >>.timeop_$loop  &
+	 else
+		if ($debug > 1) echo not using remote shell
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] " >.timeop_$loop
+		(cd $PWD;$t $exe ${def}_${loop}.def;rm -f .lock_$lockfile[$p]) >>.timeop_$loop  &
+	    endif
+	endif
+    if ($debug > 1) echo sleeping for $delay seconds
+    sleep $delay
+            jobs -l >.optic${cmplx}para.$$.`hostname`
+    endif
+    @ p ++
+  end
+end
+
+#wait for execution to be completed
+if ($debug > 0) echo " "
+if ($debug > 0) echo "waiting for processes:  "
+wait
+
+
+set i = 1
+while ($i <= $maxproc)
+  testerror "$def"_$i
+  @ i ++
+end
+
+#cpu summary:
+set i = 1
+while ($i <= $maxproc)
+#    echo "      "`cat .timeop_$i`
+    echo "      "`cat .timeop_$i` >>$log
+    @ i ++
+end
+
+# postanalysis
+echo "   Summary of opticpara:" >$tmp
+set p = 1
+while ($p <= $#machine)
+    set m = $runmach[$p]
+    cat .timeop_* | grep $m | tr "():" " " | \
+	    awk '{u += $2; cl += 60*$4+$5} \
+		END {print "   '$m'\t user=" u "\t wallclock=" cl}' >>$tmp
+    @ p ++
+end
+
+uniq < $tmp |tee -a $log
+
+echo "<-  "done at `date` >>$log
+
+# concatenating the case.symmat files and case.mommat files
+
+if (-e $case.symop)  rm $case.symop
+if (-e ${scratch}$case.mme$updn)  rm ${scratch}$case.mme$updn
+if (-e ${scratch}$case.symmat$updn)  rm ${scratch}$case.symmat$updn
+if (-e ${scratch}$case.mommat$updn)  rm ${scratch}$case.mommat$updn
+if (-e ${scratch}$case.mat_diag$updn) rm ${scratch}$case.mat_diag$updn
+touch ${scratch}$case.symmat$updn
+touch ${scratch}$case.mommat$updn
+touch ${scratch}$case.mat_diag$updn
+touch ${scratch}$case.mme$updn
+
+mv $case.symop_1 $case.symop
+rm $case.symop_*
+
+set i = 1
+while ($i <= $maxproc)
+ if ( $i == 1 ) then
+    cat ${scratch}$case.symmat_$i$updn    >>  ${scratch}$case.symmat$updn
+    cat ${scratch}$case.mommat_$i$updn   >>  ${scratch}$case.mommat$updn
+    cat ${scratch}$case.mat_diag_$i$updn  >>  ${scratch}$case.mat_diag$updn
+    cat ${scratch}$case.mme_$i$updn  >>  ${scratch}$case.mme$updn
+ else
+    tail +2  ${scratch}$case.symmat_$i$updn   >>  ${scratch}$case.symmat$updn
+    tail +2  ${scratch}$case.mommat_$i$updn   >>  ${scratch}$case.mommat$updn
+    tail +2  ${scratch}$case.mat_diag_$i$updn >>  ${scratch}$case.mat_diag$updn
+    tail +2  ${scratch}$case.mme_$i$updn >>  ${scratch}$case.mme$updn
+ endif
+    rm ${scratch}$case.symmat_$i$updn
+    rm ${scratch}$case.mommat_$i$updn
+    rm ${scratch}$case.mat_diag_$i$updn
+    rm ${scratch}$case.mme_$i$updn
+    @ i ++
+end
+
+echo "<-  "done at `date` >>$log
+echo "-----------------------------------------------------------------">>$log
+rm $def.error
+#rm .in.tmp .in.tmp1
+touch $def.error
+rm $tmp* >&/dev/null
+rm .optic${cmplx}para.$$.`hostname` >&/dev/null
+echo "DONE" >.opticpara
+exit 0
+
+single:
+echo "running in single mode"
+$exe $def.def
+rm $tmp* >&/dev/null
+rm .optic${cmplx}para.$$.`hostname` >&/dev/null
+exit 0
+
+
+error:
+echo "** " OPTIC crashed!
+echo "** " OPTIC crashed at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " Error in Parallel OPTIC >>$def.error
+rm $tmp* >&/dev/null
+rm .optic${cmplx}para.$$.`hostname` >&/dev/null
+echo "ERROR" >.opticpara
+exit 1

@@ -1,0 +1,371 @@
+
+Wave Function Representation in the WIEN Code
+=============================================
+(Uwe Birkenheuer, 12.11.2000)
+
+Comment:
+The numbered equations are whose being used for the implementation of LAPW7.
+
+
+The Key-Decomposition
+~~~~~~~~~~~~~~~~~~~~~
+exp(ikr) = Sum(l,m) 4pi*i^l Y(*)_lm(T^-1(k)) Y*(*)_lm(T^-1(r)) j_l(|k||r|)
+
+with any arbitrary orthogonal rotation matrix T and an optional complex
+conjugation on the spherical harmonics of the reciprocal part Y_lm(T^-1(k))
+denoted by (*) with goes hand-in-hand with the additional optional conjugation
+on the real part Y*_lm(T^-1(r)) used to cancel the already existing complex
+conjugation there.
+
+
+The Plane Wave Basis Set
+~~~~~~~~~~~~~~~~~~~~~~~~
+psi_K,k(r) := 1/sqrt(V) exp(i(K+k)*r) Theta(r in interstitial)
+
+            + Sum(R,a,i) Theta(Rmt_a-|r-R-R_a,i|) Sum(l,m)
+
+              ... exp(i(K+k)*(R+R_a,i)) 4pi*i^l/sqrt(V) Y(*)_lm(T_a,i^-1(K+k))
+ 
+              ... u_a,l[|K+k|](|r-R-R_a,i|) Y*(*)_lm(T_a,i^-1(r-R-R_a,i)) 
+
+with  u_a,l[|K+k|](r) := a_a,l(|K+k|)      u_a,l(r,E_a,l) * Rmt_a^2
+
+                       + b_a,l(|K+k|) d/de u_a,l(r,E_a,l) * Rmt_a^2
+
+K -- reciprocal lattive vector defining the plane waves basis functions
+k -- crystal momentum of the basis functions (the Bloch phase factor)
+R -- the lattice vectors of the Bravais lattice
+a -- index running over all inequivalents atoms in the unit cell
+i -- index running over all symmetry related members of a set "a"
+l -- angular momentum of the augmentation functions and coefficients
+m -- magnetic quantum number of the augmentation functions and coefficients
+
+V            -- volume of the unit cell
+Rmt_a        -- muffin tin radius for the atoms in "a"
+R_a,i        -- center of the atom "a,i"
+T_a,i        -- rotation to the local coordinate system of the atom "a,i"
+u_l,a(r,E)   -- the regular solutions of the radial Schroedinger equation
+                in the spherically averaged effective crystal potential
+                around site R_a,1 (which is the same as around R+R_a,i)
+E_a,l        -- augmentation energy for the radial function u_l,a
+x_a,l(|K+k|) -- the augmentation coefficients of the plane waves psi_K,k
+                [ x = a and b ]
+
+For the introduction of local orbitals, note that psi_K,k(r) may be written as
+
+psi_K,k(r) = 1/sqrt(V) exp(i(K+k)*r) Theta(r in interstitial)
+
+           + Sum(a,l) v_a,l[|K+k|](r)
+
+with
+
+v_a,l[|K+k|](r) := Sum(R,i) Theta(Rmt_a-|r-R-R_a,i|) Sum(m) 4pi*i^l/sqrt(V)
+
+                   ... exp(i(K+k)*(R+R_a,i)) Y(*)_lm(T_a,i^-1(K+k))
+ 
+                   ... u_a,l[|K+k|](|r-R-R_a,i|) Y*(*)_lm(T_a,i^-1(r-R-R_a,i))
+
+Each of the functions v_a,l[|K+k|](r) transform precisely the same as the 
+pure plane wave exp(i(K+k)*r) under space group elements {Q|t}.
+
+
+The Plane Wave Augmentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     u_a,l[|K+k|)(r) =      j_l(|K+k|*r)  and
+d/dr u_a,l[|K+k|)(r) = d/dr j_l(|K+k|*r)  at r = Rmt_a
+
+j_l(x) -- sperical Bessel function of order l
+
+=>  A x = b  with
+
+     /      u_a,l(Rmt_a,E_a,l)   d/dE     u_a,l(Rmt_a,E_a,l) \
+A := |                                                       |
+     \ d/dr u_a,l(Rmt_a,E_a,l)   d^2/drdE u_a,l(Rmt_a,E_a,l) /
+
+     / a_a,l(|K+k|) \                       /       j_l (|K+k|*Rmt_a) \
+x := |              | * Rmt_a^2  and   b := |                         |
+     \ b_a,l(|K+k|) /                       \ |K+k| j_l'(|K+k|*Rmt_a) /
+
+Actually det(A) = - 1 / Rmt_a^2 . Hence
+
+a_a,l(|K+k|) = [ + d/dE     u_l(Rmt_a,E_a,l) j_l'(Rmt_a*|K+k|)*|K+k|
+                 - d^2/drdE u_l(Rmt_a,E_a,l) j_l (Rmt_a*|K+k|)       ]      (1)
+
+b_a,l(|K+k|) = [ + d/dr     u_l(Rmt_a,E_a,l) j_l (Rmt_a*|K+k|)
+                 -          u_l(Rmt_a,E_a,l) j_l'(Rmt_a*|K+k|)*|K+k| ]      (2)
+
+LAPW7:
+AUGGEN -- RRAD1/2(:,l,a) =      u_l(r,E_a,l)  [large/small]
+          RADE1/2(:,l,a) = d/dE u_l(r,E_a,l)  [large/small]
+          P  (l,a) =          u_l(Rmt_a,E_a,l)
+          DP (l,a) =     d/dr u_l(Rmt_a,E_a,l)
+          PE (l,a) =     d/dE u_l(Rmt_a,E_a,l)
+          DPE(l,a) = d^2/drdE u_l(Rmt_a,E_a,l)
+BESSEL -- FJ (l,K,a) = j_l (|K+k|*Rmt_a)
+          DFJ(l,K,a) = j_l'(|K+k|*Rmt_a) |K+k|
+AUGPW  -- AL = a_a,l(|K+k|)
+          BL = b_a,l(|K+k|)
+
+
+The Local Orbitals
+~~~~~~~~~~~~~~~~~~
+psi_a,l,nu;k(r) := V_a,l[|K_a,l,nu + k|](r)
+
+with
+
+V_a,l[|K+k|](r) := Sum(R,i) Theta(Rmt_a-|r-R-R_a,i|) Sum(m) 4pi*i^l/sqrt(V)
+
+                   ... exp(i(K+k)*(R+R_a,i)) Y(*)_lm(T_a,i^-1(K+k))
+ 
+                   ... U_a,l(|r-R-R_a,i|) Y*(*)_lm(T_a,i^-1(r-R-R_a,i))
+
+(in very close analogy to v_a,l[|K+k|])
+
+and  U_a,l(r) := A_a,l      u_a,l(r,E _a,l) * Rmt_a^2
+
+               + B_a,l d/dE u_a,l(r,E _a,l) * Rmt_a^2
+
+               + C_a,l      u_a,l(r,E'_a,l) * Rmt_a^2
+
+nu -- index of the local orbitals for a given set of inequivalent atoms 
+      and an angular momentum. (Actually, nu represents the indices "i,m".)
+
+K_a,l,nu -- a properly chosen reciprocal lattice vector defining the
+            individual local orbitals psi_a,l,nu;k
+E'_a,l   -- local orbital augmentation energy for the radial function u_a,l
+X_a,l    -- the augmentation coefficients of the local orbitals
+            (these coefficients turn out to be independent of |K_a,l,nu + k|)
+            [ X = A, B and C ]
+
+
+The Local Orbital Augmentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     U_a,l(r) = 0  and
+d/dr U_a,l(r) = 0  at r = Rmt_a 
+together with
+Int(0,Rmt_a) |U_a,l(r)|^2 r^2 dr = Rmt_a^4 !!!
+
+It is not apparent to my, why the authors of the WIEN code chose
+this particular normalization for the radial functions U_l,a.
+
+=>  A x' = b'  with
+
+      / A_a,l \                         /      u_a,l(r,E'_a,l) \
+x' := |       | / C_a,l   and   b' := - |                      |
+      \ B_a,l /                         \ d/dE u_a,l(r,E'_a,l) /
+
+together with
+
+C_a,l^2 * Int(0,Rmt_a) |R_a,l(r)|^2 r^2 dr = 1  where
+
+R_a,l(r) := x'_1 u_a,l(r,E_a,l) + x'_2 d/E u_a,l(r,E_a,l) + u_a,l(r,E'_a,l)
+
+Actually, Int(0,Rmt) f(r) r^2 r means radial integration of the entire radial
+wavefunction including both the large and the small relativistic component.
+(For details refer to the subroutines RINT13 and OUTWIN in SRC_lapw7)
+
+=>
+
+x'_1 = [ + d^2/drdE u_l(Rmt_a,E_a,l)      u_a,l(Rmt_a,E'_a,l)
+         - d/dE     u_l(Rmt_a,E_a,l) d/dr u_a,l(Rmt_a,E'_a,l) ]*Rmt_a^2     (3)
+
+x'_2 = [ +          u_l(Rmt_a,E_a,l) d/dr u_a,l(Rmt_a,E'_a,l)
+         - d/dr     u_l(Rmt_a,E_a,l)      u_a,l(Rmt_a,E'_a,l) ]*Rmt_a^2     (4)
+
+and then
+
+C_a,l = 1 / sqrt( Int(0,Rmt_a) |R_a,l(r)|^2 r^2 dr )
+A_a,l = C_a,l * x'_1                                             
+B_a,l = C_a,l * x'_2                                                        (5)
+
+with
+
+Int(0,Rmt_a) |R_a,l(r)|^2 r^2 dr 
+=
+1 + x'_1^2
+  + x'_2^2 Int(0,Rmt_a) d/dE u_a,l(r,E _a,l) d/dE u_a,l(r,E _a,l) r^2 dr
+  + 2*x'_1 Int(0,Rmt_a)      u_a,l(r,E _a,l)      u_a,l(r,E'_a,l) r^2 dr
+  + 2*x'_2 Int(0,Rmt_a) d/dE u_a,l(r,E _a,l)      u_a,l(r,E'_a,l) r^2 dr    (6)
+
+LAPW7:
+AUGGEN -- RADL1/2(:,l,a) = u_l(r,E'_a,l)  [large/small]
+          P   (l,a) =          u_l(Rmt_a,E _a,l)
+          DP  (l,a) =     d/dr u_l(Rmt_a,E _a,l)
+          PE  (l,a) =     d/dE u_l(Rmt_a,E _a,l)
+          DPE (l,a) = d^2/drdE u_l(Rmt_a,E _a,l)
+          PLO (l,a) =          u_l(Rmt_a,E'_a,l)
+          DPLO(l,a) =     d/dr u_l(Rmt_a,E'_a,l)
+          PEI   (l) = Int(0,Rmt_a) d/dE u_l(r,E_a,l) d/dE u_l(r,E _a,l) r^2 dr
+          PI12LO(l) = Int(0,Rmt_a)      u_l(r,E_a,l)      u_l(r,E'_a,l) r^2 dr
+          PE12LO(l) = Int(0,Rmt_a) d/dE u_l(r,E_a,l)      u_l(r,E'_a,l) r^2 dr
+          XAC = x'_1
+          XBC = x'_2
+          XCC = Int(0,Rmt_a) |R_a,l(r)|^2 r^2 dr
+          ALO(l,a) = A_a,l
+          BLO(l,a) = B_a,l
+          CLO(l,a) = C_a,l
+
+
+The Eigenfunctions
+~~~~~~~~~~~~~~~~~~
+psi_n,k(r) := Sum(K) c_K;n,k psi_K,k(r)
+
+            + Sum(a,l,nu) c_a,l,nu;n,k psi_a,l,nu;k(r)
+
+n -- band index for the eigenfunctions (Bloch waves)
+
+psi_n,k      -- the Kohn-Sham eigenfunctions for crsytal momentum k
+c_K;n,k      -- the plane waves coefficients of psi_n,k
+c_a,l,nu;n,k -- the local orbital coefficients of psi_n,k
+
+Hence
+
+psi_n,k(r) = Sum(K) c_K;n,k/sqrt(V) exp(i(K+k)*r) Theta(r in interstitial)  (7)
+
+           + Sum(R) exp(ikR) Sum(a,i) Theta(Rmt_a-|r-R-R_a,i|) ...
+        
+             Sum(l,m) w_a,i,l,m;n,k(|r-R-R_a,i|) Y*(*)_lm(T_a,i^-1(r-R-R_a,i))
+
+
+with the psi_n,k augmentation functions w_a,i,l,m;n,k(r) being defined as
+
+
+w_a,i,l,m;n,k(r) := 4pi*i^l Sum(K) c_K;n,k/sqrt(V) exp(i(K+k)*R_a,i)
+ 
+                               ... Y(*)_lm(T_a,i^-1(K+k)) u_a,l[|K+k|](r)
+
+                  + 4pi*i^l lam_a,i,l,m(n,k) U_a,l(r)
+
+where
+
+lam_a,i,l,m(n,k) := Sum(nu) c_a,l,nu;n,k/sqrt(V) exp(i(K_a,l,nu+k)*R_a,i)
+
+                            ... Y(*)_lm(T_a,i^-1(K_a,l,nu+k))               (8)
+
+
+Using the definitions for the plane wave and local orbital augmentation 
+functions u_a,l[|K+k|](r) and U_a,l(r) this reduces to
+
+
+w_a,i,l,m;n,k(r) = 4pi*i^l A_a,i,l,m(n,k)      u_a,l(r,E _a,l) Rmt_a^2
+
+                 + 4pi*i^l B_a,i,l,m(n,k) d/de u_a,l(r,E _a,l) Rmt_a^2
+
+                 + 4pi*i^l C_a,i,l,m(n,k)      u_a,l(r,E'_a,l) Rmt_a^2      (9)
+
+with psi_n,k augmentation coefficients
+
+A_a,i,l,m(n,k) := Sum(K) c_K;n,k/sqrt(V) exp(i(K+k)*R_a,i) 
+
+                         ... Y(*)_lm(T_a,i^-1(K+k)) a_a,l(|K+k|)
+
+                + lam_a,i,l,m(n,k) A_a,l                                   (10)
+
+B_a,i,l,m(n,k) := Sum(K) c_K;n,k/sqrt(V) exp(i(K+k)*R_a,i) 
+
+                        ... Y(*)_lm(T_a,i^-1(K+k)) b_a,l(|K+k|)
+
+                + lam_a,i,l,m(n,k) B_a,l                                   (11)
+
+C_a,i,l,m(n,k) := lam_a,i,l,m(n,k) C_a,l                                   (12)
+
+LAPW7:
+MAIN   -- RGRID(:,:) = T_a,i^-1(r-R-R_a,i) for r in MT at R+R_a,i
+MAIN   -- COEF(K)          = c_K;nk/sqrt(V)
+          COEF(NPW+a,l,nu) = c_a,l,nu;n,k/sqrt(V)
+AUGPW  -- ALM(l,m) = A_a,i,l,m(n,k)  [load PW contribution]
+          BLM(l,m) = B_a,i,l,m(n,k)  [load PW contribution]
+AUGLO  -- PHSSUM(m) = lam_a,i,l,m(n,k)
+          ALM(l,m) = A_a,i,l,m(n,k)  [add  LO contribution]
+          BLM(l,m) = B_a,i,l,m(n,k)  [add  LO contribution]
+          CLM(l,m) = C_a,i,l,m(n,k)  [load LO contribution]
+MAIN   -- AUG(:,l,m,a,i) = w_a,i,l,m;n,k(r)
+MAIN   -- PHS = exp(ikR)
+WAVSPH -- PSI = exp(ikR) Sum(l,m) w_a,i,l,m;n,k(|r-R-R_a,i|) ...
+                                  ...  Y*(*)_lm(T_a,i^-1(r-R-R_a,i))
+WAVINT -- PSI = Sum(K) c_K;n,k/sqrt(V) exp(i(K+k)*r)
+
+
+The Symmetry Adapted Positions of the Atomic Spheres
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For each muffin tin sphere at site R_a,i consider the first symmetry operation
+{Q_a,i|t_a,i} in the STRUCTURE file such that 
+
+  R_a,i = {Q_a,i|t_a,i}(R_a,1) + g_a,i  with  g_a,i  being a lattice vector  .
+
+Then, the phase factors exp(i(K+k)*R_a,i) entering the psi_n,k augmentation
+coefficients X_a,i,l,m(n,k) can be re-expressed as
+
+  exp(iQ_a,i^-1(K+k)*R_a,1) exp(i(K+k)*t_a,i) exp(ik*g_a,i)  .
+
+This is the way it is done in LAPW1/2. However, there it is assumed that
+
+  g_a,i = 0  ! 
+
+Actually, in LAPW1/2 the positions R_a,i are only used to find the proper 
+symmetry operations {Q_a,i|t_a,i}. No explicit reference to R_a,i is made
+furtheron in LAPW1/2. Instead the identity
+
+   exp(i(K+k)*R_a,i) = exp(iQ_a,i^-1(K+k)*R_a,1) exp(i(K+k)*t_a,i)
+
+is used, which only holds if g_a,i = 0 .
+
+To simulate that in LAPW7 while evaluating the phase factor directly the
+atomic positions R_a,i are re-defined according to 
+
+  R_a,i := {Q_a,i|t_a,i}(R_a,1)                                            (13)
+
+once the proper symmetry operation {Q_a,i|t_a,i} for each R_a,i is found.
+
+LAPW7:
+ROTDEF -- POS(a,i) = R_a,i := {Q_a,i|t_a,i}(R_a,1)   MVATOM
+                           := R_a,i(input)           .NOT.MVATOM
+
+Remark:
+The logical parameter MVATOM is used to control the re-definition of the
+atomic centers R_a,i. The resulting wave functions are not effected by
+that choice. [ I can hardly believe that! UB, 6.11.2001 ]
+
+
+The Local Coordinate System
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+With {Q_a,i|t_a,i} being the first symmetry operation from the STRUCTURE file
+such that
+
+  R_a,i = {Q_a,i|t_a,i}(R_a,1) + g_a,i  with  g_a,i  being a lattice vector
+
+the rotation matrices T_a,i are defined as
+
+  T_a,i := Q_a,i o T_a                                                     (14)
+
+with T_a being a user defined rotation matrix for each set of inequivalent
+atoms within the unit cell.
+
+LAPW7:
+ROTDEF -- {Q|t}_IOP(a,i) = {Q_a,i|t_a,i}
+LOCDEF -- ROTLOC(a,i) = T_a,i := Q_a,i o T_a   USEROT .AND. ADDLOC
+                        T_a,i := Q_a,i         USEROT .AND. .NOT.ADDLOC
+                        T_a,i := E             .NOT.USEROT
+
+Remark:
+The logical parameters USEROT and ADDLOC are used to control the setting of
+the local coordinate system defined by T_a,i. The resulting wave functions
+are not effected by these choices.
+
+
+Conjugation Conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+In the WIEN95 code the real space harmonics Y_lm(T_a,i^-1(r-R-R_a,i))
+carry the complex conjugation.
+
+In the WIEN97 code the reciprocal space harmonics Y_lm(T_a,i^-1(K+k))
+carry the complex conjugation.
+
+LAPW7:
+AUGLO,AUGPW,WAVSPH -- rec. space harmonics carry the conjugation  KCONJG
+                      real space harmonics carry the conjugation  .NOT.KCONJG
+
+Remark:
+The logical parameter KCONJG is used to control the occurance of the complex
+conjugation on the spherical harmonics. The resulting wave functions are not
+effected by that choices.

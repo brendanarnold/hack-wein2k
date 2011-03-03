@@ -1,0 +1,17 @@
+in allen files free format (C gegen !   und Fortsetzungszeichen & ):
+foreach i (*.f param.inc* *.frc)
+vi -s script $i
+end
+
+requires .exrc macros as defined in ~pblaha
+Change Makefiles C_REAL, C_COMPLEX auf !_REAL ...
+
+
+SGI:  f90 -freeform
+IBM:  xlf90                         (-qsuffix=f=f90)
+HP:   f90  +source=free
+NEC:  f90 -f4
+DEC:  f90 -free
+PGI:  pgf90 -Mfreeform
+Absoft: f90 -ffree -lU77  (kennt getname nicht)
+

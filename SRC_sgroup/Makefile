@@ -1,0 +1,40 @@
+#######################################
+#  FOPT    -  optimization
+#  C_LIBS  -  C libraries
+#  LDFLAGS -  linker flags
+#  EXEC    -  name of out file
+#  OBJS    -  name of obj files
+#######################################
+CC      = icc      
+EXEC    = sgroup
+OBJS    = sgroup.o math_sg.o sto.o io.o lat.o pgrp.o \
+pgrp_op.o  rotb.o sgrp_cub.o sgrp_hex.o sgrp_tet.o  sgrp_ort.o sgrp_trg.o \
+sgrp_mon.o sgrp_trc.o 
+
+#FOPT     = -O2 -malign-double -malign-loops=4 -malign-jumps=4
+#FOPT     = -Wall -pedantic -g
+FOPT     =
+LDFLAGS  =
+C_LIBS   = -lm
+RM       = rm -f
+
+# Make executable
+$(EXEC) :  $(OBJS)
+	$(CC) -o $(EXEC) $(OBJS) $(LDFLAGS) $(C_LIBS)
+
+
+.c.o:
+	$(CC) -c $(FOPT) $<
+
+clean :
+	$(RM) $(OBJS)
+
+distclean: clean
+	$(RM) $(EXEC)
+	$(RM) `find . -type f -name 'core' -print`
+	$(RM) `find . -type f -name '*~' -print`
+	cd ./examples/navy.mil && \
+	$(RM) .LOG `find . -type f -name '*.out_new' -print`
+
+check: $(EXEC)
+	cd ./examples/navy.mil && RUN_CHECK

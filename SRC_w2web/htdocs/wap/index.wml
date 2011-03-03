@@ -1,0 +1,96 @@
+#!/usr/bin/perl
+
+$selection = "";
+require "../../libs/w2web.pl";
+&GetInput;
+
+
+&listdir($sessionpath);
+$OUT .= <<__STOP__;
+Content-type: text/vnd.wap.wml\n
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD /wml_1.1.xml">
+<wml>
+<card id="first" ordered="true" title="w2w\@p on $w2webhost">
+            <p align="center">
+__STOP__
+
+if ($sid) {
+	$SID=$sid;
+	&GetSession;
+
+	@result = glob("$DIR/.running*");
+	$run = "is idle";
+	foreach $i (@result) {
+		if ( -e $i ) {
+			$run = "is running";
+			$runadd = qx( cat $i | tail -1 );
+			$runadd =~ s/ *//;
+			$run .= " ($runadd)";
+		}
+	}
+	@result = glob("$DIR/*.error");
+	foreach $i (@result) {
+		if ( -z $i ) {	
+			# this is good, no error
+		} else {
+			$test = qx( exec wc -l $i );
+			$run = "has an error!" if ($test > 1);
+		}
+	}
+	$OUT.=<<__STOP__;
+$NAME $run
+<br/>
+<a href="/wap/index.wml">session select</a>
+__STOP__
+
+} else {
+	$OUT.=<<__STOP__;
+Session: <br/>
+<select title="Session" name="sidselect" value="1">
+__STOP__
+
+	@newfile = qx( /bin/ls -t $sessionpath | head -10  );
+
+	@sessions = ();
+
+	for $file (@newfile) {
+		$SID=$file;
+		&GetSession;
+		push(@sessions,"$NAME"."³"."$file");
+	}
+	
+	my @mysessions = ();
+	@mysessions = @sessions;
+
+	foreach $line (@sessions) {
+		my $sid,$name;
+		($name, $sid) = split (/³/, $line);
+		chomp($sid);
+		if ("$name" =~ m/.*$selection.*/i) {
+		$OUT .= "<option value=\"$sid\">$name</option>\n";
+		}
+	}              
+
+
+	$OUT .= <<__STOP__;    
+</select>
+<do type="accept" label="select">
+<go href="/wap/index.wml?\$(sidselect)"/>
+</do>
+<br/>
+<a href="/wap/index.wml?sid=\$(sidselect)">select</a>
+__STOP__
+}
+
+$OUT .=<<__STOP__;
+            <br/>
+            <a title="Copyright" href="copyright.wml">(c) by luitz.at</a>
+            </p>
+    </card>
+
+</wml>
+__STOP__
+
+print $OUT;
+

@@ -1,0 +1,39 @@
+#!/bin/csh -f
+#
+
+set name     = $0
+set name     = $name:t 		#name of this script-file
+set ldir      = `pwd`
+set file     = `pwd`
+set file     = $file:t		#tail of file-names
+
+while ($#argv)
+  switch ($1)
+  case -[H|h]
+    goto help
+    breaksw
+  endsw
+end
+
+if ( -e $file.in1 && ! -z $file.in1) then
+echo real case
+else if ( -e $file.in1c && ! -z $file.in1c) then
+echo complex case
+else
+echo 'Error:' "$file.in1(c) not found."
+endif
+exit(0)
+
+help:
+cat << theend 
+
+PROGRAM:	$0 [FLAGS] 
+
+PURPOSE:	Tests whether a case is complex or real
+
+FLAGS:
+-h             -> help
+theend
+
+exit(1)
+ 

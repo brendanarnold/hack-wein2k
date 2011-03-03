@@ -1,0 +1,27 @@
+#!/bin/csh -f 
+# usage       :  grep_line 'string1''filename'   lines_for tail [-s]
+# 
+unalias rm
+
+if ($#argv < 3) then
+   echo 'syntax:         grep_line string filename(in quotes) lines_for_tail [-s(ilent)]'
+   exit(1)
+endif
+if ($#argv > 4) then
+   echo 'syntax:         grep_line string filename(in quotes) lines_for_tail [-s(ilent)]'
+   exit(1)
+endif
+set silent
+if ($#argv == 4) set silent='-h'
+ 
+#set out=basename `pwd`.summary
+touch mist_
+ 
+set a=`ls $argv[2]`
+if( $silent != '-h') echo 'in ' $#a 'files:'
+foreach i ($a)
+   grep -i $silent "$argv[1]" $i mist_ | tail -$argv[3] 
+end
+
+#echo "grep_line wrote summary"
+rm mist_

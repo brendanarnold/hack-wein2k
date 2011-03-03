@@ -1,0 +1,93 @@
+#!/bin/csh -f
+
+set pref = `pwd`
+set pref = $pref:t
+
+if (! -f $pref.struct) then
+echo "No valid case.struct file..."
+exit 1
+endif
+
+if (! -f $pref.inst) then
+echo "No valid case.inst file..."
+exit 1
+endif
+
+mkdir elast
+cd elast
+cp ../$pref.struct ./init.struct
+cp init.struct eos.templ
+
+$WIENROOT/genetempl
+#../genetempl
+
+foreach i ( \
+    eos \
+    tetra \
+    rhomb \
+)
+mkdir $i
+cp ../$pref.inst ./$i/$i.inst
+cp $i.templ ./$i/$i.struct
+if ( -f ../.machines ) then
+cp ../.machines ./$i/.machines
+endif
+
+end
+
+mkdir result
+cp init.struct ./result
+
+
+######### Initialize all calculations
+
+cd ./eos
+echo ""
+echo "***********************************"
+echo "***********************************"
+echo "INITIALIZATION for EOS CALCULATIONS"
+echo "***********************************"
+echo "***********************************"
+echo ""
+
+init_lapw
+set stat = $status
+if (! $stat) cp eos.struct ../eos.templ
+cd ..
+
+cd ./rhomb
+echo ""
+echo "********************************************"
+echo "********************************************"
+echo "INITIALIZATION for RHOMBOHEDRAL CALCULATIONS"
+echo "********************************************"
+echo "********************************************"
+echo ""
+
+init_lapw
+set stat = $status
+if (! $stat) cp rhomb.struct ../rhomb.templ
+cd ..
+
+cd ./tetra
+echo ""
+echo "******************************************"
+echo "******************************************"
+echo "INITIALIZATION for TETRAGONAL CALCULATIONS"
+echo "******************************************"
+echo "******************************************"
+echo ""
+
+init_lapw
+set stat = $status
+if (! $stat) cp tetra.struct ../tetra.templ
+cd ..
+
+
+echo ""
+echo "*************************************************"
+echo "      NOW CHANGE into new subdir elast/ and  RUN elast_setup"
+echo "*************************************************"
+echo ""
+echo "Press return to continue"
+set choi = $<

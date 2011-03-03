@@ -1,0 +1,30 @@
+#!/bin/csh -f
+#Modify this script according to your needs
+set flist = `ls rhomb_*.struct | cut -c 1-11`
+cd ./rhomb
+foreach i ($flist)
+echo $i
+cp ../$i.struct ./rhomb.struct
+x_lapw dstart
+#x_lapw dstart -up
+#x_lapw dstart -dn
+#cp ../result/$i.clmsum ./rhomb.clmsum
+#cp ../result/$i.clmup ./rhomb.clmup
+#cp ../result/$i.clmdn ./rhomb.clmdn
+run_lapw -ec 0.00001 -p
+   set stat = $status
+   if ($stat) then
+       echo "ERROR status in" $i
+       exit 1
+   endif
+
+#echo $i >> error
+#x lapw2 -p -qtl | & tee -a error
+#x tetra
+#mv rhomb.outputt $i.outputt
+#mv rhomb.qtl $i.qtl
+#mv rhomb.dos1 $i.dos1
+#mv rhomb.dos1ev $i.dos1ev
+save_lapw $i
+mv $i.* ../result
+end

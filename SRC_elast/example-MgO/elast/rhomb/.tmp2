@@ -1,0 +1,26 @@
+ 2,'rhomb.nsh',    'unknown','formatted',0
+ 3,'rhomb.in1',   'unknown','formatted',0
+ 4,'rhomb.inso',           'unknown','formatted',0
+ 5,'rhomb.in2',   'old',    'formatted',0
+ 6,'rhomb.output2_3','unknown','formatted',0
+ 8,'rhomb.clmval_3','unknown','formatted',0
+ 9,'./rhomb.vectordn_3', 'unknown','unformatted',9000
+10,'./rhomb.vector_3', 'unknown','unformatted',9000
+11,'rhomb.weight',    'unknown','formatted',0
+13,'rhomb.recprlist',      'unknown','unformatted',9000
+14,'rhomb.kgen',        'unknown','formatted',0
+15,'rhomb.tmp',       'unknown','formatted',0
+16,'rhomb.qtl',       'unknown','formatted',0
+17,'rhomb.weightaver','unknown','formatted',0
+18,'rhomb.vsp',       'old',    'formatted',0
+19,'rhomb.vns',       'unknown','formatted',0
+20,'rhomb.struct',         'old',    'formatted',0
+21,'rhomb.scf2_3',   'unknown','formatted',0
+22,'rhomb.rotlm',   'unknown',    'formatted',0
+23,'rhomb.radwf',   'unknown',    'formatted',0
+24,'rhomb.almblm',   'unknown',    'formatted',0
+26,'rhomb.weigh_3',   'unknown','unformatted',0
+27,'rhomb.weighdn_3',   'unknown','unformatted',0
+28,'rhomb.vrespval_3',   'unknown','formatted',0
+31,'./rhomb.help31_3','unknown','formatted',0
+32,'./rhomb.help32_3','unknown','formatted',0

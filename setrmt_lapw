@@ -1,0 +1,134 @@
+#!/usr/bin/perl -w
+# Automatic setting of Rmt using output from program nn
+# July 2004 Georg Madsen
+use strict;
+use Math::Trig;
+
+my ($pip,$pip1,$pip2,$i,$j,$reduc,$ii);
+my (@temp,@icsdnr);
+my ($name,$rmtold,$k,$nat,$fak1,$fak2,$rmt1,$rmt2);
+
+my (@atomtyp,$jat,$nn,$nndist,@rmt,@typdif,@typdist);
+
+die "Usage: setrmt_lapw case [-r X ] (reduction of RMT by X %) \n" if $#ARGV == -1;
+$name = $ARGV[0];
+$reduc=1.0;
+if ($#ARGV == 2) {$reduc = $reduc - $reduc * $ARGV[2] / 100;}
+
+system("echo '2' | x nn -f $name"); 
+#system("x nn -f $name << EOF 
+#            2 EOF");
+open(NN,"$name.outputnn");
+$nat=0;
+@atomtyp = ();
+@rmt = ();
+while(<NN>) {
+    if (/RMT=/) {
+	($pip,$pip2)=unpack("A55 A5",$_);
+	push(@atomtyp,$pip2);
+	push(@rmt,sprintf("%-5.5f",2.5) );
+	$nat++;
+    } elsif (/Bravais/) {
+	last;
+    }
+}
+$jat = -1;
+while(<NN>) {
+    if(/EQUIV.  1/) {
+	$jat ++ ;
+	$pip=<NN>;
+	$pip=<NN>;
+	if($pip =~ /ERROR/) {		
+	    $pip=<NN>;
+	    $pip=<NN>;
+	}
+	($pip,$nn,$pip2,$nndist) = unpack("A6 A3 A41 A9",<NN>);
+	$nn --;
+	while($pip =~ /ATOM/ && $nndist < 2.1 * $rmt[$jat] ) {
+	    $fak1 = 0.497 * $reduc; $fak2 =0.497 * $reduc;
+	    if( $atomtyp[$jat] < 2 &&  $atomtyp[$nn] > 1) { 
+		$fak1 = $fak1 * 0.7;
+		$fak2 = $fak2 * 1.3;
+	    } elsif (  $atomtyp[$jat] > 1 && $atomtyp[$nn] < 2) { 
+		$fak1 = $fak1 * 1.3;
+		$fak2 = $fak2 * 0.7;
+	    } elsif ( d_or_f($atomtyp[$jat]) && ! d_or_f($atomtyp[$nn])) { 
+		$fak1 = $fak1 * 1.06;
+		$fak2 = $fak2 * 0.94;
+	    } elsif ( ! d_or_f($atomtyp[$jat]) && d_or_f($atomtyp[$nn])) { 
+		$fak1 = $fak1 * 0.94;
+		$fak2 = $fak2 * 1.06;
+	    } 
+	    $rmt1 = $fak1 * $nndist;
+	    $rmt2 = $fak2 * $nndist;
+	    if( $rmt1 < $rmt[$jat] ) {
+		$rmt[$jat] = sprintf("%-5.2f",$rmt1) ;
+	    }
+	    if( $rmt2 < $rmt[$nn] ) {
+		$rmt[$nn] = sprintf("%-5.2f",$rmt2) ;	
+	    }
+	    ($pip,$nn,$pip2,$nndist) = unpack("A6 A3 A41 A9",<NN>);
+	    $nn --;
+	}
+    }
+}
+#printf "RMT: @rmt\n";
+#printf "Z: @atomtyp\n";
+#$jat = $jat + 1;
+#printf "jat: $jat+1\n";
+printf "atom  Z   RMT-max   RMT \n";
+    my (@rmtmin);
+    for($i=0;$i<=$jat;$i++)  { $rmtmin[$atomtyp[$i]] = 9. ;}
+    for($i=0;$i<=$jat;$i++)  {
+       if ( $rmtmin[$atomtyp[$i]] == 9.) {
+         $rmtmin[$atomtyp[$i]] = $rmt[$i]; 
+         for($j=$i;$j<=$jat;$j++)  {
+           if($atomtyp[$i] == $atomtyp[$j] ) 
+             { if ($rmtmin[$atomtyp[$i]] > $rmt[$j] ) 
+                  {$rmtmin[$atomtyp[$i]] = $rmt[$j]; }
+             }
+         }
+       } 
+       $ii = $i + 1;
+    printf " $ii $atomtyp[$i]  $rmt[$i]  $rmtmin[$atomtyp[$i]] \n";
+    $rmt[$i] = $rmtmin[$atomtyp[$i]]; 
+#    printf "RMTmin: $rmtmin[$atomtyp[$i]] $rmt[$i]\n";
+    }
+close(NN);
+open(STRUC,"$name.struct");
+open(PIP,">$name.struct_setrmt");
+$pip = <STRUC>;
+printf PIP $pip;
+$pip = <STRUC>;
+printf PIP $pip;
+$pip = <STRUC>;
+printf PIP $pip;
+$pip = <STRUC>;
+printf PIP $pip;
+$nat = 0;
+while (<STRUC>) {
+    if(/RMT=/) {
+	$pip = $_;
+#	($pip2,$rmtold) = unpack("A43 A7",$pip);
+#	$pip =~ (s/$rmtold/$rmt[$nat]  /);
+        $rmtold = substr($pip, 43, 7);
+        $rmt[$nat] = sprintf("%-7s", $rmt[$nat]);
+        $pip =~ (s/$rmtold/$rmt[$nat]/);
+	printf PIP $pip;
+	$nat ++;
+    } else {
+	printf PIP $_;
+    }
+}
+close(STRUC);
+close(PIP);
+###system("cp pip1 $name.struct");
+
+sub d_or_f {
+    my ($a) = @_ ;
+    if ( ($a > 20 && $a < 31) || ($a > 38 && $a < 49) || ($a > 56 && $a < 81) || $a > 88) {
+	return 1;
+    } else {
+	return 0;
+    }
+}

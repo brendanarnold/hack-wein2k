@@ -1,0 +1,60 @@
+#!/bin/csh -f
+
+set ncm = ' '
+unset file
+unset new
+set name  = $0
+set bin   = $name:h
+
+while ($#argv)
+  switch ($1)
+  case -f:
+    shift; set file = $1
+    shift; breaksw
+  case -h:
+   echo ' options: -nomm ...'
+   echo ' options: -f filehead ...'
+   exit 1
+  case -nomm:
+    set ncm = '-nomm'
+    shift; breaksw
+  case -new:
+    set new 
+    shift; breaksw
+  default:
+  endsw
+end
+
+if !($?file) then 
+set file    = `pwd`
+set file    = $file:t		#tail of file-names
+endif
+
+if ($?new) rm -f $file.instr2mol
+
+set error = struct2mol.error
+
+#x struct2mol -o dx $1
+$bin/xncm struct2mol -o dx $ncm -f $file 
+
+if (-s $error) exit 1 
+
+#cp $WIENROOT/SRC_templates/struct2mol* .
+cp $bin/../DX/struct2mol/struct2mol* .
+
+set file1=`pwd`
+set file=($file1/$file:t.dx)
+
+set a=`grep 'interactor FileSelector' struct2mol.cfg`
+set b=`echo $a[9]|cut -c2-`
+set c=`echo $b |wc`
+set d=$c[3]
+@ d --
+@ d --
+set e=`echo $b | cut -c1-$d`
+ sed "s%$e%$file%" struct2mol.cfg > help.cfg
+
+mv help.cfg struct2mol.cfg
+
+dx -program struct2mol.net -image -macros $bin/../DX/macros -execute_on_change
+

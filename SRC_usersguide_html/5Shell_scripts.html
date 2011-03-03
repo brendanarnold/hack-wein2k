@@ -1,0 +1,2065 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>5 Shell scripts</TITLE>
+<META NAME="description" CONTENT="5 Shell scripts">
+<META NAME="keywords" CONTENT="usersguide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="usersguide.css">
+
+<LINK REL="next" HREF="6Initialization.html">
+<LINK REL="previous" HREF="4Files_Program.html">
+<LINK REL="up" HREF="2Detailed_description.html">
+<LINK REL="next" HREF="6Initialization.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1165"
+  HREF="6Initialization.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1161"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1155"
+  HREF="4Files_Program.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1163"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1166"
+  HREF="6Initialization.html">6 Initialization</A>
+<B> Up:</B> <A NAME="tex2html1162"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1156"
+  HREF="4Files_Program.html">4 Files and Program</A>
+ &nbsp; <B>  <A NAME="tex2html1164"
+  HREF="Contents.html">Contents</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1167"
+  HREF="5Shell_scripts.html#SECTION05210000000000000000">1 Job control</A>
+<UL>
+<LI><A NAME="tex2html1168"
+  HREF="5Shell_scripts.html#SECTION05211000000000000000">1 Main execution script (x_lapw)</A>
+<LI><A NAME="tex2html1169"
+  HREF="5Shell_scripts.html#SECTION05212000000000000000">2 Job control for initialization (init_lapw)</A>
+<LI><A NAME="tex2html1170"
+  HREF="5Shell_scripts.html#SECTION05213000000000000000">3 Job control for iteration (run_lapw or 
+  runsp_lapw)</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1171"
+  HREF="5Shell_scripts.html#SECTION05220000000000000000">2 Utility scripts</A>
+<UL>
+<LI><A NAME="tex2html1172"
+  HREF="5Shell_scripts.html#SECTION05221000000000000000">1 Save a calculation (save_lapw)</A>
+<LI><A NAME="tex2html1173"
+  HREF="5Shell_scripts.html#SECTION05222000000000000000">2 Restoring a calculation (restore_lapw)</A>
+<LI><A NAME="tex2html1174"
+  HREF="5Shell_scripts.html#SECTION05223000000000000000">3 Remove unnecessary files (clean_lapw)</A>
+<LI><A NAME="tex2html1175"
+  HREF="5Shell_scripts.html#SECTION05224000000000000000">4 Migrate a case to/from a remote computer (migrate_lapw)</A>
+<LI><A NAME="tex2html1176"
+  HREF="5Shell_scripts.html#SECTION05225000000000000000">5 Generate case.inst (instgen_lapw)</A>
+<LI><A NAME="tex2html1177"
+  HREF="5Shell_scripts.html#SECTION05226000000000000000">6 Set R-MT values in your case.struct file (setrmt_lapw)</A>
+<LI><A NAME="tex2html1178"
+  HREF="5Shell_scripts.html#SECTION05227000000000000000">7 Check for running WIEN jobs (check_lapw)</A>
+<LI><A NAME="tex2html1179"
+  HREF="5Shell_scripts.html#SECTION05228000000000000000">8 Cancel (kill) running WIEN jobs (cancel_lapw)</A>
+<LI><A NAME="tex2html1180"
+  HREF="5Shell_scripts.html#SECTION05229000000000000000">9 Extract critical points from a Bader analysis (extractaim_lapw)</A>
+<LI><A NAME="tex2html1181"
+  HREF="5Shell_scripts.html#SECTION052210000000000000000">10 scfmonitor_lapw</A>
+<LI><A NAME="tex2html1182"
+  HREF="5Shell_scripts.html#SECTION052211000000000000000">11 analyse_lapw</A>
+<LI><A NAME="tex2html1183"
+  HREF="5Shell_scripts.html#SECTION052212000000000000000">12 Check parallel execution (testpara_lapw)</A>
+<LI><A NAME="tex2html1184"
+  HREF="5Shell_scripts.html#SECTION052213000000000000000">13 Check parallel execution of lapw1 (testpara1_lapw)</A>
+<LI><A NAME="tex2html1185"
+  HREF="5Shell_scripts.html#SECTION052214000000000000000">14 Check parallel execution of lapw2 (testpara2_lapw)</A>
+<LI><A NAME="tex2html1186"
+  HREF="5Shell_scripts.html#SECTION052215000000000000000">15 grepline_lapw</A>
+<LI><A NAME="tex2html1187"
+  HREF="5Shell_scripts.html#SECTION052216000000000000000">16 initso_lapw</A>
+<LI><A NAME="tex2html1188"
+  HREF="5Shell_scripts.html#SECTION052217000000000000000">17 oldvec2vec_lapw</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1189"
+  HREF="5Shell_scripts.html#SECTION05230000000000000000">3 Structure optimization</A>
+<UL>
+<LI><A NAME="tex2html1190"
+  HREF="5Shell_scripts.html#SECTION05231000000000000000">1 Lattice parameters (Volume, c/a, lattice parameters)</A>
+<LI><A NAME="tex2html1191"
+  HREF="5Shell_scripts.html#SECTION05232000000000000000">2 Minimization of internal parameters (min_lapw)</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1192"
+  HREF="5Shell_scripts.html#SECTION05240000000000000000">4 Phonon calculations</A>
+<UL>
+<LI><A NAME="tex2html1193"
+  HREF="5Shell_scripts.html#SECTION05241000000000000000">1 init_phonon_lapw</A>
+<LI><A NAME="tex2html1194"
+  HREF="5Shell_scripts.html#SECTION05242000000000000000">2 analyse_phonon_lapw</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1195"
+  HREF="5Shell_scripts.html#SECTION05250000000000000000">5 Parallel Execution</A>
+<UL>
+<LI><A NAME="tex2html1196"
+  HREF="5Shell_scripts.html#SECTION05251000000000000000">1 k-Point Parallelization</A>
+<LI><A NAME="tex2html1197"
+  HREF="5Shell_scripts.html#SECTION05252000000000000000">2 Fine grained parallelization</A>
+<LI><A NAME="tex2html1198"
+  HREF="5Shell_scripts.html#SECTION05253000000000000000">3 How to use <EM>WIEN2k</EM> as a parallel program</A>
+<LI><A NAME="tex2html1199"
+  HREF="5Shell_scripts.html#SECTION05254000000000000000">4 The <TT><B>.machines</B></TT> file</A>
+<LI><A NAME="tex2html1200"
+  HREF="5Shell_scripts.html#SECTION05255000000000000000">5 How the list of k-points is split</A>
+<LI><A NAME="tex2html1201"
+  HREF="5Shell_scripts.html#SECTION05256000000000000000">6 Flow chart of the parallel scripts</A>
+<LI><A NAME="tex2html1202"
+  HREF="5Shell_scripts.html#SECTION05257000000000000000">7 On the fine grained parallelization</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1203"
+  HREF="5Shell_scripts.html#SECTION05260000000000000000">6 Getting on-line help</A>
+<LI><A NAME="tex2html1204"
+  HREF="5Shell_scripts.html#SECTION05270000000000000000">7 Interface scripts</A>
+<UL>
+<LI><A NAME="tex2html1205"
+  HREF="5Shell_scripts.html#SECTION05271000000000000000">1 eplot_lapw</A>
+<LI><A NAME="tex2html1206"
+  HREF="5Shell_scripts.html#SECTION05272000000000000000">2 parabolfit_lapw</A>
+<LI><A NAME="tex2html1207"
+  HREF="5Shell_scripts.html#SECTION05273000000000000000">3 dosplot_lapw</A>
+<LI><A NAME="tex2html1208"
+  HREF="5Shell_scripts.html#SECTION05274000000000000000">4 specplot_lapw</A>
+<LI><A NAME="tex2html1209"
+  HREF="5Shell_scripts.html#SECTION05275000000000000000">5 rhoplot_lapw</A>
+<LI><A NAME="tex2html1210"
+  HREF="5Shell_scripts.html#SECTION05276000000000000000">6 opticplot_lapw</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION05200000000000000000">
+5 Shell scripts for running programs</A>
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION05210000000000000000"></A>
+<A NAME="sec:job-control"></A>
+<BR>
+1 Job control (c-shell scripts)
+</H1>
+
+<P>
+In order to run <EM>WIEN2k</EM> several c-shell scripts<A NAME="4653"></A> are provided
+which link the individual programs to specific tasks.
+
+<P>
+All available (user-callable) commands have the ending <TT><B>_lapw</B></TT> so
+you can easily get a list of all commands using  
+<BLOCKQUOTE>
+<TT><B>ls $WIENROOT/<IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img86.png"
+ ALT="$*$">_lapw</B></TT>
+
+</BLOCKQUOTE>
+in the directory of the <EM>WIEN2k</EM> executables. (<I>Note: all of the more 
+important commands have a link to a short name omitting ``_lapw''.</I>)
+All these commands have at least one option, <TT><B>-h</B></TT>, which will
+print a small help indicating purpose and usage of this command.
+
+<P>
+
+<H2><A NAME="SECTION05211000000000000000"></A>
+<A NAME="sec:x_lapw"></A><A NAME="3952"></A>
+<A NAME="3953"></A>
+<BR>
+1 Main execution script (x_lapw)
+</H2>
+
+<P>
+The main script, which executes a single program with automatic
+creation of the respective ``def``-file is called <TT><B>x_lapw</B></TT> or
+<TT><B>x</B></TT> . You can call it with several switches to provide the proper
+file definitions in case of semicore, spin-polarized or complex
+calculations. All options are listed with the help switch
+<BLOCKQUOTE>
+<TT><B>x -h</B></TT> or <TT><B>x_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+This script can also be run from <EM>w2web</EM> by using the ``Single
+Programs'' menu.
+
+<P>
+<PRE>
+USAGE:  x PROGRAMNAME [flags] 
+
+PURPOSE:runs WIEN executables:            afminput,aim,clmcopy,lcore,dmat,
+      dstart,eosfit,filtvec,init_xspec,hex2rhomb,irrep,joint,kgen,kram,
+      lapw0,lapw1,lapw2,lapw3,lapw5,lapw7,lapwdm,lapwso,orb,lorentz,lstart,mini,
+      mixer,nn,plane,qtl,optic,optimize,rhomb_in5,sgroup,spaghetti,sumpara,
+      supercell,symmetry,symmetso,telnes2,broadening,tetra,txspec,xspec
+
+FLAGS:
+-f FILEHEAD -&gt;  FILEHEAD for path of struct &amp; input-files
+-t/-T -&gt;        suppress output of running time
+-h/-H -&gt;        help
+-d    -&gt;        create only the def-file 
+-up   -&gt;        runs up-spin
+-dn   -&gt;        runs dn-spin
+-sc   -&gt;        runs semicore calculation
+-c    -&gt;        complex calculation (no inversion symmetry present)
+-p    -&gt;        run lapw1/2/so in parallel (needs .machines file)
+-orb  -&gt;        runs lapw1 with LDA+U/OP or B-ext correction 
+-it   -&gt;        runs lapw1 with iterative diagonalization
+-nohns-&gt;        runs lapw1 without HNS
+-qtl  -&gt;        calculates QTL in lapw2
+-band -&gt;        for bandstructures: unit 4 to 5 (in1), sets QTL and ROOT (in2)
+-fermi-&gt;        calculates Fermi energy and weights in lapw2
+-efg  -&gt;        calculates lapw2 with EFG switch
+-so   -&gt;        runs lapw2 with def-file for spin-orbit calculation
+-fft  -&gt;        runs dstart only up to case.in0_std creation
+-sel  -&gt;        use reduced vector file in lapw7
+-settol 0.000x -&gt; run sgroup with different tolerance
+-sigma-&gt;        run lstart with case.inst_sigma (autogenerated) for diff.dens.
+USE: x -h PROGRAMNAME   for valid flags for a specific program
+</PRE>
+
+<P>
+<I>Note: To make use of a scratch file system, you may specify such
+  a filesystem in the environment variable <TT><B>SCRATCH</B></TT> (it may
+  already have been set by your system administrator). However, you
+  have to make sure that there is enough disk-space in the
+  <TT><B>SCRATCH</B></TT> directory to hold your <TT><B>case.vector*</B></TT> and
+  <TT><B>case.help*</B></TT> files.</I>
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05212000000000000000"></A>
+<A NAME="sec:init_lapw"></A><A NAME="3971"></A>
+<BR>
+2 Job control for initialization (init_lapw)
+</H2>
+
+<P>
+In order to start a new calculation, one should make a new
+subdirectory and run all calculations from there. At the beginning one
+must provide at least one file (see <A HREF="3Quick_Start.html#cha:quick-start">3</A>), namely
+<TT><B>case.struct</B></TT> (see <A HREF="4Files_Program.html#sec:struct-file">4.3</A>) (<TT><B>case.inst</B></TT> can be created
+automatically on the ``fly'',
+see <A HREF="6Initialization.html#sec:lstart-in">6.4.3</A>), then one runs a series of programs using
+<TT><B>init_lapw</B></TT>. This script is described briefly in chapter 
+<A HREF="4Files_Program.html#sec:program-flow">4.5</A>) and in detail in ``Getting started'' for the example
+TiC (see chapter <A HREF="3Quick_Start.html#cha:quick-start">3</A>). You can get help with switch -h.
+All actions of this script are logged in short in <TT><B>:log<A NAME="4687"></A></B></TT>
+and in detail in the file <TT><B>case.dayfile<A NAME="4691"></A></B></TT>, which also
+gives you a ``restart'' option when problems occurred. In order
+to run <TT><B>init_lapw</B></TT> starting from a specific point on, specify -s PROGRAM.
+
+<P>
+<TT><B>init_lapw</B></TT> supports  a ``batch'' mode (non-interactive) for trivial
+ cases AND experienced users. You can supply various options and specify
+ spin-polarization, XC-potential, RKmax, k-mesh or mixing. See <TT><B>init_lapw
+ -h</B></TT> for more details. Changes to <TT><B>case.struct</B></TT> by <TT><B>nn</B></TT> will be
+ accepted, but by <TT><B>sgroup</B></TT> will be neglected.
+
+<P>
+
+<H2><A NAME="SECTION05213000000000000000"></A><A NAME="4704"></A><A NAME="4705"></A>
+<A NAME="sec:run_lapw"></A>
+<BR>
+3 Job control for iteration (run_lapw or 
+  runsp_lapw)
+</H2>
+
+<P>
+In order to perform a complete SCF calculation, several types of scripts
+are provided with the distribution. For the specific flow of programs see
+chapter <A HREF="4Files_Program.html#sec:program-flow">4.5</A>. 
+
+<UL>
+<LI>For non-spinpolarized calculations
+use: <TT><B>run_lapw</B></TT>, 
+</LI>
+<LI>for spin-polarized calculations use:
+<TT><B>runsp_lapw</B></TT>. 
+</LI>
+<LI>for antiferromagnetic calculations use: <TT><B>runafm_lapw</B></TT>
+</LI>
+<LI>for FSM (fixed-spin moment) calculations use: <TT><B>runfsm_lapw</B></TT>
+</LI>
+<LI>for a spin-polarized setup, where you want to constrain the moment to zero (e.g. for LDA+U calculations) use: <TT><B>runsp_c_lapw</B></TT>
+</LI>
+</UL>
+
+<P>
+Cases with/without inversion symmetry<A NAME="4716"></A> and
+with/without semicore or core states are handled automatically by
+these scripts.  All activities of these scripts are logged in short in
+<TT><B>:log</B></TT> (appended) and in detail together with convergence
+information in <TT><B>case.dayfile</B></TT> (overwriting the old ``dayfile``).
+You can always get help on its usage by invoking these scripts with
+the -h flag.
+
+<P>
+<BLOCKQUOTE>
+<TT><B>run_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+PROGRAM:        /zeus/lapw/WIEN2k/bin/run_lapw
+
+PURPOSE:        running the nonmagnetic scf-cycle in WIEN
+                to be called within the case-subdirectory
+                has to be located in WIEN-executable directory
+
+USAGE:          run_lapw [OPTIONS] [FLAGS]
+
+OPTIONS:
+-cc LIMIT -&gt;    charge convercence LIMIT (0.0000 e)
+-ec LIMIT -&gt;    energy convercence LIMIT (0.0001 Ry)
+-fc LIMIT -&gt;    force  convercence LIMIT (0 mRy/a.u.)
+                default is -ec 0.0001; multiple convergence tests possible
+-e PROGRAM -&gt;   exit after PROGRAM ()
+-i NUMBER -&gt;    max. NUMBER (40) of iterations
+-s PROGRAM -&gt;   start with PROGRAM ()
+-r NUMBER -&gt;    restart after NUMBER (40) iterations (rm *.broyd*)
+-nohns NUMBER -&gt;do not use HNS for NUMBER iterations 
+-ql LIMIT -&gt;    select LIMIT (0.05) as min.charge for E-L setting in new in1
+-in1new N -&gt;    use "new" in1 file after N iter (rewrite in1 using scf info) 
+-it N  -&gt;       use N iterative/one full diagonalizations (after first cycle)
+-it0 N -&gt;	use N iterative/one full diagonalizations (also in first cycle)
+
+FLAGS:
+-h/-H -&gt;        help
+-I    -&gt;        with initialization of in2-files to "TOT" 
+-NI   -&gt;        does NOT remove case.broyd*  (default: rm *.broyd* after 60 sec)
+-p    -&gt;        run k-points in parallel (needs .machine file [speed:name])
+-so   -&gt;        run SCF including spin-orbit coupling
+-renorm-&gt;       start with mixer and renormalize density
+-in1orig-&gt;      use case.in1_orig file (after a previous -in1new)          
+
+CONTROL FILES:
+.stop           stop after SCF cycle
+.fulldiag       force full diagonalization
+
+ENVIRONMENT VARIBLES:
+SCRATCH         directory  where vectors and help files should go
+</PRE>
+Additional flags valid only for magnetic cases (<TT><B>runsp_lapw</B></TT>) include:
+<PRE>
+-dm   -&gt;        calculate the density matrix (when -so is set, but -orb is not)
+-eece -&gt;        use "exact exchange+hybrid" methods
+-orb  -&gt;        use LDA+U, OP or B-ext correction
+-orbc -&gt;        use LDA+U correction, but with constant V-matrix
+</PRE>
+
+<P>
+Calling <TT><B>run_lapw</B></TT> (after <TT><B>init_lapw</B></TT>) from the
+subdirectory <TT><B>case</B></TT> will perform up to 40 iterations (or what
+you specified with switch -i) unless convergence has been reached
+earlier. You can choose from three convergence criteria<A NAME="4731"></A>, -ec
+(the total energy convergence is the default and is set to 0.0001 Ry
+for at least 3 iterations),
+-fc (magnitude of force convergence for 3 iterations) or -cc 
+(charge convergence, just the last iteration), but
+only one criterion can be specified. Be careful with these criteria,
+different systems will require quite different limits (e.g. fcc Li can
+be converged to <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img133.png"
+ ALT="$\mu$">Ry, <!-- MATH
+ $\mbox{YBa}_2\mbox{Cu}_3\mbox{O}_7$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img134.png"
+ ALT="$\mbox{YBa}_2\mbox{Cu}_3\mbox{O}_7$"> only to
+0.1 mRy). You can stop the scf iterations after the current cycle  
+by generating an empty file <TT><B>.stop</B></TT> (use eg. <TT><B>touch .stop</B></TT> in the
+respective case-directory).
+
+<P>
+The scf-cycle creates <TT><B>case.broyd*</B></TT> files which contain the "charge-history".
+Once run_lapw has finished, you should usually "<TT><B>save_lapw</B></TT>" (see below) the results.
+If you continue with another run_lapw the "broyden-files" will be deleted unless you
+specify -NI.
+
+<P>
+With -e PROGRAM you can run only part of one scf
+cycle (e.g. run lapw0, lapw1 and lapw2), with -s PROGRAM you can start
+at an arbitrary point in the scf cycle (e.g. after a previous cycle
+has crashed and you want to continue after fixing the problem) and
+continue to self-consistency. Before mixer is invoked,
+<TT><B>case.clmsum</B></TT> is copied to <TT><B>case.clmsum_old</B></TT>, and the final
+``important`` files of the scf calculation are <TT><B>case.clmsum</B></TT> and
+<TT><B>case.scf</B></TT>.
+
+<P>
+Invoking
+<BLOCKQUOTE>
+<TT><B>run_lapw -I -i 30 -fc 0.5</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+will first set in case.in2 the TOT-switch<A NAME="4750"></A> (if FOR was set) to
+save cpu time, then run up to 30 scf cycles till the force criterion
+of 0.5 mRy/a.u. is met (for 3 consecutive iterations). Then the
+calculation of all terms of the forces is activated (setting FOR
+<A NAME="4032"></A> in <TT><B>case.in2</B></TT>) for a final iteration.
+
+<P>
+The switch <TT><B>-in1new N</B></TT> preserves for N iteration the default 
+<TT><B>case.in1</B></TT> file, thus using the ``old'' WIEN97 scheme to select the 
+energy parameters.
+After the first N iterations <TT><B>write_in1_lapw</B></TT> is called and a new 
+<TT><B>case.in1</B></TT> file is generated, where the energy parameters are set according to 
+the :EPLxx and :EPHxx values of the last scf iteration and the <TT><B>-ql</B></TT> 
+value (see sections  <A HREF="4Files_Program.html#sec:scf-file">4.4</A> and <A HREF="7SCF_cycle.html#sec:lapw1">7.3</A>). In this way you 
+select the best possible energy-parameters and also additional LOs to improve 
+the linearization may be generated automatically. Note, however, that this 
+option is potentially dangerous if you have a ``bad'' last iteration (or large
+changes from one scf iteration to the next.
+The switch <TT><B>-in1orig</B></TT> can be used to switch back to the original (``old'')
+scheme.
+
+<P>
+Parallelization is described in Sec. <A HREF="#sec:parallel">5.5</A>.
+
+<P>
+Iterative diagonalization<A NAME="4765"></A>, which can significantly save computer time in
+cases with ``few electrons'' and ``large matrices (larger than 4000)'', is described in
+Sec. <A HREF="7SCF_cycle.html#sec:lapw1">7.3</A>.  It needs the <TT><B>case.vector</B></TT> file from the
+previous scf-iteration and this file is copied to
+<TT><B>case.vector.old</B></TT> when the -it N<A NAME="4770"></A> switch is set. Since the
+iterative diagonalization scheme alone would not lead to a converged (correct)
+total energy, one should perform every <B>N</B> iterations a ``full''
+(exact) diagonalization. Typically we recommend  <B>N = 4-8</B>.
+
+<P>
+You can save computer time by performing the first scf-cycles without
+calculating the non-spherical matrix elements in lapw1. This option
+can be set for <B>N</B> iterations with the <TT><B>-nohns N</B></TT> switch.
+
+<P>
+If you have a previous scf-calculation and changed lattice parameters or 
+positions (volume optimization or internal positions minimization), we
+recommend to use <TT><B>-renorm</B></TT> to renormalize the density prior to the
+first iteration.
+
+<P>
+For magnetic systems which are difficult to converge you can use the
+script <TT><B>runfsm_lapw -m M</B></TT> (see section <A HREF="4Files_Program.html#sec:flow_fsm">4.5.3</A>) for the
+execution of fixed-spin moment (FSM) calculations.
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05220000000000000000">
+2 Utility scripts</A>
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION05221000000000000000"></A><A NAME="4777"></A>
+<A NAME="sec:save_lapw"></A>
+<BR>
+1 Save a calculation (save_lapw)
+</H2>
+
+<P>
+After self-consistency has been reached, the script 
+
+<P>
+<BLOCKQUOTE>
+<TT><B>save_lapw head_of_save_filename</B></TT>
+
+</BLOCKQUOTE> 
+
+<P>
+saves <TT><B>case.clmsum</B></TT>, <TT><B>case.scf</B></TT>, <TT><B>case.dmat</B></TT>, <TT><B>case.vorb</B></TT> and <TT><B>case.struct</B></TT> under
+the new name and removes the <TT><B>case.broyd*</B></TT> files. Now you are
+ready to modify structural parameters or input switches and rerun
+<TT><B>run_lapw</B></TT>, or calculate properties like charge densities
+(lapw5), total and partial DOS (tetra) or energy bandstructures
+(spaghetti).
+
+<P>
+For more complicated situations, where many parameters will be
+changed, we have extended <TT><B>save_lapw</B></TT> so that calculations can
+not only be saved under the <TT><B>head_of_save_filename</B></TT> but also a
+directory can be specified. If you use any of the possible switches
+(-a, -f, -d, -s) all input files will be saved as well (and can be
+restored using <TT><B>restore_lapw</B></TT>).
+
+<P>
+Options to <TT><B>save_lapw</B></TT> can be seen with
+<BLOCKQUOTE>
+<TT><B>save_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+Currently the following options are supported
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">-h</TD>
+<TD ALIGN="LEFT">help</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-a</TD>
+<TD ALIGN="LEFT">save <B>all</B> input files as well</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-f</TD>
+<TD ALIGN="LEFT">force save_lapw to overwrite previous saves</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-d directory</TD>
+<TD ALIGN="LEFT">save calculation in directory specified</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-s</TD>
+<TD ALIGN="LEFT">silent operation (no output)
+
+<P></TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05222000000000000000"></A><A NAME="4804"></A>
+<A NAME="sec:restore_lapw"></A>
+<BR>
+2 Restoring a calculation (restore_lapw)
+</H2>
+
+<P>
+To restore a calculation the script <TT><B>restore_lapw</B></TT> can be used.
+This script restores the <TT><B>struct</B></TT>, <TT><B>clmsum</B></TT>, <TT><B>vorb</B></TT> and <TT><B>dmat</B></TT>
+files as well as all input files. <B>Note</B>: This script works only
+in conjunction with the  new scheme of save_lapw, i.e. when you have saved 
+a calculation in an extra directory.
+
+<P>
+Options to restore_lapw are:
+<BR><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">-h</TD>
+<TD ALIGN="LEFT">help</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-f</TD>
+<TD ALIGN="LEFT">force restore_lapw to overwrite previous files</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-d directory</TD>
+<TD ALIGN="LEFT">restore calculation from directory specified</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-s</TD>
+<TD ALIGN="LEFT">silent operation (no output)</TD>
+</TR>
+<TR><TD ALIGN="LEFT">-t</TD>
+<TD ALIGN="LEFT">only test which files would be restored
+
+<P></TD>
+</TR>
+</TABLE>
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05223000000000000000"></A><A NAME="4815"></A>
+<A NAME="sec:clean_lapw"></A>
+<BR>
+3 Remove unnecessary files (clean_lapw)
+</H2>
+
+<P>
+Once a case has been completed you can clean up the directory with
+this command. Only the most important files (scf, clmsum, struct, input and 
+some output files) are kept. It is very important to use this command when you have
+finished a case, since otherwise the large vector and helpXX files will 
+quickly fill up all your disk space.
+
+<P>
+
+<H2><A NAME="SECTION05224000000000000000"></A><A NAME="4816"></A>
+<A NAME="sec:migrate_lapw"></A>
+<BR>
+4 Migrate a case to/from a remote computer (migrate_lapw)
+</H2>
+
+<P>
+This script migrates a case to a remote computer (to be called within
+the case-dir).  Needs working  ssh/scp without password; local and remote
+case-dir must have the same name.
+
+<P>
+Call it within the desired case-dir as:
+
+<P>
+<TT><B>migrate_lapw [FLAGS OPTIONS] [user@]host:path/case-dir</B></TT>
+
+<P>
+with the following options:
+<PRE>
+-put           -&gt; transfer of files to a remote host (default)
+-get           -&gt; transfer of files from a remote host
+
+-all           -&gt; the complete directory is copied
+-start         -&gt; only files to start an scf cycle are copied (default for put)
+-end           -&gt; only new files resulting from an scf cycle are copied
+                  (default for get)
+-save savedir  -&gt; "save_lapw -d save_dir" is issued and only save_dir is copied
+
+FLAGS:
+-h             -&gt; help
+-clean         -&gt; a clean_lapw is issued before copying
+-r             -&gt; files in source directory are removed after copying
+-R             -&gt; source directory (and all files) are removed after copying
+-s             -&gt; do it silent (in batch mode)
+-z             -&gt; gzip files before scp (slow network)
+</PRE>
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05225000000000000000"></A><A NAME="4819"></A>
+<A NAME="sec:instgen_lapw"></A>
+<BR>
+5 Generate case.inst (instgen_lapw)
+</H2>
+
+<P>
+This script generates <TT><B>case.inst</B></TT> from a <TT><B>case.struct</B></TT> file.
+It can be used instead of the ``Structure-generator'' of <EM>w2web</EM>.
+Note: the label ``RMT'' is necessary in <TT><B>case.struct</B></TT>.
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05226000000000000000"></A><A NAME="4827"></A>
+<A NAME="sec:setrmt_lapw"></A>
+<BR>
+6 Set R-MT values in your case.struct file (setrmt_lapw)
+</H2>
+
+<P>
+This perl-script executes <TT><B>x nn</B></TT> and uses its output to determine the
+atomic sphere radii (obeying recommended ratios for H, sp-, d- and f-
+elements). It is called automatically within <TT><B>init_lapw</B></TT> or you may
+call it separately using:
+
+<P>
+<TT><B>setrmt_lapw case [-r X ]</B></TT>
+
+<P>
+where <TT><B>case</B></TT> gives the head of the <TT><B>case.struct</B></TT> file. You may
+specify a reduction of the RMTs by X percent in order to allow for
+structural optimizations. It creates <TT><B>case.struct_setrmt</B></TT>.
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05227000000000000000"></A><A NAME="4840"></A>
+<A NAME="sec:check_lapw"></A>
+<BR>
+7 Check for running WIEN jobs (check_lapw)
+</H2>
+
+<P>
+This script searches for <TT><B>.running.*</B></TT> files within the current directory
+(or the directory specified with ``-d full_path_directory'') and then
+performs a <TT><B>ps</B></TT> command for these processes. If the specified process
+has not been found, it removes the corresponding <TT><B>.running.*</B></TT> file
+after confirmation (default) or immediately (when ``-f'' has been specified).
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05228000000000000000"></A><A NAME="4847"></A>
+<A NAME="sec:cancel_lapw"></A>
+<BR>
+8 Cancel (kill) running WIEN jobs (cancel_lapw)
+</H2>
+
+<P>
+This script searches for <TT><B>.running.*</B></TT> files within the current directory
+(or the directory specified with ``-d full_path_directory'') and then
+kills the corresponding process 
+after confirmation (default) or immediately (when ``-f'' has been specified).
+It is particular usefull for killing ``k-point parallel'' jobs.
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05229000000000000000"></A><A NAME="4850"></A>
+<A NAME="sec:extractaim_lapw"></A>
+<BR>
+9 Extract critical points from a Bader analysis (extractaim_lapw)
+</H2>
+
+<P>
+This script extracts the critical points (CP) after a Bader analysis 
+(<TT><B>x aim (-c)</B></TT>)  from <TT><B>case.outputaim</B></TT>. It sorts
+them (according to the density), removes duplicate CPs, converts units
+into <!-- MATH
+ $\AA, e/\AA^3,...$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$\AA, e/\AA^3,...$"> and produces <TT><B>critical_points_ang</B></TT>. 
+
+<P>
+It is used with:  <TT><B>extractaim_lapw  case.outputaim</B></TT> 
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052210000000000000000"></A><A NAME="4859"></A>
+<A NAME="sec:scfmonitor"></A>
+<BR>
+10 scfmonitor_lapw
+</H2>
+
+<P>
+This program was contributed by:
+<BR>       <DIV ALIGN="CENTER">
+ <!-- MATH
+ $\framebox{
+            \parbox[c]{12cm}{
+                
+  Hartmut Enkisch   \\
+  Institute of Physics E1b\\
+  University of Dortmund\\
+  Dortmund,  Germany\\
+  enkisch@pop.uni-dortmund.de
+\\
+        {\scriptsize Please make comments or report problems with this 
+        program to the WIEN-mailinglist. If necessary, we will communicate
+        the problem to the authors.}
+            }
+          }$
+ -->
+<IMG
+ WIDTH="566" HEIGHT="158" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="\framebox{
+\parbox[c]{12cm}{
+Hartmut Enkisch \\
+Institute of Physics E1b\\...
+...ilinglist. If necessary, we will communicate
+the problem to the authors.}
+}
+}">
+         <BR>
+<BR>
+<BR>
+        
+</DIV>
+
+<P>
+
+<P>
+It produces a plot of some quantities as function of iteration number (a maximum of 6 quantities is possible at once) from the <TT><B>case.scf</B></TT> file 
+as specified on the commandline  using 
+<TT><B>analyse_lapw</B></TT> and GNUPLOT. This plot is updated
+in regular intervals.
+
+<P>
+You can call <TT><B>scfmonitor_lapw</B></TT> using:
+<BLOCKQUOTE>
+<TT><B>scfmonitor_lapw [-h] [-i n] [-f case.scf] [-p] arg1 [arg2 .. arg6]</B></TT>
+
+</BLOCKQUOTE>
+<PRE>
+-h             	help switch
+-i n            show only the last n iterations
+-f scf-file     use  "scf-file"  instead of the default  "case.scf"
+-p             	produces file  "scfmonitor.png"  instead of X-window plot
+arg1,...        arguments to monitor (like  ":ENE"  or  ":DIS" , see analyse_lapw )
+</PRE>
+
+<P>
+The <TT><B>scfmonitor</B></TT> can also be called directly from <EM>w2web</EM> using
+the "Analyse" tool.
+
+<P>
+In order to have a reasonable behavior of scfmonitor the GNUPLOT window should
+stay in background. This can be achieved by putting a line into your
+<TT><B>.Xdefaults</B></TT> file like:
+
+<P>
+gnuplot*raise: off 
+
+<P>
+<I>Note: It does not make sense to start <TT><B>scfmonitor</B></TT> before the first cycle
+  has finished because no <TT><B>case.scf</B></TT> exists at this point.</I>
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052211000000000000000"></A><A NAME="4889"></A>
+<A NAME="sec:analyse"></A>
+<BR>
+11 analyse_lapw
+</H2>
+
+<P>
+The script <TT><B>analyse_lapw</B></TT> is usually called from <TT><B>scfmonitor_lapw</B></TT>.
+It "greps" from an scf-file the specified arguments and produces 
+<TT><B>analyse.out</B></TT>. 
+
+<P>
+<TT><B>analyse_lapw</B></TT> is called using:
+<BLOCKQUOTE>
+<TT><B>analyse_lapw [-h]  scf-file  arg1 [arg2 arg3 arg4 arg5 arg6]</B></TT>
+
+</BLOCKQUOTE>
+<PRE>
+-h              help switch
+scf-file        "scf-file"  to analyse (there's no default  "case.scf" !)
+arg1,...        arguments to analyse:
+                atom independend:   :ENE :DIS :FER :MMT
+                atom iii dependend: :CTOiii :CUPiii :CDNiii :NTOiii :NUPiii :NDNiii 
+                                    :DTOiii :DUPiii :DDNiii :RTOiii :EFGiii :HFFiii
+                                    :MMIiii
+                vector quantities:  :FORiii[x/y/z] :POSiii[x/y/z] :FGLiii[x/y/z]
+                             where     magnitude      z              z   is the default
+</PRE>
+For vector quantities like :FGLiii or :POSiii (usefull with <TT><B>case.scf_mini</B></TT>) one can
+specify the respective coordinate by adding x/y/z to the corresponding labels.
+
+<P>
+
+<H2><A NAME="SECTION052212000000000000000"></A><A NAME="4902"></A>
+<A NAME="sec:testpara"></A>
+<BR>
+12 Check parallel execution (testpara_lapw)
+</H2>
+<TT><B>testpara_lapw</B></TT> is a small script which helps you to determine
+an optimal selection for the  file <TT><B>.machines</B></TT> for parallel
+calculations (see sec.  <A HREF="#sec:parallel">5.5</A>).
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052213000000000000000"></A><A NAME="4907"></A>
+<A NAME="sec:testpara1"></A>
+<BR>
+13 Check parallel execution of lapw1 (testpara1_lapw)
+</H2>
+<TT><B>testpara1_lapw</B></TT> is a small script which determines how far the
+execution of <TT><B>lapw1para</B></TT> has proceeded.  
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052214000000000000000"></A><A NAME="4912"></A>
+<A NAME="sec:testpara2"></A>
+<BR>
+14 Check parallel execution of lapw2 (testpara2_lapw)
+</H2>
+<TT><B>testpara2_lapw</B></TT> is a small script which determines how far the
+execution of <TT><B>lapw2para</B></TT> has proceeded.  
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052215000000000000000"></A><A NAME="4917"></A>
+<A NAME="sec:grepline_lapw"></A>
+<BR>
+15 grepline_lapw
+</H2>
+Using
+<BLOCKQUOTE>
+<TT><B>grepline_lapw :label 'filename*.scf' lines_for_tail</B></TT>  or
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TT><B>grepline :label 'filename*.scf' lines_for_tail</B></TT>
+
+</BLOCKQUOTE> 
+you can get a list of a quantity ``<TT><B>:label</B></TT>'' (e.g. :ENE for the total
+energy) from several scf files at once.
+
+<P>
+
+<H2><A NAME="SECTION052216000000000000000"></A><A NAME="4924"></A>
+<A NAME="sec:init_so"></A>
+<BR>
+16 initso_lapw
+</H2>
+<TT><B>initso_lapw</B></TT> helps you to initialize the calculations for spin-orbit
+coupling. It creates all required input files (<TT><B>case.inso, case.in2c</B></TT>).
+In a spinpolarized case SO may reduce symmetry or equivalent atoms 
+may become non-equivalent, and the script calls <TT><B>symmetso</B></TT> and will
+help you to find proper symmetries and setup the respective input files.
+It is called using
+<BLOCKQUOTE>
+<TT><B>initso_lapw</B></TT>  or
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TT><B>initso</B></TT>
+
+</BLOCKQUOTE> 
+and you should <I>carefully</I> follow the instructions and explanations of the script.
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION052217000000000000000"></A><A NAME="4935"></A>
+<A NAME="sec:oldvec2vec"></A>
+<BR>
+17 oldvec2vec_lapw
+</H2>
+<TT><B>oldvec2vec_lapw</B></TT> moves <TT><B>case.vector.old</B></TT> files to <TT><B>case.vector</B></TT>. This is useful if you used the iterative diagonalization (<TT><B>run_lapw -it</B></TT>) and now want to calculate qtl's,.... It also works  automatically for the parallel case.
+
+<P>
+
+<H1><A NAME="SECTION05230000000000000000"></A>
+<A NAME="4224"></A>
+<A NAME="sec:structure_opt"></A>
+<BR>
+3 Structure optimization
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION05231000000000000000"></A>
+<A NAME="sec:lattice-parameters"></A>
+<BR>
+1 Lattice parameters (Volume, c/a, lattice parameters)
+</H2>
+The auxilliary program <TT><B>optimize</B></TT> (<TT><B>x optimize<A NAME="4949"></A></B></TT>)
+generates
+from an already existing <TT><B>case.struct</B></TT> or
+<TT><B>case_initial.struct</B></TT> a series of struct files with various
+volumes (c/a ratios, or other modified parameters) (depending on your input) and a shell-script
+<TT><B>optimize.job<A NAME="4957"></A></B></TT> which looks similar to:
+
+<P>
+<PRE>
+#!/bin/csh -f
+ foreach i ( \
+        tic_vol_-10.0  \
+        tic_vol__-5.0  \
+        tic_vol___0.0  \
+        tic_vol___5.0  \
+        tic_vol__10.0  \
+ )
+     cp  $i.struct tic.struct
+ #    cp  $i.clmsum tic.clmsum
+ #    x dstart
+ #    run_lapw -ec 0.0001 -in1new 3 -in1orig -renorm 
+     run_lapw -ec 0.0001
+     set stat = $status
+     if ($stat) then
+        echo "ERROR status in" $i
+        exit 1
+     endif
+     save_lapw  $i
+ #    save_lapw  -f -d XXX $i    
+ end
+</PRE>
+
+<P>
+You may modify this script according to your needs (use runsp_lapw or
+even min_lapw, specify different convergence parameters, save into a
+directory to separate e.g. ``gga'' and ``lda'' results, activate the
+line ``<TT><B>x dstart</B></TT>'' or `` <TT><B>cp $i.clmsum case.clmsum</B></TT>'' to
+use a previously saved clmsum file, e.g. from a calculation with
+smaller RKmax, ...)
+
+<P>
+<I>Note: You must have a <TT><B>case.clmsum</B></TT> file (either from
+<TT><B>init_lapw</B></TT> or from a previous scf calculation) in order to run
+<TT><B>optimize.job</B></TT>.</I>
+
+<P>
+After execution of this script you should have a series of scf-files with
+energies corresponding to the modified parameters, which should allow you to
+find the corresponding equillibrium parameters. For the volume optimization an
+analysis tool is available, other tools are under development).
+
+<P>
+Using the script <TT><B>grepline</B></TT> (or the ``<I>Analysis <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $">
+  Analyze multiple SCF-files</I>'' menu of <EM>w2web</EM>) you get a summary of
+the total energy vs. volume (c/a). The file <TT><B>case.analysis</B></TT> can
+be used in <TT><B>eplot_lapw<A NAME="4976"></A></B></TT> 
+to find the minimum total energy and the equilibrium volume (c/a).
+Supported equation of states include the EOS2, Murnaghan and Birch-Murnaghan EOS.
+
+<P>
+<BLOCKQUOTE>
+<TT><B>grepline :ENE '*.scf' 1 &gt; case.analysis</B></TT> 
+<BR>  <TT><B>grepline :VOL '*.scf' 1 &#187; case.analysis</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+Using such strategies also higher-dimensional optimizations (e.g. c/a
+ratio and volume) are possible in combination with the -d option of
+<TT><B>save_lapw</B></TT>.
+
+<P>
+For optimization of more degrees of freedom (2-4 lattice parameters), you can use the corresponding option 
+and for analysis of the data the script <TT><B>parabolfit_lapw</B></TT> together with the program <TT><B>eosfit6</B></TT>. It performs 
+a non-linear least squares fit, 
+using a parabolic fit-function in your variables and get an analytic description of your energy surface. Please note,
+this is only a harmonic fit (no odd or higher terms) and the description may not be very good if your parameter range 
+is large and/or the function is quite anharmonic, or you suffer from numerical noise.
+
+<P>
+For the determination of elastic constants see the description of ELAST in sec <A HREF="8Analysis_Properties.html#sec:elast">8.14</A>. 
+
+<P>
+
+<H2><A NAME="SECTION05232000000000000000"></A><A NAME="4987"></A>
+<A NAME="sec:min"></A>
+<BR>
+2 Minimization of internal parameters (min_lapw)
+</H2>
+Most of the more complicated structures have free internal structural
+parameters, which can either be taken from experiment or optimized
+using the calculated <B>forces on the nuclei</B>. The shell script
+<TT><B>min_lapw</B></TT>, together with the program
+<TT><B>mini</B></TT>, determines the equilibrium position of all
+individual atoms automatically (obeying the symmetry constraints of a certain space
+group). 
+
+<P>
+A typical sequence of commands for an optimization of the internal positions
+would look like:
+
+<P>
+
+<UL>
+<LI>Generate struct file
+</LI>
+<LI>init_lapw
+</LI>
+<LI>run_lapw -fc 1 [another runXX script or additional options are of course also possible]  (this may take some time)
+</LI>
+<LI>Inspect the scf file whether you have significant forces (usually at
+  least .gt. 5 mRy/bohr), otherwise you are more or less at the optimal positions (An experienced user may omit
+the last two steps and proceed directly from init_lapw to the next step)
+</LI>
+<LI>x pairhess; cp case.inM_st case.inM ; cp .minpair .min_hess ; cp .minpair .minrestart (when using the PORT minimization option)
+</LI>
+<LI>min_lapw [options]    (this may take some time)
+</LI>
+</UL>
+
+<P>
+Without -NI switch <TT><B>min_lapw</B></TT> performs an initialization first: 
+
+<UL>
+<LI>generates default <TT><B>case.inM</B></TT> (if not present);
+</LI>
+<LI>removes "histories" (case.broyd*, case.tmpM) if present; 
+</LI>
+<LI>copies <TT><B>.min_hess</B></TT> to <TT><B>.minrestart</B></TT> (if present from previous min_lapw or x pairhess).
+</LI>
+</UL>
+When <TT><B>case.scf</B></TT> is not present, an scf-cycle will be performed first, otherwise 
+the corresponding forces are extracted into <TT><B>case.finM</B></TT> and <TT><B>mini</B></TT> generates a 
+new <TT><B>case.struct</B></TT> with modified atomic positions. The previous step is saved under 
+<TT><B>case_1/2/3...</B></TT>. Then a new scf-cycle is executed and this loop
+continues until convergence (default: forces below 2mRy/bohr) is reached. 
+<BR>
+The last iteration of each geometry step is appended to <TT><B>case.scf_mini</B></TT>, 
+so that this file contains the complete history of the minimization and can be used to
+monitor the progress (grep :ENE *mini; or :FORxxx ...).
+
+<P>
+Note, <TT><B>mini</B></TT> requires an input file <TT><B>case.inM</B></TT> (see Sec.
+<A HREF="8Analysis_Properties.html#sec:mini">8.15</A>) which is created automatically and MUST NOT be changed while <TT><B>min_lapw</B></TT>
+is running (except the force tolerance, which terminates the optimization). 
+
+<P>
+We recommend the PORT minimization method, a reverse-communication trust-region
+Quasi-Newton method from the Port library, which seems to be stable, efficient
+and does not depend too much on the users input (DELTAs, see below with NEWT).
+The PORT option also produces a file <TT><B>.min_hess</B></TT>, which contains the
+(approximate) Hessian matrix (lower-triangle Cholesky factor) 
+If you restart a minimization with different k-points, RMT,
+RKmax, ... or do a similar calculation (eg. for a different volume, ...)
+it will be copied to <TT><B>.minrestart</B></TT> (unless -nohess is specified), so that you
+start with a reasonable approximation for the Hessian.
+When using PORT you may also want to check its progress using
+<PRE>
+grep :LABEL  case.outputM
+</PRE>
+where :LABEL is :ENE (should decrease), :GRAD (should also go down, but could
+sometimes also go up for some time as long as the energy still
+decreases), :MIN (provides a condensed summary of the progress),  :WARN
+may indicate a problem), :DD (provides information about the step sizes
+and mode used). Some general explanations are: 
+<BR>
+1) The algorithm takes steps along what it considers are good directions
+(using some internal logic), provided that these steps are smaller than
+what is called the trust-region radius. After a good step (e.g. large
+energy decrease) it expands the trust-region; after a bad one it reduces
+it. Sometimes it will try too large a step then have to reduce it, so the
+energy does not always go down. You can see this by using ":DD'' and  
+``:MIN" .
+<BR>
+2) A grep on :MIN gives a condensed progress output, in which the most
+significant terms are E (energy in some rescaled units), RELDF (last
+energy reduction), PRELDF (what the algorithm predicted for the step),
+RELDX (RMS change in positions in Angstroms) and NPRELDF (predicted change
+in next cycle). Near the solution RELDF and RELDX should both become small.
+However, sometimes you can have soft modes in your structure in which case
+RELDX will take a long time before it becomes small.
+<BR>
+3) A warning that the step was reduced due to overlapping spheres if it
+happens only once (or twice) is not important; the algorithm tested too
+large a step. However, if it occurs many times it may indicate that the
+RMT's are too big.
+<BR>
+4) A warning "CURVATURE CONDITION FAILED" indicates that you are still
+some distance from the minimum, and the Hessian is changing a lot. If you
+see many of these, it may be that the forces and energy are not consistent.
+
+<P>
+Sometimes PORT gets "stuck" (often because of inconsistencies of energy and
+forces due to insufficient scf convergence or a very non-harmonic potential 
+energy surface).  A good alternative is NEW1, which
+is a "sophisticated" steepest-descent method with optimized step size.
+It can be very efficient in certain cases, but can also be rather slow when
+the potential energy surface is rather flat in one, but steep in another direction
+(eg. a weakly bound molecule on a surface, but constraining the sensitive parameters,
+like the bond distance of the molecule, may help).
+
+<P>
+Another alternative is NEWT, where one must
+set proper "DELTAs" and a "FRICTION" for each atom. Unfortunately, these
+DELTAs determine crucially how the minimization performs. Too small values
+lead to many (unnecessary) "geometry steps", while too large DELTAs can even 
+lead to divergence (and finally to a crash). Thus you <TT><B>MUST</B></TT> control how
+the minimization performs. We recommend the following sequence after
+2-3 geometry steps:
+<PRE>
+grep :ENE *mini
+:ENE  : ********** TOTAL ENERGY IN Ry =        -2994.809124                    
+:ENE  : ********** TOTAL ENERGY IN Ry =        -2994.813852                    
+:ENE  : ********** TOTAL ENERGY IN Ry =        -2994.818538
+</PRE>
+Good, since the total energy is decreasing.
+<PRE>
+grep :FGL001 *mini
+:FGL001:  1.ATOM                         0.000          0.000         18.219    
+:FGL001:  1.ATOM                         0.000          0.000         12.375    
+:FGL001:  1.ATOM                         0.000          0.000          7.876
+</PRE>
+Good, since the force (only a force along z is present here) is decreasing
+reasonably fast towards zero. You must check this for every atom in your
+structure. 
+
+<P>
+When you detect oszillations or too small changes of 
+the forces during geometry optimization, you will have to decrease/increase 
+the DELTAs in <TT><B>case.inM</B></TT> and <TT><B>rm case.tmpM</B></TT>. (NOTE: You must not
+continue with modified DELTAs but keeping <TT><B>case.tmpM</B></TT>.) 
+Alternatively, stop the
+minimization (<TT><B>touch .minstop</B></TT> and wait until the last step has finished),
+change <TT><B>case.inM</B></TT> and restart. 
+
+<P>
+You can get help on its usage with:
+<BLOCKQUOTE>
+<TT><B>min -h</B></TT>    or  <TT><B>min_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+<PRE>
+PROGRAM:        min
+
+USAGE:          min [OPTIONS]
+
+OPTIONS:
+-j JOB -&gt;       job-file JOB (default: run_lapw -I -fc 1. -i 40 )
+-p -&gt;           adds -p (parallel) switch to JOB
+-sp -&gt;          uses runsp in default  JOB
+-nohess -&gt;      removes .minrestart (initial Hessian) from previous minimization
+-m -&gt;           extract force-input and execute mini (without JOB) and exit
+-mo -&gt;          like -m but without copying of case.tmpM1 to case.tmpM
+-h/-H -&gt;        help
+-NI -&gt;          without initialization of minimization (eg. continue after a crash)
+-i NUMBER -&gt;    max. NUMBER (50) of structure changes
+-s NUMBER -&gt;    save_lapw after NUMBER of structure changes
+
+CONTROL FILES:
+.minstop        stop after next structure change
+</PRE>
+For instance for a spin-polarized case, which converges more difficultly, you would use:
+<BLOCKQUOTE>
+<TT><B>min -j ``runsp_lapw -I -fc 1.0 -i 60''</B></TT>    
+
+</BLOCKQUOTE>
+
+<P>
+
+<P>
+
+<H1><A NAME="SECTION05240000000000000000"></A>
+<A NAME="4302"></A>
+<A NAME="sec:phonon"></A>
+<BR>
+4 Phonon calculations
+</H1>
+
+<P>
+Calculations of phonons is based on a program PHONON by K.Parlinski, which
+runs under MS-Windows and must be ordered separately (see 
+http://wolf.ifj.edu.pl/phonon/ )
+
+<P>
+You would define the structure of your compound in PHONON together with
+a supercell of sufficient size (e.g. 64 atoms). PHONON will then generate
+a list of necessary displacements of the individual atoms. The resulting 
+file <TT><B>case.d45</B></TT> must be transfered to UNIX. Here you would run WIEN2k-scf
+calculations for all displacements and collect the resulting forces, which
+will be transfered back to PHONON (<TT><B>case.dat</B></TT> and/or <TT><B>case.dsy</B></TT>).
+With these force information PHONON calculates phonon at arbitrary q-vectors 
+together with several thermodynamic properties.
+
+<P>
+
+<H2><A NAME="SECTION05241000000000000000"></A>
+<A NAME="sec:initphonon"></A>
+<BR>
+1 init_phonon_lapw
+</H2>
+<TT><B>init_phonon_lapw</B></TT> uses <TT><B>case.d45</B></TT> from PHONON and creates 
+subdirectories <TT><B>case_XX</B></TT> and <TT><B>case_XX.struct</B></TT> files for all
+ required displacements. 
+It allows you to define globally RMT values for the different atoms and 
+initializes all cases individually (or copies the files from the first case).
+In low symmetry cases we recommend to use P1 symmetry for all cases and thus
+just one init_lapw, while for higher symmetry a separate initialization is
+required (but computational effort is reduced). Please use maily <TT><B>nn</B></TT> 
+to reduce equivalent atoms. <TT><B>sgroup</B></TT> might change the unitcell and than
+the collection of forces into the original supercell is quite difficult.
+
+<P>
+A script <TT><B>run_phonon</B></TT> has been created. Modify it according to your
+needs (parallelization,....) and run all cases to selfconsistency.
+
+<P>
+Note that good force convergence is essential (at least 0.1 mRy/bohr) and
+if your structure has free parameters, either very good equillibrium positions 
+must have been found before, or even better, use both, positive and negative 
+displacements to average out any resulting error from non-equillibrium 
+positions.
+
+<P>
+
+<H2><A NAME="SECTION05242000000000000000"></A>
+<A NAME="sec:analysephonon"></A>
+<BR>
+2 analyse_phonon_lapw
+</H2>
+<TT><B>init_phonon_lapw</B></TT> uses the resulting scf files and generates the 
+``Hellman-Feynman''-file required by PHONON. When you have positive and 
+negative displacements an automatic averaging will be performed.
+The resulting <TT><B>case.dat</B></TT> and <TT><B>case.dsy</B></TT> filse should be transfered 
+back to MS-Windows and imported into PHONON.
+
+<P>
+
+<H1><A NAME="SECTION05250000000000000000"></A>
+<A NAME="4323"></A>
+<A NAME="sec:parallel"></A>
+<BR>
+5 Running programs in parallel mode
+</H1>
+
+<P>
+This section describes two methods for running <EM>WIEN2k</EM> on parallel computers.
+One method, parallelizing k-points over processors, utilizes c-shell
+scripts. 
+This method works with all standard flavors of Unix without any
+special requirements.
+This parallelization was already available in <EM>WIEN97</EM> and is very
+efficient even on heterogeneous computing environments, e.g.&nbsp;on 
+heterogeneous clusters of workstations, but also on dedicated
+parallel computers.
+
+<P>
+The other parallelization method, which comes new with <EM>WIEN2k</EM>, is based
+on fine grained methods.
+It is especially useful for large systems, if the required memory size is 
+no longer available on a single computer or in situations where more 
+processors than k-points are available.
+
+<P>
+The k-point parallelization uses a dynamic load balancing scheme and is
+therefore often preferred on heterogeneous compute environments and 
+on networks of workstations or PCs, if interactive users contribute to the 
+processors' work load. 
+The fine grained parallelization method relies on static load balancing,
+therefore, in a heterogeneous environment, the slowest processor sets the pace.
+In many cases, a combination of both parallelization methods is favorable
+(always use k-point parallelism if you have more than 1 k-point).
+
+<P>
+
+<H2><A NAME="SECTION05251000000000000000">
+1 k-Point Parallelization</A>
+</H2>
+
+<P>
+Parts of the code are executed in parallel, namely
+<TT><B>LAPW1, LAPWSO, LAPW2, LAPWDM,</B></TT> and <TT><B>OPTIC</B></TT>. 
+These are the numerically intensive parts of most calculations.
+
+<P>
+Parallelization is achieved on the k-point level by distributing
+subsets of the k-mesh to different processors and subsequent summation
+of the results. The implemented strategy can be used
+both on a multiprocessor architecture and on a heterogeneous (even
+multiplatform) network.
+
+<P>
+To make use of the k-point parallelization, make sure
+that your system meets the following requirements:
+<DL>
+<DT><STRONG>NFS:</STRONG></DT>
+<DD>All files for the calculation must be accessible under the
+  same name and path. Therefore you should set up your NFS mounts
+  in such a way, that on all machines the path names are the same.
+</DD>
+<DT><STRONG>Remote login:</STRONG></DT>
+<DD><B>rlogin</B> or <B>ssh</B> 
+  to all  machines to be used must be possible 
+  <B>without</B> specifying a password. Therefore you must either
+  edit your <TT><B>.rhosts</B></TT> file to include all machines you intend
+  to use (not necessary for a shared memory machine), or correctly
+  set up the directories <TT><B>.ssh</B></TT> or <TT><B>.ssh2</B></TT>.
+
+<P>
+Unfortunately the command for launching a remote shell is
+  platform dependent, and can be '<TT><B>rsh</B></TT>' or '<TT><B>remsh</B></TT>'.
+  On some systems 'rsh' refers to the restricted shell. Please
+  check these commands on your system and change the line
+  <BLOCKQUOTE>
+<TT><B>set remote = rsh </B></TT>     or    <TT><B> remsh </B></TT> or <TT><B> ssh </B></TT>
+  
+</BLOCKQUOTE>
+  in the scripts <TT><B>lapw1para_lapw</B></TT>, <TT><B>lapwsopara_lapw</B></TT>, <TT><B>lapw2para_lapw</B></TT>, <TT><B>lapwdmpara_lapw</B></TT> and 
+  <TT><B>opticpara_lapw</B></TT>
+  accordingly (In the following we use the shortcut without  _lapw).  This modification is done automatically by
+  <TT><B>siteconfig_lapw</B></TT> during installation (see chapter <A HREF="11Installation_Dimensioning.html#cha:installation">11</A>).
+</DD>
+</DL>
+
+<P>
+
+<H2><A NAME="SECTION05252000000000000000">
+2 Fine grained parallelization</A>
+</H2>
+
+<P>
+Fine grained parallel versions are available for the programs
+<TT><B>lapw0, lapw1,</B></TT> and <TT><B>lapw2</B></TT>.
+This parallelization method is based on parallelization libraries, including
+MPI, ScaLapack, and PBlas.
+The required libraries are not included with <EM>WIEN2k</EM>.
+On parallel computers, however, they are usually installed.
+Otherwise, free versions of these libraries are 
+available<A NAME="tex2html135"
+  HREF="footnode.html#foot4626"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="footnote.png"></SUP></A>.
+
+<P>
+The parallelization affects the naming scheme of the executable programs:
+the fine grained parallel versions of <TT><B>lapw0/1/2</B></TT> are called
+<TT><B>lapw0_mpi</B></TT>, <TT><B>lapw1[c]_mpi</B></TT>, and <TT><B>lapw2[c]_mpi</B></TT>.
+These programs are executed by calls to the local execution environments, 
+as in the sequential case, by the scripts
+<TT><B>x, lapw0para, lapw1para,</B></TT> and <TT><B>lapw2para</B></TT>. 
+On most computers this is done by calling <TT><B>mpirun</B></TT>.
+
+<P>
+
+<H2><A NAME="SECTION05253000000000000000">
+3 How to use <EM>WIEN2k</EM> as a parallel program</A>
+</H2>
+
+<P>
+To start the calculation in parallel, a switch must be set
+and an input file has to be prepared by the user.
+
+<UL>
+<LI>The switch <B>-p</B> switches on the parallelization in the 
+    scripts <TT><B>x</B></TT>, <TT><B>run_lapw</B></TT>, and <TT><B>runsp_lapw</B></TT>.
+</LI>
+<LI>In addition to this switch the file
+    <TT><B>.machines</B></TT> has to be present in the current work directory.
+    In this file the machine names on which the parallel processes should
+    be launched, and their respective relative speeds must be specified.
+</LI>
+</UL>
+If the <TT><B>.machines</B></TT> file does not exist, or if the <B>-p</B> switch 
+is omitted, the serial versions of the programs are executed.
+
+<P>
+Generation of all necessary files, starting of the processes and
+summation of the results is done by the appropriate scripts
+<TT><B>lapw1para</B></TT>, <TT><B>lapwsopara</B></TT>,<TT><B>lapwdmpara</B></TT> and <TT><B>lapw2para</B></TT> (when using 
+<B>-p</B>), and parallel programs <TT><B>lapw0_mpi</B></TT>, <TT><B>lapw1_mpi</B></TT>, and
+<TT><B>lapw2_mpi</B></TT> (when using fine grained parallelization has been selected in the <TT><B>.machines</B></TT> file).
+
+<P>
+
+<H2><A NAME="SECTION05254000000000000000"></A><A NAME="5150"></A>
+<BR>
+4 The <TT><B>.machines</B></TT> file
+</H2>
+
+<P>
+The following <TT><B>.machines</B></TT> file describes a simple example. We assume to 
+have 5 computers, (alpha, ... epsilon), where epsilon has 4, and delta and 
+gamma 2 cpus. In addition, gamma, delta and epsilon are 3 times faster than 
+alpha and beta.:
+<BLOCKQUOTE>
+<TT><B># This is a valid .machines file</B></TT> 
+<BR>  <TT><B>#</B></TT> 
+<BR>  <TT><B>granularity:1</B></TT> 
+<BR>  <TT><B>1:alpha</B></TT> 
+<BR>  <TT><B>1:beta</B></TT> 
+<BR>  <TT><B>3:gamma:2 delta</B></TT> 
+<BR>  <TT><B>3:delta:1 epsilon:4</B></TT>
+<BR>  <TT><B>residue:delta:2</B></TT> 
+<BR>  <TT><B>lapw0:gamma:2 delta:2 epsilon:4</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+To each set of processors, defined by a single line in this file,
+a certain number of k-points is assigned, which are computed in parallel.
+In each line the weight (relative speed) and computers are specified in
+the following form:
+<BLOCKQUOTE>
+<TT><B>weight:machine_name1:number1 machine_name2:number2 ...</B></TT>
+
+</BLOCKQUOTE>
+where <TT><B>weight</B></TT> is an integer (e.g. a three times more powerful
+machine should have a three times higher weight).
+The name of the computer is <TT><B>machine_name[1/2/...]</B></TT>, and 
+the number of processors to be used on these computers are <TT><B>number[1/2/...]</B></TT>.
+If there is only one processor on a given computer, the <B>:1</B> may
+be omitted.
+Empty lines are skipped, comment lines start with #.
+
+<P>
+Assuming there are 8 k-points to be distributed in the above example,
+they are distributed as follows.
+The computers <TT><B>alpha</B></TT> and <TT><B>beta</B></TT> get 1 each. 
+Two processors of computer <TT><B>gamma</B></TT> and one processor of computer
+<TT><B>delta</B></TT> cooperate in a fine grained parallelization on the solution
+of 3 k-points, and one processor of computer <TT><B>delta</B></TT> plus four 
+processors of computer <TT><B>epsilon</B></TT> cooperate on the solution of 
+3 k-points.
+If there were additional k-points, they would be calculated by 
+the first processor (or set of processors) becoming available.
+With higher numbers of k-points, this method ensures dynamic load balancing. 
+If a processor is busy doing other (e.g., interactive) work, the 
+overall calculation will not stall, but most of its work will be done by 
+other processors (or sets of processors using MPI).
+This is, however, not an implementation for fail safety: if a process does
+not terminate (e.g., due to shutdown of a computer) the calculation 
+will never terminate. 
+It is up to the user to handle with such hardware failures by modifying the 
+<TT><B>.machines</B></TT> file and restarting the calculation at the appropriate point.
+
+<P>
+During the run of <TT><B>lapw1para</B></TT> the file <TT><B>.processes</B></TT> is
+generated. This file is used by <TT><B>lapw2para</B></TT> to determine which
+<TT><B>case.vector*</B></TT> to read.
+
+<P>
+By default <TT><B>lapw1para</B></TT> will generate approximately 3 vector-files
+per processor, if enough k-points are available for distribution. The
+factor 3 is called ``granularity<A NAME="5208"></A>'' and should allow some load
+balancing in heterogeneous environments. If during
+<TT><B>siteconfig_lapw</B></TT> a shared memory system was selected,
+``granularity'' will be set by default to 1.
+
+<P>
+For performance reasons a different ``granularity'' can be specified, 
+by adding the line 
+<BLOCKQUOTE>
+<TT><B>granularity:new_granularity</B></TT>
+
+</BLOCKQUOTE>
+to the <TT><B>.machines</B></TT> file. 
+In particular on shared memory machines it is advisable to add a ``residue machine'' to calculate
+the surplus (residual) k-points (given by the expression
+<!-- MATH
+ $\mbox{MOD}(klist, \sum_j{newweight_j}$
+ -->
+<IMG
+ WIDTH="199" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$\mbox{MOD}(klist, \sum_j{newweight_j}$">) and rely on the operating
+system's load balancing scheme. Such a ``residue machine'' is
+specified as
+<BLOCKQUOTE>
+<TT><B>residue:machine_name:number</B></TT>
+
+</BLOCKQUOTE>
+in the <TT><B>.machines</B></TT> file.
+
+<P>
+Alternatively, it is also possible 
+to distribute the remaining k-points one-by-one (and not in one junk) over
+all processors. 
+The option
+<BLOCKQUOTE>
+<TT><B>extrafine:1</B></TT>
+
+</BLOCKQUOTE>
+can be set in the <TT><B>.machines</B></TT> file.
+Note, each (set of) process(es) in the k-point parallelization gets their
+own input files and creates a set of output files.
+To keep the number of files small, 
+the number for <TT><B>granularity</B></TT> should be decreased ( and <TT><B>extrafine</B></TT> 
+should eventually not be set).
+The line 
+<BLOCKQUOTE>
+<TT><B>lapw0:gamma:2 delta:2 epsilon:4</B></TT>
+
+</BLOCKQUOTE>
+defines the computers used for running <TT><B>lapw0_mpi</B></TT>. 
+In this example the 6 processors of the computers <TT><B>gamma</B></TT>, <TT><B>delta</B></TT>, and
+<TT><B>epsilon</B></TT> run <TT><B>lapw0_mpi</B></TT> in parallel.
+
+<P>
+If fine grained parallelization is used, each set of processors defined in 
+the <TT><B>.machines</B></TT> file is converted to a single file 
+<TT><B>.machine[1/2/...]</B></TT>, which is used in a call to <TT><B>mpirun</B></TT> 
+(or another parallel execution environment).
+
+<P>
+
+<H2><A NAME="SECTION05255000000000000000">
+5 How the list of k-points is split</A>
+</H2>
+
+<P>
+In the setup of the k-point parallel version of LAPW1 the list of k-points in
+<TT><B>case.klist</B></TT> (<I>Note, that the k-list from <TT><B>case.in1</B></TT> cannot be used
+for parallel calculations</I>) is split into subsets according to the
+weights specified in the <TT><B>.machines</B></TT> file:
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+newweight_i=\left\lfloor{weight_i*klist\over {granularity * \sum_j{weight_j}}}\right\rfloor
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="302" HEIGHT="92" BORDER="0"
+ SRC="img138.png"
+ ALT="\begin{displaymath}newweight_i=\left\lfloor{weight_i*klist\over {granularity * \sum_j{weight_j}}}\right\rfloor\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+where <IMG
+ WIDTH="86" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$newweight_i$"> is the number of k-points to be calculated on processor i.
+<IMG
+ WIDTH="86" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$newweight_i$"> is always set to a value greater equal one.
+
+<P>
+A loop over all <IMG
+ WIDTH="10" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="$i$"> processors is repeated until all k-points have been
+processed.
+
+<P>
+Speedup in a parallel program is intrinsically dependent on the serial or
+parallel parts of the code according to Amdahl's law:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+speedup={1 \over { (1 - P ) + {P \over N}}}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="166" HEIGHT="83" BORDER="0"
+ SRC="img141.png"
+ ALT="\begin{displaymath}speedup={1 \over { (1 - P ) + {P \over N}}}\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+whereas N is the number of processors and P the percentage of code executed
+in parallel.
+
+<P>
+In <EM>WIEN2k</EM> usually only a small part of time is spent in the
+programs <TT><B>lapw0, lcore</B></TT> and <TT><B>mixer</B></TT> which is
+very small (negligible) in comparison to the times spent in
+<TT><B>lapw1</B></TT> and <TT><B>lapw2</B></TT>.
+The time for waiting until
+all parallel <TT><B>lapw1</B></TT> and <TT><B>lapw2</B></TT> processes have finished is important too.
+For a good performance it is therefore necessary to have a good load balancing by 
+estimating properly the speed and <I>availability</I> of the machines used.  We
+encourage the use of <TT><B>testpara_lapw</B></TT> or ``<I>Utils.
+  <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> testpara</I>'' from <EM>w2web</EM> to check the
+k-point distribution over the machines <I>before</I> actually running
+the programs in parallel.
+
+<P>
+While running <TT><B>lapw1</B></TT> and <TT><B>lapw2</B></TT> in parallel mode, the
+scripts <TT><B>testpara1_lapw</B></TT> (see <A HREF="#sec:testpara1">5.2.13</A>) and
+<TT><B>testpara2_lapw</B></TT> (see <A HREF="#sec:testpara2">5.2.14</A>) can be used to
+monitor the succession of parallel execution.
+
+<P>
+
+<H2><A NAME="SECTION05256000000000000000">
+6 Flow chart of the parallel scripts</A>
+</H2>
+
+<P>
+To see how files are handled by the scripts <TT><B>lapw1para</B></TT> and
+<TT><B>lapw2para</B></TT> refer to figures <A HREF="#fig:lapw1para">5.1</A> and
+<A HREF="#fig:lapw2para">5.2</A>. After the  <TT><B>lapw2</B></TT> calculations are completed the densities and
+the informations from the <TT><B>case.scf2_x</B></TT> files are summarized by
+<TT><B>sumpara</B></TT>. 
+
+<P>
+<I>Note: parallel <TT><B>lapw2</B></TT> and <TT><B>sumpara</B></TT> take two command
+  line arguments, namely the <TT><B>case.def</B></TT> file but also a
+  <TT><B>number_of_processor</B></TT> indicator.</I>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:lapw1para"></A><A NAME="4635"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.1:</STRONG>
+Flow chart of <TT><B>lapw1para</B></TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="317" HEIGHT="238" BORDER="0"
+ SRC="img142.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/lapw1para, width=7cm}}
+\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<DIV ALIGN="CENTER"><A NAME="fig:lapw2para"></A><A NAME="4637"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.2:</STRONG>
+Flow chart of <TT><B>lapw2para</B></TT></CAPTION>
+<TR><TD><IMG
+ WIDTH="317" HEIGHT="444" BORDER="0"
+ SRC="img143.png"
+ ALT="\begin{figure}\begin{center}
+\leavevmode
+\rotatebox{0}{\epsfig{figure=figs/lapw2para, width=7cm}}
+\par\end{center}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<H2><A NAME="SECTION05257000000000000000">
+7 On the fine grained parallelization</A>
+</H2>
+
+<P>
+The following parallel programs use different parallelization strategies:
+<DL>
+<DT><STRONG>lapw0_mpi</STRONG></DT>
+<DD>is parallelized over the number of atoms.
+    This method leads to good scalability as long as
+    there are more atoms than processors.
+    For very many processors, however, the speedup is limited, which is not at all critical,
+    since the overall computing time of <TT><B>lapw0_mpi</B></TT> will
+    be nearly negligible.
+  
+</DD>
+<DT><STRONG>lapw1_mpi</STRONG></DT>
+<DD>uses a two-dimensional processor setup to distribute
+    the Hamilton and overlap matrices. For higher numbers of processors
+    two-dimensional communication patterns are clearly preferable to
+    one-dimensional communication patterns.
+
+<P>
+Let us assume, for example, 64 processors. 
+    In a given processing step, one of these processors has to 
+    communicate with the other 63 processors if a one-dimensional 
+    setup was chosen.
+    In the case of a two-dimensional processor setup it is usually 
+    sufficient to communicate with the processors of the same processor row (7)
+    or the same processor column (7), i.e.&nbsp;with 14 processors.
+
+<P>
+In some cases a price has to be paid for these preferable communication patterns:
+    Assume that 17 processors are available to calculate one k-point. In this
+    case <TT><B>lapw1_mpi</B></TT> will choose a 4<IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img144.png"
+ ALT="$\times$">4 processor setup, which leaves
+    one processor to contribute only to the calculation of some intermediate results.
+
+<P>
+In general the processor array <IMG
+ WIDTH="48" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img145.png"
+ ALT="$P\times Q$"> is chosen as follows:
+    <!-- MATH
+ $P=\left\lfloor\sqrt{\mbox{number of processors}}\right\rfloor$
+ -->
+<IMG
+ WIDTH="220" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img146.png"
+ ALT="$P=\left\lfloor\sqrt{\mbox{number of processors}}\right\rfloor$">, 
+    <!-- MATH
+ $Q=\left\lfloor \frac{\mbox{number of processors}}{P}\right\rfloor$
+ -->
+<IMG
+ WIDTH="212" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img147.png"
+ ALT="$Q=\left\lfloor \frac{\mbox{number of processors}}{P}\right\rfloor$">.
+
+<P>
+</DD>
+<DT><STRONG>lapw2_mpi</STRONG></DT>
+<DD>is parallelized in two main parts: (i) each eigenvector 
+    is distributed evenly to all the processors, and (ii) the fast Fourier 
+    transforms are done in parallel.
+</DD>
+</DL>
+
+<P>
+If more than one k-point is distributed at once to <TT><B>lapw1_mpi</B></TT> or
+<TT><B>lapw2_mpi</B></TT>, these will be treated consecutively.
+
+<P>
+Depending on the parallel computer system and the problem size, speedups 
+will vary in a wide range.
+Running the fine grained parallelization over a 10Mbit/s Ethernet network
+is not recommended, even for large problem sizes.
+
+<P>
+
+<H1><A NAME="SECTION05260000000000000000"></A>
+<A NAME="sec:online-help"></A>
+<BR>
+6 Getting on-line help
+</H1>
+
+<P>
+
+<UL>
+<LI>As mentioned before, all <EM>WIEN2k</EM> csh-shell scripts have a 
+<B>``help``-switch -h</B>, which gives a brief summary of all options 
+for the respective script.
+
+<P>
+</LI>
+<LI>To obtain online help on input-parameters, program description, ...use
+<BLOCKQUOTE>
+<TT><B>help_lapw</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+which opens the pdf-version of the users guide (using <TT><B>acroread</B></TT> or what 
+is defined in  $PDFREADER). 
+You can search for a specific keyword using ``<IMG
+ WIDTH="13" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img148.png"
+ ALT="$^{\wedge}$">f
+keyword''. This procedure substitutes an ``Index'' and should make
+it possible to find a specific information without reading through the 
+complete users guide.
+
+<P>
+</LI>
+<LI>In addition there is a html-version of the UG and its starting page is:
+<BR><TT><B>$WIENROOT/SRC_usersguide_html/usersguide.html</B></TT>
+
+<P>
+</LI>
+<LI>When using the user interface <EM>w2web</EM>, you have access
+to the html and pdf-version  (the latter requires an X-windows
+environment) of the usersguide.
+
+<P>
+</LI>
+<LI>At our webserver <!-- MATH
+ $http://www.wien2k.at/reg\_user$
+ -->
+<IMG
+ WIDTH="240" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img149.png"
+ ALT="$http://www.wien2k.at/reg\_user$"> we put informations for the registered user:
+
+<UL>
+<LI>A ''FAQ'' page with answers to some common problems. 
+</LI>
+<LI>Update information: When you think the program has an error, please 
+check wether newer versions are available, which might have fixed the 
+problem you encounter. 
+</LI>
+<LI>A mailing list: 
+<DL>
+<DT><STRONG>Please check the ''digest''!</STRONG></DT>
+<DD>In many cases your 
+questions may have been answered before. 
+</DD>
+<DT><STRONG>Locate your problem:</STRONG></DT>
+<DD>If a calculation crashes, please locate the problem. Check the content of files like <TT><B>case.dayfile, *.error, case.scf, case.scfX, case.outputX</B></TT> where X specifies the program which crashed. 
+</DD>
+<DT><STRONG>Posting questions:</STRONG></DT>
+<DD>Please provide enough information so that somebody 
+can help you. A question like: ``My calculation crashed. Please help me!'' 
+will most likely not be answered.
+</DD>
+</DL>
+</LI>
+</UL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<H1><A NAME="SECTION05270000000000000000"></A>
+<A NAME="sec:interface"></A>
+<BR>
+7 Interface scripts
+</H1>
+
+<P>
+We have included a few ``interface scripts'' into the current <EM>WIEN2k</EM>
+distribution, to simplify the previewing of results. In order to use these scripts
+the public domain program ``<B>gnuplot</B>'' has to be installed on
+your system.
+
+<P>
+
+<H2><A NAME="SECTION05271000000000000000"></A><A NAME="5316"></A>
+<A NAME="sec:eplot"></A>
+<BR>
+1 eplot_lapw
+</H2>
+
+<P>
+The script <TT><B>eplot_lapw</B></TT> plots total energy vs. volume or total
+energy vs. c/a-ratio using the file <TT><B>case.analysis</B></TT>. The latter should
+have been created with <TT><B>grepline</B></TT> (using :VOL and :ENE labels) or the ``<I>Analysis
+  <IMG
+ WIDTH="20" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="$\rightarrow $"> Analyze multiple SCF-files</I>'' menu of <EM>w2web</EM> and the file
+names must be generated (or compatible) with ``optimize.job''.
+
+<P>
+For a description of how to use the script for batch like execution
+call the script using
+<BLOCKQUOTE>
+<TT><B>eplot_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05272000000000000000"></A><A NAME="5326"></A>
+<A NAME="sec:parabolfit"></A>
+<BR>
+2 parabolfit_lapw
+</H2>
+
+<P>
+The script <TT><B>parabolfit_lapw</B></TT> is an interface for a harmonic fitting of E vs. 2-4-dim lattice parameters  
+by a non-linear least squares fit (eosfit6) using PORT routines.
+Once you have several scf calculations at different lattice parameters (usually generated
+with <TT><B>optimize.job</B></TT>) it generates the required <TT><B>case.ene</B></TT> and <TT><B>case.latparam</B></TT>
+from your scf files. Using 
+
+<P>
+<BLOCKQUOTE>
+parabolfit_lapw [ -t 2/3/4 ]  [ -f FILEHEAD ] [ -scf '*xxx*.scf' ]
+
+</BLOCKQUOTE>
+
+<P>
+you can optionally specify the dimensionality of the fit or the specific scf-filenames.
+
+<P>
+
+<P>
+
+<H2><A NAME="SECTION05273000000000000000"></A><A NAME="5335"></A>
+<A NAME="sec:dosplot"></A>
+<BR>
+3 dosplot_lapw
+</H2>
+
+<P>
+The script <TT><B>dosplot_lapw</B></TT> plots total or partial Density of States
+depending on the input used by <TT><B>case.int</B></TT> and the interactive
+input.
+
+<P>
+For a description of how to use the script for batch like execution
+call the script using
+<BLOCKQUOTE>
+<TT><B>dosplot_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05274000000000000000"></A><A NAME="5342"></A>
+<A NAME="sec:specplot"></A>
+<BR>
+4 specplot_lapw
+</H2>
+
+<P>
+<TT><B>specplot_lapw</B></TT> provides an interface for plotting X-ray spectra from
+the output of the <TT><B>xspec</B></TT> or <TT><B>txspec</B></TT> program.
+
+<P>
+For a description of how to use the script for batch like execution
+call the script using
+<BLOCKQUOTE>
+<TT><B>specplot_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<H2><A NAME="SECTION05275000000000000000"></A><A NAME="5351"></A>
+<A NAME="sec:rhoplot"></A>
+<BR>
+5 rhoplot_lapw
+</H2>
+
+<P>
+The script <TT><B>rhoplot_lapw</B></TT> produces a surface plot of the
+electron density from the file <TT><B>case.rho</B></TT> created by lapw5.
+
+<P>
+<I>Note: To use this script you must have installed the C-program 
+  <TT><B>reformat</B></TT> supplied in <TT><B>SRC_reformat</B></TT>.</I>
+
+<P>
+
+<H2><A NAME="SECTION05276000000000000000"></A><A NAME="5360"></A>
+<A NAME="sec:opticplot"></A>
+<BR>
+6 opticplot_lapw
+</H2>
+
+<P>
+The script <TT><B>opticplot_lapw</B></TT> produces XY plots from the output
+files of the optics package using the <TT><B>case.joint</B></TT>,
+<TT><B>case.epsilon</B></TT>, <TT><B>case.eloss</B></TT>, <TT><B>case.sumrules</B></TT> or <TT><B>case.sigmak</B></TT>.  For a description of how
+to use the script for batch like execution call the script using
+<BLOCKQUOTE>
+<TT><B>opticplot_lapw -h</B></TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1165"
+  HREF="6Initialization.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html1161"
+  HREF="2Detailed_description.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html1155"
+  HREF="4Files_Program.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html1163"
+  HREF="Contents.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1166"
+  HREF="6Initialization.html">6 Initialization</A>
+<B> Up:</B> <A NAME="tex2html1162"
+  HREF="2Detailed_description.html">2 Detailed description of</A>
+<B> Previous:</B> <A NAME="tex2html1156"
+  HREF="4Files_Program.html">4 Files and Program</A>
+ &nbsp; <B>  <A NAME="tex2html1164"
+  HREF="Contents.html">Contents</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+pblaha
+2007-01-25
+</ADDRESS>
+</BODY>
+</HTML>

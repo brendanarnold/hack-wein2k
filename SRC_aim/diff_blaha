@@ -1,0 +1,659 @@
+****  aim.f   ****
+ 
+11c11
+< C     Implementation of Bader's Atom In Molecules analysis
+---
+> C     Implementation of Baders Atom In Molecules analysis
+49a50
+>         call cputim(t1)   
+50a52,53
+>         call cputim(t2)
+>       write(6,*) 'total cputime:', t2-t1   
+ 
+****  charge.f   ****
+ 
+58c58
+<       IF(IATNR.GT.0) CALL SUM(RHO,ANG,CHG,LMMAX)                        
+---
+>       IF(IATNR.GT.0) CALL SUM(RHO,ANG,CHG,LMMAX,lm,jatom)                        
+ 
+****  charg.f   ****
+ 
+ 
+****  cossin.f   ****
+ 
+ 
+****  cputim_aix.f   ****
+ 
+ 
+****  cputim_apollo.f   ****
+ 
+ 
+****  cputim_cray.f   ****
+ 
+ 
+****  cputim_dec.f   ****
+ 
+ 
+****  cputim_hp.f   ****
+ 
+ 
+****  cputim_nec.f   ****
+ 
+ 
+****  cputim_s100.f   ****
+ 
+ 
+****  cputim_sgi.f   ****
+ 
+ 
+****  critic.f   ****
+ 
+89c89
+<         if(dists(n1).lt.(1.5*dists(1))) then
+---
+>         if(dists(n1).lt.(2.d0*dists(1))) then
+311c311
+<             inter=.false.
+---
+> cccc-test            inter=.false.
+ 
+****  dipole.f   ****
+ 
+ 
+****  doit.f   ****
+ 
+1,105c1,90
+<       SUBROUTINE DOIT()
+< 
+< C
+< C     AIM (1999-2000) by Javier D. Fuhr and Jorge O. Sofo
+< C
+< C     Instituto Balseiro and Centro Atomico Bariloche
+< C     S. C. de Bariloche - Rio Negro
+< C     Argentina
+< C     e-mail: fuhr@cab.cnea.gov.ar
+< C             sofo@cab.cnea.gov.ar
+< C
+< C     This routine is just for testing
+< C
+< 
+<       implicit none
+<       include 'param.inc'
+<       
+<       real*8 pos,rmt,rotloc,dx,rnot,atp,a,alpha,beta,gamma,gamma1
+<       real*8 br1,br2,br3,br4
+<       real*8 v,r,rho,grho,hrho,theta,phi,cth,sth,cph,sph,rr
+<       real*8 clm,clm2,rm,rhor2,drhor2,rhopp,yp1,ypn
+< 
+<       integer ndat,iatnr,iop,mult,nsa,nsb,nsc,jrj,ir,ilm
+<       integer iat,ist,i,jatom,index,npos,ipos,jri,lm,lmmx
+< 
+<       logical srho,sgrho,shrho,inter,ortho,sy,syp,sypp
+< 
+<       COMMON /SPHE/ POS(3,NDIF),RMT(NATO),ROTLOC(3,3,NATO),DX(NATO),
+<      $     RNOT(NATO),ndat,IATNR(NDIF),IOP(NDIF),MULT(NATO)
+<       COMMON /ATPOS/ ATP(3,nnpos),NPOS,NSA,NSB,NSC
+<       COMMON /LATT/ A(3),alpha,beta,gamma,gamma1,ortho
+<       COMMON /BRAV/ BR1(3,3),BR2(3,3),br3(3,3),br4(3,3) 
+<       COMMON /RAD/ RM(NRAD,NATO),JRI(NATO)                       
+<       COMMON // CLM(NRAD,NCOM,NATO),CLM2(NRAD,NCOM,NATO),
+<      $   LM(2,NCOM,NATO),LMMX(NATO)      
+< 
+<       DIMENSION v(3),grho(3),hrho(3,3)
+<       
+< 
+<       jatom=1
+<       ilm=1
+< 
+< c$$$      yp1=(clm(2,1,jatom)-clm(1,1,jatom))/(rm(2,jatom)-rm(1,jatom))
+< c$$$      ypn=(clm(jri(jatom),1,jatom)-clm(jri(jatom)-1,1,jatom))/
+< c$$$     $     (rm(jri(jatom),jatom)-rm(jri(jatom)-1,jatom))
+< c$$$
+< c$$$
+< c         write(6,*) 'yp1=',yp1,' ypn=',ypn
+<          write(6,*) 'rmlast=',rm(jri(jatom),jatom)
+< 
+< c          call spline(rm(1,jatom),clm(1,1,jatom),jri(jatom),yp1,ypn,
+< c     $     clm2(1,1,jatom))
+<  
+<       sy=.true.
+<       syp=.true.
+<       sypp=.true.
+<    
+< c      open(30,FILE='rhoB',STATUS='OLD')
+<    
+<       do i=1,jri(jatom)
+<          write(6,'('':RCLM'',2E18.8)') rm(i,jatom),clm(i,ilm,jatom)
+< c         write(30,4999) rm(i,jatom),clm(i,ilm,jatom)   
+<       enddo
+<        
+< c      close(30)
+< c      open(31,FILE='interB',STATUS='OLD') 
+<       do i=1,1000
+<          r=rmt(jatom)*i/1000.
+<          ir=1+log(r/rnot(jatom))/dx(jatom)
+<          ir=0
+<          if(ir.gt.jri(jatom)) stop 'ERROR'
+<          call splint(rm(1,jatom),clm(1,ilm,jatom),
+<      $        clm2(1,ilm,jatom),
+<      $        jri(jatom),r,ir,rhor2,drhor2,rhopp,sy,syp,sypp)
+<          write(6,'('':RR'',4E18.8)') r,rhor2,drhor2,rhopp
+< c         write(31,5000) r,rhor2,drhor2,rhopp
+<       enddo
+< c      close(31)
+<  4999 FORMAT(2E18.8)
+<  5000 FORMAT(4E18.8)
+<       return
+<       end
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+< 
+---
+>       SUBROUTINE DOIT()
+> 
+> C
+> C     AIM (1999-2000) by Javier D. Fuhr and Jorge O. Sofo
+> C
+> C     Instituto Balseiro and Centro Atomico Bariloche
+> C     S. C. de Bariloche - Rio Negro
+> C     Argentina
+> C     e-mail: fuhr@cab.cnea.gov.ar
+> C             sofo@cab.cnea.gov.ar
+> C
+> C     This routine is just for testing
+> C
+> 
+>       implicit none
+>       include 'param.inc'
+>       
+>       real*8 pos,rmt,rotloc,dx,rnot,atp,a,alpha,beta,gamma,gamma1
+>       real*8 br1,br2,br3,br4
+>       real*8 v,r,rho,grho,hrho,theta,phi,cth,sth,cph,sph,rr
+> 
+>       integer ndat,iatnr,iop,mult,nsa,nsb,nsc
+>       integer iat,ist,i,jatom,index,npos,ipos
+> 
+>       logical srho,sgrho,shrho,inter,ortho
+> 
+>       COMMON /SPHE/ POS(3,NDIF),RMT(NATO),ROTLOC(3,3,NATO),DX(NATO),
+>      $     RNOT(NATO),ndat,IATNR(NDIF),IOP(NDIF),MULT(NATO)
+>       COMMON /ATPOS/ ATP(3,nnpos),NPOS,NSA,NSB,NSC
+>       COMMON /LATT/ A(3),alpha,beta,gamma,gamma1,ortho
+>       COMMON /BRAV/ BR1(3,3),BR2(3,3),br3(3,3),br4(3,3) 
+> 
+>       DIMENSION v(3),grho(3),hrho(3,3)
+> 
+>       srho=.true.
+>       sgrho=.true.
+>       shrho=.true.
+>       index=9
+> 
+>       nsa=3
+>       nsb=3
+>       nsc=3
+>       call gener(BR2)
+>       
+>       jatom = iabs(iatnr(index))
+>       theta = 0.2
+>       phi = 0.2
+>       cth = cos(theta)
+>       sth = sin(theta)
+>       cph = cos(phi)
+>       sph = sin(phi)
+> 
+>       do rr=rmt(jatom)-0.1,rmt(jatom)+0.1,0.01
+> 
+>          v(1) = pos(1,index)+rr*sth*cph
+>          v(2) = pos(2,index)+rr*sth*sph
+>          v(3) = pos(3,index)+rr*cth
+>       
+>          write(6,*) 'POS = ',(pos(i,index),i=1,3),'  RMT = ',rmt(jatom)
+>          write(6,*) 'V = ',v
+> 
+>          call search_at(v,r,inter,iat,ipos)
+>          if (inter) then
+>             write(6,*) 'INTERSTITIAL'
+>             call interst(v,rho,grho,hrho,srho,sgrho,shrho)
+>             write (6,*) ':INT RHO = ',rr,rho
+>             write (6,*) ':INT GRHO = ',rr,grho
+>             write (6,*) ':INT HRHO = ',rr,(hrho(1,i),i=1,3)
+>             write (6,*) '                 ',(hrho(2,i),i=1,3)
+>             write (6,*) '                 ',(hrho(3,i),i=1,3)
+>          else 
+>             write(6,*) 'SPHERE'
+>             call sphere(v,r,rho,grho,hrho,iat,srho,sgrho,shrho,ist)
+>             write (6,*) ':SPHE RHO = ',rr,rho
+>             write (6,*) ':SPHE GRHO = ',rr,grho
+>             write (6,*) ':SPHE HRHO = ',rr,(hrho(1,i),i=1,3)
+>             write (6,*) '                 ',(hrho(2,i),i=1,3)
+>             write (6,*) '                 ',(hrho(3,i),i=1,3)
+>             write(6,*) 'INTERSTITIAL'
+>             call interst(v,rho,grho,hrho,srho,sgrho,shrho)
+>             write (6,*) ':INT RHO = ',rr,rho
+>             write (6,*) ':INT GRHO = ',rr,grho
+>             write (6,*) ':INT HRHO = ',rr,(hrho(1,i),i=1,3)
+>             write (6,*) '                 ',(hrho(2,i),i=1,3)
+>             write (6,*) '                 ',(hrho(3,i),i=1,3)
+>          end if
+>       enddo
+> 
+>       return
+>       end
+ 
+****  dradial.f   ****
+ 
+ 
+****  dtdtylm.f   ****
+ 
+ 
+****  dtylm.f   ****
+ 
+ 
+****  follow.f   ****
+ 
+62c62,63
+<       data hmax/2.e7/,rhomin/1.e-5/,fac0/2.1/,dgmin/1.e-5/,hmult/15.e0/
+---
+>       data hmax/2.e0/,rhomin/1.e-5/,fac0/2.1/,dgmin/1.e-5/,hmult/1.5e0/
+> c      data hmax/2.e7/,rhomin/1.e-5/,fac0/2.1/,dgmin/1.e-5/,hmult/15.e0/
+106,108c107
+<         if((rho.lt.0.d0).and.(abs(rho).gt.rhomin)) then
+<           stop 'ERROR RHO < 0 !!!'
+<         end if
+---
+> c        if(rho.lt.0.d0) stop 'ERROR RHO < 0 !!!'
+129,134d127
+<         if(t2.gt.300.0) then
+<           write(6,*) 'TIME EXCEEDED 5 min IN FOLLOW'
+<           write(6,*) 'h0 =',h0,'  h =',h,'  h0old =',h0old,'  dg =',dg
+<           write(6,*) 'fac =',fac
+<           stop 'TIME EXCEEDED 5 min IN FOLLOW'
+<         endif
+147c140,147
+<         
+---
+> 
+>         if(t2.gt.2400.0) then
+>           write(6,*) 'TIME EXCEEDED 40 min IN FOLLOW'
+>           write(6,*) 'h0 =',h0,'  h =',h,'  h0old =',h0old,'  dg =',dg
+>           write(6,*) 'fac =',fac
+>           stop 'TIME EXCEEDED 40 min IN FOLLOW'
+>         endif
+> 
+244,246c244
+<           if((rho.lt.0.d0).and.(abs(rho).gt.rhomin)) then
+<             stop 'ERROR RHO < 0 !!!'
+<           endif
+---
+> c          if(rho.lt.0.d0) stop 'ERROR RHO < 0 !!!'
+ 
+****  gauleg.f   ****
+ 
+ 
+****  gbass.f   ****
+ 
+ 
+****  gen_brav.f   ****
+ 
+ 
+****  gen_change.f   ****
+ 
+ 
+****  gener.f   ****
+ 
+ 
+****  gen_invchange.f   ****
+ 
+ 
+****  grhosphe.f   ****
+ 
+ 
+****  hrhosphe.f   ****
+ 
+62c62
+<         ist=1
+---
+>         ist=2
+75c75
+<           ist=1
+---
+>           ist=3
+ 
+****  init.f   ****
+ 
+20c20
+<       real*8 gamma1,pos,rmt,rotloc,dx,rnot,z
+---
+>       real*8 gamma1,pos,rmt,rotloc,dx,rnot,z,zz
+25d24
+<       real*8 x1,x2,x3,f1,f2,f3
+52c51
+< 
+---
+>       COMMON /ZSPHE/ ZZ(NDIF)
+70c69,70
+<       WRITE(6,105) A                                                 
+---
+>       WRITE(6,105) A              
+>        if(nat.gt.nato) stop 'nato too small'                                   
+87c87
+<         if(index.gt.NDIF) stop 'Number of atoms > NDIF'
+---
+>           if(index.gt. ndif) stop 'NDIF too small'
+97c97
+<           if(index.gt.NDIF) stop 'Number of atoms > NDIF'
+---
+>           if(index.gt. ndif) stop 'NDIF too small'
+105a106,108
+>            DO MU=0,MULT(JATOM)-1                                      
+>            zz(index-mu)=z(jatom)
+>            enddo
+215,226c218,220
+<            x1=rm(jri(jatom)-2,jatom)
+<            x2=rm(jri(jatom)-1,jatom)
+<            x3=rm(jri(jatom),jatom)
+<            f1=clm(jri(jatom)-2,l,jatom)
+<            f2=clm(jri(jatom)-1,l,jatom)
+<            f3=clm(jri(jatom),l,jatom)
+<            ypn= (-(f3*(x1-x2)*(x1+x2-2*x3))+f2*(x1-x3)*(x1-x3)-
+<      $          f1*(x2-x3)*(x2-x3))/((x1-x2)*(x1-x3)*(x2-x3))
+< c$$$           ypn=(clm(jri(jatom),l,jatom)-clm(jri(jatom)-1,l,jatom))/
+< c$$$     $          (rm(jri(jatom),jatom)-rm(jri(jatom)-1,jatom))
+<            write(6,*) 'l= ',l,' yp1=',yp1,' ypn=',ypn
+<           call spline(rm(1,jatom),clm(1,l,jatom),jri(jatom),yp1,ypn,
+---
+>            ypn=(clm(jri(jatom),l,jatom)-clm(jri(jatom)-1,l,jatom))/
+>      $          (rm(jri(jatom),jatom)-rm(jri(jatom)-1,jatom))
+>           call spline(rm(1,jatom),clm(1,l,jatom),jrj,yp1,ypn,
+ 
+****  integrho.f   ****
+ 
+20c20
+<       real*8 shift,pi,tpi,rmin,rmft
+---
+>       real*8 shift,pi,tpi,rmin,rmft,zz
+36a37
+>       COMMON /ZSPHE/ ZZ(NDIF)
+119d119
+< c          write(6,*) ':R ',theta,phi,rmin,rmax,f1,weight
+124d123
+< c      write(6,*) ':RHOINTE before ',sum
+132c131
+<       write (6,*) ':RHOTOT ',index,sum2
+---
+>       write (6,302) index,zz(index),sum2,zz(index)-sum2
+141a141
+>  302  FORMAT(':RHOTOT for IND-ATOM',i4,'  Z=',f5.1,'  CHARGE:',2F10.5)
+ 
+****  interp.f   ****
+ 
+ 
+****  jacobi.f   ****
+ 
+ 
+****  ludcmp.f   ****
+ 
+ 
+****  main1.f   ****
+ 
+ 
+****  matprod.f   ****
+ 
+ 
+****  onestep.f   ****
+ 
+ 
+****  radial.f   ****
+ 
+ 
+****  readcs.f   ****
+ 
+ 
+****  reduc.f   ****
+ 
+8c8
+<       real*8 r,rtest
+---
+>       real*8 r,rtest,vsave(3)
+25a26
+>         vsave(j)=v(j)                                                     
+49c50
+<         if (deb) write(6,*)
+---
+>         write(6,*)
+51c52
+<      $     iat,sqrt(r),sqrt(rmt(jatom)),v
+---
+>      $     iat,sqrt(r),(rmt(jatom)),vsave,v
+ 
+****  rho.f   ****
+ 
+40,41c40,41
+<         if(ist.eq.1) then
+<           write(6,*) 'REDUCTION FAILED !!'
+---
+>         if(ist.ne.0) then
+>           write(6,*) 'REDUCTION FAILED !!',ist,v,r,grho,hrho
+ 
+****  rotat_back.f   ****
+ 
+ 
+****  rotate_back.f   ****
+ 
+ 
+****  rotate.f   ****
+ 
+ 
+****  rotat.f   ****
+ 
+ 
+****  rotato.f   ****
+ 
+ 
+****  rotdef.f   ****
+ 
+ 
+****  rsur.f   ****
+ 
+ 
+****  rsurf.f   ****
+ 
+ 
+****  sphere.f   ****
+ 
+79,81c79,81
+<         if (deb) then
+<           write(6,*) 'Error in reducing vector',vtold
+<           write(6,*) 'Error in reducing vector hex coord',vt1
+---
+> c        if (deb) then
+>           write(6,*) 'Error in reducing vector',vt
+> c          write(6,*) 'Error in reducing vector hex coord',vt1
+83,84c83,84
+<         end if
+<         if (deb) then
+---
+> c        end if
+> c        if (deb) then
+89c89
+<         end if
+---
+> c        end if
+158c158
+<         if (ist.eq.1) then
+---
+>         if (ist.ne.0) then
+ 
+****  spline.f   ****
+ 
+20d19
+< 
+76,77c75
+<        endif
+<        write(6,*) 'klo= ',klo,' khi=',khi
+---
+>         endif 
+ 
+****  sumdd.f   ****
+ 
+ 
+****  sumd.f   ****
+ 
+ 
+****  sum.f   ****
+ 
+1,30c1,77
+<       SUBROUTINE SUM(RHO,ANG,CHG,LMMAX)                                 
+<       IMPLICIT REAL*8 (A-H,O-Z)
+<       DIMENSION RHO(6),ANG(6)                                           
+< C .... NOTE THIS SUBROUTINE IS ONLY FOR CUBIC FCC, NACL, CSCL OR        
+< C ....ANTIFLUORIT - STRUCTUR                                            
+< C.....K0(R)=1/SQRT(4PI)                                                 
+< C.....K4(R)=SQRT(7/12)Y40(R) + SQRT(5/24)*(Y44(R) + Y4-4(R))            
+< C.....K6(R)=SQRT(2)/4*Y60(R) - SQRT(7)/4* (Y64(R) + Y6-4(R))            
+< C ....K7(R)=(-I)*(Y32(R)-Y3-2(R))  FOR ME IN ANFL STRUCTUR              
+< C.....CSO=SQRT(2)/4                                                     
+< C.....CFO=SQRT(7/12)                                                    
+< C.....CFF=SQRT(5/12)                                                    
+< C.....CSO=-SQRT(14)/4                                                   
+<       CHG=0.0                                                           
+<       CFO=.763762616                                                    
+<       CFF=.645497224                                                    
+<       CSO=.35355339                                                     
+<       CSF=-.93541435                                                    
+<       CHG=CHG + (RHO(1) * ANG(1))                                       
+<       FORK= (CFO*ANG(2)) + (CFF*ANG(3))                                 
+<       FRHO= (CFO*RHO(2)) + (CFF*RHO(3))                                 
+<       CHG=CHG + (FORK*FRHO)                                             
+<       SIXK= (CSO*ANG(4)) + (CSF*ANG(5))                                 
+<       SRHO= (CSO*RHO(4)) + (CSF*RHO(5))                                 
+<       CHG=CHG + (SIXK*SRHO)                                             
+<       IF(LMMAX.EQ.5) RETURN                                             
+<       CHG=CHG+RHO(6)*ANG(6)
+<       RETURN                                                            
+< C......THUY, NOTE.. YOU WILL HAVE TO ADD YOUR FACTORS OF SQRT(5/12)...  
+<       END                                                               
+---
+>        SUBROUTINE SUM(rho,ang,chg,lmmax,lm,jatom)
+> c Calculates cubic harmonics after Kara & Kurki-Suonio
+> c Acta Cryst A 1981 37 201-210
+> c GKHM 2/5-01
+>        IMPLICIT NONE
+>        INCLUDE 'param.inc'
+>        INTEGER,  jatom,lmmax,lm(2,ncom,nato)
+>        REAL*8,   rho(ncom),ang(ncom)
+>        REAL*8,   chg,c1,c2,c3
+>        REAL*8, c_kub(10,10)
+>        INTEGER,  i,j
+> c       WRITE(6,*) 'WARNING. POS.ATOM NUMBER'
+> c       WRITE(6,*) 'THE LMs MUST COME IN THE ORDER GIVEN IN sum.f'
+> 
+>        chg=0.0                                                           
+>       do i=1,10
+>        do j=1,10
+>          c_kub(i,j)=0.0d0
+>        enddo
+>       enddo
+>       c_kub(0,0)=1.d0
+>       c_kub(3,2)=1.d0
+>       c_kub(4,0)=.5d0*SQRT(7.d0/3.d0)
+>       c_kub(4,4)=.5*SQRT(5.d0/3.d0)
+>       c_kub(6,0)=.5d0*SQRT(.5d0)
+>       c_kub(6,2)=.25d0*SQRT(11.d0)
+>       c_kub(6,4)=-.5d0*SQRT(7.d0/2.d0)
+>       c_kub(6,6)=-.25d0*SQRT(5.d0)
+>       c_kub(7,2)=.5d0*SQRT(13.d0/6.d0)
+>       c_kub(7,6)=.5d0*SQRT(11.d0/16.d0)
+>       c_kub(8,0)=.125d0*SQRT(33.d0)
+>       c_kub(8,4)=.25d0*SQRT(7.d0/3.d0)
+>       c_kub(8,8)=.125d0*SQRT(65.d0/3.d0)
+>       c_kub(9,2)=.25d0*SQRT(3.d0)
+>       c_kub(9,4)=.5d0*SQRT(17.d0/6.d0)
+>       c_kub(9,6)=-.25d0*SQRT(13.d0)
+>       c_kub(9,8)=-.5d0*SQRT(7.d0/6.d0)
+>       c_kub(10,0)=.125*SQRT(65.D0/6.D0)
+>       c_kub(10,2)=.125*SQRT(247.D0/6.D0)
+>       c_kub(10,4)=-.25*SQRT(11.D0/2.D0)
+>       c_kub(10,6)=0.0625d0*SQRT(19.D0/3.D0)
+>       c_kub(10,8)=-.125*SQRT(187.D0/6.D0)
+>       c_kub(10,10)=-.0625d0*SQRT(85.d0)
+> 
+> 
+>        i=1
+>  1     CONTINUE
+>           IF(i.gt.lmmax) GOTO 4
+>           IF(lm(1,i,jatom).EQ.0.AND.lm(2,i,jatom).EQ.0) THEN
+>              chg=chg + (rho(i) * ang(i))
+>              i=i+1
+>           ELSEIF (lm(1,i,jatom).EQ.-3.AND.lm(2,i,jatom).EQ.2) THEN  
+>              chg=chg+rho(i)*ang(i)
+>              i=i+1
+>           ELSEIF (lm(1,i,jatom).EQ.4.OR.lm(1,i,jatom).EQ.6.OR.
+>      $            lm(1,i,jatom).EQ.-7.OR.lm(1,i,jatom).EQ.-9) THEN  
+>             c1=c_kub(abs(lm(1,i,jatom)),lm(2,i,jatom))
+>             c2=c_kub(abs(lm(1,i,jatom)),lm(2,i,jatom)+4)
+>              chg=chg + (c1*ang(i) + c2*ang(i+1)) * 
+>      &           (c1*rho(i) + c2*rho(i+1))
+>              i=i+2
+>           ELSEIF (lm(1,i,jatom).EQ.8.OR.lm(1,i,jatom).EQ.10) THEN 
+>             c1=c_kub(abs(lm(1,i,jatom)),lm(2,i,jatom))
+>             c2=c_kub(abs(lm(1,i,jatom)),lm(2,i,jatom)+4)
+>             c3=c_kub(abs(lm(1,i,jatom)),lm(2,i,jatom)+8)
+>              chg=chg + (c1*ang(i) + c2*ang(i+1) + c3*ang(i+2))
+>      &              * (c1*rho(i) + c2*rho(i+1) + c3*rho(i+2))
+>              i=i+3
+>           ELSE
+>              WRITE(6,*) 'UNCORRECT LM LIST FOR CUBIC STRUCTURE'
+>              WRITE(6,'(a2,i4,a3,i4)') 'L=',lm(1,i,jatom),
+>      &             ' M=',lm(2,i,jatom)
+>              STOP
+>           ENDIF
+>        GOTO 1
+>  4     CONTINUE 
+>        END
+ 
+****  surf.f   ****
+ 
+ 
+****  vnorm.f   ****
+ 
+ 
+****  ylm.f   ****
+ 
+ 
+****  ylm_new.f   ****
+ 
+ 
+****  ylm_old.f   ****
+ 
+ 
+****  interst.frc   ****
+ 
+ 
+****  outin.frc   ****
+ 
+ 
+****  stern.frc   ****
+ 
+ 

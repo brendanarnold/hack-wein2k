@@ -1,0 +1,27 @@
+case qtl:
+set exe = $command$para
+cat << theend > $def
+ 4,'$file.inso',   'unknown',    'formatted',0
+ 5,'$file.inq',   'old',    'formatted',0
+ 6,'$file.outputq','unknown','formatted',0
+ 7,'$file.in1c',   'unknown',    'formatted',0
+ 9,'$file.vector$so$updn', 'unknown','unformatted',9000
+10,'$file.vector$so$dnup', 'unknown','unformatted',9000
+18,'$file.vspup',       'old',    'formatted',0
+19,'$file.vspdn',       'unknown','formatted',0
+20,'$file.struct',         'old',    'formatted',0
+45,'$file.normsoup','unknown','formatted',0
+46,'$file.normsodn','unknown','formatted',0
+59,'$file.energy$so$updn', 'unknown','formatted',0
+60,'$file.energy$so$dnup', 'unknown','formatted',0
+theend
+set natom=`head -5 $file.inq | tail -1 | cut -c0-10`
+set iatom=1
+while ($iatom <= $natom)
+set help=`expr 30 + $iatom`
+set cf=`expr 50 + $iatom`
+     echo "$help,'$file.qtl$iatom','unknown','formatted',0">>$def
+     echo "$cf,'$file.cf$iatom','unknown','formatted',0">>$def
+   @ iatom ++
+end
+breaksw

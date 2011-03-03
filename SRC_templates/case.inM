@@ -1,0 +1,12 @@
+PORT 2.0           # PORT/NEWT/NEW1;  tolf (geom.opt. stops when F<tolf) (a4,f5.2))
+1.0 1.0 1.0 1.0    # Atom1 
+1.0 1.0 1.0 1.0    # Atom2 #PORT: delta1,2,3=precond., 4:Bondorder 
+1.0 1.0 1.0 1.0    # Atom3 
+1.0 1.0 1.0 1.0    # Atom4 #NEWT: delta1,2,3=timestep, 4:friction (1=MOLD))
+1.0 1.0 1.0 1.0    # Atom5
+1.0 1.0 1.0 1.0    # Atom6 #PORT, NEWT: delta1,2,3 = 0 constrains coordinate
+1.0 1.0 1.0 1.0    # Atom7                               
+1.0 1.0 1.0 1.0    # Atom8
+1.0 1.0 1.0 1.0    # Atom9
+1.0 1.0 1.0 1.0    # Atom10  (add more lines if you have more than 11 atoms
+1.0 1.0 1.0 1.0    # 

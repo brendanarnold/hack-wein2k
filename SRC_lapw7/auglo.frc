@@ -1,0 +1,111 @@
+      SUBROUTINE AUGLO(LATOM,ILO,ALM,BLM,CLM,ROTLOC,Y,bk,coef,nmat)
+      use struct
+      use lolog
+      use loabc
+!     last changes: 29.08.00 ub (updating comments)
+!                   08.11.00 ub (MVATOM introduced)
+!                   12.11.00 ub (C:17/TR(I)CK17 feature with parameters)
+!
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.inc'
+      COMPLEX*16 ALM((LMAX7+1)*(LMAX7+1)),BLM((LMAX7+1)*(LMAX7+1)), &
+                 CLM((LOMAX+1)*(LOMAX+1))
+!
+!     THIS SUBROUTINE REQUIRES LOMAX <= LMAX7
+!
+! The LO contrinution to the augmentation coefficients A_lm,a to C_lm,a 
+! of a given eigen state at a given atom a in the unit cell
+! ----------------------------------------------------------------------------
+! Input:
+! LATOM    -- the atom a 
+! ILO      -- offset to reach the current LO coefficients c_n within COEF
+! ROTLOC   -- the local rotation matrices T_a of each atom
+!             [ stored as (T_a^-1)_ij = ROTLOC(i,j,a) ]
+!
+! ALM,BLM  -- the PW part of the augmentation coefficients for each (l,m)
+!
+! Output:
+! ALM, BLM, CLM  -- the complete augmentation coefficients for each (l,m) 
+! ILO            -- offset to reach the next set of LO coefficients c_n
+!
+! Working arrays:
+! Y        -- to hold Y_lm(...)
+! ----------------------------------------------------------------------------
+! X_l,m,a = [ Sum(n) c_n/sqrt(V) exp(i(K_n+k)R_a) Y(*)_lm(T_a^-1(K+k)) ] X_l,a
+!
+! Here (*) stands for an optional complex conjugation on Y_lm(...)
+! WIEN95 : (*) =   
+! WIEN97 : (*) = *
+! 
+! K_n   : the wave vector associated with the n-th local orbital
+! R_a   : center of atom a
+! T_a   : local rotation matrix of atom a
+! X_l,a : local orbial coefficients A_l, B_l, C_l for atom a
+! ----------------------------------------------------------------------------
+!_REAL         REAL*8     COEF(nmat)
+!_COMPLEX      COMPLEX*16 COEF(nmat)
+!      COMMON /STRUCT/ POS(3,NDIF),ZNUC(NATO),RMT(NATO),MULT(NATO),
+!     *                IATNR(NDIF),ANAME(NATO)
+!      COMMON /LOABC / ALO(0:LOMAX,NATO),BLO(0:LOMAX,NATO), 
+!     *                CLO(0:LOMAX,NATO)
+!      COMMON /LOLOG / NLO,LOOR(0:LOMAX,NATO),LORB(NATO)
+!      COMMON /EIGVEC/ BK(3,NMAT),COEF(NMAT)
+      real*8 BK(3,NMAT)
+!
+      COMPLEX*16 PHS,PHSSUM(-LOMAX:LOMAX),Y((LOMAX+1)*(LOMAX+1))
+      DIMENSION  RK(3),ROTLOC(3,3,*)
+!
+      JATOM = IATNR(LATOM)
+!
+      DO 10 L=0,LOMAX
+      IF(.NOT.LOOR(L,JATOM))GOTO 10
+!
+!       << initialize pre-factor [ Sum(n) ... ] >>
+        DO 20 M=-L,L
+          PHSSUM(M) = (0.0D0,0.0D0)
+   20   CONTINUE
+!
+        DO 30 JNEQLO=1,(2*L+1)*MULT(JATOM)
+          ILO = ILO + 1
+!
+!         << Y*(*)_lm(T_a^-1(K_n+k)) >>
+          DO 40 I=1,3
+            RK(I) = ROTLOC(I,1,LATOM)*BK(1,ILO) +  &
+                    ROTLOC(I,2,LATOM)*BK(2,ILO) + &
+                    ROTLOC(I,3,LATOM)*BK(3,ILO)
+   40     CONTINUE
+          CALL YLM(RK,LOMAX,Y)
+!:17[
+          IF(.NOT.KCONJG)THEN
+!           << WIEN95 convention : (*) =   >>
+            DO 45 LM=1,(LOMAX+1)*(LOMAX+1)
+              Y(LM) = DCONJG(Y(LM))
+   45       CONTINUE
+          ENDIF
+!:17]
+!
+!         << c_n/sqrt(V) * exp(i(K_n+k)R_a) >>
+          ARG = BK(1,ILO)*POS(1,LATOM) + BK(2,ILO)*POS(2,LATOM) &
+              + BK(3,ILO)*POS(3,LATOM)
+          PHS = COEF(ILO) * DCMPLX(COS(ARG),SIN(ARG))
+!
+          LM = L*L
+          DO 50 M=-L,L
+            LM = LM + 1
+            PHSSUM(M) = PHSSUM(M) + PHS * DCONJG( Y(LM) )
+   50     CONTINUE
+   30   CONTINUE
+!
+!       << multiply with X_l,a >>
+        LM = L*L
+        DO 60 M=-L,L
+          LM = LM + 1
+          ALM(LM)= ALM(LM)+ PHSSUM(M)*ALO(L,JATOM)
+          BLM(LM)= BLM(LM)+ PHSSUM(M)*BLO(L,JATOM)
+          CLM(LM)=          PHSSUM(M)*CLO(L,JATOM)
+   60   CONTINUE
+!
+   10 CONTINUE
+!
+      RETURN
+      END

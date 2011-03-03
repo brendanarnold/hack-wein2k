@@ -1,0 +1,220 @@
+#!/usr/bin/perl
+
+require "../../libs/w2web.pl";
+require "../../libs/struct.pl";
+$doit=0;
+$debug=0;
+
+@anapar1=qw(ENE FER DIS NEC01 NEC02 MMTOT );
+@anapar2=qw(FOR QTL EFG ETA CHA DTO CTO NTO);
+@anapar3=qw(CUP CDN HFF MMI);
+@anapar4=qw(other otherparm lines scffile altfile selectatom);
+$prefspace="ana";
+
+&GetInput;
+&GetSession;
+
+
+	&StructRead;
+	&GetPrefs();
+
+	$atoms="<SELECT NAME=selectatom>";
+	for ($i=1;$i<=$s_ineq;$i++) {
+		$mycheck="";
+		$mycheck="SELECTED" if ($i == $PREFS{selectatom});
+		$atoms.="<OPTION VALUE=$i $mycheck>$i";
+	}
+	$atoms.="</SELECT>";
+
+
+	$OUT .= "<h2>Analysis</h2>";
+	if (!$doit) {
+		$OUT .= <<__STOP__;
+<FORM ACTION="/util/analysis.pl" METHOD=POST>
+__STOP__
+
+		&PassHiddenParms();
+#		&StructRead();
+
+		$OUT .= <<__STOP__;
+<table bgcolor=$green>
+<TR><TD BGCOLOR=$gray>
+<b>atom independent parameters:</b>
+<br>
+$indent
+<INPUT TYPE=CHECKBOX NAME="ENE" $PREFS{'ENE'}>ENE
+<INPUT TYPE=CHECKBOX NAME="FER" $PREFS{'FER'}>FER
+<INPUT TYPE=CHECKBOX NAME="DIS" $PREFS{'DIS'}>DIS
+<INPUT TYPE=CHECKBOX NAME="NEC01" $PREFS{'NEC01'}>NEC-new
+<INPUT TYPE=CHECKBOX NAME="NEC02" $PREFS{'NEC02'}>NEC-old
+<INPUT TYPE=CHECKBOX NAME="MMTOT" $PREFS{'MMTOT'}>MMTOT
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<b>atom dependent parameters:</b>
+<br>
+$indent
+<INPUT TYPE=CHECKBOX NAME="FOR" $PREFS{'FOR'}>FOR
+<INPUT TYPE=CHECKBOX NAME="QTL" $PREFS{'QTL'}>QTL
+<INPUT TYPE=CHECKBOX NAME="EFG" $PREFS{'EFG'}>EFG
+<INPUT TYPE=CHECKBOX NAME="ETA" $PREFS{'ETA'}>ETA
+<INPUT TYPE=CHECKBOX NAME="CHA" $PREFS{'CHA'}>CHA
+<INPUT TYPE=CHECKBOX NAME="DTO" $PREFS{'DTO'}>DTO
+<INPUT TYPE=CHECKBOX NAME="CTO" $PREFS{'CTO'}>CTO
+<INPUT TYPE=CHECKBOX NAME="NTO" $PREFS{'NTO'}>NTO
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<b>for spin polarized systems:</b>
+<br>
+$indent
+<INPUT TYPE=CHECKBOX NAME="CUP" $PREFS{'CUP'}>CUP
+<INPUT TYPE=CHECKBOX NAME="CDN" $PREFS{'CDN'}>CDN
+<INPUT TYPE=CHECKBOX NAME="HFF" $PREFS{'HFF'}>HFF
+<INPUT TYPE=CHECKBOX NAME="MMI" $PREFS{'MMI'}>MMI
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<b>other parameter:</b>
+<br>
+$indent
+<INPUT NAME=other TYPE=CHECKBOX $PREFS{'other'}>
+<INPUT NAME=otherparm VALUE=$PREFS{'otherparm'}>
+</TD></TR>
+
+
+<TR><TD BGCOLOR=$gray>
+<b>Select atom</b> (for atom dependent param.)<br>
+$indent $atoms
+</TD></TR>
+
+
+
+<TR><TD BGCOLOR=$gray>
+<b>Number of lines to show</b>
+<INPUT NAME=lines VALUE=$PREFS{'lines'}>
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+Analysis of: 
+<INPUT TYPE=RADIO NAME=scffile VALUE="default" $PREFS{'c_scffile'}>
+$CASE.scf
+<br>
+or of <INPUT TYPE=RADIO NAME=scffile VALUE="alt" $PREFS{'c_altfile'}>
+<INPUT NAME=altfile VALUE="$PREFS{'altfile'}">
+</TD></TR>
+
+<TR><TD BGCOLOR=$gray>
+<INPUT NAME=doit VALUE=1 TYPE=hidden>
+<INPUT TYPE=SUBMIT VALUE="Analyze $CASE.scf">
+</TD></TR>
+</TABLE>
+</FORM>
+__STOP__
+	} else {
+		&SavePrefs();
+
+		$testfile="$DIR/$CASE.scf";
+		if ($scffile=~ /alt/) {
+			$testfile="$DIR/$altfile";
+		}
+
+		if($selectatom < 10) {
+			$testatom="00$selectatom";
+		}else {
+                  if($selectatom < 100) {
+                        $testatom="0$selectatom";
+                  }else {
+			$testatom="$selectatom";
+		}}
+		$output ="";
+		$showpars="";
+		#atom indep.
+		foreach $i (@anapar1) {
+			if ($$i) {
+				$showpars.="$i,";
+				$output .= "--- $i -----------\n";
+				$output .= qx( grep :$i $testfile | tail -$lines);
+			}
+		}	
+		#atom dep.
+		foreach $i (@anapar2) {
+			if ($$i) {
+				$showpars.="$i,";
+				$output .= "--- $i$testatom -----------\n";
+				$output .= qx( grep :$i$testatom $testfile | tail -$lines);
+			}
+		}	
+		#spinpol .
+		foreach $i (@anapar3) {
+			if ($$i) {
+				$showpars.="$i,";
+				$output .= "--- $i$testatom -----------\n";
+				$output .= qx( grep :$i$testatom $testfile | tail -$lines);
+			}
+		}	
+		#other
+		if ($other) {
+			$showpars.="$otherparm,";
+			$output .= "--- $otherparm -----------\n";
+			$output .= qx( grep :$otherparm $testfile | tail -$lines);
+		}
+		
+
+		$OUT .= <<__STOP__;
+<p>
+Analysis of parameter(s) $showpars<br>
+in $testfile
+(showing last $lines lines)
+</p>
+<pre>
+$output
+</pre>
+
+<table>
+<tr>
+<td bgcolor=$gray>
+<FORM ACTION=/util/analysis.pl METHOD=POST>
+
+__STOP__
+
+		&PassHiddenParms;
+		foreach $i (@anapar1) {
+			$OUT.= "<INPUT TYPE=HIDDEN NAME=$i VALUE=$$i>\n";
+		}
+		foreach $i (@anapar2) {
+			$OUT.= "<INPUT TYPE=HIDDEN NAME=$i VALUE=$$i>\n";
+		}
+		foreach $i (@anapar3) {
+			$OUT.= "<INPUT TYPE=HIDDEN NAME=$i VALUE=$$i>\n";
+		}
+		foreach $i (@anapar4) {
+			$OUT.= "<INPUT TYPE=HIDDEN NAME=$i VALUE=$$i>\n";
+		}
+		$OUT.= <<__STOP__;
+<INPUT TYPE=HIDDEN NAME=parameter VALUE=$parameter>
+<INPUT TYPE=HIDDEN NAME=selectatom VALUE=$selectatom>
+<INPUT TYPE=HIDDEN NAME=other VALUE=$other>
+<INPUT TYPE=HIDDEN NAME=lines VALUE=$lines>
+<INPUT TYPE=HIDDEN NAME=scffile VALUE=$scffile>
+<INPUT TYPE=HIDDEN NAME=altfile VALUE=$altfile>
+<INPUT TYPE=HIDDEN NAME=doit VALUE=1>
+<INPUT TYPE=SUBMIT VALUE="reanalyze $CASE.scf">
+</FORM>
+</td>
+<td bgcolor=$gray>
+<FORM ACTION=/util/analysis.pl METHOD=POST>
+__STOP__
+    &PassHiddenParms;
+    $OUT.= <<__STOP__;
+<INPUT TYPE=HIDDEN NAME=doit VALUE=0>
+<INPUT TYPE=SUBMIT VALUE="select other parameter">
+</FORM></td>
+</tr>
+</table>
+__STOP__
+
+	}
+
+	PrintPage("Anaylsis", $OUT);
+

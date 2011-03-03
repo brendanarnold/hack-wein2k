@@ -1,0 +1,11 @@
+      INTEGER nrad,ncom,lmax2,nradint
+      PARAMETER (NRAD=981)                                               
+      PARAMETER (NCOM=49)                                               
+!      PARAMETER (NKD=54000)                                              
+!      PARAMETER (Nfk=99999)                                            
+!     Nfk: Number of "star-expanded" Fourier coeff. in CLMSUM
+!     NKD:  Number of structure factors
+      PARAMETER          (LMAX2=  10)
+!     Number of radial integration points
+      PARAMETER (NRADINT=3001)
+!      PARAMETER (NRADINT=999)

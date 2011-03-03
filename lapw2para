@@ -1,0 +1,419 @@
+#!/bin/csh -f
+#
+# $Revision: 1.10 $
+# $Date: 1997/11/19 16:21:49 $
+#
+# $Author: jluitz $
+# $Source: /zeus/lapw/WIEN97/bin/RCS/lapw2para,v $
+# $State: Exp $
+# 
+
+set tmp  = .tmp_lapw2para.$$
+set tmp2 = .tmp_lapw2para.$$_2
+rm .tmp_lapw1para.* .tmp_testpara_new.* >&/dev/null
+rm .lapw2para.* >&/dev/null
+touch .lock_
+foreach i (.lock_*)
+    rm $i
+end
+
+onintr exit
+set name	= $0
+set bin		= $name:h	#default directory for WIEN-executables
+if !(-d $bin) set bin = .
+
+unalias rm
+alias   testinput       'if (! -e \!:1 ||  -z \!:1) goto \!:2'
+alias   testerror       'if (! -z \!:1.error) goto error'
+
+set t	    = time  
+set log     = :parallel
+set defmach = `hostname`
+set updn			# spinpolarization switch
+set dnup    = 'dn'		# spinpolarization switch
+set sc				# semicore-switch
+set cmplx
+set eece
+set eecem
+set EECE
+set remote = ssh
+set init = init:
+set res  = residue:
+############################################################################
+# In this section use 0 to turn of an option, 1 to turn it on, 
+# respectively choose a value
+
+set useremote   = 1             # using remote shell to launch processes
+set delay       = 1             # delay launching of processes by n seconds
+set sleepy      = 1             # additional sleep before checking
+set debug       = 0             # set verbosity of debugging output
+
+############################################################################
+
+############################################################################
+# and now we look if we should override the defaults
+if (-e $bin/parallel_options) then
+        source $bin/parallel_options
+endif
+if ( $?WIEN_MPIRUN ) then
+  set mpirun = "$WIEN_MPIRUN"
+else
+  set mpirun='mpirun -np _NP_ _EXEC_'
+endif
+
+
+if ( $?USE_REMOTE ) then
+        set useremote = $USE_REMOTE
+endif
+
+############################################################################
+
+
+if ($#argv < 1) then
+	echo usage: $0 deffile
+	exit
+endif
+
+while ($#argv)
+  switch ($1)
+  case -h:
+  case -H: 
+    set help
+    shift; breaksw
+  case -up:
+    set updn = 'up'
+    set dnup = 'dn'
+    shift; breaksw
+  case -dn:
+    set updn = 'dn'
+    set dnup = 'up'
+    shift; breaksw
+  case -sc:
+    set sc = 's'
+    shift; breaksw
+  case -c:
+    set cmplx = c
+    shift; breaksw
+  case -so:
+    set so = 'so'
+    shift; breaksw
+  case -eece:
+    set eece = 'eece'
+    set eecem = '-eece'
+    set EECE = 'EECE'
+    shift; breaksw
+  default:
+    set def = $1:r
+    shift; breaksw
+  endsw
+end
+set exe = $bin/lapw2$cmplx
+set exe = lapw2$cmplx
+#are we running parallel?
+testinput .processes single
+echo "running LAPW2 in parallel mode"
+echo "RUNNING" >.lapw2para
+
+#before we start, we wipe away all parallel error files
+if ( -e lapw2.error ) rm *lapw2*.error
+if ( -e uplapw2.error ) rm *lapw2*.error
+if ( -e dnlapw2.error ) rm *lapw2*.error
+
+if ( -e lapw2_1.error ) rm *lapw2_*.error
+if ( -e uplapw2_1.error ) rm *lapw2_*.error
+if ( -e dnlapw2_1.error ) rm *lapw2_*.error
+if ( -e .time2_1) rm .time2_*
+
+
+if (-e .machines.help) rm .machines.help
+
+grep -v $init .processes|grep : | grep -v $res >$tmp2
+set mist     = `wc $tmp2 `
+set maxproc  = $mist[1]
+set machine  = `grep $init .processes | cut -f2 -d: | xargs`
+if ($#machine > $maxproc) then
+    set machine  = `grep $init .processes |head -$maxproc| cut -f2 -d: | xargs`
+endif
+set lockfile = `cut -f2 -d: $tmp2 | awk '{print $1 NR}'|xargs`
+set residue  = `grep $res .processes|cut -f2 -d:`
+if ($residue == "") unset residue
+
+set number_per_job2 = `cut -f4 -d: $tmp2`
+set mach = `cut -f5 -d: $tmp2`
+
+if ($debug > 0) echo machines: $machine
+
+
+echo "** " Error in Parallel LAPW2 >$def.error
+
+
+#get name of case
+setenv PWD `pwd|sed "s/tmp_mnt\///"`
+setenv PWD $cwd
+set case    = $PWD
+set case    = $case:t          
+if ($case == "") then
+  echo "ERROR: no case.inst-file -> exit"
+  exit 1
+endif
+if ($debug > 0) echo Setting up case $case for parallel execution
+if ($debug > 0) echo of LAPW2
+if ($debug > 0) echo "  "
+#
+#first execute lapw2 with switch FERMI, calculate weighs
+#then start PROC processes of lapw2 with original switch
+
+
+
+set fermi = `head -1 $case.in2$cmplx$eece|cut -c-5`
+if ($fermi == "QTL" ) then
+   goto qtl
+endif
+if ($fermi == "EFG" ) then
+   goto qtl
+endif
+
+
+if ($fermi == "FERMI" ) then
+    if (-e .in.tmp) then
+	# this only happens if lapw2para has crashed in FERMI,
+	# so we use the old input file
+	cp .in.tmp $case.in2$cmplx$eece
+	set fermi = `head -1 $case.in2$cmplx$eece|cut -c-5`
+    endif
+endif	
+
+cp $case.in2$cmplx$eece .in.tmp
+
+echo "FERMI$EECE" >.in.tmp1
+set len = `wc .in.tmp`
+@ len --
+tail -$len $case.in2$cmplx$eece >>.in.tmp1
+
+cp .in.tmp1 $case.in2$cmplx$eece
+echo "->  "starting Fermi on $defmach at `date` >>$log
+
+# fix for NFS bug:
+  touch $case.weigh${updn}_ $case.clmval${updn}_1 $case.vrespval${updn}_1 $case.help${updn}_1 $case.scf2${updn}_1
+  rm $case.weigh${updn}_* $case.clmval${updn}_* $case.vrespval${updn}_* $case.help${updn}_* $case.scf2${updn}_*                   
+
+$exe $def.def $maxproc
+
+# now we have proc weigh files! restore old in2 file
+cp .in.tmp $case.in2$cmplx$eece
+rm .in.tmp .in.tmp1
+
+if( $fermi == FERMI) then
+  echo FERMI only  
+  rm $tmp* >&/dev/null
+  exit
+endif
+
+testerror $def
+
+
+#creating  def files
+if ($debug > 0) echo " "
+if ($debug > 0) echo -n "creating "$def"_*.def:  "
+set i = 1
+while ($i <= $maxproc)
+  if ($debug > 0) echo -n "$i "
+  cp $def.def .tmp
+  #subsituting in files:
+  cat <<theend >.script
+s/vectorso$dnup/&_$i/w .mist
+s/vectorso$updn/&_$i/w .mist
+s/vectordum$dnup/&_$i/w .mist
+s/vectordum$updn/&_$i/w .mist
+s/vector$dnup/&_$i/w .mist
+s/vector$updn/&_$i/w .mist
+s/energyso$dnup/&_$i/w .mist
+s/energyso$updn/&_$i/w .mist
+s/energydum/&_$i/w .mist
+s/energy$dnup/&_$i/w .mist
+s/energy$updn/&_$i/w .mist
+s/\(weigh$dnup\)'/\1_$i'/w .mist
+s/\(weigh$updn\)'/\1_$i'/w .mist
+s/\(weightaverso$updn\)'/\1_$i'/w .mist
+s/normso$dnup/&_$i/w .mist
+s/normso$updn/&_$i/w .mist
+s/output2${updn}$eece/&_$i/w .mist
+s/clmval${updn}$eece/&_$i/w .mist
+s/vrespval$updn/&_$i/w .mist
+s/dmat$updn/&_$i/w .mist
+s/scf2$updn/&_$i/w .mist
+s/help$updn/&_$i/w .mist
+
+theend
+
+  sed -f .script .tmp > .tmp1
+  sed "s/vector_${i}dn_$i/vectordn_$i/" .tmp1>.tmp2
+  sed "s/vector_${i}up_$i/vectorup_$i/" .tmp2>.tmp1
+  sed "s/vector_${i}so_$i/vectorso_$i/" .tmp1>.tmp2 
+  sed "s/energy_${i}up_$i/energyup_$i/" .tmp2>.tmp1
+  sed "s/energy_${i}dn_$i/energydn_$i/" .tmp1>.tmp2 
+  sed "s/energy_${i}so_$i/energyso_$i/" .tmp2>.tmp1 
+  sed "s/energyso_${i}dn_$i/energysodn_${i}/" .tmp1>.tmp2 
+  sed "s/energy_${i}dum_$i/energydum_$i/" .tmp2>.tmp1 
+  sed "s/vector_${i}so_${i}dn_$i/vectorsodn_$i/" .tmp1>.tmp2 
+  sed "s/vector_${i}dum_${i}dn_$i/vectordumdn_$i/" .tmp2>"$def"_$i.def 
+  @ i ++
+end
+if ($debug > 0) echo " "
+
+
+#starting processes
+if ($debug > 0) echo " "
+if ($debug > 0) echo "starting process:  "
+
+echo "->  "starting parallel lapw2$cmplx at `date` >>$log
+
+set loop    = 0
+set endloop = 0
+set runmach = ""
+echo "files:$maxproc" >.processes2
+while ($loop < $maxproc)
+  set p = 1
+  if ($?residue && $?resok) set p = 2
+  while ($p <= $#machine)
+    if ($loop < $maxproc) then
+	if !(-e .lock_$lockfile[$p]) then
+	    @ loop ++
+	    echo "${loop}:${maxproc}" >.processes2
+	    if ($debug > 0) echo prepare $loop on $machine[$p]
+	    set runmach = ($runmach $machine[$p])
+	    echo $runmach >>.processes2
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]"
+	    if ($debug > 1) echo "   >  $exe ${def}_${loop}.def on $machine[$p]">>$log
+	    if( $number_per_job2[$loop] == 1 ) then
+	      if ($useremote == 1) then
+		if ($debug > 1) echo use remote
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] ">.time2_$loop
+		($remote $machine[$p] "cd $PWD;csh -c '$t $exe ${def}_${loop}.def $loop';rm -f .lock_$lockfile[$p];fixerror_lapw ${def}_$loop") >>.time2_$loop  &
+	      else
+		if ($debug > 1) echo not using remote shell
+		touch .lock_$lockfile[$p]
+		echo -n "$runmach[$loop] " >.time2_$loop
+		(cd $PWD;$t $exe ${def}_${loop}.def $loop;rm -f .lock_$lockfile[$p]) >>.time2_$loop  &
+	      endif
+	    else
+	      if ($debug > 1) echo running parallel lapw2
+	      touch .lock_$lockfile[$p]
+	      echo -n "$runmach[$loop] " >.time2_$loop
+              set ttt=(`echo $mpirun | sed -e "s^_NP_^$number_per_job2[$loop]^" -e "s^_EXEC_^$WIENROOT/${exe}_mpi ${def}_$loop.def $loop^" -e "s^_HOSTS_^.machine$mach[$loop]^"`)
+
+	      (cd $PWD;$t $ttt;rm -f .lock_$lockfile[$p]) \
+		>>.time2_$loop &
+	    endif
+	endif
+        if ($debug > 1) echo sleeping for $delay seconds
+        sleep $delay
+            jobs -l >.lapw2${cmplx}para.$$.`hostname`
+    endif
+    @ p ++
+  end
+end
+
+#wait for execution to be completed
+if ($debug > 0) echo " "
+if ($debug > 0) echo "waiting for processes:  "
+wait
+
+# make sure even stupid NFS writes are done
+sleep $sleepy
+
+
+set i = 1
+while ($i <= $maxproc)
+  testerror "$def"_$i
+  @ i ++
+end
+
+#cpu summary:
+set i = 1
+while ($i <= $maxproc)
+    echo "      "`cat .time2_$i`
+    echo "      "`cat .time2_$i` >>$log
+    @ i ++
+end
+
+# postanalysis
+echo "   Summary of lapw2para:" >$tmp
+set p = 1
+while ($p <= $#machine)
+  if($p <= $#runmach) then
+    set m = $runmach[$p]
+    cat .time2_* | grep -w $m | tr "():" " " | \
+	    awk '{u += $2; cl += 60*$4+$5} \
+		END {print "   '$m'\t user=" u "\t wallclock=" cl}' >>$tmp
+  endif
+  @ p ++
+end
+
+uniq < $tmp |tee -a $log
+
+echo "<-  "done at `date` >>$log
+#now sum all the clm-files 
+if ($debug > 0) echo " "
+if ($debug > 0) echo "summing up all clm-files"
+
+set updn1 =
+if ($updn == up || $updn == dn ) set updn1 = -$updn
+$bin/x sumpara $updn1 $eecem -d 
+
+set def2 = "$updn"sumpara
+echo "->  "starting sumpara $maxproc on $defmach at `date` >>$log
+$bin/sumpara $def2.def $maxproc
+testerror $def2
+
+#  for vresp files
+if( $eece != 'eece' ) then
+$bin/x sumpara_vresp $updn1 -d
+set def2 = "$updn"sumpara_vresp
+echo "->  "starting sumpara $maxproc on $defmach at `date` >>$log
+$bin/sumpara $def2.def $maxproc
+testerror $def2
+endif
+
+#
+#Correcting scf2 file
+cat $case.scf2p >>$case.scf2$updn
+
+echo "<-  "done at `date` >>$log
+echo "-----------------------------------------------------------------">>$log
+rm $def.error
+touch $def.error
+rm $tmp* >&/dev/null
+rm .lapw2${cmplx}para.$$.`hostname` >&/dev/null
+echo "DONE" >.lapw2para
+exit 0
+
+single:
+echo "running in single mode"
+$exe $def.def
+rm $tmp* >&/dev/null
+rm .lapw2${cmplx}para.$$.`hostname` >&/dev/null
+exit 0
+
+qtl:
+echo "calculating QTL's from parallel vectors"
+$exe $def.def $maxproc
+rm $tmp* >&/dev/null
+rm .lapw2${cmplx}para.$$.`hostname` >&/dev/null
+echo "DONE" >.lapw2para
+exit 0
+
+error:
+cp .in.tmp $case.in2$cmplx$eece
+rm .in.tmp .in.tmp1
+echo "** " LAPW2 crashed!
+echo "** " LAPW2 crashed at `date`>>$log
+echo "** " check ERROR FILES! >>$log
+echo "-----------------------------------------------------------------">>$log
+echo "** " testerror: Error in Parallel LAPW2 >>$def.error
+rm $tmp* >&/dev/null
+rm .lapw2${cmplx}para.$$.`hostname` >&/dev/null
+echo "ERROR" >.lapw2para
+exit 1
+

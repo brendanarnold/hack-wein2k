@@ -1,0 +1,5 @@
+-9.0  2       emin natom
+1 1 2         iatom nlorb lorb
+2 1 2         iatom nlorb lorb
+HYBR          HYBR / EECE mode
+0.25          amount of exact exchange

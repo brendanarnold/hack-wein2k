@@ -1,0 +1,58 @@
+      SUBROUTINE USTPHX(SSK,U,NAT)                                      
+!***********************************************************************
+!***  FOR THE VECTOR SK IN INTERNAL COORDINATES                       * 
+!***  PROVIDE THE FOURIER COEFFICIENT OF THE STEP FUNCTION (IN U)      *
+!***  AND THE PHASE FACTOR (IN PHS) FOR CBMTX3     (P.BLAHA     )      *
+!***********************************************************************
+      use atomgrid
+      IMPLICIT REAL*8 (A-H,O-Z)
+      INCLUDE 'param.inc'
+!
+      DIMENSION SK(3),SSK(3)   
+!_COMPLEX      COMPLEX*16 U,PHSI
+      COMMON /STRUK/ AA,BB,CC,alpha(3),PIA(3),VOL,ndif
+      COMMON /GENER/ GX1,GY1,GZ1,GX2,GY2,GZ2,GX3,GY3,GZ3                
+      DATA ZILCH/1.0d-10/,igot/-1/
+      save igot,PI,PI2,sq3
+      if(igot.lt.0)then                    
+        PI=4.D0*DATAN(1.D0)
+        PI2=2.D0*PI
+      endif
+!      allocate ( phs(nat))
+      SK(1)=SSK(1)*GX1+SSK(2)*GX2+SSK(3)*GX3                            
+      SK(2)=SSK(1)*GY1+SSK(2)*GY2+SSK(3)*GY3                            
+      SK(3)=SSK(1)*GZ1+SSK(2)*GZ2+SSK(3)*GZ3                            
+      S=SQRT(SK(1)*SK(1)+SK(2)*SK(2)+SK(3)*SK(3))
+      SK(1)=SSK(1)*PI2
+      SK(2)=SSK(2)*PI2
+      SK(3)=SSK(3)*PI2                                
+      IF(S.GT.ZILCH) GOTO 10                                            
+!_REAL      u=1.d0
+!_COMPLEX      u=(1.d0,0.d0)
+      do 5 jatom=1,nat
+  5   u=u-v(jatom)*mult(jatom)
+      RETURN                                                            
+!                                                                       
+!     INVERSION-SYMMETRY ASSUMED                                        
+!                                                                       
+!_REAL   10 U=0.d0                                                             
+!_COMPLEX   10 U=(0.d0,0.d0)                                             
+ 30   LL=1                                                              
+!                                                                       
+!     NON - SYMMORPHIC SPACE-GROUP                                      
+!                                                                       
+       DO 20 I=1,NAT
+          PHSI=0.D0
+          KK=MULT(I)                                                        
+          DO 35 K=1,KK                                                      
+                ARG=(POS(LL,1)*SK(1)+POS(LL,2)*SK(2)+POS(LL,3)*SK(3))                                       
+                LL=LL+1                                                           
+!_REAL  35      PHSI=PHSI+COS(ARG)
+!_COMPLEX 35    PHSI=PHSI+CMPLX(cos(arg),sin(arg))
+!                                                                       
+          Q=S*RMT(I)                                                      
+          BESR=(Q*COS(Q)-SIN(Q))/(Q*Q*Q)                                     
+   20 U=U+V(I)*PHSI*BESR
+      U=3.d0*U                                                           
+      RETURN                                                            
+      END                                                               

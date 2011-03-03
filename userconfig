@@ -1,0 +1,429 @@
+#!/bin/csh -f
+#
+# userconfig_lapw
+#
+unalias rm
+
+
+set name  = $0
+set bin   = $name:h		#directory of WIEN-executables
+cd $bin
+set bin = `pwd`
+
+
+#cd ~
+
+main:
+if (-e $bin/INSTALLDATE) then
+    set instdate = `cat $bin/INSTALLDATE`
+else
+    set instdate = "not yet configured"
+    set firstinstall
+endif
+if ( -e $bin/VERSION ) then
+    set version = `cat $bin/VERSION`
+else
+    set version = "unknown"
+endif
+if ( -e $bin/SYSTEM ) then
+    set system = `cat $bin/SYSTEM`
+else
+    set system = "unknown"
+endif
+
+if ($?firstinstall) goto notinstalled
+
+#make sure these files exist
+touch .cshrc
+touch .bashrc
+        cp ~/.cshrc ~/.cshrc.savelapw
+        cp ~/.bashrc ~/.bashrc.savelapw
+
+
+set userdone = `grep "# added by WIEN" ~/.cshrc ~/.bashrc | wc -l`
+if ($userdone > 0) then
+    cat <<EOF
+
+
+     WIEN2k userconfig_lapw is already set up for you!
+EOF
+    echo -n "     Do you want to run userconfig_lapw again? (y/N) "
+    set yn = ($<)
+    if ($yn == y || $yn == Y) then
+
+	sed -e '/# added by WIEN.* BEGIN/,/# added by WIEN.* END/d' ~/.cshrc >~/.cshrc.tmp
+	sed -e '/# added by WIEN.* BEGIN/,/# added by WIEN.* END/d' ~/.bashrc >~/.bashrc.tmp
+ 	mv ~/.cshrc.tmp ~/.cshrc
+ 	mv ~/.bashrc.tmp ~/.bashrc
+	goto contsetup
+    else
+	cat<<EOF	
+
+     WIEN2k userconfig_lapw aborted due to a previous run.
+
+EOF
+        rm ~/.cshrc.savelapw
+        rm ~/.bashrc.savelapw
+    exit
+    endif
+endif
+
+
+contsetup:
+
+if ! ( $?user ) then
+   set user = `whoami`
+endif
+set homedir = $HOME
+set usershell = `grep ^${user} /etc/passwd|awk -F: '{print $NF}'`
+set usershell = $usershell:t
+#clear
+cat <<EOF
+
+   *********************************************************"
+   *                        WIEN 2k                        *"
+   *                  user configuration                   *"
+   *********************************************************"
+     Last configuration: $instdate
+                      Wien Version: $version
+                      System: $system
+
+     Setting up user: $user	
+     Home directory:  $homedir
+     Shell:           $usershell
+EOF
+if !($usershell == csh || $usershell == tcsh || $usershell == bash) goto no_sh
+echo ""
+edagain:
+echo "     Specify your prefered editor (default is emacs):"
+echo -n "     editor shall be: "
+set ed = ($<)
+if ($ed == "") set ed = emacs
+echo ""
+if ("$ed" == "vi") then
+    echo "   You chose vi as your prefered editor."
+    echo "   Shall each editing session be performed in a "
+    echo "   separate X-Terminal?"
+    echo -n "    Open xterm for each vi-session (Y/n)"
+    set yn = ($<)
+    if ($yn == n || $yn == N) then
+    else
+	set ed = "xterm -e $ed"
+    endif
+endif
+echo ""
+echo -n "     Set editor to  $ed (Y/n) "
+set yn = ($<) 
+if ($yn == n|| $yn == N) goto edagain
+
+guiagain:
+set structgen
+#echo ""
+#echo "     If you intend to use WIEN in a BOX for setting up a"
+#echo "     calculation, you can choose to pop up the Struct-File"
+#echo "     Generator during the initialization."
+#echo ""
+#echo -n "     Use Struct-Generator during init_lapw? (Y/n)"
+#set yn = ($<)
+#if !($yn == n || $yn == N) then
+#    if ($usershell == bash) then
+#      set structgen = "export=USE_WIEN"
+#    else
+#      set structgen = "setenv USE_WIEN"
+#    endif
+#else
+#    if ($usershell == bash) then
+#      set structgen = "# export=USE_WIEN"
+#    else
+#      set structgen = "# setenv USE_WIEN"
+#    endif
+#endif
+
+scragain:
+echo ""
+echo "     Specify your prefered scratch directory, where big case.vector files"
+echo "     can be stored (Recommended is your working dir., just enter RETURN key):"
+echo -n "     scratch directory: "
+set scr = ($<)
+if ($scr == "") set scr = "working directory"
+echo ""
+echo -n "     Set scratch directory to  $scr (Y/n) "
+set yn = ($<) 
+if ($yn == n|| $yn == N) goto scragain
+
+if ("$scr" == "working directory") set scr = './'
+    
+
+pdfagain:
+echo ""
+echo  "     Specify your program to read pdf files (default is acroread) "
+echo -n "     (on some Linux systems use xpdf):"
+set PDFREADER = ($<)
+if ($PDFREADER == "") set PDFREADER=acroread
+echo ""
+echo -n "     Set PDFREADER to  $PDFREADER (Y/n) "
+set yn = ($<) 
+if ($yn == n|| $yn == N) goto pdfagain
+
+    
+if ($usershell == bash) then
+
+cat<<EOF 
+
+
+!!!  The following lines will be added to your .bashrc file if you continue !!!
+     A copy of your current .bashrc will be saved under  .bashrc.savelapw!
+
+# added by WIEN2k: BEGIN
+# --------------------------------------------------------
+alias lsi="ls -aslp *.in*"
+alias lso="ls -aslp *.ou*"
+alias lsd="ls -aslp *.def"
+alias lsc="ls -aslp *.cl*"
+alias lss="ls -aslp *.sc*"
+alias lse="ls -aslp *.error"
+alias pslapw="ps -ef |grep "lapw""
+#export OMP_NUM_THREADS=2
+#export LD_LIBRARY_PATH=.....
+export EDITOR="$ed"
+export SCRATCH=$scr
+export WIENROOT=$bin
+export STRUCTEDIT_PATH=\$WIENROOT/SRC_structeditor/bin
+export PDFREADER=$PDFREADER
+export PATH=\$PATH:\$WIENROOT:\$STRUCTEDIT_PATH:.
+export OCTAVE_EXEC_PATH=\${PATH}::
+export OCTAVE_PATH=\${STRUCTEDIT_PATH}::
+$structgen
+ulimit -s unlimited
+# --------------------------------------------------------
+
+EOF
+
+else
+
+cat<<EOF 
+
+
+!!!  The following lines will be added to your .cshrc file if you continue !!!
+     A copy of your current .cshrc will be saved under  .cshrc.savelapw!
+
+# added by WIEN2k: BEGIN
+# --------------------------------------------------------
+alias lsi 'ls -aslp *.in*'
+alias lso 'ls -aslp *.ou*'
+alias lsd 'ls -aslp *.def'
+alias lsc 'ls -aslp *.cl*'
+alias lss 'ls -aslp *.sc*'
+alias lse 'ls -aslp *.error'
+alias pslapw 'ps -ef |grep "lapw"'
+#setenv OMP_NUM_THREADS 2
+#setenv LD_LIBRARY_PATH ...
+setenv EDITOR "$ed"
+setenv SCRATCH $scr
+setenv WIENROOT $bin
+setenv STRUCTEDIT_PATH \$WIENROOT/SRC_structeditor/bin
+setenv PDFREADER $PDFREADER
+$structgen
+set path = (\$WIENROOT \$STRUCTEDIT_PATH \$path .)
+setenv OCTAVE_EXEC_PATH \${PATH}::
+setenv OCTAVE_PATH \${STRUCTEDIT_PATH}::
+limit stacksize unlimited
+# --------------------------------------------------------
+
+EOF
+endif
+
+echo -n "     Do you want to continue (Y/n)? "
+set yn = ($<)
+
+if ($yn == n || $yn == N) goto abortinst
+
+if ($usershell == bash) then
+
+echo ""
+echo "# added by WIEN2k: BEGIN" >>~/.bashrc
+echo "# --------------------------------------------------------" >>~/.bashrc
+echo "     *) adding aliases"
+sleep 1
+cat <<EOF >>~/.bashrc
+alias lsi="ls -aslp *.in*"
+alias lso="ls -aslp *.ou*"
+alias lsd="ls -aslp *.def"
+alias lsc="ls -aslp *.cl*"
+alias lss="ls -aslp *.sc*"
+alias lse="ls -aslp *.error"
+alias pslapw="ps -ef |grep "lapw""
+EOF
+echo "     *) adding environment variables"
+sleep 1
+cat <<EOF >>~/.bashrc
+#export OMP_NUM_THREADS=2
+#export LD_LIBRARY_PATH=.....
+export EDITOR="$ed"
+export SCRATCH=$scr
+export WIENROOT=$bin
+export STRUCTEDIT_PATH=\$WIENROOT/SRC_structeditor/bin
+export PDFREADER=$PDFREADER
+export PATH=\$PATH:\$WIENROOT:\$STRUCTEDIT_PATH:.
+export OCTAVE_EXEC_PATH=\${PATH}::
+export OCTAVE_PATH=\${STRUCTEDIT_PATH}::
+$structgen
+EOF
+echo "     *) adding path to wien programs and set unlimited stacksize"
+sleep 1
+echo 'export PATH=$PATH:$WIENROOT:.' >>~/.bashrc
+cat <<EOF >>~/.bashrc
+ulimit -s unlimited
+# --------------------------------------------------------
+# added by WIEN2k: END 
+EOF
+
+else
+
+echo ""
+echo "# added by WIEN2k: BEGIN" >>~/.cshrc
+echo "# --------------------------------------------------------" >>~/.cshrc
+echo "     *) adding aliases"
+sleep 1
+cat <<EOF >>~/.cshrc
+alias lsi 'ls -aslp *.in*'
+alias lso 'ls -aslp *.ou*'
+alias lsd 'ls -aslp *.def'
+alias lsc 'ls -aslp *.cl*'
+alias lss 'ls -aslp *.sc*'
+alias lse 'ls -aslp *.error'
+alias pslapw 'ps -ef |grep "lapw"'
+EOF
+echo "     *) adding environment variables"
+sleep 1
+cat <<EOF >>~/.cshrc
+#setenv OMP_NUM_THREADS 2
+#setenv LD_LIBRARY_PATH ...
+setenv EDITOR "$ed"
+setenv SCRATCH $scr
+setenv WIENROOT $bin
+setenv STRUCTEDIT_PATH \$WIENROOT/SRC_structeditor/bin
+setenv PDFREADER $PDFREADER
+$structgen
+set path = (\$WIENROOT \$STRUCTEDIT_PATH \$path .)
+setenv OCTAVE_EXEC_PATH \${PATH}::
+setenv OCTAVE_PATH \${STRUCTEDIT_PATH}::
+EOF
+echo "     *) adding path to wien programs and set unlimited stacksize"
+sleep 1
+echo 'set path = ($WIENROOT $path .)' >>~/.cshrc
+limit stacksize unlimited
+cat <<EOF >>~/.cshrc
+# --------------------------------------------------------
+# added by WIEN2k: END 
+EOF
+
+endif
+
+cat <<EOF
+     done.
+
+     If you want to use k-point parallel execution on a non-shared memory
+     system, you must be able to login without specifying a password. 
+     When using   rsh  you should modify your .rhosts file, if you are
+     using   ssh  you must generate (ssh-keygen) and transfer your  "public keys".
+
+EOF
+echo -n "     Edit .rhosts file now? (y/N) "
+set yn = ($<)
+if ($yn == y || $yn == Y) $ed ~/.rhosts
+clear
+
+set proceed = "source ~/.cshrc"
+if ($usershell == bash) then 
+  set proceed = ". ~/.bashrc"
+endif
+
+cat <<EOF
+
+
+   *********************************************************
+   *                        WIEN 2k                        *
+   *                  user configuration                   *
+   *********************************************************
+
+
+   Your user environment for WIEN users is now configured.
+
+   You have to restart your shell before the changes come
+   into effect (execute: $proceed).
+
+   Start "w2web", define "user/password" and select a port. Then point
+   your web-browser to the proper address:PORT.
+
+   For proper usage of scfmonitor please add a line in ~/.Xdefaults :
+           gnuplot*raise: off 
+
+   We wish you GOOD LUCK with your calculations.
+   Your WIEN2k Team
+
+
+
+   
+
+EOF
+exit 0
+
+
+abortinst:
+cat <<EOF
+
+
+!!!  User configuration aborted.  !!!
+
+EOF
+        mv ~/.cshrc.savelapw ~/.cshrc
+        mv ~/.bashrc.savelapw ~/.bashrc
+
+
+exit 1
+
+notinstalled:
+
+clear
+cat <<EOF
+
+
+     *********************************************************
+     *                        WIEN 2k                        *
+     *                  user configuration                   *
+     *********************************************************
+
+
+     WARNING: 
+
+     No installation information could be retrieved!
+     Make sure that your system has been set up 
+     correctly using siteconfig_lapw! 
+
+   
+EOF
+exit
+
+no_sh:
+cat<<EOF
+
+!!!  You are using neither csh, tcsh nor bashrc as your default   !!!
+     shell. You will have to configure your system by hand      
+
+     *) add WIEN2k-directory to your seach-path
+     *) install aliases 
+     *) set environment variable EDITOR to your prefered editor
+     *) set environment variable SCRATCH to your prefered scratch
+        path, to use the working directory set SCRATCH to "./"
+     *) set environment variable WIENROOT to your WIEN root directory
+     *) set the "stacksize" to unlimited
+     *) set LD_LIBRARY_PATH (if necessary)
+     *) if you will be using parallel execution using rsh: edit your
+        ~/.rhosts file such that rlogin logs you on to the
+        selected systems without asking for a password
+        using ssh: generate keys (ssh_keygen) and distribute public key
+        Eventually you may have to ask your system administrator
+
+
+EOF

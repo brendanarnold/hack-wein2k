@@ -1,0 +1,145 @@
+ SUMPARA running from            3input files
+  
+ Summing            3 SCF Files:
+ SCF: DOING PROCESSOR FILE:            1
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS01: AT.NR. -1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     2.842022                          
+ :PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL01: 0.728 2.096 0.016 0.002 0.696 1.399 0.000 0.005 0.002 0.007 0.003 0.000
+ :VZZ01: EFG INSIDE SPHERE   1 =     0.573086      UP TO R =   1.70000          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS02: AT.NR. -2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     1.989621                          
+ :PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL02: 0.565 1.423 0.001 0.000 0.482 0.942 0.000 0.000 0.000 0.000 0.001 0.000
+ :VZZ02: EFG INSIDE SPHERE   2 =    -0.676781      UP TO R =   1.70000          
+                                                                                
+ :CHA  : TOTAL CHARGE INSIDE UNIT CELL =       5.624262                         
+                                                                                
+ :SUM  : SUM OF EIGENVALUES =             -8.844916                             
+                                                                                
+ :GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+ SCF: DOING PROCESSOR FILE:            2
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS01: AT.NR. -1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     2.885760                          
+ :PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL01: 0.734 2.134 0.016 0.002 0.708 1.426 0.000 0.005 0.002 0.007 0.003 0.000
+ :VZZ01: EFG INSIDE SPHERE   1 =     0.799296      UP TO R =   1.70000          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS02: AT.NR. -2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     1.964418                          
+ :PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL02: 0.583 1.380 0.002 0.000 0.469 0.910 0.000 0.000 0.000 0.000 0.001 0.000
+ :VZZ02: EFG INSIDE SPHERE   2 =    -0.877321      UP TO R =   1.70000          
+                                                                                
+ :CHA  : TOTAL CHARGE INSIDE UNIT CELL =       5.699165                         
+                                                                                
+ :SUM  : SUM OF EIGENVALUES =             -9.011411                             
+                                                                                
+ :GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+ SCF: DOING PROCESSOR FILE:            3
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS01: AT.NR. -1  POSITION = 0.00000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA01: TOTAL CHARGE INSIDE SPHERE   1 =     2.370846                          
+ :PCS01: PARTIAL CHARGES SPHERE =  1 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL01: 0.599 1.758 0.012 0.001 0.587 1.171 0.000 0.004 0.001 0.004 0.002 0.000
+ :VZZ01: EFG INSIDE SPHERE   1 =    -0.352458      UP TO R =   1.70000          
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ :POS02: AT.NR. -2  POSITION = 0.50000 0.00000 0.00000  MULTIPLICITY =  1       
+                                                                                
+        LMMAX= 6                                                                
+        LM=  0 0 2 0 4 0 4 4 6 0 6 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                       
+                                                                                
+ :CHA02: TOTAL CHARGE INSIDE SPHERE   2 =     1.585402                          
+ :PCS02: PARTIAL CHARGES SPHERE =  2 S,P,D,F,PZ,PXY,,D-Z2,D-XY,D-X2Y2,D-XZ,YZ   
+ :QTL02: 0.481 1.102 0.002 0.000 0.340 0.762 0.000 0.000 0.000 0.000 0.001 0.000
+ :VZZ02: EFG INSIDE SPHERE   2 =     2.339635      UP TO R =   1.70000          
+                                                                                
+ :CHA  : TOTAL CHARGE INSIDE UNIT CELL =       4.676572                         
+                                                                                
+ :SUM  : SUM OF EIGENVALUES =             -7.417191                             
+                                                                                
+ :GMA  : POTENTIAL AND CHARGE CUT-OFF  10.00 Ry**.5                             
+ CLMVAL summation of file            1
+ CLMVAL summation of file            2
+ CLMVAL summation of file            3
+   ATOM NUMBER = 1
+   CLM(R) FOR L= 0   M= 0
+
+   CLM(R) FOR L= 2   M= 0
+
+   CLM(R) FOR L= 4   M= 0
+
+   CLM(R) FOR L= 4   M= 4
+
+   CLM(R) FOR L= 6   M= 0
+
+   CLM(R) FOR L= 6   M= 4
+
+   ATOM NUMBER = 2
+   CLM(R) FOR L= 0   M= 0
+
+   CLM(R) FOR L= 2   M= 0
+
+   CLM(R) FOR L= 4   M= 0
+
+   CLM(R) FOR L= 4   M= 4
+
+   CLM(R) FOR L= 6   M= 0
+
+   CLM(R) FOR L= 6   M= 4
+
+ DMAT summation of file            1
+ Summing            3 SCFdmat Files:

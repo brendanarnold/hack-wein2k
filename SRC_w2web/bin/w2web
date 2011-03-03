@@ -1,0 +1,962 @@
+#!/usr/bin/perl
+# A very simple perl web server to interface WIEN2k
+# (c) by luitz.at
+
+
+# Require needed libraries, including SSL if available
+use Socket;
+use POSIX;
+use Sys::Hostname;
+eval "use Net::SSLeay";
+if (!$@) {
+	$use_ssl = 1;
+	# These functions only exist for SSLeay 1.0
+	eval "Net::SSLeay::SSLeay_add_ssl_algorithms()";
+	eval "Net::SSLeay::load_error_strings()";
+		if (defined(&Net::SSLeay::X509_STORE_CTX_get_current_cert) &&
+			defined(&Net::SSLeay::CTX_load_verify_locations) &&
+			defined(&Net::SSLeay::CTX_set_verify)) {
+					$client_certs = 1;
+			}
+}
+
+# Find and read config file
+if (!($ENV{'WIENROOT'})) {
+	die "Environment variable WIENROOT not set!\n";
+}
+
+$main = "$ENV{'WIENROOT'}/SRC_w2web";
+$WIENROOT=$ENV{'WIENROOT'};
+$xcrys1=$ENV{'XCRYSDEN_TOPDIR'};
+$xcrys2=$ENV{'XCRYSDEN_SCRATCH'};
+$Hostname = `hostname -f`;
+chop($Hostname);
+$Hostname = hostname() if $?; # for systems without hostname -f 
+
+$w2web_home = "$ENV{'HOME'}/.w2web/$Hostname";
+$conf = "$w2web_home/conf/w2web.conf";
+
+# Initialize values
+# can be overridden by settings in conf/w2web.conf
+$config{root}        = "$main/htdocs";
+$config{mimetypes}   = "$main/bin/mime.types";
+$config{logfile}     = "$w2web_home/logs/w2web.log";
+$config{pidfile}     = "$w2web_home/logs/w2web.pid";
+$config{keyfile}     = "$w2web_home/conf/w2web.pem";
+$config{userfile}    = "$w2web_home/conf/w2web.users";
+$config{addtype_cgi} = "internal/cgi";
+$config{addtype_pl}  = "internal/cgi";
+$config{addtype_wml}  = "internal/cgi";
+
+open(CONF, $conf) || die "Failed to open config file $conf : $!\n";
+while(<CONF>) {
+chop;
+if (/^#/ || !/\S/) { next; }
+/^([^=]+)=(.*)$/;
+$name = $1; $val = $2;
+$name =~ s/^\s+//g; $name =~ s/\s+$//g;
+$val =~ s/^\s+//g; $val =~ s/\s+$//g;
+$config{$name} = $val;
+}
+close(CONF);
+
+# Check vital config options
+%vital = ("port", 7890,
+	"root", "../htdocs",
+	"server", "w2web",
+	"index_docs", "index.pl index.wml index.html index.htm index.cgi",
+	"addtype_html", "text/html",
+	"addtype_txt", "text/plain",
+	"addtype_gif", "image/gif",
+	"addtype_jpg", "image/jpeg",
+	"addtype_jpeg", "image/jpeg",
+	"realm", "w2web",
+ );
+foreach $v (keys %vital) {
+if (!$config{$v}) {
+	if ($vital{$v} eq "") {
+		die "Missing config option $v\n";
+		}
+	$config{$v} = $vital{$v};
+	}
+}
+
+# init days and months for http_date
+@weekday = ( "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" );
+@month = ( "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" );
+
+#-------------------------
+# check if a different than the default port was specified
+if (@ARGV == 2) {
+# do we have a port specified?
+if ($ARGV[0] =~ /-p/) {
+	$config{'port'} = $ARGV[1];
+}
+} 
+#
+#--------------------------
+
+# Change dir to the server root
+chdir($config{'root'});
+$user_homedir = (getpwuid($<))[7];
+
+# Setup SSL if possible and if requested
+if (!$config{'ssl'}) { $use_ssl = 0; }
+if ($use_ssl) {
+	$ssl_ctx = Net::SSLeay::CTX_new() ||
+	die "Failed to create SSL context : $!";
+	$client_certs = 0 if (!$config{'ca'} || !%certs);
+	if ($client_certs) {
+		Net::SSLeay::CTX_load_verify_locations(
+			$ssl_ctx, $config{'ca'}, "");
+		Net::SSLeay::CTX_set_verify(
+			$ssl_ctx, &Net::SSLeay::VERIFY_PEER, \&verify_client);
+	}
+}
+
+
+# Read MIME types file and add extra types
+if ($config{"mimetypes"} ne "") {
+	open(MIME, $config{"mimetypes"});
+	while(<MIME>) {
+		chop;
+		/^(\S+)\s+(.*)$/;
+		$type = $1; @exts = split(/\s+/, $2);
+		foreach $ext (@exts) {
+			$mime{$ext} = $type;
+			}
+		}
+	close(MIME);
+	}
+foreach $k (keys %config) {
+	if ($k !~ /^addtype_(.*)$/) { next; }
+	$mime{$1} = $config{$k};
+	}
+
+# Read users file
+if ($config{'userfile'}) {
+	open(USERS, $config{'userfile'});
+	while(<USERS>) {
+		if (/^([^:\s]+):([^:\s]+)/) { $users{$1} = $2; }
+		}
+	close(USERS);
+	}
+
+# Open main socket
+$proto = getprotobyname('tcp');
+socket(MAIN, PF_INET, SOCK_STREAM, $proto) ||
+	die "Failed to open main socket : $!\n";
+setsockopt(MAIN, SOL_SOCKET, SO_REUSEADDR, pack("l", 1));
+$baddr = $config{"bind"} ? inet_aton($config{"bind"}) : INADDR_ANY;
+bind(MAIN, sockaddr_in($config{port}, $baddr)) ||
+	die "w2web failed to bind port $config{port} - port already in use!\nYou may want to try w2web -p portnumber\n";
+listen(MAIN, SOMAXCONN);
+
+# Split from the controlling terminal
+# unless we debug ...
+if (!($config{'debug'})) {
+  $myprot="http://";
+  $myprot="https://" if ($use_ssl);
+	print "w2web server started, now point your web browser to\n";
+	print "$myprot$config{'host'}:$config{'port'}\n";
+	if (fork()) { exit; }
+	setsid();
+}
+
+# write out the PID file
+$mypid=getpid();
+open(PIDFILE, "> $config{'pidfile'}");
+printf PIDFILE "%d\n", $mypid;
+close(PIDFILE);
+
+# Start the log-clearing process, if needed. This checks every minute
+# to see if the log has passed its reset time, and if so clears it
+if ($config{'logclear'}) {
+	if (!($logclearer = fork())) {
+		while(1) {
+			$write_logtime = 0;
+			if (open(LOGTIME, "$config{'logfile'}.time")) {
+				<LOGTIME> =~ /(\d+)/;
+				close(LOGTIME);
+				if ($1 && $1+$config{'logtime'}*60*60 < time()){
+					# need to clear log
+					$write_logtime = 1;
+					unlink($config{'logfile'});
+					}
+				}
+			else { $write_logtime = 1; }
+			if ($write_logtime) {
+				open(LOGTIME, ">$config{'logfile'}.time");
+				print LOGTIME time(),"\n";
+				close(LOGTIME);
+				}
+			sleep(5*60);
+			}
+		exit;
+		}
+	push(@childpids, $logclearer);
+	}
+
+# get the time zone
+if ($config{'log'}) {
+	local(@gmt, @lct, $days, $hours, $mins);
+	@make_date_marr = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		 	   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+	@gmt = gmtime(time());
+	@lct = localtime(time());
+	$days = $lct[3] - $gmt[3];
+	$hours = ($days < -1 ? 24 : 1 < $days ? -24 : $days * 24) +
+		 $lct[2] - $gmt[2];
+	$mins = $hours * 60 + $lct[1] - $gmt[1];
+	$timezone = ($mins < 0 ? "-" : "+"); $mins = abs($mins);
+	$timezone .= sprintf "%2.2d%2.2d", $mins/60, $mins%60;
+	}
+
+# Run the main loop
+$SIG{'CHLD'} = "reaper";
+$SIG{'HUP'} = "restart_w2web";
+$SIG{'TERM'} = "term_handler";
+$SIG{'PIPE'} = sub { print STDERR "ignoring SIGPIPE\n"; };
+@deny = &to_ipaddress(split(/\s+/, $config{"deny"}));
+@allow = &to_ipaddress(split(/\s+/, $config{"allow"}));
+$p = 0;
+while(1) {
+	# wait for a new connection, or a message from a child process
+	undef($rmask);
+	vec($rmask, fileno(MAIN), 1) = 1;
+	if ($config{'passdelay'}) {
+		for($i=0; $i<@passin; $i++) {
+			vec($rmask, fileno($passin[$i]), 1) = 1;
+			}
+		}
+
+	local $sel = select($rmask, undef, undef, undef);
+	if ($need_restart) { &restart_w2web(); }
+	next if ($sel <= 0);
+	if (vec($rmask, fileno(MAIN), 1)) {
+		# got new connection
+		$acptaddr = accept(SOCK, MAIN);
+		if (!$acptaddr) { next; }
+
+		# create pipes
+		if ($config{'passdelay'}) {
+			$PASSINr = "PASSINr$p"; $PASSINw = "PASSINw$p";
+			$PASSOUTr = "PASSOUTr$p"; $PASSOUTw = "PASSOUTw$p";
+			$p++;
+			pipe($PASSINr, $PASSINw);
+			pipe($PASSOUTr, $PASSOUTw);
+			select($PASSINw); $| = 1;
+			select($PASSOUTw); $| = 1;
+			}
+		select(SOCK); $| = 1;
+		select(STDOUT);
+
+		# fork the subprocess
+		if (!($handpid = fork())) {
+			# setup signal handlers
+			$SIG{'TERM'} = 'DEFAULT';
+			$SIG{'PIPE'} = 'DEFAULT';
+			$SIG{'CHLD'} = 'DEFAULT';
+			$SIG{'HUP'} = 'IGNORE';
+
+			# close useless pipes
+			if ($config{'passdelay'}) {
+				foreach $p (@passin) { close($p); }
+				foreach $p (@passout) { close($p); }
+				close($PASSINr); close($PASSOUTw);
+				}
+			close(MAIN);
+
+			# Work out the hostname for this web server
+
+			if (!$config{'host'}) {
+				($myport, $myaddr) =
+					unpack_sockaddr_in(getsockname(SOCK));
+				$myname = gethostbyaddr($myaddr, AF_INET);
+				if ($myname eq "") {
+					$myname = inet_ntoa($myaddr);
+					}
+				$host = $myname;
+				}
+			else { $host = $config{'host'}; }
+
+			# Initialize SSL for this connection
+			if ($use_ssl) {
+				$ssl_con = Net::SSLeay::new($ssl_ctx);
+				Net::SSLeay::set_fd($ssl_con, fileno(SOCK));
+				Net::SSLeay::use_RSAPrivateKey_file(
+					$ssl_con, $config{'keyfile'},
+					&Net::SSLeay::FILETYPE_PEM);
+				Net::SSLeay::use_certificate_file(
+					$ssl_con, $config{'keyfile'},
+					&Net::SSLeay::FILETYPE_PEM);
+				Net::SSLeay::accept($ssl_con) || exit;
+				}
+			while(&handle_request($acptaddr)) { }
+			close(SOCK);
+			close($PASSINw); close($PASSOUTw);
+			exit;
+			}
+		push(@childpids, $handpid);
+		if ($config{'passdelay'}) {
+			close($PASSINw); close($PASSOUTr);
+			push(@passin, $PASSINr); push(@passout, $PASSOUTw);
+			}
+		close(SOCK);
+		}
+	# check for password-timeout messages from subprocesses
+	for($i=0; $i<@passin; $i++) {
+		if (vec($rmask, fileno($passin[$i]), 1)) {
+			# this sub-process is asking about a password
+			$infd = $passin[$i]; $outfd = $passout[$i];
+			if (<$infd> =~ /^(\S+)\s+(\S+)\s+(\d+)/) {
+				# Got a delay request from a subprocess.. for
+				# valid logins, there is no delay (to prevent
+				# denial of service attacks), but for invalid
+				# logins the delay increases with each failed
+				# attempt.
+				#print STDERR "got $1 $2 $3\n";
+				if ($3) {
+					# login OK.. no delay
+					print $outfd "0\n";
+					}
+				else {
+					# login failed.. 
+					$dl = $userdlay{$1} -
+					      int((time() - $userlast{$1})/50);
+					$dl = $dl < 0 ? 0 : $dl+1;
+					print $outfd "$dl\n";
+					$userdlay{$1} = $dl;
+					}
+				$userlast{$1} = time();
+				}
+			else {
+				# close pipe
+				close($infd); close($outfd);
+				$passin[$i] = $passout[$i] = undef;
+				}
+			}
+		}
+	@passin = grep { defined($_) } @passin;
+	@passout = grep { defined($_) } @passout;
+	}
+
+# handle_request(address)
+# Where the real work is done
+sub handle_request
+{
+# Get the other IP address
+$acptip = inet_ntoa((unpack_sockaddr_in($_[0]))[1]);
+$datestr = &http_date(time());
+
+# Read the HTTP request and headers
+($reqline = &read_line()) =~ s/\r|\n//g;
+if (!($reqline =~ /^(GET|POST)\s+(.*)\s+HTTP\/1\..$/)) {
+	&http_error(400, "Bad Request");
+	}
+$method = $1; $page = $2;
+%header = ();
+while(1) {
+	($headline = &read_line()) =~ s/\r|\n//g;
+	if ($headline eq "") { last; }
+	($headline =~ /^(\S+):\s+(.*)$/) || &http_error(400, "Bad Header");
+	$header{lc($1)} = $2;
+	}
+if (defined($header{'host'})) {
+	if ($header{'host'} =~ /^([^:]+):([0-9]+)$/) { $host = $1; }
+	else { $host = $header{'host'}; }
+	}
+if ($page =~ /^([^\?]+)\?(.*)$/) {
+	# There is some query string information
+	$page = $1;
+	$querystring = $2;
+	if ($querystring !~ /=/) {
+		$queryargs = $querystring;
+		$queryargs =~ s/\+/ /g;
+    		$queryargs =~ s/%(..)/pack("c",hex($1))/ge;
+		$querystring = "";
+		}
+	}
+
+# replace %XX sequences in page
+$page =~ s/%(..)/pack("c",hex($1))/ge;
+
+# check address against access list
+if (@deny && &ip_match($acptip, @deny) ||
+    @allow && !&ip_match($acptip, @allow)) {
+	&http_error(403, "Access denied for $acptip");
+	}
+
+# Check for password if needed
+if (%users) {
+	$validated = 0;
+	if ($header{authorization} =~ /^basic\s+(\S+)$/i) {
+		# authorization given..
+		($authuser, $authpass) = split(/:/, &b64decode($1));
+		if ($authuser && $users{$authuser} && $users{$authuser} eq
+		    crypt($authpass, $users{$authuser})) {
+			$validated = 1;
+			}
+		#print STDERR "checking $authuser $authpass -> $validated\n";
+
+		if ($config{'passdelay'}) {
+			# check with main process for delay
+			print $PASSINw "$authuser $acptip $validated\n";
+			<$PASSOUTr> =~ /(\d+)/;
+			#print STDERR "sleeping for $1\n";
+			sleep($1);
+			}
+		}
+	if (!$validated) {
+		# No password given.. ask
+		&write_data("HTTP/1.0 401 Unauthorized\r\n");
+		&write_data("Server: $config{server}\r\n");
+		&write_data("Date: $datestr\r\n");
+		&write_data("WWW-authenticate: Basic ".
+			   "realm=\"$config{realm}\"\r\n");
+		&write_data("Content-type: text/html\r\n");
+		&write_keep_alive(0);
+		&write_data("\r\n");
+		&reset_byte_count();
+		&write_data("<title>Unauthorized</title>\n");
+		&write_data("<h1>Unauthorized</h1>\n");
+		&write_data("A password is required to access this\n");
+		&write_data("web server. Please try again. <p>\n");
+		&log_request($acptip, undef, $reqline, 401, &byte_count());
+		return 0;
+		}
+	}
+
+# Figure out what kind of page was requested
+$simple = &simplify_path($page, $bogus);
+if ($bogus) {
+	&http_error(400, "Invalid path");
+}
+$sofar = ""; 
+$full = $config{"root"} . $sofar;
+$scriptname = $simple;
+# hack to have access /tmp which
+# actually lies in $w2web_home/tmp
+$istmp=0;
+foreach $b (split(/\//, $simple)) {
+	 if ($b ne "") { $sofar .= "/$b"; }
+	if ("$b" eq "tmp" ) { $istmp = 1; }
+	if ( $istmp ) {
+		$full = $w2web_home . $sofar;
+	} else {
+		$full = $config{"root"} . $sofar;
+	}
+	@st = stat($full);
+	if (!@st) { &http_error(404, "File not found or temporary file does not exist any more"); }
+
+	# Check if this is a directory
+	if (-d $full) {
+		# It is.. go on parsing
+		next;
+	}
+
+	# Check if this is a CGI program
+	if (&get_type($full) eq "internal/cgi") {
+		$pathinfo = substr($simple, length($sofar));
+		$scriptname = $sofar;
+		last;
+	}
+}
+
+# Reached the end of the path OK.. see what we've got
+if (-d $full) {
+	# See if the URL ends with a / as it should
+	if ($page !~ /\/$/) {
+		# It doesn't.. redirect
+		&write_data("HTTP/1.0 302 Moved Temporarily\r\n");
+		$port = $config{port} == 80 ? "" : ":$config{port}";
+		&write_data("Date: $datestr\r\n");
+		&write_data("Server: $config{server}\r\n");
+		$prot = $use_ssl ? "https" : "http";
+		&write_data("Location: $prot://$host$port$page/\r\n");
+		&write_keep_alive(0);
+		&write_data("\r\n");
+		&log_request($acptip, $authuser, $reqline, 302, 0);
+		return 0;
+		}
+	# A directory.. check for index files
+	foreach $idx (split(/\s+/, $config{"index_docs"})) {
+		$idxfull = "$full/$idx";
+		if (-r $idxfull && !(-d $idxfull)) {
+			$full = $idxfull;
+			$scriptname .= "/" if ($scriptname ne "/");
+			last;
+			}
+		}
+	}
+if (-d $full) {
+	# This is definately a directory.. list it
+	&write_data("HTTP/1.0 200 Document follows\r\n");
+	&write_data("Date: $datestr\r\n");
+	&write_data("Server: $config{server}\r\n");
+	&write_data("Content-type: text/html\r\n");
+	&write_keep_alive(0);
+	&write_data("\r\n");
+	&reset_byte_count();
+	&write_data("<h1>Index of $simple</h1>\n");
+	&write_data("<pre>\n");
+	&write_data(sprintf "%-35.35s %-20.20s %-10.10s\n",
+			"Name", "Last Modified", "Size");
+	&write_data("<hr>\n");
+	opendir(DIR, $full);
+	while($df = readdir(DIR)) {
+		if ($df =~ /^\./) { next; }
+		(@stbuf = stat("$full/$df")) || next;
+		if (-d "$full/$df") { $df .= "/"; }
+		@tm = localtime($stbuf[9]);
+		$fdate = sprintf "%2.2d/%2.2d/%4.4d %2.2d:%2.2d:%2.2d",
+				$tm[3],$tm[4]+1,$tm[5]+1900,
+				$tm[0],$tm[1],$tm[2];
+		$len = length($df); $rest = " "x(35-$len);
+		&write_data(sprintf 
+		 "<a href=\"%s\">%-${len}.${len}s</a>$rest %-20.20s %-10.10s\n",
+		 $df, $df, $fdate, $stbuf[7]);
+		}
+	closedir(DIR);
+	&log_request($acptip, $authuser, $reqline, 200, &byte_count());
+	return 0;
+	}
+
+# CGI or normal file
+local $rv;
+if (&get_type($full) eq "internal/cgi") {
+	# A CGI program to execute
+	$envtz = $ENV{"TZ"};
+	$envuser = $ENV{"USER"};
+	$envpath = $ENV{"PATH"};
+	$WIENROOT = $ENV{"WIENROOT"};
+	$scratch=$ENV{"SCRATCH"};
+#  	foreach (keys %ENV) { delete($ENV{$_}); }
+	$ENV{'PATH'} = $envpath if ($envpath);
+	$ENV{"TZ"} = $envtz if ($envtz);
+	$ENV{"USER"} = $envuser if ($envuser);
+	$ENV{"HOME"} = $user_homedir;
+	$ENV{"SERVER_SOFTWARE"} = $config{"server"};
+	$ENV{"SERVER_NAME"} = $host;
+	$ENV{"MASTER_URL"} = $config{"master_url"};
+	$ENV{"SERVER_ADMIN"} = $config{"email"};
+	$ENV{"SERVER_ROOT"} = $config{"root"};
+	$ENV{"SERVER_PORT"} = $config{"port"};
+	$ENV{"REMOTE_HOST"} = $acptip;
+	$ENV{"REMOTE_ADDR"} = $acptip;
+	if ($authuser) {
+		$ENV{"REMOTE_USER"} = $authuser;
+		$ENV{"REMOTE_PASS"} = $authpass;
+		}
+	$ENV{"WIENROOT"} = $WIENROOT;
+	$ENV{"SCRATCH"}=$scratch;
+	$ENV{'XCRYSDEN_TOPDIR'}=$xcrys1;
+	$ENV{'XCRYSDEN_SCRATCH'}=$xcrys2;
+	$ENV{"DOCUMENT_ROOT"} = $config{"root"};
+	$ENV{"GATEWAY_INTERFACE"} = "CGI/1.1";
+	$ENV{"SERVER_PROTOCOL"} = "HTTP/1.0";
+	$ENV{"REQUEST_METHOD"} = $method;
+	$ENV{"SCRIPT_NAME"} = $scriptname;
+	$ENV{"PATH_INFO"} = $pathinfo;
+	$ENV{"PATH_TRANSLATED"} = "$config{root}/$pathinfo";
+	$ENV{"QUERY_STRING"} = $querystring;
+  $ENV{"W2WEB"} = $w2web_home;
+  $ENV{"W2WEB_PID"} = $mypid;
+
+	if ($use_ssl) { $ENV{"HTTPS"} = "ON"; }
+	if (defined($header{"content-length"})) {
+		$ENV{"CONTENT_LENGTH"} = $header{"content-length"};
+		}
+	if (defined($header{"content-type"})) {
+		$ENV{"CONTENT_TYPE"} = $header{"content-type"};
+		}
+	foreach $h (keys %header) {
+		($hname = $h) =~ tr/a-z/A-Z/;
+		$hname =~ s/\-/_/g;
+		$ENV{"HTTP_$hname"} = $header{$h};
+		}
+	$full =~ /^(.*\/)[^\/]+$/; $ENV{"PWD"} = $1;
+	foreach $k (keys %config) {
+		if ($k =~ /^env_(\S+)$/) {
+			$ENV{$1} = $config{$k};
+			}
+		}
+
+	# fork the process that actually executes the CGI
+	pipe(CGIINr, CGIINw);
+	pipe(CGIOUTr, CGIOUTw);
+	pipe(CGIERRr, CGIERRw);
+	if (!($cgipid = fork())) {
+		chdir($ENV{"PWD"});
+		close(SOCK);
+		open(STDIN, "<&CGIINr");
+		open(STDOUT, ">&CGIOUTw");
+		open(STDERR, ">&CGIERRw");
+		close(CGIINw); close(CGIOUTr); close(CGIERRr);
+		exec($full, split(/\s+/, $queryargs));
+		print STDERR "Failed to exec $full : $!\n";
+		exit;
+		}
+	close(CGIINr); close(CGIOUTw); close(CGIERRw);
+
+	# send post data
+	if ($method eq "POST") {
+		$got = 0; $clen = $header{"content-length"};
+		while($got < $clen) {
+			$buf = &read_data($clen-$got);
+			$got += length($buf);
+			print CGIINw $buf;
+			}
+		}
+	close(CGIINw);
+
+	# read back cgi headers
+	select(CGIOUTr); $|=1; select(STDOUT);
+	$got_blank = 0;
+	while(1) {
+		$line = <CGIOUTr>;
+		$line =~ s/\r|\n//g;
+		if ($line eq "") {
+			if ($got_blank || %cgiheader) { last; }
+			$got_blank++;
+			next;
+			}
+		($line =~ /^(\S+):\s+(.*)$/) ||
+			&http_error(500, "Bad Header", &read_errors(CGIERRr));
+		$cgiheader{$1} = $2;
+		}
+	if ($cgiheader{"Location"}) {
+		&write_data("HTTP/1.0 302 Moved Temporarily\r\n");
+		# ignore the rest of the output. This is a hack, but
+		# is necessary for IE in some cases :(
+		close(CGIOUTr); close(CGIERRr);
+		}
+	elsif ($cgiheader{"Content-type"} eq "") {
+		&http_error(500, "Missing Header", &read_errors(CGIERRr));
+		}
+	else {
+		&write_data("HTTP/1.0 200 Document follows\r\n");
+		&write_data("Date: $datestr\r\n");
+		&write_data("Server: $config{server}\r\n");
+		&write_keep_alive(0);
+		}
+	foreach $h (keys %cgiheader) {
+		&write_data("$h: $cgiheader{$h}\r\n");
+		}
+	&write_data("\r\n");
+	&reset_byte_count();
+	while($line = <CGIOUTr>) { &write_data($line); }
+	close(CGIOUTr); close(CGIERRr);
+	$rv = 0;
+	}
+else {
+	# A file to output
+	local @st = stat($full);
+	open(FILE, $full) || &http_error(404, "Failed to open file");
+	&write_data("HTTP/1.0 200 Document follows\r\n");
+	&write_data("Date: $datestr\r\n");
+	&write_data("Server: $config{server}\r\n");
+	&write_data("Content-type: ".&get_type($full)."\r\n");
+	&write_data("Content-length: $st[7]\r\n");
+	&write_data("Last-Modified: ".&http_date($st[9])."\r\n");
+	&write_keep_alive();
+	&write_data("\r\n");
+	&reset_byte_count();
+	while(read(FILE, $buf, 1024) > 0) {
+		&write_data($buf);
+		}
+	close(FILE);
+	$rv = &check_keep_alive();
+	}
+
+	# log the request
+	&log_request($acptip, $authuser, $reqline,
+	     $cgiheader{"Location"} ? "302" : "200", &byte_count());
+	return $rv;
+}	
+
+# http_error(code, message)
+sub http_error
+{
+close(CGIOUT);
+&write_data("HTTP/1.0 $_[0] $_[1]\r\n");
+&write_data("Server: $config{server}\r\n");
+&write_data("Date: $datestr\r\n");
+&write_data("Content-type: text/html\r\n");
+&write_keep_alive(0);
+&write_data("\r\n");
+&reset_byte_count();
+&write_data("<h1>Error - $_[1]</h1>\n");
+if ($_[2]) {
+	&write_data("<pre>$_[2]</pre>\n");
+	}
+&log_request($acptip, $authuser, $reqline, $_[0], &byte_count());
+exit;
+}
+
+sub get_type
+{
+if ($_[0] =~ /\.([A-z0-9]+)$/) {
+	$t = $mime{$1};
+	if ($t ne "") {
+		return $t;
+		}
+	}
+return "text/plain";
+}
+
+# simplify_path(path, bogus)
+# Given a path, maybe containing stuff like ".." and "." convert it to a
+# clean, absolute form.
+sub simplify_path
+{
+local($dir, @bits, @fixedbits, $b);
+$dir = $_[0];
+$dir =~ s/^\/+//g;
+$dir =~ s/\/+$//g;
+@bits = split(/\/+/, $dir);
+@fixedbits = ();
+$_[1] = 0;
+foreach $b (@bits) {
+        if ($b eq ".") {
+                # Do nothing..
+                }
+        elsif ($b eq "..") {
+                # Remove last dir
+                if (scalar(@fixedbits) == 0) {
+                        $_[1] = 1;
+                        return "/";
+                        }
+                pop(@fixedbits);
+                }
+        else {
+                # Add dir to list
+                push(@fixedbits, $b);
+                }
+        }
+return "/" . join('/', @fixedbits);
+}
+
+# b64decode(string)
+# Converts a string from base64 format to normal
+sub b64decode
+{
+    local($^W) = 0; # unpack("u",...) gives bogus warning in 5.00[123]
+    local($str) = $_[0];
+    local($res);
+    $str =~ tr|A-Za-z0-9+=/||cd;
+    $str =~ s/=+$//;
+    $str =~ tr|A-Za-z0-9+/| -_|;
+    while ($str =~ /(.{1,60})/gs) {
+        my $len = chr(32 + length($1)*3/4);
+        $res .= unpack("u", $len . $1 );
+    }
+    return $res;
+}
+
+# ip_match(ip, [match]+)
+# Checks an IP address against a list of IPs, networks and networks/masks
+sub ip_match
+{
+local(@io, @mo, @ms, $i, $j);
+@io = split(/\./, $_[0]);
+for($i=1; $i<@_; $i++) {
+	if ($_[$i] =~ /^(\S+)\/(\S+)$/) {
+		# Compare with network/mask
+		@mo = split(/\./, $1); @ms = split(/\./, $2);
+		for($j=0; $j<4; $j++) {
+			if ((int($io[$j]) & int($ms[$j])) != int($mo[$j])) {
+				last;
+				}
+			}
+		}
+	else {
+		# Compare with IP or network
+		@mo = split(/\./, $_[$i]);
+		for($j=0; $j<4; $j++) {
+			if ($mo[$j] && int($mo[$j]) != int($io[$j])) { last; }
+			}
+		}
+	if ($j == 4) { return 1; }
+	}
+return 0;
+}
+
+# restart_w2web()
+# Called when a SIGHUP is received to restart the web server. This is done
+# by exec()ing perl with the same command line as was originally used
+sub restart_w2web
+{
+	if (@childpids) {
+  $len = @childpids;
+  kill('HUP', @childpids);
+  }
+
+	close(SOCK); close(MAIN);
+	foreach $p (@passin) { close($p); }
+	foreach $p (@passout) { close($p); }
+	if ($logclearer) { kill('TERM', $logclearer);	}
+	open(SOURCE, $0);
+	<SOURCE> =~ /^#!(\S+)/; $ipath = $1;
+	close(SOURCE);
+	exec($ipath, $0, @ARGV);
+	die "Failed to restart w2web with $ipath $0\n";
+}
+
+sub trigger_restart
+{
+$need_restart = 1;
+#socket(RES, PF_INET, SOCK_STREAM, getprotobyname("tcp"));
+#$addr = inet_aton($config{"bind"} ? $config{"bind"} : "127.0.0.1");
+#connect(RES, sockaddr_in($config{"port"}, $addr));
+#close(RES);
+}
+
+sub to_ipaddress
+{
+local (@rv, $i);
+foreach $i (@_) {
+	if ($i =~ /(\S+)\/(\S+)/) { push(@rv, $i); }
+	else { push(@rv, join('.', unpack("CCCC", inet_aton($i)))); }
+	}
+return @rv;
+}
+
+# read_line()
+# Reads one line from SOCK or SSL
+sub read_line
+{
+local($idx, $more, $rv);
+if ($use_ssl) {
+	while(($idx = index($read_buffer, "\n")) < 0) {
+		# need to read more..
+		if (!($more = Net::SSLeay::read($ssl_con))) {
+			# end of the data
+			$rv = $read_buffer;
+			undef($read_buffer);
+			return $rv;
+			}
+		$read_buffer .= $more;
+		}
+	$rv = substr($read_buffer, 0, $idx+1);
+	$read_buffer = substr($read_buffer, $idx+1);
+	return $rv;
+	}
+else { return <SOCK>; }
+}
+
+# read_data(length)
+# Reads up to some amount of data from SOCK or the SSL connection
+sub read_data
+{
+if ($use_ssl) {
+	local($rv);
+	if (length($read_buffer)) {
+		$rv = $read_buffer;
+		undef($read_buffer);
+		return $rv;
+		}
+	else {
+		return Net::SSLeay::read($ssl_con, $_[0]);
+		}
+	}
+else {
+	local($buf);
+	read(SOCK, $buf, $_[0]) || return undef;
+	return $buf;
+	}
+}
+
+# write_data(data)
+# Writes a string to SOCK or the SSL connection
+sub write_data
+{
+if ($use_ssl) {
+	Net::SSLeay::write($ssl_con, $_[0]);
+	}
+else {
+	print SOCK $_[0];
+	}
+$write_data_count += length($_[0]);
+}
+
+# reset_byte_count()
+sub reset_byte_count { $write_data_count = 0; }
+
+# byte_count()
+sub byte_count { return $write_data_count; }
+
+# reaper()
+# Collects dead processes
+sub reaper
+{
+local($pid);
+do {	$pid = waitpid(-1, WNOHANG);
+	@childpids = grep { $_ != $pid } @childpids;
+	} while($pid > 0);
+}
+
+# log_request(address, user, request, code, bytes)
+sub log_request
+{
+if ($config{'log'}) {
+	local(@tm, $dstr, $addr, $user, $ident);
+	if ($config{'logident'}) {
+		# add support for rfc1413 identity checking here
+		}
+	else { $ident = "-"; }
+	@tm = localtime(time());
+	$dstr = sprintf "%2.2d/%s/%4.4d:%2.2d:%2.2d:%2.2d %s",
+			$tm[3], $make_date_marr[$tm[4]], $tm[5]+1900,
+	                $tm[2], $tm[1], $tm[0], $timezone;
+	$addr = $config{'loghost'} ? gethostbyaddr(inet_aton($_[0]), AF_INET)
+				   : $_[0];
+	$user = $_[1] ? $_[1] : "-";
+	open(LOG, ">>$config{'logfile'}");
+	chmod(0600, $config{'logfile'});
+	print LOG "$addr $ident $user [$dstr] \"$_[2]\" $_[3] $_[4]\n";
+	close(LOG);
+	}
+}
+
+# read_errors(handle)
+# Read and return all input from some filehandle
+sub read_errors
+{
+local($fh, $_, $rv);
+$fh = $_[0];
+while(<$fh>) { $rv .= $_; }
+return $rv;
+}
+
+sub write_keep_alive
+{
+local $mode;
+if (@_) { $mode = $_[0]; }
+else { $mode = &check_keep_alive(); }
+&write_data("Connection: ".($mode ? "Keep-Alive" : "close")."\r\n");
+}
+
+sub check_keep_alive
+{
+return $header{'connection'} =~ /keep-alive/i;
+}
+
+sub term_handler
+{
+if (@childpids) {
+	$len = @childpids;
+	kill('TERM', @childpids);
+	}
+exit(1);
+}
+
+sub http_date
+{
+local @tm = gmtime($_[0]);
+return sprintf "%s %d %s %d %2.2d:%2.2d:%2.2d GMT",
+		$weekday[$tm[6]], $tm[3], $month[$tm[4]], $tm[5]+1900,
+		$tm[2], $tm[1], $tm[0];
+}
+

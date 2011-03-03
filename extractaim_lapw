@@ -1,0 +1,75 @@
+#!/bin/csh -f 
+# 
+if ($#argv != 1) goto help
+if ( $1 == '-h') then
+help:
+echo 'extractaim_lapw extracts form a case.outputaim file the critical points.'
+echo 'It will sort and order them, remove multiple entries and convert units.'
+echo 'Output is in the file:   critical_points_ang '
+echo 'syntax:                  extractaim_lapw  outputaim-file '
+exit(1)
+endif
+
+grep :PC $1 >critical_points
+
+set lines=(`wc critical_points`)
+if(-e critical_points_ang) rm critical_points_ang
+if(-e mist) rm mist
+set i=1
+while ($i <= $lines[1])
+
+set a=(`head -$i critical_points |tail -1`)
+
+set x=` echo $a[5] | cut -dE -f 1`
+set y=` echo $a[5] | cut -dE -f 2| cut -d+ -f 2`
+set l1=` echo "scale=5;$x*10^$y/0.529177^5" | bc -l`
+set x=` echo $a[6] | cut -dE -f 1`
+set y=` echo $a[6] | cut -dE -f 2| cut -d+ -f 2`
+set l2=` echo "scale=5;$x*10^$y/0.529177^5" | bc -l`
+set x=` echo $a[7] | cut -dE -f 1`
+set y=` echo $a[7] | cut -dE -f 2| cut -d+ -f 2`
+set l3=` echo "scale=5;$x*10^$y/0.529177^5" | bc -l`
+set x=` echo $a[9] | cut -dE -f 1`
+set y=` echo $a[9] | cut -dE -f 2| cut -d+ -f 2`
+set lap=` echo "scale=5;$x*10^$y/0.529177^5" | bc -l`
+set x=` echo $a[10] | cut -dE -f 1`
+set y=` echo $a[10] | cut -dE -f 2| cut -d+ -f 2`
+set rho=` echo "scale=5;$x*10^$y/0.529177^3" | bc -l`
+
+#echo $a[1] $a[2] $a[3] $a[4] $l1 $l2 $l3 $a[8] $lap $rho >>critical_points_ang
+#printf '%s %9.6f %9.6f %9.6f %10.5f %10.5f %10.5f %3.0f %10.5f %10.5f %10.5f \n' $a[1] $a[2] $a[3] $a[4] $l1 $l2 $l3 $a[8] $lap $rho $a[10] >>mist 
+#suse 8.2  printf requires , instead of . in floating numbers  0,3245 ??
+
+set iat1
+set iat2
+set dist1
+set dist2
+if($#a > 10 ) then
+set iat1=$a[11]
+set iat2=$a[13]
+set dist1=` echo "scale=5;$a[12]*0.529177" | bc -l`
+set dist2=` echo "scale=5;$a[14]*0.529177" | bc -l`
+endif 
+echo $a[1-4] $l1 $l2 $l3 $a[8] $lap $rho $a[10] $iat1 $dist1 $iat2 $dist2| awk '{printf ("%s %9.6f %9.6f %9.6f %10.5f %10.5f %10.5f %3.0f %8.3f %10.4f %10.5f %3.0f %6.3f %3.0f %6.3f\n",$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)}' >>mist 
+
+@ i ++
+
+end 
+echo '        x        y        z         l1       l2     l3(ang^-5) type' >critical_points_ang
+echo '    lapl rho(e/ang^3) rho(e/bohr^3) dist-atom1(ang) dist-atom2(ang)' >>critical_points_ang
+
+sort +9 -r < mist | uniq -6 > mist1
+
+set lines=(`wc mist1`)
+set i=1
+while ($i <= $lines[1])
+set a=(`head -$i mist1 |tail -1`)
+echo " ">> critical_points_ang
+echo "$a[1-4]    $a[5-7]    $a[8]" >> critical_points_ang
+echo "    $a[9] $a[10]       $a[11]       $a[12-13]      $a[14-15]">> critical_points_ang 
+@ i ++
+
+end 
+
+rm mist mist1
+

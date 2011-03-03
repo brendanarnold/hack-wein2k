@@ -1,0 +1,14 @@
+SHG57          # NLO method
+1 2 3          # a b c component
+0.10 S         # scissor S/F
+0.0020 R       # tolerance S/R/Z/P/W
+
+programmed methods:
+ SHG57
+ iSHG57
+ rSHG53
+ irSHG53
+ LR53
+ rLR53
+ OR61
+ SHG53

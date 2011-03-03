@@ -1,0 +1,59 @@
+#!/bin/csh -f
+#
+# usage: 100atomfix_in2_lapw    case.in2
+# find . -name '*.in2*' -exec 100atomfix_in2_lapw {} \;
+#
+echo -n .
+set file=$argv
+if ($file:e == 'WIEN2k_02' ) exit 0
+convert_in2 < $file >_tmp_
+set test=`tail -1 _tmp_`
+if($test[1] == 'WIEN2k_03') then
+  echo $file already in new format
+  rm _tmp_
+  exit 0
+endif
+mv  $file $file.WIEN2k_02
+mv _tmp_ $file
+
+exit 0
+
+set first
+
+#in2 files
+   head -3 $file > _tmp_
+set i=4
+loop:
+set a=(`head -$i $file |tail -1`)
+head -$i $file |tail -1 >_tmp_line
+set count=`wc _tmp_line`
+set old=`cut -c1-2 _tmp_line`
+
+if ($old != 0 && $?first ) then
+   echo $file already in new format
+   rm _tmp_ _tmp_line
+   exit 1
+endif
+cp  $file $file.WIEN2k_02
+unset first
+set j=1
+if( -e mist ) rm mist
+while ($j <= $count[3])
+   @ j1= $j + 3
+    cut -c$j-$j1 _tmp_line >> mist
+   @ j= $j + 4
+end
+ set a=`cat mist`
+if($a[2] == 0 ) then
+   printf %3i%2i $a >> _tmp_
+   printf "\n"     >> _tmp_
+   @ i ++
+   goto loop
+else
+   tail -2 $file >> _tmp_
+   mv _tmp_ $file
+endif
+
+rm mist _tmp_line
+exit 0
+

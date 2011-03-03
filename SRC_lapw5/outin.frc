@@ -1,0 +1,88 @@
+      SUBROUTINE OUTIN(ICLM,LATTIC,cform,fadd,ortho,br3)                       
+      use wavegrid
+      IMPLICIT REAL*8 (A-H,O-Z) 
+      INCLUDE 'param.inc'
+      dimension vt(3),br3(3,3),vt1(3)
+      logical  ortho
+      CHARACTER*19     nkktext
+      CHARACTER*4 LATTIC,cform                                                
+!_COMPLEX      COMPLEX*16 rho2,taup 
+      COMMON /FOUR/ K1(3),NST,ISTG(3,NSYM),TAUP(NSYM)                   
+      COMMON /SYM2/ IZ(3,3,NSYM),TAU(3,NSYM),IORD                       
+      integer,allocatable :: k2(:,:)                                     
+!      if(cform.eq.'NEW ') then
+        assign 2071 to iform2
+!      else
+!        assign 2070 to iform2
+!      end if                                    
+ 2070 FORMAT(3X,3I5,2E15.7)                                             
+ 2071 FORMAT(3X,3I5,2E19.12)                                             
+      IND=0                                                             
+!      READ(9,117) NK            
+  read(9,'(//,a19)') nkktext
+  read(nkktext,'(9x,i10)',err=6767) nk
+  goto 6768
+ 6767 read(nkktext,'(13x,i6)') nk
+ 6768 continue
+      nwav=nk                                        
+      allocate( KREC(3,NWAV*NSYM),RHOK(NWAV),INST(NWAV),              &
+      TAUK(NWAV*NSYM),k2(3,nwav))                                     
+!                                                                       
+      IF(ICLM.EQ.0) READ(11,117,END=35) NK                              
+  35  DO  I=1,NK                                                      
+      READ(9,iform2,END=36) (K2(J,i),J=1,3),RHOK(I)                          
+      IF(ICLM.NE.0) GOTO 36                                             
+      READ(11,iform2,END=36) IXX1,IYY1,IZZ1,RHO2                           
+      RHOK(I)=RHOK(I)+RHO2*fadd                                              
+  36  continue
+      enddo
+!.....remove zero fouriercoefficients at the end
+!      do i=nk,1,-1
+!      if(abs(rhok(i)).gt.1.d-15) goto 37
+!      enddo
+!  37  nk=i
+!      
+      do 17 i=1,nk
+        if( abs(rhok(i)) .gt. 1.d-15 )then
+        do j=1,3  
+          k1(j)=k2(j,i)
+        enddo
+        CALL STERNB
+        RHOK(I)=RHOK(I)/NST                                                         
+        DO 18 J=1,NST                                                     
+          IND=IND+1                                                         
+          TAUK(IND)=TAUP(J)*RHOK(I)                                               
+          DO 18 JJ=1,3                                                      
+   18         KREC(JJ,IND)=ISTG(JJ,J)                                           
+        INST(I)=NST
+        endif
+   17 continue
+  19  INDMAX=IND                                                        
+!                                                                       
+!.... FOR HEX LATTIC CONVERT TO ORTHOGONAL COORDINATES                  
+!                                                                       
+      IF(.not.ortho) THEN                                         
+        DO 40 II=1,INDMAX                                                 
+        VT(1)=krec(1,ii)                                                      
+        VT(2)=krec(2,ii)                                                      
+        VT(3)=krec(3,ii)                                                      
+        IF(LATTIC.EQ.'H   ') THEN                                         
+          KREC(1,II)=KREC(1,II)*2.d0/SQRT(3.d0)+KREC(2,II)/SQRT(3.d0)             
+        ELSE
+         KREC(1,II)=vt(1)*1.d0/SQRT(3.d0)+vt(2)*1.d0/SQRT(3.d0)-2.d0/SQRT(3.d0)*vt(3)     
+         KREC(2,II)=-vt(1)+vt(2)             
+         KREC(3,II)=vt(1)+vt(2)+vt(3)             
+        END IF                                                            
+!ccc
+      DO 945 J1=1,3                                                        
+      Vt1(J1)=BR3(1,j1)*vt(1)+BR3(2,j1)*vt(2)+BR3(3,J1)*vt(3)         
+      if(ii.lt.30) write(6,*) ii,krec(j1,ii),vt1(j1)
+      krec(j1,ii)=vt1(j1)
+945   continue
+!cc      
+  40    CONTINUE                                                          
+      END IF                                                            
+  117 FORMAT(//,13X,I6)                                                 
+  118 FORMAT(3X,3I5,2E15.7)                                             
+      RETURN                                                            
+      END                                                               

@@ -1,0 +1,13 @@
+	Installation instructions:
+
+1) Move the SRC_elast directory to $WIENROOT directory.
+
+2) Edit the two Makefiles (SRC_elast/Makefile and 
+SRC_elast/Slatec-lib/Makefile) and set the proper compiler name.
+
+3) chmod +x install
+
+4) ./install
+
+This will compile the package and move executables to the $WIENROOT
+directory. 
